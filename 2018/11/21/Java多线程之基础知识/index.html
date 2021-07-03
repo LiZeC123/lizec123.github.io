@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java多线程之基础知识 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="用Java开发了一些大大小小的项目了, 虽然在这些项目的开发过程中都使用了一些Java多线程技术, 但对于Java多线程的原理, 细节等诸多方面的认识都是空白. 因此有必要系统的学习一次Java的多线程.  本文主要介绍Java多线程的基础知识, 包括Thread的使用, wait&#x2F;notify机制等. 关于Java多线程类库的使用, 可以阅读Java多线程之核心类库. 线程基础知识线程状">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java多线程之基础知识">
+<meta property="og:url" content="https://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="用Java开发了一些大大小小的项目了, 虽然在这些项目的开发过程中都使用了一些Java多线程技术, 但对于Java多线程的原理, 细节等诸多方面的认识都是空白. 因此有必要系统的学习一次Java的多线程.  本文主要介绍Java多线程的基础知识, 包括Thread的使用, wait&#x2F;notify机制等. 关于Java多线程类库的使用, 可以阅读Java多线程之核心类库. 线程基础知识线程状">
+<meta property="og:locale">
+<meta property="og:image" content="https://lizec.top/images/thread/ThreadStates.jpg">
+<meta property="article:published_time" content="2018-11-21T08:39:06.000Z">
+<meta property="article:modified_time" content="2021-03-02T06:34:33.000Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="多线程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lizec.top/images/thread/ThreadStates.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Java多线程之基础知识" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Java多线程之基础知识
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java多线程/">Java多线程</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-11-21
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script> -->
+
+
+
+<p>用Java开发了一些大大小小的项目了, 虽然在这些项目的开发过程中都使用了一些Java多线程技术, 但对于Java多线程的原理, 细节等诸多方面的认识都是空白. 因此有必要系统的学习一次Java的多线程. </p>
+<p>本文主要介绍Java多线程的基础知识, 包括Thread的使用, wait/notify机制等. 关于Java多线程类库的使用, 可以阅读<a href="http://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB%E5%BA%93/">Java多线程之核心类库</a>.</p>
+<h2 id="线程基础知识"><a href="#线程基础知识" class="headerlink" title="线程基础知识"></a>线程基础知识</h2><h3 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h3><p><img src="/images/thread/ThreadStates.jpg" alt="线程状态图"></p>
+<p>线程在调用start方法后进入RUNNABLE状态, 而RUNNABLE状态根据是否正在运行, 又可以分为READY状态和RUNNING状态.</p>
+<p>WAITING是程序主动要求等待某一个信号, 而BLOCKED是JVM控制的等待行为. 因此BLOCKED状态由JVM负责唤醒, 而WAITING由程序控制唤醒.</p>
+<p>Java线程进入WAITING状态后, 会放弃持有的锁, 因此被notify唤醒后, 需要先进入BLOCKED状态, 获得锁后才能恢复RUNNING状态.</p>
+<p>更多关于线程切换的细节, 可以参考以下资料</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/pange1991/article/details/53860651">Java线程的6种状态及切换(透彻讲解)</a></li>
+</ul>
+<h3 id="创建线程"><a href="#创建线程" class="headerlink" title="创建线程"></a>创建线程</h3><p>在Java中有以下几种方法可以使一段代码以多线程的方式运行, 即</p>
+<ol>
+<li>继承Thread类并重写run方法</li>
+<li>实现Runnable接口, 并构造Thread实例</li>
+<li>实现Callable接口, 并构造Thread实例</li>
+<li>通过线程池创建并执行线程</li>
+</ol>
+<blockquote>
+<p>Runnable与Callable的主要区别在于Callable有返回值, 而Runnable没有返回值</p>
+</blockquote>
+<p>注意:</p>
+<ol>
+<li>一个Thread实例只能调用一次start()函数, 否则会抛出异常</li>
+<li>如果使用一个Runnable对象初始化多个Thread, 则这些线程共享Runnable中的变量</li>
+</ol>
+<h3 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h3><p>如果一个类在单线程环境下能正常工作, 并且在多线程环境下, 其使用方能够不必为其做任何改变的使用, 则称此类是线程安全的. </p>
+<h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><p>对于涉及访问共享变量的操作, 若该操作从其执行线程以外的任何线程来看都是不可分割的, 则称该操作是 <strong>原子操作</strong>, 相应的称此操作具有 <strong>原子性</strong></p>
+<p>例如ATM机的取款操作是具有原子性的, 要么取款成功, 要么取款失败, 不存在中间的状态. </p>
+<p>Java中实现原子性的主要方法是使用锁, 此外Java保证除了long/double以外的所有变量的写操作都是原子的(要么完成数据更新, 要么没有更新, 不会因为更新操作产生第三种结果). </p>
+<p>注意:除了long/double类型以外的任意的Java赋值操作都是原子的, 可以充分利用这一特点来保证线程安全, 例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateHostInfo</span><span class="params">(String IP, <span class="keyword">int</span> port)</span></span>&#123;</span><br><span class="line">    HostInfo info = <span class="keyword">new</span> HostInfo(IP, port);</span><br><span class="line">    <span class="keyword">this</span>.hostinfo = info;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于赋值操作是原子的, 因此上述更新操作要么没有进行, 要么完成更新, 从而不加锁也能保证线程安全. </p>
+<h3 id="公平调度与非公平调度"><a href="#公平调度与非公平调度" class="headerlink" title="公平调度与非公平调度"></a>公平调度与非公平调度</h3><p>公平调度指各线程按照先来先得的规则获得资源, 而非公平调度指 <strong>允许</strong> 后来的线程先获得资源.  非公平性调度往往指允许不公平的资源调度而不是刻意造成不公平的调度. </p>
+<p>对于公平调度, 对于某个需要申请的资源, 资源调度器会维护一个等待队列, 需要申请相关资源的线程先被暂停并存放到队列之中, 待资源可用后队列最前端的线程被唤醒, 获得相应的资源后继续执行. </p>
+<p>而非公平模式下, 允许新到来的还出于RUNNABLE状态的线程C跳过整个等待队列直接获得资源, 由于唤醒线程需要一段时间, 因此如果位于等待队列中的线程B在唤醒之前C就完成操作并释放锁, 则系统在B无影响的状态下实现了吞吐量的提升. </p>
+<p>因此非公平调度往往比公平调度有更高的吞吐率, 但由于分配时机不确定, 因此容易导致线程饥饿问题. </p>
+<h2 id="Thread方法介绍"><a href="#Thread方法介绍" class="headerlink" title="Thread方法介绍"></a>Thread方法介绍</h2><h3 id="API简介"><a href="#API简介" class="headerlink" title="API简介"></a>API简介</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>功能</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>currentThread</td>
+<td>获得执行当前代码的进程对应的Thread对象</td>
+<td>静态方法/native方法</td>
+</tr>
+<tr>
+<td>getName</td>
+<td>获得当前线程的名字</td>
+<td>可有构造函数指定或者默认为<code>Thread-XXX</code>类型的名字</td>
+</tr>
+<tr>
+<td>join</td>
+<td>等待相应的线程结束</td>
+<td>A调用B.join(), 则B结束后A才继续执行</td>
+</tr>
+<tr>
+<td>yield</td>
+<td>向进程调度器表明希望放弃对处理器的占用</td>
+<td>静态方法/此请求并非强制执行</td>
+</tr>
+<tr>
+<td>isAlive</td>
+<td>判断当前进程是否处于活动状态</td>
+<td>活动状态指线程处于开始执行且尚未结束的状态</td>
+</tr>
+<tr>
+<td>sleep</td>
+<td>让正在执行该语句的线程休眠指定毫秒</td>
+<td>如果被中断会抛出异常并清除中断状态</td>
+</tr>
+<tr>
+<td>setDaemon</td>
+<td>设置当前线程是否为守护线程</td>
+<td>如果当前运行的所有线程都是守护线程, 则JVM自动退出</td>
+</tr>
+<tr>
+<td>interrupt</td>
+<td>将调用此方法的线程设置为中断状态</td>
+<td>通过中断状态控制线程的状态</td>
+</tr>
+<tr>
+<td>isInterrupted</td>
+<td>判断调用此方法的线程是否处于中断状态</td>
+<td>检测到中断状态后可以自行控制优雅的退出</td>
+</tr>
+</tbody></table>
+<h3 id="线程名称"><a href="#线程名称" class="headerlink" title="线程名称"></a>线程名称</h3><p>Thread的构造函数如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Thread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    init(<span class="keyword">null</span>, <span class="keyword">null</span>, <span class="string">&quot;Thread-&quot;</span> + nextThreadNum(), <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Thread</span><span class="params">(Runnable target)</span> </span>&#123;</span><br><span class="line">    init(<span class="keyword">null</span>, target, <span class="string">&quot;Thread-&quot;</span> + nextThreadNum(), <span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Thread</span><span class="params">(Runnable target, String name)</span> </span>&#123;</span><br><span class="line">    init(<span class="keyword">null</span>, target, name, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果直接继承Thread类, 那么默认的产生一个类似<code>Thread-0</code>, <code>Thread-1</code>的名字. 如果使用Runable构造且指定了线程名, 那么使用设定的名字, 否则和直接继承Thread一样使用</p>
+<p>对于main方法对应的线程, 则名称始终都是<code>main</code>. 结合currentThread()方法可以发现, 一个Thread实例中, 只有run()方法内处于另外一个线程, 而其他方法都属于调用者线程.</p>
+<p>在创建线程时, 最好能指定一个合适的名字, 例如HttpService, 从而可以减少调试的难度. </p>
+<h3 id="线程中断"><a href="#线程中断" class="headerlink" title="线程中断"></a>线程中断</h3><p>调用interrupt()并不会导致线程中断, 而实际上是标记当前线程处于中断状态. 在线程的run方法中可以检测是否处于中断状态, 进而执行相应的操作, 使自己优雅的退出. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Run</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.run();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">500000</span>;i++) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;Print i = &quot;</span>+i);</span><br><span class="line">                <span class="keyword">if</span>(Thread.currentThread().isInterrupted()) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(<span class="string">&quot;非中断情况下才输出的内容&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        Run mythread = <span class="keyword">new</span> Run();</span><br><span class="line">        mythread.start();</span><br><span class="line">        Thread.sleep(<span class="number">10</span>);</span><br><span class="line">        mythread.interrupt();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+<th>中断标记</th>
+<th>函数类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>interrupted()</td>
+<td>测试 <strong>当前线程</strong> 是否中断</td>
+<td>调用后清除</td>
+<td>静态方法</td>
+</tr>
+<tr>
+<td>isInterrupted()</td>
+<td>测试调用此方法的线程对象是否中断</td>
+<td>不清除</td>
+<td>成员方法</td>
+</tr>
+</tbody></table>
+<p>例如在main函数中有一个Thread对象<code>t</code>, 则在main函数中使用<code>Thread.interrupted()</code>判断main线程是否被中断, 使用<code>t.isInterrupted()</code>才判断t对应的线程是否中断. 显然从更加符合逻辑的角度来看, 如果需要判断当前线程是否中断, 应该使用成员方法<code>isInterrupted()</code>.</p>
+<p>与手动设置中断标记相比, 使用<code>interrupt()</code>方法的优势在于线程内部执行<code>sleep()</code>等方法时, 可以触发这些方法抛出<code>InterruptedException</code>, 从而能够离开<code>sleep()</code>方法. </p>
+<p>一旦触发了异常, 则中断标记被清除, 在线程内部可以在此设置中断标记, 使得程序在完成收尾工作后退出.</p>
+<h3 id="线程优先级"><a href="#线程优先级" class="headerlink" title="线程优先级"></a>线程优先级</h3><p>setPriority()方法设置线程的执行优先级, 高优先级的线程由更多机会被执行, 但具体执行顺序仍然是随机的.  高优先级的线程由于有更多机会获得CPU时间, 因此通常在同样的任务量下有更短的执行时间. </p>
+<h2 id="并发访问"><a href="#并发访问" class="headerlink" title="并发访问"></a>并发访问</h2><h3 id="变量访问"><a href="#变量访问" class="headerlink" title="变量访问"></a>变量访问</h3><p>局部变量的访问是安全的.  一个变量是否安全的依据是该变量是否可能被共享, 由于每个函数的局部变量都是独占的, 因此局部变量永远是安全的.  </p>
+<p>对于实例变量, 由于变量可能被多个线程访问, 因此有可能造成变量的读写错误. </p>
+<h3 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h3><p>在JVM中不同的线程有拥有一个私有的堆栈, 在以Server模式启动的JVM中, 线程的所有变量都会从私有堆栈读取, 这会导致一个线程更新了变量以后(更新到公共堆栈), 无法影响到其他线程的变量(私有堆栈的值没有变). </p>
+<p>使用volatile关键字声明的变量会强制JVM每次都从公共堆栈读取该变量的值. </p>
+<p>注意: volatile关键字并不保证原子性, 多个线程同时读写时, 还是需要加锁. 而且如果变量读取加锁了, 则也没有必要使用volatile关键字, 因为synchronized关键字具有volatile关键字等价的效果. </p>
+<h3 id="synchronized关键字"><a href="#synchronized关键字" class="headerlink" title="synchronized关键字"></a>synchronized关键字</h3><p>synchronized关键字修饰一个方法, 表示对该方法锁定, 所有访问该方法的线程都需要排队, 依次的访问. </p>
+<p>synchronized关键字有五类用法</p>
+<table>
+<thead>
+<tr>
+<th>用法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>synchronized(obj) { … }</td>
+<td>执行括号内代码前需要获得对象实例obj的锁</td>
+</tr>
+<tr>
+<td>直接修饰实例方法</td>
+<td>执行该方法前需要获得此对象的锁</td>
+</tr>
+<tr>
+<td>synchronized(this){ … }</td>
+<td>与直接修饰实例方法效果等价</td>
+</tr>
+<tr>
+<td>直接修饰静态方法</td>
+<td>执行该方法前需要获得此类的锁</td>
+</tr>
+<tr>
+<td>synchronized(X.class){ … }</td>
+<td>与直接修饰静态方法效果等价</td>
+</tr>
+</tbody></table>
+<p>synchronized关键字根据需要的锁决定是否需要排队,  如果两个线程需要同一个锁, 则依次排队访问, 但如果需要的锁不同, 则互不影响. 所以synchronized修饰的实例方法和synchronized修饰的静态方法由于锁不同, 两类方法调用不需要竞争锁. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serciveMenthod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span>(<span class="keyword">this</span>) &#123;</span><br><span class="line">            <span class="comment">// 具体需要同步的操作</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>synchronized(this)获得此对象的锁与直接修饰实例方法的锁相同, 因此此部分代码和直接修饰的实例方法不能同时执行.  使用synchronized(this)方法的代码区域可以控制, 因此粒度更低, 对其他线程的影响更小.  类似地, 使用synchronized(XXX.class)可以获得XXX类的锁并将范围控制在更细粒度. </p>
+<blockquote>
+<p>注意： synchronized锁定的是对象实例. 即如果有多个线程访问同一个对象的synchronized修饰的方法, 则这些线程需要排队, 但如果是多个线程访问多个对象的synchronized修饰的方法, 则相互没有影响. </p>
+</blockquote>
+<h3 id="synchronized特性"><a href="#synchronized特性" class="headerlink" title="synchronized特性"></a>synchronized特性</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>可重入</td>
+<td>当一个线程获得锁后, 如果再次请求获得锁, 则可以再次立即获得锁</td>
+</tr>
+<tr>
+<td>异常释放</td>
+<td>当一个线程执行的代码出现异常时, 其持有的所有锁都释放</td>
+</tr>
+<tr>
+<td>非继承</td>
+<td>锁定不具有继承性</td>
+</tr>
+<tr>
+<td>非公平调度</td>
+<td>JVM默认使用非公平调度, 需要其他调度模式时需要使用Lock的有关类</td>
+</tr>
+</tbody></table>
+<h2 id="进程间通信"><a href="#进程间通信" class="headerlink" title="进程间通信"></a>进程间通信</h2><h4 id="等待-通知机制"><a href="#等待-通知机制" class="headerlink" title="等待/通知机制"></a>等待/通知机制</h4><p>Java在Object中提供了wait()和notify()方法来实现进程间的通信. 其中wait()方法用于将当前进程进入等待状态, notify()方法随机唤醒一个调用了wait()方法的线程并使其进入就绪队列, 等待被调度器选中后继续执行.</p>
+<p>由于这两个方法是Object方法, 因此可以在任意对象上调用这些方法. 但在调用之前, 必须获得调用对象的锁, 即通过synchronized锁定相应的对象, 例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">fun</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(obj) &#123;</span><br><span class="line">        obj.wait();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果不获得锁就直接调用, 则会抛出<code>java.lang.IllegalMonitorStateException</code>, 这个异常的字面意思上时说对象监视器状态异常, 实际上就是指没有获得对象级别的锁.</p>
+<blockquote>
+<p>注意: 由于Thread的其他API使用了wait机制, 因此不要将Thread实例作为wait调用的对象.</p>
+</blockquote>
+<hr>
+<p>调用wait()方法的线程会立即释放对象锁, 而执行notify()方法的线程会等到正在执行的方法结束后才会释放锁. 同样被唤醒的线程也不会立即执行, 而是等再次获得对象锁以后才执行.</p>
+<p>以下代码演示了基本的等待/通知机制</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Object lock = <span class="keyword">new</span> Object();</span><br><span class="line">        <span class="keyword">final</span> ExecutorService executorService = Executors.newFixedThreadPool(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">        executorService.submit(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    System.out.println(<span class="string">&quot;Thread 1 Wait&quot;</span>);</span><br><span class="line">                    lock.wait();</span><br><span class="line">                    System.out.println(<span class="string">&quot;Thread 1 Finish&quot;</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        executorService.submit(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    System.out.println(<span class="string">&quot;Thread 2 Wait&quot;</span>);</span><br><span class="line">                    lock.wait();</span><br><span class="line">                    System.out.println(<span class="string">&quot;Thread 2 Finish&quot;</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        Thread.sleep(<span class="number">300</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Main Thread notifyAll&quot;</span>);</span><br><span class="line">            lock.notifyAll();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Thread.sleep(<span class="number">300</span>);</span><br><span class="line"></span><br><span class="line">        executorService.shutdown();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果有多个线程在一个监视器上使用wait()方法, 则当其他线程调用此监视器的notify()方法时, 会随机唤醒一个线程, 使用notifyAll()则会唤醒使用此监视器上的所有线程. </p>
+<p>notify()方法不保证一定会唤醒一个线程, 可以多次调用notify()方法, 如果调用时没有等待状态的线程, 则此方法不产生任何效果.</p>
+<p>可以使用wait(long)方法来限定一个时间, 到达时间后如果没有被唤醒, 则自动被唤醒</p>
+<h4 id="wait-方法与interrupt-方法"><a href="#wait-方法与interrupt-方法" class="headerlink" title="wait()方法与interrupt()方法"></a>wait()方法与interrupt()方法</h4><p>一个线程如果执行了wait()方法进入等待状态后调用interrupt方法, 则会产生<code>java.lang.InterruptedException</code>异常. 以下代码显示此过程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Run</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        Object lock = <span class="keyword">new</span> Object();</span><br><span class="line">        ThreadA a = <span class="keyword">new</span> ThreadA(lock);</span><br><span class="line">        a.start();</span><br><span class="line">        Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        a.interrupt();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testMethod</span><span class="params">(Object lock)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;Begin Wait&quot;</span>);</span><br><span class="line">                lock.wait();</span><br><span class="line">                System.out.println(<span class="string">&quot;End Wait&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;出现了异常, 锁已经被释放了&quot;</span>);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadA</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Object lock;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ThreadA</span><span class="params">(Object lock)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.lock = lock;</span><br><span class="line">    &#125;    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Service service = <span class="keyword">new</span> Service();</span><br><span class="line">        service.testMethod(lock);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="join方法"><a href="#join方法" class="headerlink" title="join方法"></a>join方法</h4><p>调用join()方法的线程等待被调用join()方法的线程执行结束. 例如有一个线程对象t, 若在主线程上调用t.join(), 则在t执行完毕后main才能继续执行. join()方法适合在主线程需要等待子线程执行完毕后才执行的场合. </p>
+<p>使用join(long)方法可以指定一个最大时间, 到达最大时间后即使子线程还未执行完毕主线程也会继续执行.</p>
+<p>join()方法本质上是将线程对象t作为目标调用wait()方法, 因此调用join()后会释放锁, 从而其他线程可以执行其他的锁定方法, 并且如果当前线程被中断, 也会产生中断异常. join方法的源代码如下所示:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">join</span><span class="params">(<span class="keyword">long</span> millis)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">long</span> base = System.currentTimeMillis();</span><br><span class="line">    <span class="keyword">long</span> now = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (millis &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">&quot;timeout value is negative&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (millis == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">while</span> (isAlive()) &#123;</span><br><span class="line">            wait(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (isAlive()) &#123;</span><br><span class="line">            <span class="keyword">long</span> delay = millis - now;</span><br><span class="line">            <span class="keyword">if</span> (delay &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            wait(delay);</span><br><span class="line">            now = System.currentTimeMillis() - base;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>由于join的这种设计, 因此使用wait()/notify()机制时, 不应该把Thread的实例作为调用对象, 否则可能干扰系统API的使用, 或者被系统API干扰.</p>
+</blockquote>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2021年03月02日 14:34</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" title="Java多线程之基础知识">https://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&title=《Java多线程之基础知识》 — LiZeC的博客&pic=images/java.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&title=《Java多线程之基础知识》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java多线程之基础知识》 — LiZeC的博客&url=https://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Java/" class="color5">Java</a>
+      
+    <a href="/tags/多线程/" class="color4">多线程</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="post-toc-text">线程基础知识</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81"><span class="post-toc-text">线程状态</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B"><span class="post-toc-text">创建线程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8"><span class="post-toc-text">线程安全</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8E%9F%E5%AD%90%E6%80%A7"><span class="post-toc-text">原子性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%AC%E5%B9%B3%E8%B0%83%E5%BA%A6%E4%B8%8E%E9%9D%9E%E5%85%AC%E5%B9%B3%E8%B0%83%E5%BA%A6"><span class="post-toc-text">公平调度与非公平调度</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Thread%E6%96%B9%E6%B3%95%E4%BB%8B%E7%BB%8D"><span class="post-toc-text">Thread方法介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#API%E7%AE%80%E4%BB%8B"><span class="post-toc-text">API简介</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%BA%BF%E7%A8%8B%E5%90%8D%E7%A7%B0"><span class="post-toc-text">线程名称</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%BA%BF%E7%A8%8B%E4%B8%AD%E6%96%AD"><span class="post-toc-text">线程中断</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%BA%BF%E7%A8%8B%E4%BC%98%E5%85%88%E7%BA%A7"><span class="post-toc-text">线程优先级</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%B9%B6%E5%8F%91%E8%AE%BF%E9%97%AE"><span class="post-toc-text">并发访问</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8F%98%E9%87%8F%E8%AE%BF%E9%97%AE"><span class="post-toc-text">变量访问</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#volatile%E5%85%B3%E9%94%AE%E5%AD%97"><span class="post-toc-text">volatile关键字</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#synchronized%E5%85%B3%E9%94%AE%E5%AD%97"><span class="post-toc-text">synchronized关键字</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#synchronized%E7%89%B9%E6%80%A7"><span class="post-toc-text">synchronized特性</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1"><span class="post-toc-text">进程间通信</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%AD%89%E5%BE%85-%E9%80%9A%E7%9F%A5%E6%9C%BA%E5%88%B6"><span class="post-toc-text">等待&#x2F;通知机制</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#wait-%E6%96%B9%E6%B3%95%E4%B8%8Einterrupt-%E6%96%B9%E6%B3%95"><span class="post-toc-text">wait()方法与interrupt()方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#join%E6%96%B9%E6%B3%95"><span class="post-toc-text">join方法</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB%E5%BA%93/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Java多线程之核心类库
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8B%E6%96%87%E4%BB%B6%E4%B8%8E%E6%97%B6%E9%97%B4API/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Java特性之文件与时间API</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Wed Nov 21 2018 16:39:06 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

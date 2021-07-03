@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>机器学习之开发工具介绍 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="本文介绍使用Python进行机器学习过程中经常使用的两个工具, 即 IPython 和 Jupyter.  IPythonIPython实际上是一个加强的Python命令行工具, 与直接使用Python命令行相比, IPython具有代码提示, 魔术指令, 语法高亮等增强功能, 因此更适合在命令行中使用. 基本操作IPython提供了一个类EMACS的快捷键方案, 比较常用的指令如下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习之开发工具介绍">
+<meta property="og:url" content="https://lizec.top/2018/12/31/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="本文介绍使用Python进行机器学习过程中经常使用的两个工具, 即 IPython 和 Jupyter.  IPythonIPython实际上是一个加强的Python命令行工具, 与直接使用Python命令行相比, IPython具有代码提示, 魔术指令, 语法高亮等增强功能, 因此更适合在命令行中使用. 基本操作IPython提供了一个类EMACS的快捷键方案, 比较常用的指令如下">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-12-31T11:42:30.000Z">
+<meta property="article:modified_time" content="2019-08-02T07:45:11.474Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-机器学习之开发工具介绍" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      机器学习之开发工具介绍
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/机器学习/">机器学习</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-12-31
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script> -->
+
+
+<p>本文介绍使用Python进行机器学习过程中经常使用的两个工具, 即 IPython 和 Jupyter. </p>
+<h2 id="IPython"><a href="#IPython" class="headerlink" title="IPython"></a>IPython</h2><p>IPython实际上是一个加强的Python命令行工具, 与直接使用Python命令行相比, IPython具有代码提示, 魔术指令, 语法高亮等增强功能, 因此更适合在命令行中使用.</p>
+<h3 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h3><p>IPython提供了一个类EMACS的快捷键方案, 比较常用的指令如下</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>C+A</td>
+<td>移动到本行的开头</td>
+</tr>
+<tr>
+<td>C+E</td>
+<td>移动到本行的末尾</td>
+</tr>
+<tr>
+<td>C+U</td>
+<td>删除光标所在位置之前的所有字符</td>
+</tr>
+<tr>
+<td>C+K</td>
+<td>删除光标所在位置以及之后的所有字符</td>
+</tr>
+<tr>
+<td>C+L</td>
+<td>清除屏幕</td>
+</tr>
+<tr>
+<td>C+P</td>
+<td>向前(Previous)移动</td>
+</tr>
+<tr>
+<td>C+N</td>
+<td>向后(Next)移动</td>
+</tr>
+</tbody></table>
+<h3 id="魔术指令"><a href="#魔术指令" class="headerlink" title="魔术指令"></a>魔术指令</h3><p>魔术指令(The magic function)是IPython提供的一系列的指令, 这些指令可以对IPython本身或者Python进行控制. 魔术指令分为面向行的指令(line-oriented)和面向块的指令(cell-oriented). </p>
+<p>面向行的指令以<code>%</code>开头, 面向块的指令以<code>%%</code>开头. IPython默认启动<code>%automagic</code>, 因此输入面向行的指令时, 可以省略<code>%</code>, 但是面向块的指令始终需要以<code>%%</code>开头.</p>
+<p>以下是一些常用的魔术指令</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%quickref</td>
+<td>显示IPython简要的文档</td>
+</tr>
+<tr>
+<td>%magic</td>
+<td>显示所有的魔术指令详细文档</td>
+</tr>
+<tr>
+<td>%reset</td>
+<td>删除当前环境下所有的指令</td>
+</tr>
+<tr>
+<td>%rehashx</td>
+<td>使大部分shell指令不需要<code>!</code>就直接执行</td>
+</tr>
+<tr>
+<td>%run</td>
+<td>运行一个脚本,并将其中的变量导入</td>
+</tr>
+<tr>
+<td>%who/whos</td>
+<td>显示当前的变量</td>
+</tr>
+<tr>
+<td>%timeit</td>
+<td>统计一条指令消耗的时间</td>
+</tr>
+<tr>
+<td>%matplotlib inline</td>
+<td>启用IPython对绘图的额外支持</td>
+</tr>
+</tbody></table>
+<h3 id="帮助系统"><a href="#帮助系统" class="headerlink" title="帮助系统"></a>帮助系统</h3><p>在任意指令的开头或者结尾加上一个<code>?</code>即可查询此模块/函数的文档. 使用<code>??</code>可以查询文档和源代码(如果有源代码). </p>
+<p>此外, 帮助系统还支持使用<code>*</code>进行搜索, 例如<code>np.*load*?</code>将会显示numpy包中所有包含load的函数.</p>
+<h3 id="输入和输出变量"><a href="#输入和输出变量" class="headerlink" title="输入和输出变量"></a>输入和输出变量</h3><p>IPython中使用<code>_</code>和<code>__</code>保存了最近的两个输出结果. 每一行的输入和输出也都保存在相应的变量之中. 例如<code>_2</code>保存了第二行的输入, <code>_i2</code>保存了第二行的输出结果.</p>
+<p>IPython的这一保存机制将导致所有的对象都始终存在引用, 而无法被垃圾回收. 如果在使用过程中会频繁的创建大对象, 注意使用%xdel来删除不必要的引用, 或者使用%reset来重置.</p>
+<h3 id="与OS交互"><a href="#与OS交互" class="headerlink" title="与OS交互"></a>与OS交互</h3><p>在IPython中可以执行任意shell指令, 只需要在相应的指令之前加上一个<code>!</code>. 一些常见的指令如下表所示</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>! &lt;cmd&gt;</code></td>
+<td>执行shell执行</td>
+</tr>
+<tr>
+<td><code>out = !&lt;cmd&gt;</code></td>
+<td>将shell执行结果赋值给out变量</td>
+</tr>
+<tr>
+<td><code>%bookmark</code></td>
+<td>启用IPython目录书签系统</td>
+</tr>
+<tr>
+<td><code>%pushd</code>/<code>%popd</code></td>
+<td>使用堆栈效果的目录切换</td>
+</tr>
+<tr>
+<td><code>%env</code></td>
+<td>显示环境变量</td>
+</tr>
+</tbody></table>
+<p>使用<code>%bookmark &lt;name&gt; &lt;path&gt;</code>的格式, 给<code>&lt;path&gt;</code>创建一个名称, 之后就可以使用<code>&lt;name&gt;</code>代表这个路径进行切换. bookmark的操作是自动持久化的. 使用<code>-l</code>参数可以列出所有创建的书签.</p>
+<h2 id="Jupyter"><a href="#Jupyter" class="headerlink" title="Jupyter"></a>Jupyter</h2><p>Jupyter notebook是一个基于Web的图形编程界面, 可以在其中编写Markdown文本和Python代码, 并且直接运行其中的代码. 除了在网页上直接展示以外, Jupyter还支持将页面保存为Markdowm, HTML, pdf 等多种格式.</p>
+<p>在命令行中输入<code>jupyer notebook</code>来启动程序.</p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p>Jupyter采用了类似VIM的键位, 因此对于VIM的常见操作(移动, 添加, 删除等)都是同样的快捷键. 下面是一些常用的指令</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Esc</td>
+<td>进入命令模式</td>
+</tr>
+<tr>
+<td>Enter</td>
+<td>进入编辑模式</td>
+</tr>
+<tr>
+<td>A</td>
+<td>在当前Cell之上插入一个新的Cell</td>
+</tr>
+<tr>
+<td>B</td>
+<td>在当前Cell之下插入一个新的Cell</td>
+</tr>
+<tr>
+<td>C+Enter</td>
+<td>执行当前Cell代码</td>
+</tr>
+<tr>
+<td>M+Enter</td>
+<td>执行当前Cell代码,并且移动到下一个Cell</td>
+</tr>
+</tbody></table>
+<p>除了以上的指令以外, 还可以在点击<code>Help-&gt;Keyboard Shortcut</code>查看全部的快捷键, 点击<code>Help-&gt;User Interface Tour</code>查看用户界面引导.</p>
+<h2 id="我的看法"><a href="#我的看法" class="headerlink" title="我的看法"></a>我的看法</h2><p>虽然只要随便搜索一下, 就可以看到很多文章推荐使用这两个工具. 但我个人的体验是这两个工具对于初学者来说, 都不太顺手. </p>
+<p>IPython的解释执行机制不太适合需要反复执行某一段代码的场景. 如果执行的代码都是单一的语句, 那么IPython用起来还是非常舒服的, 但如果涉及到更复杂的结构, 例如循环语句或者定义函数, 那么这种一行一行输入的模式显然就不太合适了. 对于这个问题, Jupyter有一定程度的弥补, 但Jupyter的代码补全不太好用, 如果不熟悉库的参数, Jupyter的体验就如同记事本写代码.</p>
+<p>因此, 如果对使用的库非常熟悉了, 那么可以考虑使用Jupyter, 但如果是新学习一个库, 那么还是建议先使用一个有更友好的代码补全和文档的IDE.</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年08月02日 15:45</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2018/12/31/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/" title="机器学习之开发工具介绍">https://lizec.top/2018/12/31/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2018/12/31/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/&title=《机器学习之开发工具介绍》 — LiZeC的博客&pic=images/ml.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2018/12/31/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/&title=《机器学习之开发工具介绍》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2018/12/31/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《机器学习之开发工具介绍》 — LiZeC的博客&url=https://lizec.top/2018/12/31/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2018/12/31/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2018/12/31/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Python/" class="color2">Python</a>
+      
+    <a href="/tags/机器学习/" class="color5">机器学习</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#IPython"><span class="post-toc-text">IPython</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="post-toc-text">基本操作</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%AD%94%E6%9C%AF%E6%8C%87%E4%BB%A4"><span class="post-toc-text">魔术指令</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B8%AE%E5%8A%A9%E7%B3%BB%E7%BB%9F"><span class="post-toc-text">帮助系统</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BE%93%E5%85%A5%E5%92%8C%E8%BE%93%E5%87%BA%E5%8F%98%E9%87%8F"><span class="post-toc-text">输入和输出变量</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%8EOS%E4%BA%A4%E4%BA%92"><span class="post-toc-text">与OS交互</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Jupyter"><span class="post-toc-text">Jupyter</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="post-toc-text">常用命令</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%88%91%E7%9A%84%E7%9C%8B%E6%B3%95"><span class="post-toc-text">我的看法</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/01/01/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Python笔记之内置模块
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/12/30/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Python笔记之基础知识</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Mon Dec 31 2018 19:42:30 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

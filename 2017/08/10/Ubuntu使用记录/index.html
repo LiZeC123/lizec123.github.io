@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ubuntu使用记录 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="内容概述本文包含我在日常使用Ubuntu系统中遇到的一些问题的记录，没有什么特定的顺序和联系，不定期更新 Ubuntu下如何挂载U盘 使用  sudo fdisk -l 命令查看U盘的位置12345678910111213# 结果可能包含如下字段$ sudo fdisk -lDisk &#x2F;dev&#x2F;sda: 16.1 GB, 16106127360 bytes2 heads, 63 sectors&#x2F;t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu使用记录">
+<meta property="og:url" content="https://lizec.top/2017/08/10/Ubuntu%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="内容概述本文包含我在日常使用Ubuntu系统中遇到的一些问题的记录，没有什么特定的顺序和联系，不定期更新 Ubuntu下如何挂载U盘 使用  sudo fdisk -l 命令查看U盘的位置12345678910111213# 结果可能包含如下字段$ sudo fdisk -lDisk &#x2F;dev&#x2F;sda: 16.1 GB, 16106127360 bytes2 heads, 63 sectors&#x2F;t">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-08-10T13:36:11.000Z">
+<meta property="article:modified_time" content="2020-11-04T14:53:10.000Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="Ubuntu">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Ubuntu使用记录" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Ubuntu使用记录
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-08-10
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="内容概述"><a href="#内容概述" class="headerlink" title="内容概述"></a>内容概述</h2><p>本文包含我在日常使用Ubuntu系统中遇到的一些问题的记录，没有什么特定的顺序和联系，不定期更新</p>
+<h2 id="Ubuntu下如何挂载U盘"><a href="#Ubuntu下如何挂载U盘" class="headerlink" title="Ubuntu下如何挂载U盘"></a>Ubuntu下如何挂载U盘</h2><ol>
+<li>使用  <code>sudo fdisk -l</code> 命令查看U盘的位置<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 结果可能包含如下字段</span><br><span class="line">$ sudo fdisk -l</span><br><span class="line">Disk /dev/sda: 16.1 GB, 16106127360 bytes</span><br><span class="line">2 heads, 63 sectors/track, 249660 cylinders, total 31457280 sectors</span><br><span class="line">Units = sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disk identifier: 0x003996fb</span><br><span class="line"></span><br><span class="line">   Device Boot      Start         End      Blocks   Id  System</span><br><span class="line">/dev/sda1   *          64    31457279    15728608    c  W95 FAT32 (LBA)</span><br><span class="line"></span><br><span class="line"># 看到U盘的位置是/dev/sda1是一个FAT32格式</span><br></pre></td></tr></table></figure></li>
+<li>挂载U盘到指定节点 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 挂载FAT32格式的U盘</span><br><span class="line">$ sudo mount  -t vfat /dev/sda1 /media/u </span><br><span class="line"># 挂载NTFS格式的U盘 </span><br><span class="line">$ sudo mount -t ntfs-3g /dev/sda1 /media/u </span><br><span class="line"># 其中/media/u 为你要挂载到的节点，这个可以随便指定，但是这个目录一定要存在</span><br></pre></td></tr></table></figure></li>
+<li>卸载u盘 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 卸载之前挂载的U盘</span><br><span class="line">$ sudo umount /media/u</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="ubuntu开机自动挂载新硬盘"><a href="#ubuntu开机自动挂载新硬盘" class="headerlink" title="ubuntu开机自动挂载新硬盘"></a>ubuntu开机自动挂载新硬盘</h2><p><strong>操作需要Root权限</strong></p>
+<ol>
+<li>查看分区的UUID</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo blkid</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>配置开机加载</li>
+</ol>
+<p>打开<code>/etc/fstab</code>, 按照如下格式写入配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UUID=66E85884E8585501   /home/deepin/WinHome/C ntfs defaults 0 1</span><br><span class="line">UUID=58682F90682F6BC6   /home/deepin/WinHome/D ntfs defaults 0 1</span><br><span class="line">UUID=FA1CAC411CABF733   /home/deepin/WinHome/E ntfs defaults 0 1</span><br><span class="line">UUID=0472ECE072ECD806   /home/deepin/WinHome/F ntfs defaults 0 1</span><br></pre></td></tr></table></figure>
+
+<p>以上配置前三项分别是<code>分区ID</code>, <code>挂载点</code>, <code>分区格式</code>. 其余的配置可以使用默认值.</p>
+<ol start="3">
+<li>验证配置</li>
+</ol>
+<p>执行以下指令检查配置是否正确, 不正确的配置可能导致无法正常启动</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mount -a</span><br></pre></td></tr></table></figure>
+
+<p>确认无误后重启系统即可使配置生效</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/iAm333/article/details/17224115">ubuntu开机自动挂载新硬盘</a></li>
+</ul>
+<h2 id="清理软件安装缓存"><a href="#清理软件安装缓存" class="headerlink" title="清理软件安装缓存"></a>清理软件安装缓存</h2><p>使用apt安装软件后, 相应的安装包会缓存在<code>/var/cache/apt/archives/</code>, 可以使用以下的指令查看这部分缓存占用的空间.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo du -sh /var/cache/apt/archives/</span><br></pre></td></tr></table></figure>
+
+<p>如果已经占用较大的空间, 可以使用以下指令自动清理缓存:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt clean</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="扩展可用空间"><a href="#扩展可用空间" class="headerlink" title="扩展可用空间"></a>扩展可用空间</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo fs_resize</span><br><span class="line">WARNING: Do you want to resize &quot;/dev/mmcblk0p2&quot; (y/N)?  y</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看文件夹空间占用情况"><a href="#查看文件夹空间占用情况" class="headerlink" title="查看文件夹空间占用情况"></a>查看文件夹空间占用情况</h2><p>直接使用以下指令查看文件夹内空间占用情况的概述</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du -ah --max-depth=1</span><br></pre></td></tr></table></figure>
+
+<p>查看当前目录总共占的容量, 而不单独列出各子项占用的容量 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du -sh </span><br></pre></td></tr></table></figure>
+
+<p>查看当前目录下一级子文件和子目录占用的磁盘容量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du -lh --max-depth=1</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="开机执行程序"><a href="#开机执行程序" class="headerlink" title="开机执行程序"></a>开机执行程序</h2><ul>
+<li>找到 <code>/etc/re.local</code></li>
+<li>在此文件中写入需要的命令</li>
+</ul>
+<p><strong>注意</strong>: 在18.04中,可以在Tweak中直接设置开启启动程序</p>
+<h2 id="双系统设置默认启动项"><a href="#双系统设置默认启动项" class="headerlink" title="双系统设置默认启动项"></a>双系统设置默认启动项</h2><ol>
+<li><p>打开相关的配置文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo gedit /etc/default/grub</span><br></pre></td></tr></table></figure></li>
+<li><p>修改相关选项</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 节选其中的一段内容如下所示</span><br><span class="line">GRUB_DEFAULT=0     # 此项表示默认选择项位置，从0开始计数</span><br><span class="line">#GRUB_HIDDEN_TIMEOUT=0</span><br><span class="line">GRUB_HIDDEN_TIMEOUT_QUIET=true</span><br><span class="line">GRUB_TIMEOUT=2     # 此项表示默认选择时间，单位为秒</span><br><span class="line">GRUB_DISTRIBUTOR=`lsb_release -i -s 2&gt; /dev/null || echo Debian`</span><br><span class="line">GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash&quot;</span><br><span class="line">GRUB_CMDLINE_LINUX=&quot;&quot;</span><br></pre></td></tr></table></figure></li>
+<li><p>更新<br>只有更新上述设置以后，相关的修改才会生效</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo update-grub</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="添加搜索路径"><a href="#添加搜索路径" class="headerlink" title="添加搜索路径"></a>添加搜索路径</h2><p>通常系统会在用户的home目录下添加一个搜索路径，以便于用户可以调用自己编写的程序，如果没有，可以按照如下方式添加</p>
+<ol>
+<li><p>修改<code>.bashrc</code></p>
+<ul>
+<li>此文件位于用户的home目录下，可以使用顺手的编辑器打开</li>
+</ul>
+</li>
+<li><p>添加指令</p>
+<ul>
+<li>例如将home目录下的bin目录添加到搜索路径中，则添加如下语句<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=~/bin:&quot;$PATH&quot;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>重启终端使配置生效</p>
+</li>
+</ol>
+<h2 id="编译线程有关程序"><a href="#编译线程有关程序" class="headerlink" title="编译线程有关程序"></a>编译线程有关程序</h2><p>如果用到来pthread.h中的函数,在使用gcc编译的时候,需要加上-pthread </p>
+<h2 id="MySQL中文乱码"><a href="#MySQL中文乱码" class="headerlink" title="MySQL中文乱码"></a>MySQL中文乱码</h2><p>注意到在Ubuntu上的MySQL并非默认使用UTF8编码，因此需要手动将默认编码修改为UTF8，过程如下</p>
+<p>修改/etc/mysql/my.cnf，添加如下的内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[client]</span><br><span class="line">default-character-set=utf8</span><br><span class="line">[mysqld]</span><br><span class="line">character-set-server=utf8</span><br></pre></td></tr></table></figure>
+
+<p>然后重启数据库。</p>
+<p><strong>注意</strong>： 以前添加的表还是会乱码，因此需要重新创建有关的表</p>
+<h2 id="查看已安装软件位置"><a href="#查看已安装软件位置" class="headerlink" title="查看已安装软件位置"></a>查看已安装软件位置</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -L &lt;软件名&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建桌面快捷方式"><a href="#创建桌面快捷方式" class="headerlink" title="创建桌面快捷方式"></a>创建桌面快捷方式</h2><p>使用文件编辑器在桌面创建一个以<code>.desktop</code>结尾的文件. 然后依据需要设置一下的内容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[Desktop Entry]</span><br><span class="line">Encoding=UTF-8</span><br><span class="line">Version=1.0                                     #version of an app.</span><br><span class="line">Name[en_US]=yEd                                 #name of an app.</span><br><span class="line">GenericName=GUI Port Scanner                    #longer name of an app.</span><br><span class="line">Exec=java -jar /opt/yed-3.11.1/yed.jar          #command used to launch an app.</span><br><span class="line">Terminal=false                                  #whether an app requires to be run in a terminal</span><br><span class="line">Icon[en_US]=/opt/yed-3.11.1/icons/yicon32.png   #location of icon file.</span><br><span class="line">Type=Application                                #type</span><br><span class="line">Categories=Application;Network;Security;        #categories in which this app should be listed.</span><br><span class="line">Comment[en_US]=yEd Graph Editor                 #comment which appears as a tooltip.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://linux.cn/article-2289-1.html">如何在Linux的桌面上创建快捷方式或启动器</a></li>
+</ul>
+<h2 id="Linux系统目录结构"><a href="#Linux系统目录结构" class="headerlink" title="Linux系统目录结构"></a>Linux系统目录结构</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/duanji/p/yueding2.html">Linux各目录及每个目录的详细介绍</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ftl1012/p/9278578.html">Linux 系统的/usr目录</a></li>
+</ul>
+<h2 id="Ubuntu管理多版本Java"><a href="#Ubuntu管理多版本Java" class="headerlink" title="Ubuntu管理多版本Java"></a>Ubuntu管理多版本Java</h2><p>Ubuntu可以直接使用apt安装多个版本的Java, 多个版本的Java并不会直接产生冲突. </p>
+<p>使用如下的指令, 可以切换<code>java</code>指令的版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --config java</span><br></pre></td></tr></table></figure>
+
+<p>输入上述指令后, 会显示类似如下的内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">There are 3 choices for the alternative java (providing /usr/bin/java).</span><br><span class="line"></span><br><span class="line">  Selection    Path                                            Priority   Status</span><br><span class="line">------------------------------------------------------------</span><br><span class="line">* 0            /usr/lib/jvm/java-11-openjdk-amd64/bin/java      1101      auto mode</span><br><span class="line">  1            /usr/lib/jvm/java-11-openjdk-amd64/bin/java      1101      manual mode</span><br><span class="line">  2            /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java   1081      manual mode</span><br><span class="line">  3            /usr/lib/jvm/java-8-oracle/jre/bin/java          1081      manual mode</span><br></pre></td></tr></table></figure>
+
+<p>输入相应的编号就可以切换java的默认版本. 同理还可以切换<code>javac</code>, <code>javadoc</code>等命令的版本.</p>
+<h2 id="Zsh与oh-my-zsh"><a href="#Zsh与oh-my-zsh" class="headerlink" title="Zsh与oh-my-zsh"></a>Zsh与oh-my-zsh</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/EasonJim/p/7863099.html">Ubuntu 16.04下安装zsh和oh-my-zsh</a></li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年11月04日 22:53</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2017/08/10/Ubuntu%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/" title="Ubuntu使用记录">https://lizec.top/2017/08/10/Ubuntu%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2017/08/10/Ubuntu%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/&title=《Ubuntu使用记录》 — LiZeC的博客&pic=images/ubuntu.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2017/08/10/Ubuntu%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/&title=《Ubuntu使用记录》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2017/08/10/Ubuntu%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Ubuntu使用记录》 — LiZeC的博客&url=https://lizec.top/2017/08/10/Ubuntu%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2017/08/10/Ubuntu%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2017/08/10/Ubuntu%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/数据库/" class="color4">数据库</a>
+      
+    <a href="/tags/Ubuntu/" class="color2">Ubuntu</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%86%85%E5%AE%B9%E6%A6%82%E8%BF%B0"><span class="post-toc-text">内容概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Ubuntu%E4%B8%8B%E5%A6%82%E4%BD%95%E6%8C%82%E8%BD%BDU%E7%9B%98"><span class="post-toc-text">Ubuntu下如何挂载U盘</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ubuntu%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD%E6%96%B0%E7%A1%AC%E7%9B%98"><span class="post-toc-text">ubuntu开机自动挂载新硬盘</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%B8%85%E7%90%86%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%E7%BC%93%E5%AD%98"><span class="post-toc-text">清理软件安装缓存</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%89%A9%E5%B1%95%E5%8F%AF%E7%94%A8%E7%A9%BA%E9%97%B4"><span class="post-toc-text">扩展可用空间</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%96%87%E4%BB%B6%E5%A4%B9%E7%A9%BA%E9%97%B4%E5%8D%A0%E7%94%A8%E6%83%85%E5%86%B5"><span class="post-toc-text">查看文件夹空间占用情况</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%BC%80%E6%9C%BA%E6%89%A7%E8%A1%8C%E7%A8%8B%E5%BA%8F"><span class="post-toc-text">开机执行程序</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%8C%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E5%90%AF%E5%8A%A8%E9%A1%B9"><span class="post-toc-text">双系统设置默认启动项</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E8%B7%AF%E5%BE%84"><span class="post-toc-text">添加搜索路径</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%BC%96%E8%AF%91%E7%BA%BF%E7%A8%8B%E6%9C%89%E5%85%B3%E7%A8%8B%E5%BA%8F"><span class="post-toc-text">编译线程有关程序</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MySQL%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81"><span class="post-toc-text">MySQL中文乱码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%B7%B2%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E4%BD%8D%E7%BD%AE"><span class="post-toc-text">查看已安装软件位置</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BA%E6%A1%8C%E9%9D%A2%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F"><span class="post-toc-text">创建桌面快捷方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Linux%E7%B3%BB%E7%BB%9F%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="post-toc-text">Linux系统目录结构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Ubuntu%E7%AE%A1%E7%90%86%E5%A4%9A%E7%89%88%E6%9C%ACJava"><span class="post-toc-text">Ubuntu管理多版本Java</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Zsh%E4%B8%8Eoh-my-zsh"><span class="post-toc-text">Zsh与oh-my-zsh</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/08/10/%E9%85%8D%E7%BD%AELAMP%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          配置LAMP笔记
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/08/08/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">正则表达式笔记</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Thu Aug 10 2017 21:36:11 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>机器学习之概率论 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="Probability theory is a mathematical framework for representing uncertaion statements. It provides a means of quantifying uncertainty and axioms for deriving new uncertain statements. 边缘分布Sometime">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习之概率论">
+<meta property="og:url" content="https://lizec.top/2019/01/24/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A6%82%E7%8E%87%E8%AE%BA/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="Probability theory is a mathematical framework for representing uncertaion statements. It provides a means of quantifying uncertainty and axioms for deriving new uncertain statements. 边缘分布Sometime">
+<meta property="og:locale">
+<meta property="og:image" content="https://lizec.top/images/ml/logistic.png">
+<meta property="og:image" content="https://lizec.top/images/ml/softplus.png">
+<meta property="article:published_time" content="2019-01-24T01:36:35.000Z">
+<meta property="article:modified_time" content="2020-06-26T04:45:52.634Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="概率论">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lizec.top/images/ml/logistic.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-机器学习之概率论" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      机器学习之概率论
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/数学/">数学</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-01-24
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script>
+
+
+
+<p>Probability theory is a mathematical framework for representing uncertaion statements. It provides a means of quantifying uncertainty and axioms for deriving new uncertain statements.</p>
+<h2 id="边缘分布"><a href="#边缘分布" class="headerlink" title="边缘分布"></a>边缘分布</h2><p>Sometimes we know the probability distribution over a set of variables and we want to know the probability distribution over just a subset of them. The probability distribution over the subset is known as <strong>marginal probability</strong>.</p>
+<p>For continuous variables, we need to use integration:</p>
+<p>$$p(x) = \int{p(x,y)}dy$$</p>
+<p>The name “marginal probability” comes from the process of computing marginal probabilities on paper. When the values of P(x,y) are written in a grid with different values of x in rows and different values of y in columns, it is natural to sum across a row of the grid, then write P(x) in the margin of the paper just to the right of the row.</p>
+<p>所以边缘分布和密度函数的边缘并没有关系, 不要被这个名词误导了.</p>
+<h2 id="条件概率"><a href="#条件概率" class="headerlink" title="条件概率"></a>条件概率</h2><p>In many cases, we are interested in the probability of some event, given that some other event has happened. This is called a <strong>conditional probability</strong>. We denote the conditional probability that \( y = y_1\) given \( x = x_1\) as \( P(y=y_1|x=x_1) \). This conditional probability can be computed with the formula:</p>
+<p>$$P(y=y_1|x=x_1) = \frac{P(y=y_1, x=x_1)}{P(x=x_1)}$$</p>
+<h2 id="条件概率链式法则"><a href="#条件概率链式法则" class="headerlink" title="条件概率链式法则"></a>条件概率链式法则</h2><p>Any joint probability distribution over many random variables may be decomposed into conditional distributions over only one variable:</p>
+<p>$$P(x^{(1)}, \cdots, x^{(n)}) = P(x^{(1)}) \prod_{i=2}^n P(x^{(i)}|x^{(1)}, \cdots, x^{(n-1)})$$</p>
+<p>This obsservation is known as the <strong>chain rule</strong> or <strong>product rule</strong> of probability. It follows immediately from the definition of conditional probability. For example, applying the definiton twice, we get</p>
+<p>$$<br>\begin{align}<br> P(a,b,c) &amp;= P(a|b,c)P(b,c) \\<br> P(b,c)   &amp;= P(b|c)P(c) \\<br> P(a,b,c) &amp;= P(a|b,c)P(b|c)P(c) \\<br>\end{align}<br>$$</p>
+<h2 id="独立和条件独立"><a href="#独立和条件独立" class="headerlink" title="独立和条件独立"></a>独立和条件独立</h2><p>Two random variables x and y are <strong>independent</strong> if their probability distribution can be expressed as a product of tow factors, one involing only x and one involving only by y:</p>
+<p>$$\forall x \in X,y \in Y, p(x=x_0,y=y_0)=p(x=x_0)p(y=y_0)$$</p>
+<p>Two random variables x and y are <strong>conditionally independent</strong> given a random variables z if the conditional probability distribution over x and f factorizes in this way for every value of z:</p>
+<p>$$\forall x \in X,y \in Y, z \in Z,p(x=x_0,y=y_0|z=z_0)=p(x=x_0|z=z_0)p(y=y_0|z=z_0)$$</p>
+<h2 id="期望-方程-协方差"><a href="#期望-方程-协方差" class="headerlink" title="期望,方程,协方差"></a>期望,方程,协方差</h2><p>The <strong>expection</strong> or <strong>expected value</strong> og some function f(x) with respect to a probability distribution P(x) is the arerage or mean value that f takes on when x is drawn from P. For continuous variables, it is computed with an integral:</p>
+<p>$$E_x[f(x)] = \int{p(x)f(x)}dx$$</p>
+<p>Expections are linear, for example,</p>
+<p>$$E_x[\alpha f(x)+\beta g(x)] = \alpha E_x[f(x)]+ \beta E_x[g(x)]$$</p>
+<p>When α and β are not dependent on x.</p>
+<p>The <strong>variance</strong> gives a measure of how much the values of a function of a random variable x vary as we sample different values of x from its probability distribution:</p>
+<p>$$Var(f(x)) = E[(f(x)-E[f(x)])^2]$$</p>
+<p>When the variance is low, the values of f(x) vluster near their expected value. The square root of the variance is known as the <strong>standard deviation</strong></p>
+<p>The <strong>covariance</strong> gives some sense of how much two values are linearly related to each other, as well as the scale of these variables:</p>
+<p>$$Cov(f(x),g(x)) = E[(f(x)-E[f(x)])(g(x)-E[g(x)])]$$</p>
+<p>High absolute values of the covariance mean that the values change very much and are both far from their respective means at the same time. If the sign of the covariance is positive, then both variables tend to take on relatively high values simultaneously. if the sign of the covariance is negative, then one variable tends to take on a relatively high value at the same times that the other takes on a relatively low values and vice versa.</p>
+<p>The notions of covariance and dependence are related, but are in fact distince concepts. They are related because two variables that are independent have zero covariance, and two variables that have non-zero covariance are dependent. However, independence is a distinct property from covariance. For two variables to have zero covariance, there must be <strong>no linear dependence</strong> between them. Independence is a stronger requirement than zero covariance, because independence also excludes nonlinear relationships.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://blog.sina.com.cn/s/blog_6aa3b1010102xkp5.html">如何通俗易懂地解释「协方差」与「相关系数」的概念？（转）</a></li>
+</ul>
+<!-- 
+常见概率分布
+----------------
+
+Several simple probability distributions are useful in many contexts in machine learning.
+
+### Bernoulli分布
+
+The **Bernolli** distribution is a distribution over a singel binary random variable. It is controlled by a single parameter \\( \phi \in [0,1] \\), which gives the probability of the random variable being queal to 1. It has the following properties:
+
+$$P(x=1) = \phi                    \\\\
+   P(x=0) = 1 - \phi                \\\\  
+ P(x=x_0) = \phi ^{x_0} (1-\phi)^{1-x_0}  $$
+
+### Multinoulli分布
+
+### Gaussian分布
+
+### Exponential和Laplace分布
+
+### Dirac和Empirical分布 -->
+
+
+<h2 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h2><p>Certain functions arise often while working with probability distributions, especially the probability distributions used in deep learning models.</p>
+<h3 id="Logistic函数"><a href="#Logistic函数" class="headerlink" title="Logistic函数"></a>Logistic函数</h3><p>One of those function is the <strong>logistic sigmoid</strong>:</p>
+<p>$$\sigma(x)  = \frac{1}{1+exp(-x)}$$</p>
+<p>The logistic sigmoid is commonly used to produce the \( \phi \) parameter of a Bernoulli distribution beacuse its range is (0,1), which lies within the valid range of values for the \( \phi \) parameter.</p>
+<p><img src="/images/ml/logistic.png" alt="The logistic sigmoid function"></p>
+<h3 id="Softplus函数"><a href="#Softplus函数" class="headerlink" title="Softplus函数"></a>Softplus函数</h3><p>Another commonly encountered function is the <strong>softplus</strong> function:</p>
+<p>$$\xi(x) = log(1+exp(x))$$</p>
+<p>The softplus function can be useful for producing the \( \beta \) or \( \alpha \) parameter of a normal distribution beacuse its range is (0, \( \infty \)). It also raises commonly when manipulating expressions involving sigmoids. </p>
+<p>The name of the softplus function comes from the fact that it is a smoothed or softened version of </p>
+<p>$$x^+ = max(0,x)$$</p>
+<p>There is a graph of softplus function:</p>
+<p><img src="/images/ml/softplus.png" alt="The softplus function"></p>
+<h3 id="函数性质"><a href="#函数性质" class="headerlink" title="函数性质"></a>函数性质</h3><p>These are some useful propertoes:</p>
+<table>
+<thead>
+<tr>
+<th>$$\sigma(x)$$</th>
+<th>$$\xi(x)$$</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$$\sigma(x)  = \frac{exp(x)}{exp(x)+exp(0)}$$</td>
+<td>$$log \sigma(x) = -\xi(-x)$$</td>
+</tr>
+<tr>
+<td>$$\frac{d}{dx}\sigma(x) = \sigma(x)(1-\sigma(x))$$</td>
+<td>$$\frac{d}{dx}\xi(x) = \sigma(x)$$</td>
+</tr>
+<tr>
+<td>$$\forall x \in (0,1),\sigma^{-1}(x) = log(\frac{x}{1-x})$$</td>
+<td>$$\forall x&gt;0, \xi^{-1}(x) = log(exp(x)-1)$$</td>
+</tr>
+<tr>
+<td>$$1 - \sigma(x) = \sigma(-x)$$</td>
+<td>$$\xi(x)-\xi(-x) = x$$</td>
+</tr>
+</tbody></table>
+<h2 id="贝叶斯法则"><a href="#贝叶斯法则" class="headerlink" title="贝叶斯法则"></a>贝叶斯法则</h2><p>We often find overselves in a situation where we know P(y|x) and need to know P(x|y). Fortunately, if we also know P(x), we can compute the desired quantity using <strong>Bayes’ Rule</strong></p>
+<p>$$P(x|y) = \frac{P(x)P(y|x)}{P(y)}$$</p>
+<p>Note that while P(y) appears in the formula, it is usually feasible to compute </p>
+<p>$$P(y) = \sum_x P(y|x)P(x)$$</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年06月26日 12:45</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2019/01/24/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A6%82%E7%8E%87%E8%AE%BA/" title="机器学习之概率论">https://lizec.top/2019/01/24/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A6%82%E7%8E%87%E8%AE%BA/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2019/01/24/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A6%82%E7%8E%87%E8%AE%BA/&title=《机器学习之概率论》 — LiZeC的博客&pic=images/ml.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2019/01/24/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A6%82%E7%8E%87%E8%AE%BA/&title=《机器学习之概率论》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2019/01/24/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A6%82%E7%8E%87%E8%AE%BA/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《机器学习之概率论》 — LiZeC的博客&url=https://lizec.top/2019/01/24/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A6%82%E7%8E%87%E8%AE%BA/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2019/01/24/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A6%82%E7%8E%87%E8%AE%BA/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2019/01/24/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%A6%82%E7%8E%87%E8%AE%BA/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/概率论/" class="color4">概率论</a>
+      
+    <a href="/tags/机器学习/" class="color5">机器学习</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%BE%B9%E7%BC%98%E5%88%86%E5%B8%83"><span class="post-toc-text">边缘分布</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%9D%A1%E4%BB%B6%E6%A6%82%E7%8E%87"><span class="post-toc-text">条件概率</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%9D%A1%E4%BB%B6%E6%A6%82%E7%8E%87%E9%93%BE%E5%BC%8F%E6%B3%95%E5%88%99"><span class="post-toc-text">条件概率链式法则</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%8B%AC%E7%AB%8B%E5%92%8C%E6%9D%A1%E4%BB%B6%E7%8B%AC%E7%AB%8B"><span class="post-toc-text">独立和条件独立</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%9C%9F%E6%9C%9B-%E6%96%B9%E7%A8%8B-%E5%8D%8F%E6%96%B9%E5%B7%AE"><span class="post-toc-text">期望,方程,协方差</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="post-toc-text">常用函数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Logistic%E5%87%BD%E6%95%B0"><span class="post-toc-text">Logistic函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Softplus%E5%87%BD%E6%95%B0"><span class="post-toc-text">Softplus函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%87%BD%E6%95%B0%E6%80%A7%E8%B4%A8"><span class="post-toc-text">函数性质</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%B3%95%E5%88%99"><span class="post-toc-text">贝叶斯法则</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/01/31/CMake%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          CMake使用笔记
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/01/21/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%8E%9F%E7%90%86%E5%92%8C%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">动态链接原理和使用方法</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Thu Jan 24 2019 09:36:35 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

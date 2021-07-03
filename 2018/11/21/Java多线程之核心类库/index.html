@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java多线程之核心类库 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="本文介绍Java中关于多线程的类库, 包括各种类的实现原理和使用方法, 关于多线程的基础知识, 可以阅读Java多线程之基础知识. 无锁可变量从Java 5开始, java.util.concurrent.atomic中就提供了支持无锁可变变量的类, 例如AtomicLong等. 可以使用这些类提供的方法对其进行加减法, 并且不需要任何的同步操作. 在上述的类中,使用了一种CAS技术, 即C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java多线程之核心类库">
+<meta property="og:url" content="https://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB%E5%BA%93/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="本文介绍Java中关于多线程的类库, 包括各种类的实现原理和使用方法, 关于多线程的基础知识, 可以阅读Java多线程之基础知识. 无锁可变量从Java 5开始, java.util.concurrent.atomic中就提供了支持无锁可变变量的类, 例如AtomicLong等. 可以使用这些类提供的方法对其进行加减法, 并且不需要任何的同步操作. 在上述的类中,使用了一种CAS技术, 即C">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-11-21T08:39:29.000Z">
+<meta property="article:modified_time" content="2020-10-29T07:00:32.138Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="多线程">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Java多线程之核心类库" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Java多线程之核心类库
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java多线程/">Java多线程</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-11-21
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script> -->
+
+
+<p>本文介绍Java中关于多线程的类库, 包括各种类的实现原理和使用方法, 关于多线程的基础知识, 可以阅读<a href="http://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">Java多线程之基础知识</a>.</p>
+<h2 id="无锁可变量"><a href="#无锁可变量" class="headerlink" title="无锁可变量"></a>无锁可变量</h2><p>从Java 5开始, <code>java.util.concurrent.atomic</code>中就提供了支持无锁可变变量的类, 例如<code>AtomicLong</code>等. 可以使用这些类提供的方法对其进行加减法, 并且不需要任何的同步操作.</p>
+<p>在上述的类中,使用了一种CAS技术, 即Compare And Set.  一个线程在更新变量值之前, 会检测变量的当前值是否和预期的值相同, 如果是,则说明变量尚未被其他线程修改, 于是可以直接修改这个变量. 如果发现变量已经改变, 那么这次操作失败. 用于CAS技术存在硬件支持,因此性能比加锁操作有很大的提升.</p>
+<p>在Java 8中, 不需要写循环来反复进行CAS操作, 可以直接传入lambda或者方法引用来完成操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> observed = <span class="number">2333</span>;</span><br><span class="line">AtomicLong largest = <span class="keyword">new</span> AtomicLong();</span><br><span class="line">largest.updateAndGet(x -&gt; Math.max(x,observed));</span><br><span class="line">largest.accumulateAndGet(observed,Math::max);</span><br></pre></td></tr></table></figure>
+
+<p>如果线程间的竞争压力很大, 可以使用<code>LongAdder</code>来代替<code>AtomicLong</code>. <code>LongAdder</code>内部有多个变量, 这些变量累计起来表示总和, 从而多个线程进行操作时, 可以将它们分布到不同的变量上进行操作.</p>
+<h2 id="并行哈希表"><a href="#并行哈希表" class="headerlink" title="并行哈希表"></a>并行哈希表</h2><p><code>ConcurrentHashMap</code>是一个保证线程安全的哈希表, 多个线程可以同时对其进行添加和删除元素, 且各个线程之间不会被阻塞. </p>
+<h3 id="更新值"><a href="#更新值" class="headerlink" title="更新值"></a>更新值</h3><p>由于<code>ConcurrentHashMap</code>不保证内部存储的元素的原子性, 因此当需要更新元素的值时, 需要使用一些操作, 例如CAS技术, 使用CAS有两种方式, 分别如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 手动进行循环检测</span></span><br><span class="line"><span class="keyword">do</span>&#123;</span><br><span class="line">    oldValue = map.get(word);</span><br><span class="line">    newValue = oldValue == <span class="keyword">null</span> ? <span class="number">1</span> : oldVaue + <span class="number">1</span>;</span><br><span class="line">&#125; <span class="keyword">while</span>(!map.replace(word,oldValue,newValue));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 直接使用lambda函数</span></span><br><span class="line">map.compute(word, (k,v)-&gt; v==<span class="keyword">null</span>?<span class="number">1</span>:v+<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>与<code>compute</code>方法参数类似的方法还有两个, <code>computeIfPresent</code>和<code>computerIfAbsent</code>分别来处理值已经存在和值不存在的情况, 此外对于上述这种第一次加入与后续操作存在差异的操作, 可以使用<code>merge</code>方法, 此方法提供一个额外的参数用于表示初始值.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">map.computeIfAbsent(word, k -&gt; <span class="keyword">new</span> LongAddr()).increment();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果word不存在, 初始为1L, 否则将原有值和1L进行相加</span></span><br><span class="line">map.merge(word, <span class="number">1L</span>, (existingValue, newValue) -&gt; existingValue + newValue);</span><br><span class="line"><span class="comment">// 可以使用 Long::sum 进一步简化代码</span></span><br><span class="line">map.merge(word, <span class="number">1L</span>, Long::sum);</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="批量操作"><a href="#批量操作" class="headerlink" title="批量操作"></a>批量操作</h3><p><code>ConcurrentHashMap</code> 提供三种批量操作的方式, 即 <code>search</code>, <code>reduce</code> 和 <code>forEach</code>, 这三种方式都可以分别对键, 值, 建和值, <code>Map.Entry</code>进行操作. 这些操作都是并行的, 需要提供一个阈值来指定一个线程中大约包含多少数据. </p>
+<p>如果需要单线程操作, 可以将阈值指定为<code>Long.MAX_VALUE</code>, 如果需要尽可能多的线程, 可以将阈值指定为<code>1</code>, 但是无论如何设置, 最后的线程数量都不会超过<code>ForkJoinPool</code>指定的一个最大线程数量的4倍.</p>
+<h3 id="Set视图"><a href="#Set视图" class="headerlink" title="Set视图"></a>Set视图</h3><p>可以在<code>ConcurrentHashMap</code> 的基础上获得一个Set视图, 根据需要, 可以使用以下两种方式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在ConcurrentHashMap上封装一个Set</span></span><br><span class="line">ConcurrentHashMap.newKeySet()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在一个已有的ConcurrentHashMap产生一个Set</span></span><br><span class="line">Set&lt;String&gt; set = map.keySet(<span class="number">1L</span>);</span><br><span class="line">set.add(<span class="string">&quot;123&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>keySet</code>方法的参数表示使用Set视图添加元素时, 向ConcurrentHashMap添加的默认值. 如果map中不存在<code>&quot;123&quot;</code>, 那么执行后map中就存在此元素,且值为1.</p>
+<h2 id="重入锁"><a href="#重入锁" class="headerlink" title="重入锁"></a>重入锁</h2><p>重入锁可以代替synchronized关键字, 且JDK早期版本中性能优于synchronized关键字. 在后续版本中JDK对synchronized关键字进行了优化, 从而使两种差距不大.  重入锁通过ReentrantLock类实现, 使用lock()方法获得锁, 使用unlock()方法释放锁. 对于有异常的场景, 可以在finally语句块中释放锁. </p>
+<p>一种典型的使用方式如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125; <span class="keyword">catch</span>(Exception e) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    lock.unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 而使用ReentrantLock时可以使用tryLock()来尝试获得锁, 根据能否获得锁来执行不同的操作</p>
+<p>ReentrantLock可以多次调用lock方法进行锁定（重入）, 因而被称为重入锁.  关于ReentrantLock还有如下的一些重要方法</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>lockInterruptibly()</td>
+<td>除非被中断不断尝试获得锁</td>
+<td>如果线程被设置为中断, 立刻抛出InterruptedException</td>
+</tr>
+<tr>
+<td>tryLock()</td>
+<td>尝试获得锁并且立刻返回是否获得锁</td>
+<td>可以根据是否获得锁执行不同的操作</td>
+</tr>
+<tr>
+<td>isFair()</td>
+<td>是否是公平锁</td>
+<td></td>
+</tr>
+<tr>
+<td>isHeldByCurrentThread()</td>
+<td>此锁是否被当前线程持有</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>注意:</p>
+<ul>
+<li>tryLock()方法可以指定一个最大等待时间, 如果到达时间后还是无法获得锁, 则放弃等待并返回false.</li>
+<li>使用tryLock()或lockInterruptibly()获取锁时, 操作更加灵活, 从而有助于解决一部分死锁问题.</li>
+<li>synchronized和默认的ReentrantLock都是非公平锁, 但是如果需要, 也可以在构造函数中将ReentrantLock指定为公平锁. </li>
+</ul>
+<h2 id="多路通知"><a href="#多路通知" class="headerlink" title="多路通知"></a>多路通知</h2><p>通过synchronized, wait()/notify()可以实现等待和唤醒. 其中synchronized关键字的作用可以通过ReentrantLock替代, 同样wait()/notify()机制可以被Condition对象替代. </p>
+<p>Condition对象与Lock接口配合使用(ReentrantLock实现了此接口), Lock接口的newCondition()方法可以产生一个Condition对象, 此对象具有以下的一些方法</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>await()</td>
+<td>使当前线程等待,并且释放锁</td>
+<td>等待过程中可以响应中断</td>
+</tr>
+<tr>
+<td>awaitUninterruptibly()</td>
+<td>使当前线程等待,并且释放锁</td>
+<td>等待过程中不会响应中断</td>
+</tr>
+<tr>
+<td>signal()</td>
+<td>唤醒一个等待中的线程</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>注意:</p>
+<ul>
+<li>等待和唤醒都和一个Condition绑定在一起, 从而实现了更加精细的线程控制</li>
+<li>newCondition()方法每次调用都会返回一个完全不同的实例</li>
+</ul>
+<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><p>Java也提供信号量机制, 关于信号量可以参考操作系统笔记中<a href="http://lizec.top/2017/09/23/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/#%E4%BF%A1%E5%8F%B7%E9%87%8F%E5%92%8CPV%E5%8E%9F%E8%AF%AD">信号量和PV原语</a>章节.</p>
+<p>表示信号量的类是Semphore, 提供acquire方法实现P操作, 提供release方法实现V操作</p>
+<h2 id="读写锁"><a href="#读写锁" class="headerlink" title="读写锁"></a>读写锁</h2><p>Java提供读写锁机制, 关于读写锁的有关内容可以参考数据库系统原理中<a href="http://lizec.top/2017/12/20/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86/#%E5%B0%81%E9%94%81%E6%8A%80%E6%9C%AF">封锁技术</a>章节.</p>
+<p>表示读写锁的类是ReentrantReadWriteLock, 此类提供radLock()方法获得一个读锁, 提供writeLock()获得一个写锁. 在读取操作远多于写入操作时, 读写锁可以获得极高的性能.</p>
+<h2 id="倒计时器"><a href="#倒计时器" class="headerlink" title="倒计时器"></a>倒计时器</h2><p>CountDownLatch是一个用于控制线程等待的多线程控制类. 通常由构造函数指定需要管理的子线程数量, 每个子线程执行完毕后调用countDown()通知CountDownLatch该子线程完成任务.</p>
+<p>主线程调用await()方法等待子线程执行相关的任务, 当所有子线程都完成任务后, 主线程被唤醒, 从而继续执行后续的操作.</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>countDown()</td>
+<td>子线程中调用, 通知此子线程完成任务</td>
+</tr>
+<tr>
+<td>await()</td>
+<td>主线程调用, 等待所有子线程完成任务</td>
+</tr>
+</tbody></table>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年10月29日 15:00</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB%E5%BA%93/" title="Java多线程之核心类库">https://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB%E5%BA%93/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB%E5%BA%93/&title=《Java多线程之核心类库》 — LiZeC的博客&pic=images/java.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB%E5%BA%93/&title=《Java多线程之核心类库》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB%E5%BA%93/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java多线程之核心类库》 — LiZeC的博客&url=https://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB%E5%BA%93/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB%E5%BA%93/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB%E5%BA%93/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Java/" class="color5">Java</a>
+      
+    <a href="/tags/多线程/" class="color4">多线程</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%97%A0%E9%94%81%E5%8F%AF%E5%8F%98%E9%87%8F"><span class="post-toc-text">无锁可变量</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%B9%B6%E8%A1%8C%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="post-toc-text">并行哈希表</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9B%B4%E6%96%B0%E5%80%BC"><span class="post-toc-text">更新值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C"><span class="post-toc-text">批量操作</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Set%E8%A7%86%E5%9B%BE"><span class="post-toc-text">Set视图</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%87%8D%E5%85%A5%E9%94%81"><span class="post-toc-text">重入锁</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%A4%9A%E8%B7%AF%E9%80%9A%E7%9F%A5"><span class="post-toc-text">多路通知</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8F"><span class="post-toc-text">信号量</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%AF%BB%E5%86%99%E9%94%81"><span class="post-toc-text">读写锁</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%80%92%E8%AE%A1%E6%97%B6%E5%99%A8"><span class="post-toc-text">倒计时器</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/11/21/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%BA%93/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Java单元测试之基础类库
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Java多线程之基础知识</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Wed Nov 21 2018 16:39:29 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

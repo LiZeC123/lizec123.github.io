@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Git笔记之基础操作 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="本文介绍GIT的基础知识, 包括GIT的初始化, 基本的指令, 基本原理, 以及GIT标签和GIT别名. 本文从GIT的原理出发, 重点分析了各种情况下的代码撤回操作. Git的基本使用用户初始化12$ git config --global user.name &quot;Your Name&quot;$ git config --global user.email &quot;email">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git笔记之基础操作">
+<meta property="og:url" content="https://lizec.top/2017/08/07/Git%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="本文介绍GIT的基础知识, 包括GIT的初始化, 基本的指令, 基本原理, 以及GIT标签和GIT别名. 本文从GIT的原理出发, 重点分析了各种情况下的代码撤回操作. Git的基本使用用户初始化12$ git config --global user.name &quot;Your Name&quot;$ git config --global user.email &quot;email">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-08-07T11:10:36.000Z">
+<meta property="article:modified_time" content="2021-01-28T10:05:40.452Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Git笔记之基础操作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Git笔记之基础操作
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Git笔记/">Git笔记</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-08-07
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script> -->
+
+
+<p>本文介绍GIT的基础知识, 包括GIT的初始化, 基本的指令, 基本原理, 以及GIT标签和GIT别名. 本文从GIT的原理出发, 重点分析了各种情况下的代码撤回操作.</p>
+<h2 id="Git的基本使用"><a href="#Git的基本使用" class="headerlink" title="Git的基本使用"></a>Git的基本使用</h2><h3 id="用户初始化"><a href="#用户初始化" class="headerlink" title="用户初始化"></a>用户初始化</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name &quot;Your Name&quot;</span><br><span class="line">$ git config --global user.email &quot;email@example.com&quot;</span><br></pre></td></tr></table></figure>
+<p>上述两条指令用于指定用户名和邮箱, 这些信息会显示在之后的提交信息之中, –global表明上述配置为全局有效.  完成上述配置以后才能使用Git</p>
+<h3 id="基础指令"><a href="#基础指令" class="headerlink" title="基础指令"></a>基础指令</h3><table>
+<thead>
+<tr>
+<th align="left">指令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">git init</td>
+<td>将当前文件夹初始化为一个git库</td>
+</tr>
+<tr>
+<td align="left">git add .</td>
+<td>将当前目录和子目录下的所有改变提交</td>
+</tr>
+<tr>
+<td align="left">git add –all</td>
+<td>将所有改变放入暂存区(包括父目录中的更改)</td>
+</tr>
+<tr>
+<td align="left">git add filename</td>
+<td>将指定的文件提交</td>
+</tr>
+<tr>
+<td align="left">git commit -m “XXX”</td>
+<td>使用-m参数指定本次提交的信息, 该信息保留在提交日志中,  从而用于识别提交的内容</td>
+</tr>
+<tr>
+<td align="left">git status</td>
+<td>查看当前的状态, Git同时给出下一步可以执行的操作</td>
+</tr>
+</tbody></table>
+<h2 id="Git的基本概念"><a href="#Git的基本概念" class="headerlink" title="Git的基本概念"></a>Git的基本概念</h2><h3 id="Git的几个区域"><a href="#Git的几个区域" class="headerlink" title="Git的几个区域"></a>Git的几个区域</h3><p>Git中存在三个区域, 每个区域的名称和作用如下</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>工作区</td>
+<td>与当前文件系统同步变化的区域工作区</td>
+</tr>
+<tr>
+<td>暂存区</td>
+<td>执行add之后后的文件存在的区域</td>
+</tr>
+<tr>
+<td>版本库</td>
+<td>执行commit操作以后的文件进入版本库</td>
+</tr>
+</tbody></table>
+<p>其中暂存区(staging area)也被称为缓冲区(buffer)或者索引(index). </p>
+<h3 id="Git基本原理"><a href="#Git基本原理" class="headerlink" title="Git基本原理"></a>Git基本原理</h3><p>Git的三个区域都直接保存文件的快照, 而不是文件的修改. Git通过对比<strong>两个快照之间的差异</strong>来识别做出了什么更改. 当暂存区和工作区存在差异时提示有文件被修改(或者有新创建的文件), 当版本库和暂存区存在差异时提示有<code>Changes to be committed</code></p>
+<p>工作区的快照始终和当前的文件系统保持同步. 执行add操作后, 相应的文件就会同步到暂存区, 使得工作区和暂存区保持一致. 执行commit操作时, 暂存区的快照同步到版本库之中, 使得版本库和暂存区保持一致. </p>
+<h3 id="Git存储原理"><a href="#Git存储原理" class="headerlink" title="Git存储原理"></a>Git存储原理</h3><p>每次执行commit操作后, 版本库都会有一个新的快照, Git会对此快照计算哈希值, 并且使用一个节点表示, 各次提交产生的节点通过链表的形式连接(类似比特币), 从而形成提交历史.  </p>
+<p>同时Git中还存在一个HEAD指针, 此指针指向当前版本库的状态, 通过修改此指针的指向就可以将版本库恢复到某个历史状态, 例如某个版本库中可能有如下的状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">* f6264d3 &lt;- master &lt;- HEAD</span><br><span class="line">* fae731a </span><br><span class="line">* 104e8db </span><br><span class="line">* 61cfc62</span><br></pre></td></tr></table></figure>
+
+<h2 id="Git的撤销操作"><a href="#Git的撤销操作" class="headerlink" title="Git的撤销操作"></a>Git的撤销操作</h2><p>所有版本控制系统的本质都是创建一些安全的文件快照,  从而保证你的代码不会受到不可挽回的修改破坏. 因此Git中所有的撤销操作本质上都是基于<strong>对三个工作区的修改</strong>, 明确这一点有助于对Git撤销的原理的理解. </p>
+<h3 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h3><table>
+<thead>
+<tr>
+<th align="left">操作类型</th>
+<th>操作指令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">版本库</td>
+<td><code>git reset --soft &lt;loc&gt;</code></td>
+<td>版本库快照回退到指定的版本, 其他区域快照不变</td>
+</tr>
+<tr>
+<td align="left">版本库-&gt;暂存区</td>
+<td><code>git reset --mixed &lt;loc&gt;</code></td>
+<td>版本库和暂存区都回到指定版本, 其他区域不变</td>
+</tr>
+<tr>
+<td align="left">版本库-&gt;暂存区-&gt;工作区</td>
+<td><code>git reset --hard &lt;loc&gt;</code></td>
+<td>版本库, 暂存区, 工作区都回到版本</td>
+</tr>
+<tr>
+<td align="left">版本库-&gt;工作区</td>
+<td><code>git checkout &lt;loc&gt; &lt;file&gt;</code></td>
+<td>将指定文件的指定版本回退到工作区</td>
+</tr>
+</tbody></table>
+<p>其中<code>&lt;loc&gt;</code>表示某一个提交版本, 既可以使用HEAD表达, 也可以使用哈希值表达. <code>&lt;file&gt;</code>表示一个文件的文件名 </p>
+<h3 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h3><p>假设当前有如下的一组提交历史</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D-C-B-A</span><br></pre></td></tr></table></figure>
+
+<p>即按照时间顺序依次提交了D,C,B,A四个版本, 当前处于A状态. 注意, 这意味着版本库, 暂存区以及工作区都处于A状态. 如果此时使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --mixed HEAD~</span><br></pre></td></tr></table></figure>
+
+<p>则版本库和暂存区回退到B状态, 但是工作区还维持A状态. 此时Git对比暂存区和工作区的区别, 就会将B到A之间的差异视为<code>Changes not staged for commit</code>, 这就如同将之前的提交撤回到了工作区, 从而可以重新组织需要提交的内容. </p>
+<p>一些常见的撤回操作对应的指令如下所示:</p>
+<table>
+<thead>
+<tr>
+<th>撤销类型</th>
+<th>指令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>撤回提交</td>
+<td><code>git reset HEAD~</code></td>
+<td>commit的内容撤回到工作区</td>
+</tr>
+<tr>
+<td>撤回暂存</td>
+<td><code>git reset HEAD</code></td>
+<td>暂存区更改丢失,工作区代码不变</td>
+</tr>
+<tr>
+<td>清除未跟踪文件</td>
+<td><code>git clean -df</code></td>
+<td>删除新创建的文件和文件夹</td>
+</tr>
+<tr>
+<td>撤销工作区更改</td>
+<td><code>git checkout -- filename</code></td>
+<td>工作区更改完全丢失</td>
+</tr>
+</tbody></table>
+<p>HEAD是头指针,表示当前版本. HEAD<del>表示上一个版本, 如果是之前的第100个版本, 则可写为HEAD</del>100.  使用<code>git status</code>显示当前状态时, Git会提示上面的大部分指令, 因此这些指令并不需要记忆, 了解实现原理即可. </p>
+<h3 id="清理工作区"><a href="#清理工作区" class="headerlink" title="清理工作区"></a>清理工作区</h3><p>工作区与其他区域相比有一些不同, 在工作区存在新建文件和修改文件的区别. 虽然两种都会使工作区与暂存区产生差异, 但是新建的文件默认都是不跟踪的, 如果不执行add操作, 则Git默认不管理这些文件. </p>
+<p>因此撤销工作区的更改, 有两个指令, 分别用于清除新添加的文件和恢复文件的修改.  对于<code>git clean</code>指令, 具有如下的参数</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-d</td>
+<td>清理文件夹</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>强制清理, 通常情况下不指定此参数会拒绝执行</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>模拟执行一次, 显示会删除的文件</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>删除被.gitignore忽略的文件</td>
+</tr>
+</tbody></table>
+<p>对于<code>git checkout</code>, 既可以使用 <code>git checkout -- filename</code>也可以使用<code>git checkout &lt;loc&gt; &lt;file&gt;</code>, 两种格式是等价的. </p>
+<h3 id="远程撤销更改"><a href="#远程撤销更改" class="headerlink" title="远程撤销更改"></a>远程撤销更改</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git revert HEAD</span><br></pre></td></tr></table></figure>
+
+<p>使用后分支并不会被回退, 而是创建了一个新的提交, 该提交通过反向修改恢复了代码. 由于这本身也是一个提交操作, 因此即使以及有其他人在此分支上切出, 只要没有同时修改回退的内容, 就不会产生任何的影响. reset适用于私有分支,而revert可以适用于公共分支.</p>
+<h3 id="分支文件替换"><a href="#分支文件替换" class="headerlink" title="分支文件替换"></a>分支文件替换</h3><p><code>git checkout</code>指令可以将一个文件切换到指定的版本, 因此可以通过此指令将一个文件用另外一个分支的文件替换, 例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout test -- pom.xml</span><br></pre></td></tr></table></figure>
+
+<p>可以将当前分支的pom.xml文件替换为test分支上的相应文件.</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://halfmoonvic.github.io/2017/07/20/Git-reset-checkout-commit-%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3/">Git reset checkout commit 命令详解</a></li>
+</ul>
+<h2 id="Git的监视指令"><a href="#Git的监视指令" class="headerlink" title="Git的监视指令"></a>Git的监视指令</h2><h3 id="查看记录"><a href="#查看记录" class="headerlink" title="查看记录"></a>查看记录</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git log</span><br><span class="line">$ git log --pretty=oneline</span><br><span class="line">$ git reflog</span><br></pre></td></tr></table></figure>
+
+<p>直接使用log指令会展示详细的提交记录, 如果使用<code>online</code>参数, 则只显示提交ID和提交信息. </p>
+<p>reflog相对于对git所有的操作进行了版本控制, 其中展示了所有git指令的哈希值, 从而可以方便的回滚git操作</p>
+<h3 id="查看更新"><a href="#查看更新" class="headerlink" title="查看更新"></a>查看更新</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git diff</span><br><span class="line">$ git diff filename</span><br><span class="line">$ git diff --staged</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用前两种指令将显示<em>工作区</em>中的内容和<em>暂存区</em>中内容的区别(尚未add的版本和最近一次add或commit的版本的区别)</li>
+<li>使用第三中指令将显示<em>暂存区</em>中内容和<em>版本库</em>中内容的区别</li>
+</ul>
+<h2 id="标签管理"><a href="#标签管理" class="headerlink" title="标签管理"></a>标签管理</h2><h3 id="添加标签"><a href="#添加标签" class="headerlink" title="添加标签"></a>添加标签</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git tag                                //显示所有标签</span><br><span class="line">$ git tag tagName                        //给最近一次提交添加标签</span><br><span class="line">$ git tag tagName digs                   //给指定ID的提交添加标签</span><br><span class="line">$ git tag -a tagName -m tagMessage digs  //给指定ID的提交添加标签和详细信息</span><br></pre></td></tr></table></figure>
+
+<h3 id="操作标签"><a href="#操作标签" class="headerlink" title="操作标签"></a>操作标签</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git tag -d tagName            //删除指定的标签</span><br><span class="line">$ git push origin tagName        //推送指定的标签</span><br><span class="line">$ git push origin --tags        //推送所有的标签</span><br></pre></td></tr></table></figure>
+
+<h2 id="设置别名"><a href="#设置别名" class="headerlink" title="设置别名"></a>设置别名</h2><p>如果经常使用命令行进行Git操作, 那么执行如下的指令来设置一些简称可能有助于提高指令的输入速度</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git config --global alias.st status</span><br><span class="line">git config --global alias.co checkout</span><br><span class="line">git config --global alias.ci commit</span><br><span class="line">git config --global alias.br branch</span><br><span class="line">git config --global alias.lg &quot;log --color --graph --pretty=format:&#x27;%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset&#x27; --abbrev-commit&quot;</span><br></pre></td></tr></table></figure>
+
+<!-- 
+[alias]
+    co = checkout
+    ci = commit
+    st = status
+    pl = pull
+    ps = push
+    dt = difftool
+    l = log --stat
+    cp = cherry-pick
+    ca = commit -a
+    cm = commit -m
+    b = branch
+    a = add .
+    s = stash -->
+
+
+<h2 id="Win10创建可执行文件"><a href="#Win10创建可执行文件" class="headerlink" title="Win10创建可执行文件"></a>Win10创建可执行文件</h2><p>使用如下的指令, 将<code>foo.sh</code>添加可执行权限.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git update-index --chmod=+x foo.sh</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/ask/28981">如何在Windows上的Git中创建文件执行模式的权限？</a></li>
+</ul>
+<h2 id="参考资料和扩展阅读"><a href="#参考资料和扩展阅读" class="headerlink" title="参考资料和扩展阅读"></a>参考资料和扩展阅读</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">Git教程</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/findingsea/archive/2012/08/27/2654549.html">GitHub基本使用</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000013838580">Git撤销</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/kidsitcn/p/4513297.html">git reset soft,hard,mixed之区别深解</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000005638174">有关 Git 中 commit 的原理 理解 及 reset、checkout 命令详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.atlassian.com/git/tutorials/learn-git-with-bitbucket-cloud">Learn Git with Bitbucket Cloud</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yelbosh/p/7471979.html">Git的原理简介和常用命令</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/oldratlee/translations/blob/master/git-workflows-and-tutorials/README.md">Git工作流</a></li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2021年01月28日 18:05</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2017/08/07/Git%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/" title="Git笔记之基础操作">https://lizec.top/2017/08/07/Git%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2017/08/07/Git%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/&title=《Git笔记之基础操作》 — LiZeC的博客&pic=images/git.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2017/08/07/Git%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/&title=《Git笔记之基础操作》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2017/08/07/Git%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Git笔记之基础操作》 — LiZeC的博客&url=https://lizec.top/2017/08/07/Git%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2017/08/07/Git%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2017/08/07/Git%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Git/" class="color4">Git</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Git%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="post-toc-text">Git的基本使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%94%A8%E6%88%B7%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="post-toc-text">用户初始化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%9F%BA%E7%A1%80%E6%8C%87%E4%BB%A4"><span class="post-toc-text">基础指令</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Git%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="post-toc-text">Git的基本概念</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Git%E7%9A%84%E5%87%A0%E4%B8%AA%E5%8C%BA%E5%9F%9F"><span class="post-toc-text">Git的几个区域</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Git%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="post-toc-text">Git基本原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Git%E5%AD%98%E5%82%A8%E5%8E%9F%E7%90%86"><span class="post-toc-text">Git存储原理</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Git%E7%9A%84%E6%92%A4%E9%94%80%E6%93%8D%E4%BD%9C"><span class="post-toc-text">Git的撤销操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="post-toc-text">基本操作</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90"><span class="post-toc-text">原理分析</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B8%85%E7%90%86%E5%B7%A5%E4%BD%9C%E5%8C%BA"><span class="post-toc-text">清理工作区</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BF%9C%E7%A8%8B%E6%92%A4%E9%94%80%E6%9B%B4%E6%94%B9"><span class="post-toc-text">远程撤销更改</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%86%E6%94%AF%E6%96%87%E4%BB%B6%E6%9B%BF%E6%8D%A2"><span class="post-toc-text">分支文件替换</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="post-toc-text">参考资料</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Git%E7%9A%84%E7%9B%91%E8%A7%86%E6%8C%87%E4%BB%A4"><span class="post-toc-text">Git的监视指令</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%AE%B0%E5%BD%95"><span class="post-toc-text">查看记录</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%9B%B4%E6%96%B0"><span class="post-toc-text">查看更新</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%A0%87%E7%AD%BE%E7%AE%A1%E7%90%86"><span class="post-toc-text">标签管理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%A0%87%E7%AD%BE"><span class="post-toc-text">添加标签</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%93%8D%E4%BD%9C%E6%A0%87%E7%AD%BE"><span class="post-toc-text">操作标签</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%AE%BE%E7%BD%AE%E5%88%AB%E5%90%8D"><span class="post-toc-text">设置别名</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Win10%E5%88%9B%E5%BB%BA%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6"><span class="post-toc-text">Win10创建可执行文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99%E5%92%8C%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB"><span class="post-toc-text">参考资料和扩展阅读</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/08/08/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          正则表达式笔记
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/08/05/%E7%BB%9F%E8%AE%A1%E5%9B%9E%E5%BD%92%E4%B8%8E%E8%AE%A1%E9%87%8F%E7%BB%8F%E6%B5%8E%E5%AD%A6%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">统计回归与计量经济学笔记</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Mon Aug 07 2017 19:10:36 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

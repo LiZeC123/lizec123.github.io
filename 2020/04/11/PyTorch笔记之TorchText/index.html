@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>PyTorch笔记之TorchText | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="本文介绍PyTorch的文本处理库TorchText. 在自然语言相关的任务中, 训练模型的第一步就是对文本数据进行预处理. 通常文本数据的预处理包括: (1) 从磁盘加载文本数据并分词; (2) 将单词映射为数字, 将句子映射成数字的列表; (3) 将数据转化为分批次的数据. 本文的主要内容是TorchText的基本概念以及上述预处理过程的TorchText实现方法. TorchText概">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PyTorch笔记之TorchText">
+<meta property="og:url" content="https://lizec.top/2020/04/11/PyTorch%E7%AC%94%E8%AE%B0%E4%B9%8BTorchText/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="本文介绍PyTorch的文本处理库TorchText. 在自然语言相关的任务中, 训练模型的第一步就是对文本数据进行预处理. 通常文本数据的预处理包括: (1) 从磁盘加载文本数据并分词; (2) 将单词映射为数字, 将句子映射成数字的列表; (3) 将数据转化为分批次的数据. 本文的主要内容是TorchText的基本概念以及上述预处理过程的TorchText实现方法. TorchText概">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-04-11T04:13:30.000Z">
+<meta property="article:modified_time" content="2020-06-26T14:53:17.403Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="PyTorch">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-PyTorch笔记之TorchText" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      PyTorch笔记之TorchText
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/PyTorch笔记/">PyTorch笔记</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2020-04-11
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script> -->
+
+
+<p>本文介绍PyTorch的文本处理库TorchText. 在自然语言相关的任务中, 训练模型的第一步就是对文本数据进行预处理. 通常文本数据的预处理包括: (1) 从磁盘加载文本数据并分词; (2) 将单词映射为数字, 将句子映射成数字的列表; (3) 将数据转化为分批次的数据. 本文的主要内容是TorchText的基本概念以及上述预处理过程的TorchText实现方法.</p>
+<h2 id="TorchText概述"><a href="#TorchText概述" class="headerlink" title="TorchText概述"></a>TorchText概述</h2><p>TorchText的作用是从文本文件, csv文件, json文件或者文件夹中读取数据并转换为一种标准格式的Dataset. 之后, TorchText使用迭代器对数据集中的数据进行数字化, 批次化等操作并决定是否将数据输送到GPU的显存之中. TorchText涉及如下的几个概念</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>含义</th>
+<th>概念</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Dataset</td>
+<td>存储数据的对象, 由Example构成</td>
+<td>Example</td>
+<td>一个训练数据, 例如一行记录</td>
+</tr>
+<tr>
+<td>Fields</td>
+<td>定义数据集属性的处理方法</td>
+<td>Iterator</td>
+<td>定义数据的批次化, 数字化和遍历顺序等输入细节</td>
+</tr>
+</tbody></table>
+<p>关于上述几个类有几种<strong>实现</strong>, 每种实现提供什么<strong>功能</strong>可以参考<a target="_blank" rel="noopener" href="https://torchtext.readthedocs.io/en/latest/data.html">官方文档</a>. 以下分别介绍这些概念的基础信息.</p>
+<h2 id="Fields"><a href="#Fields" class="headerlink" title="Fields"></a>Fields</h2><p>Fields的含义是字段, 但在TorchText中指的是数据的处理方式,  Fields指定数据集的字段的处理方法. 例如一个数据集可能按照如下的方式定义</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torchtext.data <span class="keyword">import</span> Field</span><br><span class="line">tokenize = <span class="keyword">lambda</span> x: x.split()</span><br><span class="line">TEXT = Field(sequential=<span class="literal">True</span>, tokenize=tokenize, lower=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">LABEL = Field(sequential=<span class="literal">False</span>, use_vocab=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<p>上面是一个分类任务, 其中文本是连续的句子, 而标签是一个词, 因此两者的处理方式显然不同. Fieid提供了很多字段来表达如何对某个字段的数据进行处理, 一些常见的字段含义如下表所示. </p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sequential</td>
+<td>是否需要对输入分词</td>
+</tr>
+<tr>
+<td>use_vocab</td>
+<td>是否使用单词表, 否则表明输入已经数字化了</td>
+</tr>
+<tr>
+<td>lower</td>
+<td>是否将字母转化为小写字母</td>
+</tr>
+<tr>
+<td>fix_length</td>
+<td>是否有固定长度</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Fieid的Doc String提供了详细的说明, 编程时可以直接参考</p>
+</blockquote>
+<p>TorchText提供了多种不同功能的Field, 具体效果可以参考文档的<a target="_blank" rel="noopener" href="https://torchtext.readthedocs.io/en/latest/data.html#field">Field章节</a>.</p>
+<h2 id="Dataset"><a href="#Dataset" class="headerlink" title="Dataset"></a>Dataset</h2><p>如果给定的数据是CSV这类格式化数据, 可以使用TorchText提供的TabularDataset类, 此类可以自动完成数据的读取和分割操作. 具体代码如下所示</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> torchtext.data <span class="keyword">import</span> TabularDataset</span><br><span class="line"></span><br><span class="line">tv_datafields = [(<span class="string">&quot;id&quot;</span>, <span class="literal">None</span>),  </span><br><span class="line">                 (<span class="string">&quot;comment_text&quot;</span>, TEXT), (<span class="string">&quot;toxic&quot;</span>, LABEL),</span><br><span class="line">                 (<span class="string">&quot;severe_toxic&quot;</span>, LABEL), (<span class="string">&quot;threat&quot;</span>, LABEL),</span><br><span class="line">                 (<span class="string">&quot;obscene&quot;</span>, LABEL), (<span class="string">&quot;insult&quot;</span>, LABEL),</span><br><span class="line">                 (<span class="string">&quot;identity_hate&quot;</span>, LABEL)]</span><br><span class="line"></span><br><span class="line"><span class="comment"># splits函数可以分别制定训练集, 验证集和测试集的文件位置. 给定几个位置, 就返回几个数据集</span></span><br><span class="line">trn, vld = TabularDataset.splits(</span><br><span class="line">    path=<span class="string">&quot;data&quot;</span>,  </span><br><span class="line">    train=<span class="string">&#x27;train.csv&#x27;</span>, validation=<span class="string">&quot;valid.csv&quot;</span>,</span><br><span class="line">    <span class="built_in">format</span>=<span class="string">&#x27;csv&#x27;</span>,</span><br><span class="line">    skip_header=<span class="literal">True</span>,</span><br><span class="line">    fields=tv_datafields)</span><br><span class="line"></span><br><span class="line">tst_datafields = [(<span class="string">&quot;id&quot;</span>, <span class="literal">None</span>),  (<span class="string">&quot;comment_text&quot;</span>, TEXT)]</span><br><span class="line"></span><br><span class="line">tst = TabularDataset(</span><br><span class="line">    path=<span class="string">&quot;data/test.csv&quot;</span>,  <span class="comment"># the file path</span></span><br><span class="line">    <span class="built_in">format</span>=<span class="string">&#x27;csv&#x27;</span>,</span><br><span class="line">    skip_header=<span class="literal">True</span>,</span><br><span class="line">    fields=tst_datafields)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在构建数据组的过程中, 我们首先创建(name, field)的元组列表, 其中name指定的数据列的名称, field指定了数据的处理方式. 使用同一field的字段共用单词表. 这个列表需要和数据集的属性一一对应. 对于我们不使用的属性列, 可以将field列置为None.</p>
+<p>由于python是动态语言, 因此可以通过访问相应的字段获得相应的数据, 具体如下所示:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>trn[<span class="number">0</span>]</span><br><span class="line">torchtext.data.example.Example at <span class="number">0x10d3ed3c8</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>trn[<span class="number">0</span>].__dict__.keys()</span><br><span class="line">dict_keys([<span class="string">&#x27;comment_text&#x27;</span>, <span class="string">&#x27;toxic&#x27;</span>, <span class="string">&#x27;severe_toxic&#x27;</span>, <span class="string">&#x27;threat&#x27;</span>, <span class="string">&#x27;obscene&#x27;</span>, <span class="string">&#x27;insult&#x27;</span>, <span class="string">&#x27;identity_hate&#x27;</span>])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>trn[<span class="number">0</span>].comment_text[:<span class="number">3</span>]</span><br><span class="line">[<span class="string">&#x27;explanation&#x27;</span>, <span class="string">&#x27;why&#x27;</span>, <span class="string">&#x27;the&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>从上面的输出可以注意到如下的几点:</p>
+<ol>
+<li>Dataset确实是Example组成的列表.</li>
+<li>数据集中的句子已经被分词, 但还没有转化为数字</li>
+</ol>
+<h3 id="划分数据集"><a href="#划分数据集" class="headerlink" title="划分数据集"></a>划分数据集</h3><p>注意到上面的代码分别读取了测试集的文件和验证集的文件. 如果给定的数据集并没有专门的划分测试集和验证集, 则可以通过<code>split</code>方法进行划分. 示例如下:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">dataset = TabularDataset(</span><br><span class="line">    path=<span class="string">&quot;data/all.csv&quot;</span>,  </span><br><span class="line">    <span class="built_in">format</span>=<span class="string">&#x27;csv&#x27;</span>,</span><br><span class="line">    skip_header=<span class="literal">True</span>,</span><br><span class="line">    fields=tst_datafields)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定测试集与验证集的比例</span></span><br><span class="line">trn, vld = dataset.split(split_ratio=<span class="number">0.9</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 完整的指定所有的比例为8:1:1</span></span><br><span class="line">trn, test, vld = dataset.split(split_ratio=[<span class="number">8</span>,<span class="number">1</span>,<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+
+<p><code>split</code>方法的参数传递方式比较复杂, 但我认为主要是以上的两种使用方法, 更多细节可以参考此方法的<a target="_blank" rel="noopener" href="https://torchtext.readthedocs.io/en/latest/data.html#torchtext.data.Dataset.split">文档</a></p>
+<h2 id="Vocab"><a href="#Vocab" class="headerlink" title="Vocab"></a>Vocab</h2><h3 id="构建单词表"><a href="#构建单词表" class="headerlink" title="构建单词表"></a>构建单词表</h3><p>从Dataset的<code>comment_text</code>字段的输出可以看到, 句子已经被分词, 但还没有转化为数字, 因此接下来需要执行数字化操作, 将每个单词对应一个数字, 这一操作只需要一行代码, 即</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TEXT.build_vocab(trn)</span><br></pre></td></tr></table></figure>
+
+<p>测试集(trn)中所有与TEXT绑定的属性都会被遍历一次, 将所有的单词构成一个词表. 经过此操作后, TEXT会包含两个字典<code>TEXT.vocab.stoi</code>和<code>TEXT.vocab.itos</code>. 这两个字典实现了单词到数字和数字到单词的转换, 一个例子如下所示</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">In[<span class="number">9</span>] :TEXT.vocab.stoi</span><br><span class="line">Out[<span class="number">9</span>]: </span><br><span class="line">defaultdict(&lt;bound method Vocab._default_unk_index of &lt;torchtext.vocab.Vocab <span class="built_in">object</span> at <span class="number">0x7efe7974f310</span>&gt;&gt;,</span><br><span class="line">            &#123;<span class="string">&#x27;&lt;unk&gt;&#x27;</span>: <span class="number">0</span>,</span><br><span class="line">             <span class="string">&#x27;&lt;pad&gt;&#x27;</span>: <span class="number">1</span>,</span><br><span class="line">             <span class="string">&#x27;the&#x27;</span>: <span class="number">2</span>,</span><br><span class="line">             ...&#125;)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果查询的单词不在单词本中, 则使用<code>&lt;unk&gt;</code>符号代替(表示Unknow)</p>
+</blockquote>
+<h3 id="预训练词向量"><a href="#预训练词向量" class="headerlink" title="预训练词向量"></a>预训练词向量</h3><p>TorchText提供了加载预训练词向量的功能, 内置的词向量列表如下所示:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">pretrained_aliases = &#123;</span><br><span class="line">    <span class="string">&quot;charngram.100d&quot;</span>: partial(CharNGram),</span><br><span class="line">    <span class="string">&quot;fasttext.en.300d&quot;</span>: partial(FastText, language=<span class="string">&quot;en&quot;</span>),</span><br><span class="line">    <span class="string">&quot;fasttext.simple.300d&quot;</span>: partial(FastText, language=<span class="string">&quot;simple&quot;</span>),</span><br><span class="line">    <span class="string">&quot;glove.42B.300d&quot;</span>: partial(GloVe, name=<span class="string">&quot;42B&quot;</span>, dim=<span class="string">&quot;300&quot;</span>),</span><br><span class="line">    <span class="string">&quot;glove.840B.300d&quot;</span>: partial(GloVe, name=<span class="string">&quot;840B&quot;</span>, dim=<span class="string">&quot;300&quot;</span>),</span><br><span class="line">    <span class="string">&quot;glove.twitter.27B.25d&quot;</span>: partial(GloVe, name=<span class="string">&quot;twitter.27B&quot;</span>, dim=<span class="string">&quot;25&quot;</span>),</span><br><span class="line">    <span class="string">&quot;glove.twitter.27B.50d&quot;</span>: partial(GloVe, name=<span class="string">&quot;twitter.27B&quot;</span>, dim=<span class="string">&quot;50&quot;</span>),</span><br><span class="line">    <span class="string">&quot;glove.twitter.27B.100d&quot;</span>: partial(GloVe, name=<span class="string">&quot;twitter.27B&quot;</span>, dim=<span class="string">&quot;100&quot;</span>),</span><br><span class="line">    <span class="string">&quot;glove.twitter.27B.200d&quot;</span>: partial(GloVe, name=<span class="string">&quot;twitter.27B&quot;</span>, dim=<span class="string">&quot;200&quot;</span>),</span><br><span class="line">    <span class="string">&quot;glove.6B.50d&quot;</span>: partial(GloVe, name=<span class="string">&quot;6B&quot;</span>, dim=<span class="string">&quot;50&quot;</span>),</span><br><span class="line">    <span class="string">&quot;glove.6B.100d&quot;</span>: partial(GloVe, name=<span class="string">&quot;6B&quot;</span>, dim=<span class="string">&quot;100&quot;</span>),</span><br><span class="line">    <span class="string">&quot;glove.6B.200d&quot;</span>: partial(GloVe, name=<span class="string">&quot;6B&quot;</span>, dim=<span class="string">&quot;200&quot;</span>),</span><br><span class="line">    <span class="string">&quot;glove.6B.300d&quot;</span>: partial(GloVe, name=<span class="string">&quot;6B&quot;</span>, dim=<span class="string">&quot;300&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果需要使用这些词向量, 可以通过的两种方式使用</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 直接通过名称获取预训练词向量</span></span><br><span class="line">TEXT.build_vocab(train, vectors=<span class="string">&quot;glove.6B.200d&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 或者通过一个具体的类型来获取相应的词向量</span></span><br><span class="line">TEXT.build_vocab(train, vectors=GloVe(name=<span class="string">&#x27;6B&#x27;</span>, dim=<span class="number">300</span>))</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>TorchText将会通过网络下载对应的预训练词向量</p>
+</blockquote>
+<p>通过上述的方法加载词向量后, 可以将词向量的值传递给Embedding层, 代码如下</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过pytorch创建的Embedding层</span></span><br><span class="line">embedding = nn.Embedding(<span class="number">2000</span>, <span class="number">256</span>)</span><br><span class="line"><span class="comment"># 指定嵌入矩阵的初始权重</span></span><br><span class="line">weight_matrix = TEXT.vocab.vectors</span><br><span class="line">embedding.weight.data.copy_(weight_matrix )</span><br></pre></td></tr></table></figure>
+
+<p>加载预训练词向量后, Field对象的<code>vocab</code>字段会加载词向量(即vectors). 将词向量复制给Embedding层的权重矩阵, 即可实现词向量的加载.</p>
+<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><p>针对表格类型的数据集, TabularDataset能够很好的处理,  但如果涉及更一般的数据集, 则必须使用更一般的方式构建. 因为Dataset实际是就是Example的列表, 因此构建自定义数据集的关键就是构建Example. </p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torchtext.data <span class="keyword">import</span> Example</span><br><span class="line"><span class="keyword">from</span> torchtext.data <span class="keyword">import</span> Field, Dataset</span><br><span class="line"><span class="comment"># 假设数据集由两句话构成</span></span><br><span class="line">text = [<span class="string">&quot;How are you?&quot;</span>, <span class="string">&quot;I am fine. Thank you.&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 同样的构建Field</span></span><br><span class="line">TEXT = Field(sequential=<span class="literal">True</span>, tokenize=<span class="keyword">lambda</span> x: x.split(), lower=<span class="literal">True</span>)</span><br><span class="line">LABEL = Field(sequential=<span class="literal">False</span>, use_vocab=<span class="literal">False</span>)</span><br><span class="line">fields = [(<span class="string">&quot;text&quot;</span>, TEXT), (<span class="string">&quot;label&quot;</span>, LABEL)]</span><br><span class="line"></span><br><span class="line">examples = []</span><br><span class="line"><span class="keyword">for</span> t <span class="keyword">in</span> text:</span><br><span class="line">    <span class="comment"># 每一个Example中, text部分来自t, label部分始终等于&quot;LABEL&quot;</span></span><br><span class="line">    examples.append(Example.fromlist([t, <span class="string">&quot;LABEL&quot;</span>], fields))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过Example和Field构建Dataset</span></span><br><span class="line">dataset = Dataset(examples, fields)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Example还提供了从CVS和JSON读取数据的方法</p>
+</blockquote>
+<h2 id="Iterator"><a href="#Iterator" class="headerlink" title="Iterator"></a>Iterator</h2><p>迭代器的作用是完成最后的数据处理, 包括基本的数据转换, 将数据组成批次, 数据移动到GPU等. </p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">device = torch.device(<span class="string">&quot;cuda&quot;</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">&quot;cpu&quot;</span>)</span><br><span class="line"></span><br><span class="line">train_iter, val_iter = BucketIterator.splits(</span><br><span class="line">    (trn, vld),  <span class="comment"># we pass in the datasets we want the iterator to draw data from</span></span><br><span class="line">    batch_sizes=(<span class="number">64</span>, <span class="number">64</span>),</span><br><span class="line">    device=device,</span><br><span class="line">    sort_key=<span class="keyword">lambda</span> x: <span class="built_in">len</span>(x.comment_text),</span><br><span class="line">    sort_within_batch=<span class="literal">False</span>,</span><br><span class="line">    repeat=<span class="literal">False</span>  </span><br><span class="line">)</span><br><span class="line">test_iter = Iterator(tst, batch_size=<span class="number">64</span>, device=device, sort=<span class="literal">False</span>, sort_within_batch=<span class="literal">False</span>, repeat=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<p>BucketIterator支持批量操作, 因此可以同时输入多个数据集, BucketIterator就相应的返回多个迭代器. BucketIterator的特点是支持对数据进行排序, 从而将相似的数据移动到同一批次. 当数据需要进行填充对齐时, 可以利用这一特点将长度相近的数据移动到一起, 从而提高效率.</p>
+<p>测试集通常不需要改变顺序, 因此可以使用普通的迭代器.</p>
+<hr>
+<p>迭代器创建之后, 可以调用<code>__iter__()</code>方法获得迭代器对象, 并使用Python的<code>next()</code>函数获取数据. 不过由于接口和数据集的字段有一些耦合, 因此可以使用下面的类对迭代器进行包装</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BatchWrapper</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, dl, x_var, y_vars</span>):</span></span><br><span class="line">        self.dl, self.x_var, self.y_vars = dl, x_var, y_vars  <span class="comment"># we pass in the list of attributes for x</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">for</span> batch <span class="keyword">in</span> self.dl:</span><br><span class="line">            x = <span class="built_in">getattr</span>(batch, self.x_var)  <span class="comment"># we assume only one input in this wrapper</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> self.y_vars <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:  <span class="comment"># we will concatenate y into a single tensor</span></span><br><span class="line">                y = torch.cat([<span class="built_in">getattr</span>(batch, feat).unsqueeze(<span class="number">1</span>) <span class="keyword">for</span> feat <span class="keyword">in</span> self.y_vars], dim=<span class="number">1</span>).<span class="built_in">float</span>()</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                y = torch.zeros((<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">            <span class="keyword">yield</span> (x, y)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.dl)</span><br></pre></td></tr></table></figure>
+
+<p>这个类的作用是将迭代器的属性分成x和y两个集合, 从而方便后续的处理. 使用方法如下所示</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">train_dl = BatchWrapper(train_iter, <span class="string">&quot;comment_text&quot;</span>,</span><br><span class="line">                        [<span class="string">&quot;toxic&quot;</span>, <span class="string">&quot;severe_toxic&quot;</span>, <span class="string">&quot;obscene&quot;</span>, <span class="string">&quot;threat&quot;</span>, <span class="string">&quot;insult&quot;</span>, <span class="string">&quot;identity_hate&quot;</span>])</span><br><span class="line">valid_dl = BatchWrapper(val_iter, <span class="string">&quot;comment_text&quot;</span>,</span><br><span class="line">                        [<span class="string">&quot;toxic&quot;</span>, <span class="string">&quot;severe_toxic&quot;</span>, <span class="string">&quot;obscene&quot;</span>, <span class="string">&quot;threat&quot;</span>, <span class="string">&quot;insult&quot;</span>, <span class="string">&quot;identity_hate&quot;</span>])</span><br><span class="line">test_dl = BatchWrapper(test_iter, <span class="string">&quot;comment_text&quot;</span>, <span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="一点细节"><a href="#一点细节" class="headerlink" title="一点细节"></a>一点细节</h2><h3 id="如何加载词向量"><a href="#如何加载词向量" class="headerlink" title="如何加载词向量"></a>如何加载词向量</h3><p>以下是<code>torchtext.vocab.Vocab.load_vectors</code>方法的代码片段. vectors是加载的预训练词向量, self.vectors是根据任务构建的词汇向量表.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">tot_dim = <span class="built_in">sum</span>(v.dim <span class="keyword">for</span> v <span class="keyword">in</span> vectors)</span><br><span class="line">self.vectors = torch.Tensor(<span class="built_in">len</span>(self), tot_dim)</span><br><span class="line"><span class="keyword">for</span> i, token <span class="keyword">in</span> <span class="built_in">enumerate</span>(self.itos):</span><br><span class="line">    start_dim = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> v <span class="keyword">in</span> vectors:</span><br><span class="line">        end_dim = start_dim + v.dim</span><br><span class="line">        self.vectors[i][start_dim:end_dim] = v[token.strip()]</span><br><span class="line">        start_dim = end_dim</span><br><span class="line">    <span class="keyword">assert</span>(start_dim == tot_dim)</span><br></pre></td></tr></table></figure>
+
+<p>从上面的代码可以发现, 加载词向量的过程就是根据任务构建的词汇表向预训练词汇表查询的过程. 如果预训练的vectors是一个列表, 那么还可以自动实现将多个预训练向量首位拼接为一个向量的功能.</p>
+<p>为了保证通用性, 预训练的词向量文件加载后提供 “根据单词查询向量” 的功能, 是非常符合逻辑的. 预训练词表中没有的单词的取值情况显然取决于各个词表的默认行为了.</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年06月26日 22:53</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2020/04/11/PyTorch%E7%AC%94%E8%AE%B0%E4%B9%8BTorchText/" title="PyTorch笔记之TorchText">https://lizec.top/2020/04/11/PyTorch%E7%AC%94%E8%AE%B0%E4%B9%8BTorchText/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2020/04/11/PyTorch%E7%AC%94%E8%AE%B0%E4%B9%8BTorchText/&title=《PyTorch笔记之TorchText》 — LiZeC的博客&pic=images/pytorch.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2020/04/11/PyTorch%E7%AC%94%E8%AE%B0%E4%B9%8BTorchText/&title=《PyTorch笔记之TorchText》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2020/04/11/PyTorch%E7%AC%94%E8%AE%B0%E4%B9%8BTorchText/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《PyTorch笔记之TorchText》 — LiZeC的博客&url=https://lizec.top/2020/04/11/PyTorch%E7%AC%94%E8%AE%B0%E4%B9%8BTorchText/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2020/04/11/PyTorch%E7%AC%94%E8%AE%B0%E4%B9%8BTorchText/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2020/04/11/PyTorch%E7%AC%94%E8%AE%B0%E4%B9%8BTorchText/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Python/" class="color2">Python</a>
+      
+    <a href="/tags/PyTorch/" class="color3">PyTorch</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#TorchText%E6%A6%82%E8%BF%B0"><span class="post-toc-text">TorchText概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Fields"><span class="post-toc-text">Fields</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Dataset"><span class="post-toc-text">Dataset</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%92%E5%88%86%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="post-toc-text">划分数据集</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Vocab"><span class="post-toc-text">Vocab</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9E%84%E5%BB%BA%E5%8D%95%E8%AF%8D%E8%A1%A8"><span class="post-toc-text">构建单词表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%A2%84%E8%AE%AD%E7%BB%83%E8%AF%8D%E5%90%91%E9%87%8F"><span class="post-toc-text">预训练词向量</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Example"><span class="post-toc-text">Example</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Iterator"><span class="post-toc-text">Iterator</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%B8%80%E7%82%B9%E7%BB%86%E8%8A%82"><span class="post-toc-text">一点细节</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%A6%82%E4%BD%95%E5%8A%A0%E8%BD%BD%E8%AF%8D%E5%90%91%E9%87%8F"><span class="post-toc-text">如何加载词向量</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2020/05/10/%E6%95%B0%E5%AD%A6%E5%B7%A5%E5%85%B7%E4%B9%8BLINGO%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          数学工具之LINGO使用笔记
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2020/03/12/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Python笔记之数据转换</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Sat Apr 11 2020 12:13:30 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

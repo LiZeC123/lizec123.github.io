@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>微型计算机接口笔记 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="本文记录在学习&lt;&lt;微型计算机接口技术及应用&gt;&gt;课程过程中的笔记. 由于硬件课程与编程课程相比,往往比较缺乏实践机会,因此需要多做一点笔记. 在微机系统中,微处理器的强大功能必须通过外部设备才能实现,而外设与微处理器之间的信息交换及通信又是靠接口实现的, 所以, 微机应用系统的研究和微机系统的产品的开发,从硬件角度来讲,就是接口技术的演技和开发. 微机的应用随着外设的不断">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微型计算机接口笔记">
+<meta property="og:url" content="https://lizec.top/2018/03/09/%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8E%A5%E5%8F%A3%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="本文记录在学习&lt;&lt;微型计算机接口技术及应用&gt;&gt;课程过程中的笔记. 由于硬件课程与编程课程相比,往往比较缺乏实践机会,因此需要多做一点笔记. 在微机系统中,微处理器的强大功能必须通过外部设备才能实现,而外设与微处理器之间的信息交换及通信又是靠接口实现的, 所以, 微机应用系统的研究和微机系统的产品的开发,从硬件角度来讲,就是接口技术的演技和开发. 微机的应用随着外设的不断">
+<meta property="og:locale">
+<meta property="og:image" content="https://lizec.top/images/interface/BaseInterface.PNG">
+<meta property="og:image" content="https://lizec.top/images/interface/TimerModeTable.png">
+<meta property="og:image" content="https://lizec.top/images/interface/TimerMode.JPG">
+<meta property="og:image" content="https://lizec.top/images/interface/8255A.jpg">
+<meta property="og:image" content="https://lizec.top/images/interface/8255Cmd.JPG">
+<meta property="og:image" content="https://lizec.top/images/interface/8255CCmd.JPG">
+<meta property="og:image" content="https://lizec.top/images/interface/8255AF1.JPG">
+<meta property="og:image" content="https://lizec.top/images/interface/8255AF1S.JPG">
+<meta property="og:image" content="https://lizec.top/images/interface/8255CFlag.png">
+<meta property="og:image" content="https://lizec.top/images/interface/8255AF1O.JPG">
+<meta property="og:image" content="https://lizec.top/images/interface/8259A.jpg">
+<meta property="og:image" content="https://lizec.top/images/interface/DAC0932.JPG">
+<meta property="og:image" content="https://lizec.top/images/interface/ADC0809.JPG">
+<meta property="og:image" content="https://lizec.top/images/interface/8251.JPG">
+<meta property="og:image" content="https://lizec.top/images/interface/interface.JPG">
+<meta property="article:published_time" content="2018-03-09T12:31:52.000Z">
+<meta property="article:modified_time" content="2018-06-21T02:11:48.214Z">
+<meta property="article:author" content="LiZeC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lizec.top/images/interface/BaseInterface.PNG">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-微型计算机接口笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      微型计算机接口笔记
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/计算机核心课程/">计算机核心课程</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-09
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script>
+
+<p>本文记录在学习&lt;&lt;微型计算机接口技术及应用&gt;&gt;课程过程中的笔记. 由于硬件课程与编程课程相比,往往比较缺乏实践机会,因此需要多做一点笔记. 在微机系统中,微处理器的强大功能必须通过外部设备才能实现,而外设与微处理器之间的信息交换及通信又是靠接口实现的, 所以, 微机应用系统的研究和微机系统的产品的开发,从硬件角度来讲,就是接口技术的演技和开发. 微机的应用随着外设的不断更新早已深入各个领域.</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#introduction">概述</a></li>
+<li><a href="#I/O">I/O地址译码技术</a></li>
+<li><a href="#%E5%AE%9A%E6%97%B6%E8%AE%A1%E6%95%B0%E6%8A%80%E6%9C%AF">定时计数技术</a></li>
+<li><a href="#%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A3">并行接口</a></li>
+<li><a href="#%E4%B8%AD%E6%96%AD%E6%8A%80%E6%9C%AF">中断技术</a></li>
+<li><a href="#%E6%A8%A1%E6%95%B0%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E6%8E%A5%E5%8F%A3">模数数模转换接口</a></li>
+<li><a href="#%E4%B8%B2%E8%A1%8C%E6%8E%A5%E5%8F%A3">串行接口</a></li>
+<li><a href="#DMA%E6%8E%A7%E5%88%B6%E5%99%A8">DMA控制器</a></li>
+</ul>
+<span id = "introduction">
+概述
+----------
+
+<h4 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h4><p>设备接口(Interface)是指I/O设备与本地总线之间的 <strong>连接电路</strong> . 是CPU与外设进行信息交换的中转站. 是CPU与外设之间信息交换的桥梁, 接口与CPU之间通过系统总线连接起来.</p>
+<h4 id="为什么要设立接口"><a href="#为什么要设立接口" class="headerlink" title="为什么要设立接口"></a>为什么要设立接口</h4><ol>
+<li>微机的总线与I/O设备不兼容,在逻辑定义,时序等方面都不一致</li>
+<li>CPU与I/O设备速度不匹配,CPU速度快,而I/O设备速度慢</li>
+<li>如果让全部I/O设备交由CPU处理,会占用过多的CPU时间</li>
+<li>如果让I/O设备交由CPU处理,则会导致I/O设备依赖CPU结构,不利于I/O设备发展</li>
+</ol>
+<h4 id="接口的三个重要部分"><a href="#接口的三个重要部分" class="headerlink" title="接口的三个重要部分"></a>接口的三个重要部分</h4><ol>
+<li>命令口</li>
+<li>状态口</li>
+<li>数据口</li>
+</ol>
+<p>其中状态口是一个输入端口(对于CPU而言),通过数据总线与CPU交换信息.</p>
+<h4 id="接口的功能"><a href="#接口的功能" class="headerlink" title="接口的功能"></a>接口的功能</h4><ol>
+<li>执行CPU指令</li>
+<li>返回外设状态</li>
+<li>数据缓存/锁定</li>
+<li>信号转换</li>
+<li>设备选择</li>
+<li>数据宽度与数据格式的转换</li>
+</ol>
+<h4 id="接口电路的一般结构"><a href="#接口电路的一般结构" class="headerlink" title="接口电路的一般结构"></a>接口电路的一般结构</h4><p><img src="/images/interface/BaseInterface.PNG" alt="接口电路的一般结构"></p>
+<p>从硬件角度看有三个主要的模块</p>
+<ol>
+<li>基本逻辑电路(三大寄存器)</li>
+<li>端口地址译码电路(设备选择)</li>
+<li>供选电路(功能选择)</li>
+</ol>
+<p>从软件角度看,由于各个被控对象存在差异,因此没有统一的模式,但一个完整的设备接口程序大约包括如下一些程序</p>
+<ol>
+<li>初始化程序段落</li>
+<li>传送方式处理程序段落</li>
+<li>主控程序段</li>
+<li>程序终止与此退出程序段</li>
+<li>辅助程序段</li>
+</ol>
+<h3 id="CPU与接口交换数据方式"><a href="#CPU与接口交换数据方式" class="headerlink" title="CPU与接口交换数据方式"></a>CPU与接口交换数据方式</h3><ol>
+<li>程序控制方式<ol>
+<li>无条件传送方式（又称同步传送方式）<ul>
+<li>由控制程序直接向端口写入数据</li>
+<li>优点: 所需的硬件和软件都很少, 且硬件接口电路简单</li>
+<li>缺点: 这种传送方式必须在已知且确信外设已准备就绪的情况下才能使用, 否则出错</li>
+</ul>
+</li>
+<li>条件传送方式（查询传送方式）<ul>
+<li>CPU在执行一个输入/输出操作前, 必须对外设的状态进行测试, 当外设准备好才能传送, 否则CPU等待并查询外设的状态, 直至外设准备好</li>
+<li>优点: 传送数据前, CPU先检测接口的状态, 保证数据传送的正确率高</li>
+<li>缺点: CPU的效率很低, 且CPU与外设不能并行工作</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>中断方式<ul>
+<li>外设作好传送准备后, 主动向CPU请求中断, CPU响应这一请求, 暂停正在运行的程序, 转入用来进行数据传送的中断服务子程序, 在完成中断服务了程序后, 自动返回原来运行的程序</li>
+<li>优点: 提高了CPU的利用效率</li>
+<li>缺点: 需要保存大量环境参数</li>
+</ul>
+</li>
+<li>直接存储器存取(DMA)方式<ul>
+<li>在DMA控制器的控制下, 完成由外设与存储器之间的数据传送 CPU不干预传送过程, 整个传送过程由硬件来完成而不需要软件介入</li>
+<li>优点: 具有非常高的传送速率</li>
+<li>缺点: 硬件电路复杂</li>
+</ul>
+</li>
+</ol>
+<span id = "I/O">
+I/O地址译码技术
+------------------
+
+<h4 id="I-O端口"><a href="#I-O端口" class="headerlink" title="I/O端口"></a>I/O端口</h4><p>端口(port): I/O接口电路中能够被 <strong>CPU直接访问</strong> 的寄存器. CPU可以通过这些端口发送命令,读取状态和传送数据.<br>端口地址 = 芯片地址(高位地址) + 片内地址</p>
+<h4 id="端口地址编制方式"><a href="#端口地址编制方式" class="headerlink" title="端口地址编制方式"></a>端口地址编制方式</h4><ol>
+<li>统一编址(存储器映射方式)<ul>
+<li>从存储空间中划出一部分空间分配给I/O设备,把I/O接口中的端口视为存储器的一部分一样进行访问.</li>
+<li>优点: 不需要额外的I/O指令,各种内存指令可以直接使用,简化指令系统</li>
+<li>缺点: 降低存储器容量,指令执行效率不如专门的I/O指令</li>
+</ul>
+</li>
+<li>独立编制<ul>
+<li>内存地址空间和I/O地址空间相互独立,使用专门的I/O指令</li>
+<li>优点: 不占据存储空间,执行速度快,程序可读性好</li>
+<li>缺点: 指令功能弱,仅仅能进行数据传输,不能进行逻辑运算</li>
+</ul>
+</li>
+</ol>
+<h4 id="PC系列微机端口分配"><a href="#PC系列微机端口分配" class="headerlink" title="PC系列微机端口分配"></a>PC系列微机端口分配</h4><ul>
+<li>拥有1024个端口</li>
+<li>地址空间为000 ~ 3FFH</li>
+<li>有效的译码地址为 A0 ~ A9,这10跟地址线</li>
+<li>在有效范围内,使用 <strong>单字节端口地址</strong> 的是 <strong>芯片</strong> 中的端口,使用 <strong>双字节端口地址</strong> 的是 <strong>接口卡</strong> 中的端口</li>
+</ul>
+<h4 id="端口指令"><a href="#端口指令" class="headerlink" title="端口指令"></a>端口指令</h4><ul>
+<li>格式  <code>IN AL, 60H</code> / <code>IN AL, DX</code> / <code>OUT DX, AL</code> / <code>OUT 61H, AL</code></li>
+<li>对于端口号在0-255之间的端口, 可以直接访问</li>
+<li>对于端口号在236-65535之间的端口, 端口地址需要放在dx寄存器中</li>
+<li>访问8bit端口时, 数据只能存入AL, 访问16bit端口时, 只能使用AX</li>
+</ul>
+<p>更多关于端口的汇编指令可以阅读&lt;&lt;汇编语言笔记&gt;&gt;的<a href="http://lizec.top/2017/12/05/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/#port">端口和外中断</a>章节</p>
+<h4 id="串I-O指令"><a href="#串I-O指令" class="headerlink" title="串I/O指令"></a>串I/O指令</h4><ul>
+<li>串指令有<code>INSB</code>,<code>INSW</code>和<code>INSD</code></li>
+<li>即分别从8bit,16bit,32bit的端口取出相应大小的数据到存储器</li>
+<li>dx指定I/O端口,DI指定存储器偏移地址(默认段寄存器为ES),CX指定传输字节数</li>
+<li>以下代码演示使用串指令将数据从301端口取出15个字节到从ES:1001H开始的内存位置<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MOV DX, 301H</span><br><span class="line">MOV DI, 1001H</span><br><span class="line">MOV CX, 0FH</span><br><span class="line">CLD</span><br><span class="line">REP INSB</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="C语言中端口读写"><a href="#C语言中端口读写" class="headerlink" title="C语言中端口读写"></a>C语言中端口读写</h4><ul>
+<li>使用 <code>unsigned char inportb(int addr)</code> 读取数据</li>
+<li>使用 <code>void outportb(int addr,unsigned char data)</code> 写入数据</li>
+<li>这些函数本质是调用<code>IN</code>和<code>OUT</code>指令</li>
+</ul>
+<h4 id="I-O译码电路"><a href="#I-O译码电路" class="headerlink" title="I/O译码电路"></a>I/O译码电路</h4><ul>
+<li>高位地址信号与控制信号组合,通过译码电路产生片选信号</li>
+<li>地位地址不参加译码,直接连接到I/O芯片</li>
+<li>参与译码的控制信号有AEN, \( \overline{IOR} \), \( \overline{IOW} \)</li>
+<li>AEN为1时表示DMA方式, 为0时表示CPU控制方式</li>
+</ul>
+<h4 id="芯片控制电路规则"><a href="#芯片控制电路规则" class="headerlink" title="芯片控制电路规则"></a>芯片控制电路规则</h4><ol>
+<li>是否可读写<ul>
+<li>如果可读可写,则两个读写控制信号都不参加译码</li>
+</ul>
+</li>
+<li>片内地址<ul>
+<li>片内地址决定每个接口的端口数目,例如需要32个端口,则片内地址有5位</li>
+</ul>
+</li>
+<li>片间寻址<ul>
+<li>根据地址范围确定不参加译码的高位数量,再减去低位的片内地址即可</li>
+</ul>
+</li>
+</ol>
+<h2 id="定时计数技术"><a href="#定时计数技术" class="headerlink" title="定时计数技术"></a>定时计数技术</h2><h4 id="可编程的计数器-定时电路"><a href="#可编程的计数器-定时电路" class="headerlink" title="可编程的计数器/定时电路"></a>可编程的计数器/定时电路</h4><ul>
+<li>其计数与计时功能由程序决定,且不占用CPU时间,常见的芯片有8254</li>
+<li>采用减一计数方式,更便于终止条件判定(判定条件始终为检查是否为零)</li>
+</ul>
+<h4 id="可编程的计数器-定时电路工作原理"><a href="#可编程的计数器-定时电路工作原理" class="headerlink" title="可编程的计数器/定时电路工作原理"></a>可编程的计数器/定时电路工作原理</h4><ol>
+<li>通过控制命令,将初值写入初值寄存器</li>
+<li>从初值开始,在GATE信号的控制下,每出现一次CLK信号,计数值减一</li>
+<li>计数达到零,从OUT端输出信号</li>
+</ol>
+<p>注意:GATE无效时,即使出现CLK信号,也不会减一</p>
+<h4 id="82C54主要特点"><a href="#82C54主要特点" class="headerlink" title="82C54主要特点"></a>82C54主要特点</h4><ul>
+<li>具有三个独立的16bit计数器(#0~#2通道)</li>
+<li>每个通道有6种工作模式</li>
+<li>可以按照二进制或十进制计数</li>
+<li>如果初值设为0,则可以实现从可显示最大值+1的计数范围</li>
+</ul>
+<h4 id="指令字格式"><a href="#指令字格式" class="headerlink" title="指令字格式"></a>指令字格式</h4><ul>
+<li>指令长度为1字节</li>
+<li>第一个字段2bit,表示计数器,00<del>10分别表示计数器0</del>3,11无效</li>
+<li>第二个字段2bit,表示读写方式<ul>
+<li>00表示锁存</li>
+<li>01 表示只读写低字节</li>
+<li>10 表示只读写高字节</li>
+<li>11 表示先读写低字节,在读写高字节</li>
+</ul>
+</li>
+<li>第三个字段3bit,表示工作方式,二进制000<del>101表示工作方式0</del>5</li>
+<li>最后一个字段1bit,表示数制,0表示二进制,1表示十进制(BCD)</li>
+</ul>
+<p>例如<code>00110001b</code>表示0号计数器先读写低字节,在读写高字节,在方式0以十进制方式工作</p>
+<h4 id="指令中的选择信号和片内寻址"><a href="#指令中的选择信号和片内寻址" class="headerlink" title="指令中的选择信号和片内寻址"></a>指令中的选择信号和片内寻址</h4><p>在82C54的指令字中也提供了选择哪一个计数器的方法,同时在芯片中也有用于寻址的A0和A1. 实际上由于指令都是发送到控制芯片的, 因此在控制字中才需要指定哪一个芯片,而取出数据的时候,就可以根据A0和A1直接获得数据. 即在发出命令的时候A0和A1始终等于<code>11b</code>,而读取和写入数据的时候,A0和A1取值为<code>00b</code>~`10b`</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 端口地址为60H~63H, 选择1#, 工作方式2, 计数初值为5533H, BCD码制其初始化程序段为: </span><br><span class="line"></span><br><span class="line">MOV AL,01110101B   ;写入控制命令字</span><br><span class="line">OUT 63H,AL</span><br><span class="line">MOV AL,33H         ;写入计数初值低字节</span><br><span class="line">OUT 61H,AL </span><br><span class="line">MOV AL,55H         ;写入计数初值高字节</span><br><span class="line">OUT 61H,AL </span><br></pre></td></tr></table></figure>
+
+<h3 id="计数方式"><a href="#计数方式" class="headerlink" title="计数方式"></a>计数方式</h3><h4 id="方式0-计数结束中断方式"><a href="#方式0-计数结束中断方式" class="headerlink" title="方式0(计数结束中断方式)"></a>方式0(计数结束中断方式)</h4><ul>
+<li>写入工作方式后OUT会设置为低电平</li>
+<li>写入初值后就立即启动一次新的计数</li>
+<li>从设置初值的下一个时钟下降沿 <strong>开始</strong> 计数,即初始值也会维持一个周期</li>
+<li>达到计数以后,OUT从低电平跳变到高电平,可用于中断控制</li>
+<li>GATE为低电平时计数暂停</li>
+</ul>
+<h4 id="方式1-可重复编程单脉冲"><a href="#方式1-可重复编程单脉冲" class="headerlink" title="方式1(可重复编程单脉冲)"></a>方式1(可重复编程单脉冲)</h4><ul>
+<li>写入工作方式后OUT设为高电平</li>
+<li>写入初值后,GATE产生一次由低到高的跳变(正跳变)后开始计数</li>
+<li>从跳变后的下一个时钟下降沿开始计数</li>
+<li>开始计数时OUT变为低电平,计数结束后OUT变为高电平</li>
+<li>由于OUT开始工作和结束工作后都是高电平,而计数时为低电平,因此可以视为输出了一个长度为n的负脉冲</li>
+<li>GATE信号可以重复触发,触发后从初值开始计数</li>
+<li>在计数过程中写入新的初值,在GATE信号再次触发后才生效</li>
+</ul>
+<h4 id="方式2-周期性负脉冲输出-分频器"><a href="#方式2-周期性负脉冲输出-分频器" class="headerlink" title="方式2(周期性负脉冲输出,分频器)"></a>方式2(周期性负脉冲输出,分频器)</h4><ul>
+<li>写入工作方式后OUT设为高电压</li>
+<li>写入计数方式后,下一个时钟下降沿开始计数</li>
+<li>计数到1变为低电平,计数到0时恢复高电平,即产生一个时钟周期的负脉冲</li>
+<li>计数到0时,也等于变为设置初值,开始下一轮计数, 从而每个设定事件周期内产生一次负脉冲</li>
+<li>写入计数初值后,GATE信号为高电平时,为软起动,立即开始计数. GATE信号为低电平时,为硬启动,GATE正跳变后开始计数</li>
+<li>计数过程中写入初值,则从下一轮开始以新的初值计数</li>
+</ul>
+<h4 id="方式3-方波发生器"><a href="#方式3-方波发生器" class="headerlink" title="方式3(方波发生器)"></a>方式3(方波发生器)</h4><ul>
+<li>方式3与方式2基本一致</li>
+<li>一个计数周期中,高低电平之间基本一致</li>
+<li>可以视为频率降低的的方波信号</li>
+<li>当计数周期为奇数时,前(N+1)/2周期为高电平, 后(N-1)/2个计数周期为低电平</li>
+</ul>
+<h4 id="各种方式的区别"><a href="#各种方式的区别" class="headerlink" title="各种方式的区别"></a>各种方式的区别</h4><p><img src="/images/interface/TimerModeTable.png" alt="各模式对比"></p>
+<h4 id="各模式波形对比"><a href="#各模式波形对比" class="headerlink" title="各模式波形对比"></a>各模式波形对比</h4><p><img src="/images/interface/TimerMode.JPG" alt="各模式区别"></p>
+<h4 id="计数初始值计算方法"><a href="#计数初始值计算方法" class="headerlink" title="计数初始值计算方法"></a>计数初始值计算方法</h4><p>已知 \( f_{CLK} \) 和 \( f_{OUT} \) ,则计数初值 \( n = \frac{f_{CLK}}{f_{OUT}} \)<br>已知 \( T_{CLK} \) , 定时时间为t, 则 \( n = \frac{t}{T_{CLK}} \)</p>
+<h2 id="并行接口"><a href="#并行接口" class="headerlink" title="并行接口"></a>并行接口</h2><h3 id="并行接口特点"><a href="#并行接口特点" class="headerlink" title="并行接口特点"></a>并行接口特点</h3><ol>
+<li>通过多根信号线同时传送多位数据</li>
+<li>传送时一般不需要特定的数据传送格式</li>
+<li>并行接口多用于传送距离短, 数据量大, 速度高的实时传输场合;(例如: 微机与并行接口打印机、磁盘驱动器)</li>
+<li>但并行接口布线成本高, 线路间互相干扰, 时钟同步问题, 因此并行传输技术发展受限</li>
+</ol>
+<h3 id="8255概述"><a href="#8255概述" class="headerlink" title="8255概述"></a>8255概述</h3><ul>
+<li>有三个输入输出端口: 端口A, 端口B, 端口C</li>
+<li>每个端口可编程设定为输入端口或输出端口, 并且有不同的工作模式</li>
+<li>端口C可以作为独立的端口使用,但常常是配合A和B,为这两个端口提供联络信号</li>
+</ul>
+<p>8255A结构图如下所示:</p>
+<p><img src="/images/interface/8255A.jpg" alt="8255结构图"></p>
+<h3 id="8255A工作方式"><a href="#8255A工作方式" class="headerlink" title="8255A工作方式"></a>8255A工作方式</h3><ul>
+<li>8255A有3种工作方式: 方式0, 方式1和方式2 </li>
+<li>A端口: 3种方式中的任一种; </li>
+<li>B端口: 方式0和方式1; </li>
+<li>C瑞口: 通常作为控制信号使用, 配合A端口和B端口的工作</li>
+</ul>
+<h3 id="指令字格式-1"><a href="#指令字格式-1" class="headerlink" title="指令字格式"></a>指令字格式</h3><h4 id="指令字格式-2"><a href="#指令字格式-2" class="headerlink" title="指令字格式"></a>指令字格式</h4><p><img src="/images/interface/8255Cmd.JPG" alt="指令字格式"></p>
+<h4 id="端口C控制字格式"><a href="#端口C控制字格式" class="headerlink" title="端口C控制字格式"></a>端口C控制字格式</h4><p><img src="/images/interface/8255CCmd.JPG" alt="端口C控制字"></p>
+<h3 id="8255A工作方式-1"><a href="#8255A工作方式-1" class="headerlink" title="8255A工作方式"></a>8255A工作方式</h3><h4 id="方式0-无条件传送"><a href="#方式0-无条件传送" class="headerlink" title="方式0 无条件传送"></a>方式0 无条件传送</h4><ul>
+<li>2个8bit端口和2个4bit端口,都可以进行输入输出</li>
+<li>输出可以被锁存,输入无法锁存</li>
+<li>常用于连接简单外设,适用无条件传送和查询方式</li>
+<li>单向I/O, 一次初始化只能指定端口为输入或者输出</li>
+<li>系统没有指定C口的格式, 用户可以自定义</li>
+<li>端口信号线之间无固定的时序关系, 由用户根据数据传送的要求决定输入输出的操作过程, 不需要任何选通信号</li>
+</ul>
+<p>以下代码演示从A端口读入数据并输出到B端口过程</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MOV DX,203H   ;初始化</span><br><span class="line">MOV AL,98H</span><br><span class="line">OUT DX,AL</span><br><span class="line"></span><br><span class="line">MOV DX,200H   ;in</span><br><span class="line">IN AL,DX</span><br><span class="line"></span><br><span class="line">MOV DX,201H   ;out</span><br><span class="line">OUT DX,AL</span><br></pre></td></tr></table></figure>
+
+<h4 id="方式1-应答发式传送（查询、中断）"><a href="#方式1-应答发式传送（查询、中断）" class="headerlink" title="方式1  应答发式传送（查询、中断）"></a>方式1  应答发式传送（查询、中断）</h4><ul>
+<li>分成A,B两组,每组包括一个8位的数据端口和1个4位的控制／数据端口</li>
+<li>8位的数据端口既可以作为输入也可以作输出</li>
+<li>4位的控制／数据端口用于传送8位数据端口的控制和状态信息</li>
+<li>输入和输出都可以被锁存</li>
+<li>PC3～PC5分配给A口, PC0～PC2给B口, PC6，PC7可作为简单的输入／输出线使用</li>
+</ul>
+<p>方式1时, 按照以下的步骤进行数据输入<br><img src="/images/interface/8255AF1.JPG" alt="方式1输入过程"></p>
+<p>输入过程用到的结构如图所示<br><img src="/images/interface/8255AF1S.JPG" alt="方式1输入结构图"></p>
+<p>其中各信号含义如下:</p>
+<ul>
+<li>\( \overline{STB} \) : 选通信号, 表示外设已经准备好数据</li>
+<li>IBF : 输入缓冲器满信号, 表示A口已经接收数据</li>
+<li>INTQ: 中断请求信号, 通过此信号向CPU发出中断请求</li>
+<li>INTE: 中断允许信号, 该信号是内部信号, 通过C口按位置位字进行设置</li>
+</ul>
+<p>C端口状态字定义如下所示:<br><img src="/images/interface/8255CFlag.png" alt="8255状态字"></p>
+<p>在代码中, 首先需要向INTE(Interrupt Enable)写入1表示允许中断, 写入方式参考端口C的置为复位指令字格式. 后续通过INTR(Interrupt Request)判断是否产生了中断, 示例代码如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">ccd  segment</span><br><span class="line">assume  cs:ccd</span><br><span class="line">    ; 送方式命令字</span><br><span class="line">BG: MOV DX,203H</span><br><span class="line">    MOV AL,0B0H     ;10110000B</span><br><span class="line">    OUT DX,AL            </span><br><span class="line">    MOV AL,9H       ;00001001B </span><br><span class="line">    ; C口  使INTEA=1</span><br><span class="line">    OUT DX,AL</span><br><span class="line">    ; 输入C口数据</span><br><span class="line">AG: MOV  DX,202H</span><br><span class="line">    IN   AL,DX</span><br><span class="line">    ; 循环查询，直到INTRA=1</span><br><span class="line">    TEST AL,8</span><br><span class="line">    JZ   AG		</span><br><span class="line">    ; 从A口输入</span><br><span class="line">    MOV DX,200H</span><br><span class="line">    IN AL,DX</span><br><span class="line">    ...</span><br><span class="line">    ccd end</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
+
+
+<p>方式1的输出结构如下所示:<br><img src="/images/interface/8255AF1O.JPG" alt="方式1输出结构图"></p>
+<p>方式1的输出过程与输入过程基本类似,但C端口指令字有所不同. </p>
+<h2 id="中断技术"><a href="#中断技术" class="headerlink" title="中断技术"></a>中断技术</h2><h3 id="中断响应的一般过程"><a href="#中断响应的一般过程" class="headerlink" title="中断响应的一般过程"></a>中断响应的一般过程</h3><p>中断响应一般执行以下的过程</p>
+<ol>
+<li>中断请求</li>
+<li>中断识别和判优</li>
+<li>中断响应</li>
+<li>中断处理</li>
+<li>中断返回</li>
+</ol>
+<p>其中从中断响应到中断返回涉及的具体过程可以参看汇编笔记 <a href="http://lizec.top/2017/12/05/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/#interrupt_program">中断处理程序设计</a>章节的相关内容.</p>
+<p>在外设方面, 中断请求信号分为可屏蔽中断请求INTR和不可屏蔽中断NMI. </p>
+<h3 id="中断识别"><a href="#中断识别" class="headerlink" title="中断识别"></a>中断识别</h3><ul>
+<li>在更古老的CPU中, 使用软件查询法来获得中断信息. 在软件查询法中, 通过编写程序轮流查询各种外部设别是否存在中断请求.</li>
+<li>现代的CPU使用中断矢量法, 由中断源提供的中断类型号来确定中断源</li>
+</ul>
+<h3 id="中断判优原则"><a href="#中断判优原则" class="headerlink" title="中断判优原则"></a>中断判优原则</h3><ol>
+<li>优先级法则: 异常 &gt; 软件中断 &gt; 非屏蔽中断 &gt; 外部可屏蔽中断</li>
+<li>先来先响应</li>
+</ol>
+<h3 id="8259A结构"><a href="#8259A结构" class="headerlink" title="8259A结构"></a>8259A结构</h3><p><img src="/images/interface/8259A.jpg" alt="8259A结构"></p>
+<ul>
+<li>中断请求寄存器IRR: 反应那些中断请求发生了</li>
+<li>中断屏蔽寄存器IMR: 决定那些中断请求被屏蔽</li>
+<li>正在响应寄存器ISR: 显示那些中断正在被服务</li>
+</ul>
+<p>上述三个寄存器都是按位使用,每一位都对应芯片上的一个引脚.</p>
+<h3 id="中断过程"><a href="#中断过程" class="headerlink" title="中断过程"></a>中断过程</h3><ol>
+<li>IRQ0~IRQ7有中断请求, 8259A的IRR相应位置1</li>
+<li>IRR与IMR相应位进行比较, 封锁或发送中断请求给PR</li>
+<li>PR分析后, 把当前最高优先级的中断请求信号通过INT发送给CPU</li>
+<li>若IF=1, CPU执行完当前指令后,连续发出两个 \( \overline{INTA} \) 信号</li>
+<li>收到第一个 \( \overline{INTA} \) 信号后, 8259A的ISR和IRR对应位分别置1清0</li>
+<li>收到第二个 \( \overline{INTA} \) 信号后, 8259A把中断类型号送上数据总线</li>
+<li>CPU将收到的中断类型号乘以4，到中断向量表中获取中断向量，转入相应中断服务子程序进行中断处理</li>
+</ol>
+<h3 id="8259A的工作方式"><a href="#8259A的工作方式" class="headerlink" title="8259A的工作方式"></a>8259A的工作方式</h3><h4 id="中断触发方式"><a href="#中断触发方式" class="headerlink" title="中断触发方式"></a>中断触发方式</h4><ol>
+<li>电平触发方式: IRi端出现高电平作为中断请求</li>
+<li>边沿触发方式: IRi端出现上升沿作为中断请求</li>
+<li>中断查询方式: 不使用INT信号, 直接由软件查询中断状态</li>
+</ol>
+<p>电平触发方式如果保持时间较长, 则可能被CPU触发两次, 但使用边沿触发方式则不存在这一问题. </p>
+<h4 id="中断屏蔽方式"><a href="#中断屏蔽方式" class="headerlink" title="中断屏蔽方式"></a>中断屏蔽方式</h4><ol>
+<li>普通屏蔽方式: 即设置IMR的相关位</li>
+<li>特殊屏蔽方式: 中断服务程序中设置IMR的位,使ISR相应位复位</li>
+</ol>
+<p>在特殊屏蔽模式下, 对IMR的某一位置位会导致ISR相应位被重置, 因此这样既屏蔽了本级中断又开放了低级中断</p>
+<h4 id="优先级排队方式"><a href="#优先级排队方式" class="headerlink" title="优先级排队方式"></a>优先级排队方式</h4><ol>
+<li>普通全嵌套方式: IR0优先级最高, IR7优先级最低</li>
+<li>特殊全嵌套方式: 本级中断请求可以中断同一级的中断</li>
+<li>循环优先级方式<ol>
+<li>优先权普通循环方式: IR0最高,IR7最低, IR0相应后变为最低, 其他的都升高一级</li>
+<li>优先权特殊循环方式: 用户指定最低级(例如IR5),则后一位是最高级(如IR6),之后按顺序优先级递减</li>
+</ol>
+</li>
+</ol>
+<p>在普通全嵌套模式下, 在从片发出的不同优先级的中断信号, 在主片看来都是相同等级的请求. 因此主片必须使用特殊全嵌套方式, 使得同一级的中断请求能够中断同一级的中断.</p>
+<h4 id="中断处理方式"><a href="#中断处理方式" class="headerlink" title="中断处理方式"></a>中断处理方式</h4><ol>
+<li>自动结束方式: ISR中的位在相应的时机(第二个INTA信号结束)由硬件自动复位</li>
+<li>常规结束命令字: 通过指令使ISR中最高级复位</li>
+<li>指定结束命令: 指定某一个ISR位复位</li>
+</ol>
+<p>注意:</p>
+<ol>
+<li>自动结束方式时, 中断还未完全处理结束, 若此时又发送中断,则会产生错误, 因此此方式仅支持没有中断嵌套, 且使用单片的情况.</li>
+<li>常规结束命令只适合全嵌套方式下(固定优先级)</li>
+</ol>
+<h4 id="控制命令字"><a href="#控制命令字" class="headerlink" title="控制命令字"></a>控制命令字</h4><p>一共有4个控制命令字, 分别用ICW1~ICW4表示, 其中ICW1和ICW2是必须设定的, ICW3和ICW4根据情况可选的设置. ICW1写入A0为0的偶数地址,其余命令字写入A0为1的奇数地址. 各控制字主要含义如下:</p>
+<ol>
+<li>ICW1: 设置触发方式, 是否有级联片,以及是否有ICW4</li>
+<li>ICW2: 设置中断高5位的值, 例如设置为08H,则中断号为08H~0FH</li>
+<li>ICW3: 说明主片的哪一个引脚接了从片, 或从片对应主片的哪一个引脚</li>
+<li>ICW4: 设置嵌套方式,缓存方式, 是主片还是从片,中断结束方式和处理器类型</li>
+</ol>
+<h4 id="操作命令字"><a href="#操作命令字" class="headerlink" title="操作命令字"></a>操作命令字</h4><p>一共有3个命令字, 分别使用OCW1~OCW2表示, 在工作期间可以任意时刻以任意顺序写入操作命令字.</p>
+<ol>
+<li>OCW1: 屏蔽命令字, 相应的设置IMR</li>
+<li>OCW2: 设置优先级方式和初始最低优先级等</li>
+<li>OCW3: 中断屏蔽方式和后续读取的状态字含义</li>
+</ol>
+<h2 id="模数数模转换接口"><a href="#模数数模转换接口" class="headerlink" title="模数数模转换接口"></a>模数数模转换接口</h2><h3 id="模拟接口"><a href="#模拟接口" class="headerlink" title="模拟接口"></a>模拟接口</h3><p>A/D : Analog to Digital<br>D/A : Digital to Analog</p>
+<h4 id="数模转换器主要技术指标"><a href="#数模转换器主要技术指标" class="headerlink" title="数模转换器主要技术指标"></a>数模转换器主要技术指标</h4><ul>
+<li>分辨率: 使用数字量比特位数衡量</li>
+<li>精度: 实际输出值与理论值的差距</li>
+<li>建立时间</li>
+</ul>
+<h3 id="数模转换器DAC0932特点"><a href="#数模转换器DAC0932特点" class="headerlink" title="数模转换器DAC0932特点"></a>数模转换器DAC0932特点</h3><ul>
+<li>数字输入端双重缓存, 可使用双缓冲, 单缓冲和直通数字输入</li>
+<li>分辨率为8bit</li>
+<li>满足TTL电平规范的逻辑输输入</li>
+</ul>
+<h4 id="控制逻辑"><a href="#控制逻辑" class="headerlink" title="控制逻辑"></a>控制逻辑</h4><p><img src="/images/interface/DAC0932.JPG" alt="DAC0932结构图"></p>
+<ul>
+<li>内部有两个数据缓冲器, 分别由两组控制信号控制</li>
+<li>输出量的值由DAC寄存器控制, 输入寄存器可以接收不同的值,从而便于多路复用</li>
+<li>ILE,CS与WR1有效时LE1端才有效, 此使该寄存器输出随输入变化</li>
+<li>当XFER与WR2有效时,LE2端有效,此时寄存器输出随输入变换</li>
+<li>使用Iout1进行输出, 且Iout1与Iout2之和为一个定值(可用于校验)</li>
+</ul>
+<h3 id="DAC0932工作方式"><a href="#DAC0932工作方式" class="headerlink" title="DAC0932工作方式"></a>DAC0932工作方式</h3><h4 id="双缓冲方式"><a href="#双缓冲方式" class="headerlink" title="双缓冲方式"></a>双缓冲方式</h4><p>输入数据先存放在输入寄存器中，而输出的模拟值由存放在DAC寄存器内的数据决定. 当把数据由输入寄存器转存到DAC寄存器以后,输入寄存器就可以接受新数据而不影响模拟输出值. 可以在转换的时候采集下一个数据, 可实现多通道同步转换输出</p>
+<h4 id="单缓冲方式"><a href="#单缓冲方式" class="headerlink" title="单缓冲方式"></a>单缓冲方式</h4><p>DAC寄存器始终处于有效状态,只需要向数据寄存器进行一次写入操作就开始转换,适合不需要多片D/A同时输出的场景</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MOV	DX，200H    ；设DAC0832的地址为200H</span><br><span class="line">OUT	DX，AL      ；AL内数据送DAC转换</span><br></pre></td></tr></table></figure>
+
+<h4 id="直通方式"><a href="#直通方式" class="headerlink" title="直通方式"></a>直通方式</h4><p>输入数据寄存器和DAC寄存器始终有效, 输出随输出的变化随时转换</p>
+<h3 id="ADC0809工作方式"><a href="#ADC0809工作方式" class="headerlink" title="ADC0809工作方式"></a>ADC0809工作方式</h3><p><img src="/images/interface/ADC0809.JPG" alt="ADC0809结构图"></p>
+<p>IN0<del>IN7: 8路模拟量输入(互不相关,任意时刻接入其中的一个)<br>ADDA</del>ADDC: 3-8选择器输入,决定选中的模拟量输入<br>ALE:地址锁存允许, 正跳变时锁定地址选择器输入<br>START信号: 启动信号, 上升沿使片内所有的寄存器清零,下降沿启动A/D转换<br>EOC: 转换结束, 转换开始时输出低电平,转换结束后输出高电平<br>OE: 输出允许,高电平时,锁存缓冲器打开,数据被发送给CPU</p>
+<h4 id="输出方法"><a href="#输出方法" class="headerlink" title="输出方法"></a>输出方法</h4><ol>
+<li>延时等待法: 软件延时足够长的时间, 不使用EOC信号,效率低</li>
+<li>中断法: 把EOC信号作为中断请求信号,在中断服务程序中读入转换结果</li>
+<li>查询法: 软件查询EOC信号状态</li>
+</ol>
+<h4 id="应用举例"><a href="#应用举例" class="headerlink" title="应用举例"></a>应用举例</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MOV  AL, 03H    ；送输入通道号3</span><br><span class="line">OUT  84H, AL    ；同时发出启动信号START</span><br><span class="line">CALL DELAY150   ；等待转换结束，延时150μS</span><br><span class="line">IN   AL, 84H    ；转换结束，读入数据</span><br><span class="line">HLT</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="串行接口"><a href="#串行接口" class="headerlink" title="串行接口"></a>串行接口</h2><h3 id="调制解调器-MODEM"><a href="#调制解调器-MODEM" class="headerlink" title="调制解调器(MODEM)"></a>调制解调器(MODEM)</h3><ul>
+<li>调制器(Modulator): 把数字信号转化为模拟信号发送到通信链路上</li>
+<li>解调器(Demodulator): 把通信链路上收到的模拟信号转化为数字信号</li>
+<li>MODEM是数据通信设备(DCE), 计算机等是数据终端设备(DTC)</li>
+</ul>
+<h3 id="串行通信的数据传输方向"><a href="#串行通信的数据传输方向" class="headerlink" title="串行通信的数据传输方向"></a>串行通信的数据传输方向</h3><p>可以分为单工, 半双工和全双工</p>
+<h3 id="串行数据传输速率"><a href="#串行数据传输速率" class="headerlink" title="串行数据传输速率"></a>串行数据传输速率</h3><p>收发时钟频率 = 波特率因子 X 波特率</p>
+<h3 id="异步通信与同步通信"><a href="#异步通信与同步通信" class="headerlink" title="异步通信与同步通信"></a>异步通信与同步通信</h3><ul>
+<li>异步通信: 以字符为单位发送数据, 各字符之间随机出现(异步),适合数据量小,数据不连续发送的场景</li>
+<li>同步通信:以数据块为单位发送数据, 各字符之间同步,字符内也同步, 适合数据量大,批量传输数据的场景</li>
+</ul>
+<h3 id="外同步与自同步"><a href="#外同步与自同步" class="headerlink" title="外同步与自同步"></a>外同步与自同步</h3><ul>
+<li>外同步: 发送端发送数据前先发送同步时钟信号, 接收端用这一同步信号锁定自己的时钟频率</li>
+<li>自同步: 发送的数据中包含同步信息(例如曼切斯特码)</li>
+</ul>
+<h4 id="8251结构"><a href="#8251结构" class="headerlink" title="8251结构"></a>8251结构</h4><p><img src="/images/interface/8251.JPG" alt="8251结构"></p>
+<p>8251可以分为5个部分</p>
+<p>(1) 面向CPU的信号线<br>大部分信号线和其他芯片的含义一样<br>C/D 信号线, 为1时访问命令或状态寄存器,为0时访问数据寄存器</p>
+<p>（2）状态信号（供CPU查询或向CPU申请中断）<br>TxRDY(Transmitter Ready）：发送器准备好，高电平有效。通知CPU可以向8251A发送数据。<br>RxRDY（Receiver Ready）：接收器准备好，高电平有效。通知CPU读取数据。<br>TxE(Tmnsmitter Empty）：发送器空，高电平有效。指示发送器中的数据已发送出去，已经变空。<br>SYNDET（Synchronous Detection)/BD(Break Detection）：双功能引脚。这个引脚在同步方式时，作同步字符检出信号，为双向线。</p>
+<p>（3）时钟信号（包括发送器时钟、接收器时钟以及内部的工作时钟信号CLK)<br> TXC<code>*</code>（Transmitter Clock）：发送器时钟，由外部（波特率时钟发生器）提供。由它控制8251A发送数据的速率。在异步方式下TXC<code>*</code>的频率可以等于波特率，也可以是波特率的16倍或64倍。在同步方式下TXC<code>*</code>的频率与数据速率相同。<br> RXC<code>*</code>（Receiver Clock）：接收器时钟，由外部（波特率时钟发生器）提供。其频率的选择和TXC<code>*</code>相同。实际应用中，把RXC<code>*</code>和TXC<code>*</code>连接在一起，使用同一个时钟源—波特率时钟发生器。    </p>
+<p>(4)面向调制器的接口信号<br>    8251A提供了4个与MODEM相连的控制信号和数据发送以及数据接收信号线。<br>DTR<code>*</code>：数据终端准备好，是输出信号，低电平有效。它由工作命令字的D1置“1”变为有效，用以表示8251A准备就绪。<br>DSR<code>*</code>：数据装置准备好，是输入信号，低电平有效。用以表示调制器已准备好。CPU通过读状态寄存器的D7位检侧这个信号。<br>RTS<code>*</code>：请求发送，是输出信号，低电平有效。用于通知MODEM,8251A要求发送。它由工作命令字的D5置“1”来使其有效。<br>CTS<code>*</code>：清除传送（即允许传送），是输入信号，低电平有效。是MODEM对8251A的信号的响应，当其有效时8251A方可发送数据。</p>
+<h2 id="DMA控制器"><a href="#DMA控制器" class="headerlink" title="DMA控制器"></a>DMA控制器</h2><h3 id="DMA的功能"><a href="#DMA的功能" class="headerlink" title="DMA的功能"></a>DMA的功能</h3><p>（1）能接受CPU的编程，以便进行功能设定<br>（2）能接收I/O接口的DMA请求，并向CPU发出总线请求信号，请求总线控制权<br>（3）CPU响应总线请求之后，DMAC能接管总线的控制，进入DMA传送过程<br>（4）能实现有效的寻址，即能输出地址信息并在数据传送过程中自动修改地址指针<br>（5）能向存储器和I/O接口发出相应的读/写控制信号<br>（6）能控制传送数据的字节数，判定DMA传送是否结束<br>（7）DMA结束时，能发出DMA结束信号，释放总线，恢复CPU对总线的控制 </p>
+<h2 id="人机接口"><a href="#人机接口" class="headerlink" title="人机接口"></a>人机接口</h2><h3 id="键盘接口的分类"><a href="#键盘接口的分类" class="headerlink" title="键盘接口的分类"></a>键盘接口的分类</h3><ol>
+<li>编码键盘: 这种键盘内部能自动检测被按下的键, 并提供与被按键对应的键码</li>
+<li>非编码键盘: 这种键盘只简单地提供键盘的行列矩阵,而按键的识别和键值的确定、输入等工作通过软件完成<ul>
+<li>线性键盘: 每一个按键均有一条输入线送到计算机的接口</li>
+<li>矩阵键盘: 按键按行和列排列</li>
+</ul>
+</li>
+</ol>
+<h3 id="按键扫描方法"><a href="#按键扫描方法" class="headerlink" title="按键扫描方法"></a>按键扫描方法</h3><p><img src="/images/interface/interface.JPG" alt="键盘电路"></p>
+<p>（1）扫描法<br>依次查询键盘矩阵的每一行线，然后读取列数据确定按键是否在本行，具体方法如下：<br>首先使PA0=0，然后读取PB端口。<br>若PB=0FFH则表示行0没有按键按下，再使PA1=0再读取PB判断行2有无按键按下，依次扫描全部的行线。<br>当PB读取的数据不为0FFH，则表示该扫描行有按键按下，则再确定相应的按键序号。 </p>
+<p>（2）行列交换法（行列行反转法）<br>使CPU通过A口向各行线上全部送低电平，然后从B口读入列线的值。<br>如果某按键按下，则必定会使某一列线值为0。然后，交换A口B口的输入输出方向，并将刚才读到的列线值从列线所接的并口输出。<br>再读取行线上的输入值，在闭合键所在的行线上的值必定为0。这样，当一个按键被按下时，必定可以读取一对唯一的行值和列值。 </p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年06月21日 10:11</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/09/%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8E%A5%E5%8F%A3%E7%AC%94%E8%AE%B0/" title="微型计算机接口笔记">https://lizec.top/2018/03/09/%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8E%A5%E5%8F%A3%E7%AC%94%E8%AE%B0/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2018/03/09/%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8E%A5%E5%8F%A3%E7%AC%94%E8%AE%B0/&title=《微型计算机接口笔记》 — LiZeC的博客&pic=https://lizec.topimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2018/03/09/%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8E%A5%E5%8F%A3%E7%AC%94%E8%AE%B0/&title=《微型计算机接口笔记》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2018/03/09/%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8E%A5%E5%8F%A3%E7%AC%94%E8%AE%B0/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《微型计算机接口笔记》 — LiZeC的博客&url=https://lizec.top/2018/03/09/%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8E%A5%E5%8F%A3%E7%AC%94%E8%AE%B0/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2018/03/09/%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8E%A5%E5%8F%A3%E7%AC%94%E8%AE%B0/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2018/03/09/%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8E%A5%E5%8F%A3%E7%AC%94%E8%AE%B0/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="post-toc-text">目录</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">接口</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%AE%BE%E7%AB%8B%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">为什么要设立接口</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%8E%A5%E5%8F%A3%E7%9A%84%E4%B8%89%E4%B8%AA%E9%87%8D%E8%A6%81%E9%83%A8%E5%88%86"><span class="post-toc-text">接口的三个重要部分</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="post-toc-text">接口的功能</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%8E%A5%E5%8F%A3%E7%94%B5%E8%B7%AF%E7%9A%84%E4%B8%80%E8%88%AC%E7%BB%93%E6%9E%84"><span class="post-toc-text">接口电路的一般结构</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CPU%E4%B8%8E%E6%8E%A5%E5%8F%A3%E4%BA%A4%E6%8D%A2%E6%95%B0%E6%8D%AE%E6%96%B9%E5%BC%8F"><span class="post-toc-text">CPU与接口交换数据方式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#I-O%E7%AB%AF%E5%8F%A3"><span class="post-toc-text">I&#x2F;O端口</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%AB%AF%E5%8F%A3%E5%9C%B0%E5%9D%80%E7%BC%96%E5%88%B6%E6%96%B9%E5%BC%8F"><span class="post-toc-text">端口地址编制方式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#PC%E7%B3%BB%E5%88%97%E5%BE%AE%E6%9C%BA%E7%AB%AF%E5%8F%A3%E5%88%86%E9%85%8D"><span class="post-toc-text">PC系列微机端口分配</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%8C%87%E4%BB%A4"><span class="post-toc-text">端口指令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%B2I-O%E6%8C%87%E4%BB%A4"><span class="post-toc-text">串I&#x2F;O指令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#C%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%AB%AF%E5%8F%A3%E8%AF%BB%E5%86%99"><span class="post-toc-text">C语言中端口读写</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#I-O%E8%AF%91%E7%A0%81%E7%94%B5%E8%B7%AF"><span class="post-toc-text">I&#x2F;O译码电路</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%8A%AF%E7%89%87%E6%8E%A7%E5%88%B6%E7%94%B5%E8%B7%AF%E8%A7%84%E5%88%99"><span class="post-toc-text">芯片控制电路规则</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%AE%9A%E6%97%B6%E8%AE%A1%E6%95%B0%E6%8A%80%E6%9C%AF"><span class="post-toc-text">定时计数技术</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%8F%AF%E7%BC%96%E7%A8%8B%E7%9A%84%E8%AE%A1%E6%95%B0%E5%99%A8-%E5%AE%9A%E6%97%B6%E7%94%B5%E8%B7%AF"><span class="post-toc-text">可编程的计数器&#x2F;定时电路</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%8F%AF%E7%BC%96%E7%A8%8B%E7%9A%84%E8%AE%A1%E6%95%B0%E5%99%A8-%E5%AE%9A%E6%97%B6%E7%94%B5%E8%B7%AF%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="post-toc-text">可编程的计数器&#x2F;定时电路工作原理</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#82C54%E4%B8%BB%E8%A6%81%E7%89%B9%E7%82%B9"><span class="post-toc-text">82C54主要特点</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%8C%87%E4%BB%A4%E5%AD%97%E6%A0%BC%E5%BC%8F"><span class="post-toc-text">指令字格式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%8C%87%E4%BB%A4%E4%B8%AD%E7%9A%84%E9%80%89%E6%8B%A9%E4%BF%A1%E5%8F%B7%E5%92%8C%E7%89%87%E5%86%85%E5%AF%BB%E5%9D%80"><span class="post-toc-text">指令中的选择信号和片内寻址</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%AE%A1%E6%95%B0%E6%96%B9%E5%BC%8F"><span class="post-toc-text">计数方式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%96%B9%E5%BC%8F0-%E8%AE%A1%E6%95%B0%E7%BB%93%E6%9D%9F%E4%B8%AD%E6%96%AD%E6%96%B9%E5%BC%8F"><span class="post-toc-text">方式0(计数结束中断方式)</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%96%B9%E5%BC%8F1-%E5%8F%AF%E9%87%8D%E5%A4%8D%E7%BC%96%E7%A8%8B%E5%8D%95%E8%84%89%E5%86%B2"><span class="post-toc-text">方式1(可重复编程单脉冲)</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%96%B9%E5%BC%8F2-%E5%91%A8%E6%9C%9F%E6%80%A7%E8%B4%9F%E8%84%89%E5%86%B2%E8%BE%93%E5%87%BA-%E5%88%86%E9%A2%91%E5%99%A8"><span class="post-toc-text">方式2(周期性负脉冲输出,分频器)</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%96%B9%E5%BC%8F3-%E6%96%B9%E6%B3%A2%E5%8F%91%E7%94%9F%E5%99%A8"><span class="post-toc-text">方式3(方波发生器)</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%90%84%E7%A7%8D%E6%96%B9%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="post-toc-text">各种方式的区别</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%90%84%E6%A8%A1%E5%BC%8F%E6%B3%A2%E5%BD%A2%E5%AF%B9%E6%AF%94"><span class="post-toc-text">各模式波形对比</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%AE%A1%E6%95%B0%E5%88%9D%E5%A7%8B%E5%80%BC%E8%AE%A1%E7%AE%97%E6%96%B9%E6%B3%95"><span class="post-toc-text">计数初始值计算方法</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">并行接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B9%B6%E8%A1%8C%E6%8E%A5%E5%8F%A3%E7%89%B9%E7%82%B9"><span class="post-toc-text">并行接口特点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8255%E6%A6%82%E8%BF%B0"><span class="post-toc-text">8255概述</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8255A%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="post-toc-text">8255A工作方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8C%87%E4%BB%A4%E5%AD%97%E6%A0%BC%E5%BC%8F-1"><span class="post-toc-text">指令字格式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%8C%87%E4%BB%A4%E5%AD%97%E6%A0%BC%E5%BC%8F-2"><span class="post-toc-text">指令字格式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%AB%AF%E5%8F%A3C%E6%8E%A7%E5%88%B6%E5%AD%97%E6%A0%BC%E5%BC%8F"><span class="post-toc-text">端口C控制字格式</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8255A%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F-1"><span class="post-toc-text">8255A工作方式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%96%B9%E5%BC%8F0-%E6%97%A0%E6%9D%A1%E4%BB%B6%E4%BC%A0%E9%80%81"><span class="post-toc-text">方式0 无条件传送</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%96%B9%E5%BC%8F1-%E5%BA%94%E7%AD%94%E5%8F%91%E5%BC%8F%E4%BC%A0%E9%80%81%EF%BC%88%E6%9F%A5%E8%AF%A2%E3%80%81%E4%B8%AD%E6%96%AD%EF%BC%89"><span class="post-toc-text">方式1  应答发式传送（查询、中断）</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%B8%AD%E6%96%AD%E6%8A%80%E6%9C%AF"><span class="post-toc-text">中断技术</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%AD%E6%96%AD%E5%93%8D%E5%BA%94%E7%9A%84%E4%B8%80%E8%88%AC%E8%BF%87%E7%A8%8B"><span class="post-toc-text">中断响应的一般过程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%AD%E6%96%AD%E8%AF%86%E5%88%AB"><span class="post-toc-text">中断识别</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%AD%E6%96%AD%E5%88%A4%E4%BC%98%E5%8E%9F%E5%88%99"><span class="post-toc-text">中断判优原则</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8259A%E7%BB%93%E6%9E%84"><span class="post-toc-text">8259A结构</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%AD%E6%96%AD%E8%BF%87%E7%A8%8B"><span class="post-toc-text">中断过程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#8259A%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="post-toc-text">8259A的工作方式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%AD%E6%96%AD%E8%A7%A6%E5%8F%91%E6%96%B9%E5%BC%8F"><span class="post-toc-text">中断触发方式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%AD%E6%96%AD%E5%B1%8F%E8%94%BD%E6%96%B9%E5%BC%8F"><span class="post-toc-text">中断屏蔽方式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7%E6%8E%92%E9%98%9F%E6%96%B9%E5%BC%8F"><span class="post-toc-text">优先级排队方式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F"><span class="post-toc-text">中断处理方式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%8E%A7%E5%88%B6%E5%91%BD%E4%BB%A4%E5%AD%97"><span class="post-toc-text">控制命令字</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4%E5%AD%97"><span class="post-toc-text">操作命令字</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%A8%A1%E6%95%B0%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">模数数模转换接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A8%A1%E6%8B%9F%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">模拟接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%99%A8%E4%B8%BB%E8%A6%81%E6%8A%80%E6%9C%AF%E6%8C%87%E6%A0%87"><span class="post-toc-text">数模转换器主要技术指标</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%95%B0%E6%A8%A1%E8%BD%AC%E6%8D%A2%E5%99%A8DAC0932%E7%89%B9%E7%82%B9"><span class="post-toc-text">数模转换器DAC0932特点</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%8E%A7%E5%88%B6%E9%80%BB%E8%BE%91"><span class="post-toc-text">控制逻辑</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#DAC0932%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="post-toc-text">DAC0932工作方式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%8F%8C%E7%BC%93%E5%86%B2%E6%96%B9%E5%BC%8F"><span class="post-toc-text">双缓冲方式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%8D%95%E7%BC%93%E5%86%B2%E6%96%B9%E5%BC%8F"><span class="post-toc-text">单缓冲方式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%9B%B4%E9%80%9A%E6%96%B9%E5%BC%8F"><span class="post-toc-text">直通方式</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ADC0809%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="post-toc-text">ADC0809工作方式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%BE%93%E5%87%BA%E6%96%B9%E6%B3%95"><span class="post-toc-text">输出方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%BA%94%E7%94%A8%E4%B8%BE%E4%BE%8B"><span class="post-toc-text">应用举例</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%B8%B2%E8%A1%8C%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">串行接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%B0%83%E5%88%B6%E8%A7%A3%E8%B0%83%E5%99%A8-MODEM"><span class="post-toc-text">调制解调器(MODEM)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1%E7%9A%84%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%96%B9%E5%90%91"><span class="post-toc-text">串行通信的数据传输方向</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%B2%E8%A1%8C%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87"><span class="post-toc-text">串行数据传输速率</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BC%82%E6%AD%A5%E9%80%9A%E4%BF%A1%E4%B8%8E%E5%90%8C%E6%AD%A5%E9%80%9A%E4%BF%A1"><span class="post-toc-text">异步通信与同步通信</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%A4%96%E5%90%8C%E6%AD%A5%E4%B8%8E%E8%87%AA%E5%90%8C%E6%AD%A5"><span class="post-toc-text">外同步与自同步</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#8251%E7%BB%93%E6%9E%84"><span class="post-toc-text">8251结构</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#DMA%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="post-toc-text">DMA控制器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#DMA%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="post-toc-text">DMA的功能</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BA%BA%E6%9C%BA%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">人机接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%94%AE%E7%9B%98%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%86%E7%B1%BB"><span class="post-toc-text">键盘接口的分类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8C%89%E9%94%AE%E6%89%AB%E6%8F%8F%E6%96%B9%E6%B3%95"><span class="post-toc-text">按键扫描方法</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/22/%E8%8B%B1%E8%AF%AD%E8%AF%AD%E6%B3%95%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          英语语法笔记
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/07/MATLAB%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">MATLAB笔记</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Fri Mar 09 2018 20:31:52 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

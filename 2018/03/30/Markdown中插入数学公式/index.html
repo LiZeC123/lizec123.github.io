@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Markdown中插入数学公式 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="在日常写文章的过程中,经常会遇到需要使用公式的情况, 在以前我都是尽量使用文字描述, 但这毕竟不能从本质解决问题, 因此我决定学习如何在Markdown中使用公式. 经过一番搜索, 发现要加入公式还是比较简单的. 本文介绍如何在Markdown中使用LaTeX公式, 并且基于此简单介绍LaTeX的数学公式语法. 学会了如何使用公式以后,Markdown基本上就可以完全替代Word了. 什么是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Markdown中插入数学公式">
+<meta property="og:url" content="https://lizec.top/2018/03/30/Markdown%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="在日常写文章的过程中,经常会遇到需要使用公式的情况, 在以前我都是尽量使用文字描述, 但这毕竟不能从本质解决问题, 因此我决定学习如何在Markdown中使用公式. 经过一番搜索, 发现要加入公式还是比较简单的. 本文介绍如何在Markdown中使用LaTeX公式, 并且基于此简单介绍LaTeX的数学公式语法. 学会了如何使用公式以后,Markdown基本上就可以完全替代Word了. 什么是">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-03-30T08:46:54.000Z">
+<meta property="article:modified_time" content="2020-01-14T02:24:59.785Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="LaTeX">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Markdown中插入数学公式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Markdown中插入数学公式
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/LaTeX/">LaTeX</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-30
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script>
+
+
+<p>在日常写文章的过程中,经常会遇到需要使用公式的情况, 在以前我都是尽量使用文字描述, 但这毕竟不能从本质解决问题, 因此我决定学习如何在Markdown中使用公式. 经过一番搜索, 发现要加入公式还是比较简单的. 本文介绍如何在Markdown中使用LaTeX公式, 并且基于此简单介绍LaTeX的数学公式语法. 学会了如何使用公式以后,Markdown基本上就可以完全替代Word了.</p>
+<h2 id="什么是LaTeX"><a href="#什么是LaTeX" class="headerlink" title="什么是LaTeX"></a>什么是LaTeX</h2><p>本来我以为LaTex是专门用于数学公式的, 但实际上LaTeX是一个排版工具, 编写公式只是LaTeX的应用之一. 通过导入不同的包, 还可以使用LaTex来展示棋谱,化学式,乐谱,电路图等其他复杂的图示. 由于本文仅仅讨论LaTeX的数学公式, 因此其他的内容就不再展开, 具体可以参考<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/LaTeX">LaTeX的百科</a>.</p>
+<h2 id="Markdown中引入LaTex"><a href="#Markdown中引入LaTex" class="headerlink" title="Markdown中引入LaTex"></a>Markdown中引入LaTex</h2><h3 id="公式引擎"><a href="#公式引擎" class="headerlink" title="公式引擎"></a>公式引擎</h3><p>如果需要在Markdown中加入LaTex公式,可以使用MathJax引擎, 在Markdown中添加MathJax引擎仅仅需要在文章的任意地方加入以下代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span> <span class="attr">src</span>=<span class="string">&quot;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意: 上述地址可能在某一天失效, 可以在MathJax的<a target="_blank" rel="noopener" href="https://www.mathjax.org/news/">News页面</a>查看最新版的有关信息.</p>
+<h3 id="引入公式"><a href="#引入公式" class="headerlink" title="引入公式"></a>引入公式</h3><p>在文本中<code>$$公式$$</code>表示行间公式,<code>\\(公式\\)</code>表示行内公式. 例如以下的一段源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">We denote the conditional probability that \\( y = y\_1\\) given \\( x = x\_1\\) as \\( P(y=y\_1|x=x\_1) \\). </span><br><span class="line"></span><br><span class="line">This conditional probability can be computed with the formula:</span><br><span class="line"></span><br><span class="line">$$ P(y=y\_1|x=x\_1) = \frac&#123;P(y=y\_1, x=x\_1)&#125;&#123;P(x=x\_1)&#125; $$</span><br></pre></td></tr></table></figure>
+
+<p>对应的渲染效果:</p>
+<p>We denote the conditional probability that \( y = y_1\) given \( x = x_1\) as \( P(y=y_1|x=x_1) \). </p>
+<p>This conditional probability can be computed with the formula:</p>
+<p>$$ P(y=y_1|x=x_1) = \frac{P(y=y_1, x=x_1)}{P(x=x_1)} $$</p>
+<h2 id="LaTeX语法"><a href="#LaTeX语法" class="headerlink" title="LaTeX语法"></a>LaTeX语法</h2><h3 id="与Markdown的兼容问题"><a href="#与Markdown的兼容问题" class="headerlink" title="与Markdown的兼容问题"></a>与Markdown的兼容问题</h3><p>由于<code>_</code> , <code>*</code>, <code>&#123;</code>, <code>&#125;</code>, <code>\</code>等符号在Markdown中是特殊符号, 因此如果需要使用这些符号, 需要在前面加上转义符号<code>\</code>. 对于部分特殊的符号, 在LaTeX中也是特殊符号, 也需要转义, 则在Markdown中需要输入两次转义符号, 即<code>\\</code>.</p>
+<h3 id="角标和括号"><a href="#角标和括号" class="headerlink" title="角标和括号"></a>角标和括号</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>LaTeX语法</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>上标</td>
+<td><code>i^2</code></td>
+<td>\( i^2 \)</td>
+</tr>
+<tr>
+<td>下标</td>
+<td><code>i_2</code></td>
+<td>\( i_2 \)</td>
+</tr>
+</tbody></table>
+<p>上标和下标,默认将这两个符号后的一个符号作为上下标, 如果需要多个符号, 则使用<code>&#123;</code>和<code>&#125;</code>括起来. </p>
+<p>由于最后的结果依然是HTML代码,而不是图片,因此不支持多层嵌套的上标和下标. 但对于一般公式而言,这也基本够用了.</p>
+<p><strong>注意:</strong> Markdown中, <code>_</code>是特殊符号, 通常情况下需要转义才能使用功能</p>
+<p>在LaTeX中,<code>(</code>, <code>)</code>, <code>[</code> 和 <code>]</code>都不变. <code>&#123;</code>和<code>&#125;</code>需转义, 即使用<code>\\&#123;</code>和<code>\\&#125;</code>. 例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$ a(2) + b[3] = c\\&#123;5\\&#125; $$</span><br></pre></td></tr></table></figure>
+
+<p>$$ a(2) + b[3] = c\{5\} $$</p>
+<h3 id="特殊符号"><a href="#特殊符号" class="headerlink" title="特殊符号"></a>特殊符号</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>LaTeX语法</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>分数线</td>
+<td><code>\frac &#123;a&#125; &#123;b&#125;</code></td>
+<td>\(\frac {a} {b}\)</td>
+</tr>
+<tr>
+<td>平方根</td>
+<td><code>\sqrt&#123;a*x+b&#125;</code></td>
+<td>\(\sqrt{a*x+b}\)</td>
+</tr>
+<tr>
+<td>n次方根</td>
+<td><code>\sqrt[n]&#123;a*x+b&#125;</code></td>
+<td>\(\sqrt[n]{a*x+b}\)</td>
+</tr>
+<tr>
+<td>积分</td>
+<td><code>\int_a^b f(x) dx</code></td>
+<td>\(\int_a^b f(x) dx\)</td>
+</tr>
+<tr>
+<td>极限</td>
+<td><code>\lim_&#123;n \rightarrow 0&#125; \sin&#123;x&#125; / x</code></td>
+<td>\(\lim_{n \rightarrow 0} \sin{x} / x\)</td>
+</tr>
+<tr>
+<td>求和</td>
+<td><code>\sum_&#123;i=0&#125;^n \frac&#123;1&#125;&#123;i^2&#125;</code></td>
+<td>\(\sum_{i=0}^n \frac{1}{i^2}\)</td>
+</tr>
+<tr>
+<td>求积</td>
+<td><code>\prod_&#123;i=0&#125;^n \frac&#123;1&#125;&#123;i^2&#125;</code></td>
+<td>\(\prod_{i=0}^n \frac{1}{i^2}\)</td>
+</tr>
+<tr>
+<td>梯度算子</td>
+<td><code>\nabla</code></td>
+<td>\(\nabla\)</td>
+</tr>
+<tr>
+<td>偏导数</td>
+<td><code>\partial x</code></td>
+<td>\(\partial x \)</td>
+</tr>
+</tbody></table>
+<h3 id="希腊字母"><a href="#希腊字母" class="headerlink" title="希腊字母"></a>希腊字母</h3><table>
+<thead>
+<tr>
+<th>字母名称</th>
+<th>大写</th>
+<th>小写</th>
+<th>字母名称</th>
+<th>大写</th>
+<th>小写</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>alpha</td>
+<td>Α</td>
+<td>α</td>
+<td>nu</td>
+<td>Ν</td>
+<td>ν</td>
+</tr>
+<tr>
+<td>beta</td>
+<td>Β</td>
+<td>β</td>
+<td>xi</td>
+<td>Ξ</td>
+<td>ξ</td>
+</tr>
+<tr>
+<td>gamma</td>
+<td>Γ</td>
+<td>γ</td>
+<td>omicron</td>
+<td>Ο</td>
+<td>ο</td>
+</tr>
+<tr>
+<td>delta</td>
+<td>Δ</td>
+<td>δ</td>
+<td>pi</td>
+<td>Π</td>
+<td>π</td>
+</tr>
+<tr>
+<td>epsilon</td>
+<td>Ε</td>
+<td>ε</td>
+<td>rho</td>
+<td>Ρ</td>
+<td>ρ</td>
+</tr>
+<tr>
+<td>zeta</td>
+<td>Ζ</td>
+<td>ζ</td>
+<td>sigma</td>
+<td>Σ</td>
+<td>σ/ς</td>
+</tr>
+<tr>
+<td>eta</td>
+<td>Η</td>
+<td>η</td>
+<td>tau</td>
+<td>Τ</td>
+<td>τ</td>
+</tr>
+<tr>
+<td>theta</td>
+<td>Θ</td>
+<td>θ</td>
+<td>upsilon</td>
+<td>Υ</td>
+<td>υ</td>
+</tr>
+<tr>
+<td>iota</td>
+<td>Ι</td>
+<td>ι/℩</td>
+<td>phi</td>
+<td>Φ</td>
+<td>φ</td>
+</tr>
+<tr>
+<td>kappa</td>
+<td>Κ</td>
+<td>κ</td>
+<td>chi</td>
+<td>Χ</td>
+<td>χ</td>
+</tr>
+<tr>
+<td>lambda</td>
+<td>Λ</td>
+<td>λ</td>
+<td>psi</td>
+<td>Ψ</td>
+<td>ψ</td>
+</tr>
+<tr>
+<td>mu</td>
+<td>Μ</td>
+<td>μ</td>
+<td>omega</td>
+<td>Ω</td>
+<td>ω</td>
+</tr>
+</tbody></table>
+<p>希腊字母基本上就是<code>\</code>加上拉丁语写法,例如 \(\Gamma\) 的公式是<code>\\(\Gamma\\)</code>, \(\gamma\) 的公式是 <code>\\(\gamma\\)</code> . 通常仅仅在公式中以这样的方式输入希腊字母. </p>
+<p>如果仅仅是在文本中输入希腊字母, 由于使用Unicode编码, 所以这些符号可以直接输入. 所有的希腊字母及其拉丁语写法如上表所示.</p>
+<h3 id="矢量与划线"><a href="#矢量与划线" class="headerlink" title="矢量与划线"></a>矢量与划线</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>LaTeX语法</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>矢量</td>
+<td><code>\vec&#123;a&#125;</code></td>
+<td>\( \vec{a} \)</td>
+</tr>
+<tr>
+<td>上划线</td>
+<td><code>\overline&#123;IOW&#125;</code></td>
+<td>\( \overline{IOW} \)</td>
+</tr>
+<tr>
+<td>下划线</td>
+<td><code>\underline&#123;IOW&#125;</code></td>
+<td>\( \underline{IOW} \)</td>
+</tr>
+</tbody></table>
+<p>所以结合前面提到的各种符号, 现在基本可以无压力的输入一个麦克斯韦方程组了,例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$ \nabla \cdot \vec&#123;E&#125; = \frac &#123;\rho&#125; &#123;\epsilon_0&#125; $$</span><br></pre></td></tr></table></figure>
+<p>$$ \nabla \cdot \vec{E} = \frac {\rho} {\epsilon_0} $$</p>
+<h3 id="集合操作"><a href="#集合操作" class="headerlink" title="集合操作"></a>集合操作</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>LaTeX语法</th>
+<th>示例</th>
+<th>名称</th>
+<th>LaTeX语法</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>任意</td>
+<td><code>\forall</code></td>
+<td>\( \forall \)</td>
+<td>存在</td>
+<td><code>\exists</code></td>
+<td>\( \exists \)</td>
+</tr>
+<tr>
+<td>属于</td>
+<td><code>\in</code></td>
+<td>\( \in \)</td>
+<td>不属于</td>
+<td><code>\notin</code></td>
+<td>\( \notin \)</td>
+</tr>
+<tr>
+<td>子集</td>
+<td><code>\subset</code></td>
+<td>\( \subset \)</td>
+<td>子集</td>
+<td><code>\sqsubseteq</code></td>
+<td>\( \sqsubseteq \)</td>
+</tr>
+<tr>
+<td>交</td>
+<td><code>\cup</code></td>
+<td>\( \cup \)</td>
+<td>并</td>
+<td><code>\cap</code></td>
+<td>\( \cap \)</td>
+</tr>
+</tbody></table>
+<p>可以看到, 集合操作基本就是个符号含义的英文单词, 比较容易记忆.</p>
+<h3 id="矩阵操作"><a href="#矩阵操作" class="headerlink" title="矩阵操作"></a>矩阵操作</h3><p>矩阵的基本形式通过使用<code>$$\begin&#123;matrix&#125;…\end&#123;matrix&#125;$$</code>来实现,例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">  \begin&#123;matrix&#125;</span><br><span class="line">   1 &amp; 2 &amp; 3 \\\\</span><br><span class="line">   4 &amp; 5 &amp; 6 \\\\</span><br><span class="line">   7 &amp; 8 &amp; 9</span><br><span class="line">  \end&#123;matrix&#125; </span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+<p>$$<br>  \begin{matrix}<br>   1 &amp; 2 &amp; 3 \\<br>   4 &amp; 5 &amp; 6 \\<br>   7 &amp; 8 &amp; 9<br>  \end{matrix}<br>$$</p>
+<p>注意: 由于LaTex使用<code>\\</code>来表示换行, 因此在Markdown代码中,需要使用<code>\\\\</code></p>
+<p>由于上述形式中没有括号, 因此可以使用<code>\left</code>和<code>\right</code>来加入一个可变长的括号. 例如使用小括号的语法如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line"> \left(</span><br><span class="line"> \begin&#123;matrix&#125;</span><br><span class="line">   1 &amp; 2 &amp; 3 \\\\</span><br><span class="line">   4 &amp; 5 &amp; 6 \\\\</span><br><span class="line">   7 &amp; 8 &amp; 9</span><br><span class="line">  \end&#123;matrix&#125;</span><br><span class="line">  \right)  </span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+
+<p>$$<br> \left(<br> \begin{matrix}<br>   1 &amp; 2 &amp; 3 \\<br>   4 &amp; 5 &amp; 6 \\<br>   7 &amp; 8 &amp; 9<br>  \end{matrix}<br>  \right)<br>$$</p>
+<p>与点结合可以产生各种带省略号的矩阵,例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\left[</span><br><span class="line">\begin&#123;matrix&#125;</span><br><span class="line"> 1      &amp; 2      &amp; \cdots &amp; 4      \\\\</span><br><span class="line"> 7      &amp; 6      &amp; \cdots &amp; 5      \\\\</span><br><span class="line"> \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\\\</span><br><span class="line"> 8      &amp; 9      &amp; \cdots &amp; 0      \\\\</span><br><span class="line">\end&#123;matrix&#125;</span><br><span class="line">\right]</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+
+<p>$$<br>\left[<br>\begin{matrix}<br> 1      &amp; 2      &amp; \cdots &amp; 4      \\<br> 7      &amp; 6      &amp; \cdots &amp; 5      \\<br> \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\<br> 8      &amp; 9      &amp; \cdots &amp; 0      \\<br>\end{matrix}<br>\right]<br>$$</p>
+<p>当然,矩阵中的元素可以是其他的公式, 虽然写起来比较麻烦,但最终还是可以得到类似如下的矩阵公式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\left( \begin&#123;matrix&#125;</span><br><span class="line">4 \\\\</span><br><span class="line">3 </span><br><span class="line">\end&#123;matrix&#125; \right)</span><br><span class="line">=</span><br><span class="line">\left( \begin&#123;matrix&#125;</span><br><span class="line">1 &amp; 2  \\\\</span><br><span class="line">2 &amp; -1 </span><br><span class="line">\end&#123;matrix&#125; \right)</span><br><span class="line">\left( \begin&#123;matrix&#125;</span><br><span class="line">x  \\\\</span><br><span class="line">y</span><br><span class="line">\end&#123;matrix&#125; \right)</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+
+<p>$$<br>\left(<br>\begin{matrix}<br>4 \\<br>3<br>\end{matrix}<br>\right)<br>=<br>\left(<br>\begin{matrix}<br>1 &amp; 2  \\<br>2 &amp; -1<br>\end{matrix}<br>\right)<br>\left(<br>\begin{matrix}<br>x  \\<br>y<br>\end{matrix}<br>\right)<br>$$</p>
+<h3 id="等号对齐"><a href="#等号对齐" class="headerlink" title="等号对齐"></a>等号对齐</h3><p>使用<code>\begin&#123;align&#125;</code>和<code>\end&#123;align&#125;</code>来标记需要等号对齐, 并且在公式中, 使用&amp;=在表示要对其的等号, 使用<code>\\</code>来换行, 例如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">\begin&#123;align&#125;</span><br><span class="line"> Vdiag(\lambda)V^&#123;-1&#125; &amp;= diag(\lambda)VV^&#123;-1&#125; \\\\</span><br><span class="line"> &amp;= [\lambda\_&#123;1&#125;v^&#123;(1)&#125;,\lambda\_&#123;2&#125;v^&#123;(2)&#125;,\cdots,\lambda\_&#123;n&#125;v^&#123;(n)&#125;]V^&#123;-1&#125; \\\\</span><br><span class="line"> &amp;= [Av^&#123;(1)&#125;,Av^&#123;(2)&#125;,\cdots,Av^&#123;(n)&#125;]V^&#123;-1&#125; \\\\</span><br><span class="line"> &amp;= AVV^&#123;-1&#125; \\\\</span><br><span class="line"> &amp;= A</span><br><span class="line">\end&#123;align&#125;</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
+
+<p>渲染效果为:</p>
+<p>$$<br>\begin{align}<br> Vdiag(\lambda)V^{-1} &amp;= diag(\lambda)VV^{-1} \\<br> &amp;= [\lambda_{1}v^{(1)},\lambda_{2}v^{(2)},\cdots,\lambda_{n}v^{(n)}]V^{-1} \\<br> &amp;= [Av^{(1)},Av^{(2)},\cdots,Av^{(n)}]V^{-1} \\<br> &amp;= AVV^{-1} \\<br> &amp;= A<br>\end{align}<br>$$</p>
+<h3 id="字体转化"><a href="#字体转化" class="headerlink" title="字体转化"></a>字体转化</h3><table>
+<thead>
+<tr>
+<th>字体</th>
+<th>示例</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>罗马体</td>
+<td><code>\\( \rm&#123;A&#125; \\)</code></td>
+<td>\( \rm{A} \)</td>
+</tr>
+<tr>
+<td>意大利体</td>
+<td><code>\\( \it&#123;A&#125; \\)</code></td>
+<td>\( \it{A} \)</td>
+</tr>
+<tr>
+<td>黑体</td>
+<td><code>\\( \bf&#123;A&#125; \\)</code></td>
+<td>\( \bf{A} \)</td>
+</tr>
+<tr>
+<td>花体</td>
+<td><code>\\( \cal&#123;A&#125; \\)</code></td>
+<td>\( \cal{A} \)</td>
+</tr>
+<tr>
+<td>等线体</td>
+<td><code>\\( \sf&#123;A&#125; \\)</code></td>
+<td>\( \sf{A} \)</td>
+</tr>
+<tr>
+<td>数学斜体</td>
+<td><code>\\( \mit&#123;A&#125; \\)</code></td>
+<td>\( \mit{A} \)</td>
+</tr>
+<tr>
+<td>打字机字体</td>
+<td><code>\\( \tt&#123;A&#125; \\)</code></td>
+<td>\( \tt{A} \)</td>
+</tr>
+</tbody></table>
+<p>一般情况下, 公式默认使用意大利体.</p>
+<h3 id="其他符号"><a href="#其他符号" class="headerlink" title="其他符号"></a>其他符号</h3><p>LaTex也支持输入包括逻辑运算符,集合运算符等其他的符号, 由于这些符号的使用场景不多, 因此就不再逐一展示了,具体的名称可以阅读下面的参考文献: <a target="_blank" rel="noopener" href="https://blog.csdn.net/u013007900/article/details/50082205">MathJax使用LaTeX语法编写数学公式教程</a></p>
+<h2 id="辅助输入工具"><a href="#辅助输入工具" class="headerlink" title="辅助输入工具"></a>辅助输入工具</h2><p>在<a target="_blank" rel="noopener" href="https://www.codecogs.com/">codecogs</a>的网站上提供了一个LaTeX的<a target="_blank" rel="noopener" href="https://www.codecogs.com/latex/eqneditor.php">公式编辑器</a>, 通过点击相应符号的按钮就可以生成LaTeX代码, 并且提供实时预览.</p>
+<p>针对矩阵语法比较复杂的问题, 我编写了一个小程序来完成矩阵代码的生产, 可以查看我的博客文章<a href="https://lizec.top/2019/07/03/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E8%BE%93%E5%85%A5%E7%9F%A9%E9%98%B5%E5%85%AC%E5%BC%8F/">如何优雅的输入矩阵公式</a>获得程序源代码和使用说明.</p>
+<h2 id="特殊符号转义问题"><a href="#特殊符号转义问题" class="headerlink" title="特殊符号转义问题"></a>特殊符号转义问题</h2><p>在LaTex中可能要使用 <code>_</code> 等符号, 而这些符号在Markdown中也是特殊符号, 并且Markdwon会先于LaTex的解析过程, 因此公式中使用了这些符号就导致公式的解析错误.</p>
+<p>对于这一问题, 目前基本上是无解的, 综合考虑之后, 我编写了一个小程序来完成转义字符的处理, 输入原始的LaTeX代码之后, 由小程序完成转义字符的处理工作. <a target="_blank" rel="noopener" href="https://github.com/LiZeC123/miniTools/blob/master/fixLatex.py">代码</a>已经开源在Github上.</p>
+<p>因为我只在Markdown上使用LaTeX输入数学公式, 而所有的Markdown渲染器都存在这一问题, 因此修改LaTeX代码应该是一种代价最小的方案. 此外, 还有一些针对Markdown渲染器进行修改的方法, 具体内容如下所示:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://kingsleyxie.cn/markdown-mathjax-conflicts-and-several-solutions/">关于 Markdown 与 Mathjax 的冲突问题及几个解决方案</a></li>
+<li><a target="_blank" rel="noopener" href="https://yihui.name/cn/2017/04/mathjax-markdown/">MathJax 与 Markdown 的究极融合</a></li>
+</ul>
+<h2 id="参考文献和补充"><a href="#参考文献和补充" class="headerlink" title="参考文献和补充"></a>参考文献和补充</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiahouzuoxin/article/details/26478179">Markdown中插入数学公式的方法</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/garfielder007/article/details/51646604">LaTeX 各种命令，符号</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013007900/article/details/50082205">MathJax使用LaTeX语法编写数学公式教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/bendanban/article/details/44221279">使用LaTeX写矩阵</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.numberempire.com/latexequationeditor.php">在线LaTeX公式编辑器</a></li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年01月14日 10:24</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/30/Markdown%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" title="Markdown中插入数学公式">https://lizec.top/2018/03/30/Markdown%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2018/03/30/Markdown%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/&title=《Markdown中插入数学公式》 — LiZeC的博客&pic=images/latex.PNG" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2018/03/30/Markdown%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/&title=《Markdown中插入数学公式》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2018/03/30/Markdown%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Markdown中插入数学公式》 — LiZeC的博客&url=https://lizec.top/2018/03/30/Markdown%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2018/03/30/Markdown%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2018/03/30/Markdown%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/LaTeX/" class="color1">LaTeX</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFLaTeX"><span class="post-toc-text">什么是LaTeX</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Markdown%E4%B8%AD%E5%BC%95%E5%85%A5LaTex"><span class="post-toc-text">Markdown中引入LaTex</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%AC%E5%BC%8F%E5%BC%95%E6%93%8E"><span class="post-toc-text">公式引擎</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BC%95%E5%85%A5%E5%85%AC%E5%BC%8F"><span class="post-toc-text">引入公式</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#LaTeX%E8%AF%AD%E6%B3%95"><span class="post-toc-text">LaTeX语法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%8EMarkdown%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98"><span class="post-toc-text">与Markdown的兼容问题</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%A7%92%E6%A0%87%E5%92%8C%E6%8B%AC%E5%8F%B7"><span class="post-toc-text">角标和括号</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7"><span class="post-toc-text">特殊符号</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B8%8C%E8%85%8A%E5%AD%97%E6%AF%8D"><span class="post-toc-text">希腊字母</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%9F%A2%E9%87%8F%E4%B8%8E%E5%88%92%E7%BA%BF"><span class="post-toc-text">矢量与划线</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%9B%86%E5%90%88%E6%93%8D%E4%BD%9C"><span class="post-toc-text">集合操作</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%9F%A9%E9%98%B5%E6%93%8D%E4%BD%9C"><span class="post-toc-text">矩阵操作</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%AD%89%E5%8F%B7%E5%AF%B9%E9%BD%90"><span class="post-toc-text">等号对齐</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AD%97%E4%BD%93%E8%BD%AC%E5%8C%96"><span class="post-toc-text">字体转化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%B6%E4%BB%96%E7%AC%A6%E5%8F%B7"><span class="post-toc-text">其他符号</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%BE%85%E5%8A%A9%E8%BE%93%E5%85%A5%E5%B7%A5%E5%85%B7"><span class="post-toc-text">辅助输入工具</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7%E8%BD%AC%E4%B9%89%E9%97%AE%E9%A2%98"><span class="post-toc-text">特殊符号转义问题</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E5%92%8C%E8%A1%A5%E5%85%85"><span class="post-toc-text">参考文献和补充</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          大数据技术原理
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/22/%E8%8B%B1%E8%AF%AD%E8%AF%AD%E6%B3%95%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">英语语法笔记</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Fri Mar 30 2018 16:46:54 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

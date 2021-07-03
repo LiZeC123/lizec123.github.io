@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>大数据导入和分析 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="本文是大数据分析案例系列文章. 本文主要介绍将前一步生成的数据导入Hadoop平台,并进一步将数据导入Hive. 数据导入以后,可以使用SQL语句进行查询和分析, 最后对比统计分析结果和之前随机数的使用结果. 数据导入Hadoop启动Hadoop在Hadoop安装目录下执行 12sbin&#x2F;start-dfs.shsbin&#x2F;start-yarn.sh  访问 http:&#x2F;&#x2F;localhost">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据导入和分析">
+<meta property="og:url" content="https://lizec.top/2018/08/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5%E5%92%8C%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="本文是大数据分析案例系列文章. 本文主要介绍将前一步生成的数据导入Hadoop平台,并进一步将数据导入Hive. 数据导入以后,可以使用SQL语句进行查询和分析, 最后对比统计分析结果和之前随机数的使用结果. 数据导入Hadoop启动Hadoop在Hadoop安装目录下执行 12sbin&#x2F;start-dfs.shsbin&#x2F;start-yarn.sh  访问 http:&#x2F;&#x2F;localhost">
+<meta property="og:locale">
+<meta property="og:image" content="https://lizec.top/images/bigdata/province.png">
+<meta property="article:published_time" content="2018-08-15T03:22:39.000Z">
+<meta property="article:modified_time" content="2019-02-07T09:42:07.200Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="大数据">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lizec.top/images/bigdata/province.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-大数据导入和分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      大数据导入和分析
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/大数据分析案例/">大数据分析案例</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-08-15
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script> -->
+
+
+
+<p>本文是大数据分析案例系列文章. 本文主要介绍将前一步生成的数据导入Hadoop平台,并进一步将数据导入Hive. 数据导入以后,可以使用SQL语句进行查询和分析, 最后对比统计分析结果和之前随机数的使用结果.</p>
+<h2 id="数据导入Hadoop"><a href="#数据导入Hadoop" class="headerlink" title="数据导入Hadoop"></a>数据导入Hadoop</h2><h3 id="启动Hadoop"><a href="#启动Hadoop" class="headerlink" title="启动Hadoop"></a>启动Hadoop</h3><p>在Hadoop安装目录下执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sbin/start-dfs.sh</span><br><span class="line">sbin/start-yarn.sh</span><br></pre></td></tr></table></figure>
+
+<p>访问 <a target="_blank" rel="noopener" href="http://localhost:9870/">http://localhost:9870/</a>, 如果显示正常, 则说明hdfs启动成功.</p>
+<h3 id="导入数据"><a href="#导入数据" class="headerlink" title="导入数据"></a>导入数据</h3><p>在Hadoop安装目录下执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/hdfs dfs -mkdir -p /dataset/user</span><br></pre></td></tr></table></figure>
+
+<p>从而在HDFS的根目录下创建一个dataset文件夹, 之后可以在 HDFS提供的Web版<a target="_blank" rel="noopener" href="http://localhost:9870/explorer.html#">文件浏览器</a>中查看是否创建成功. 导入文件之后,也可以使用文件浏览器查看导入文件的情况.</p>
+<p>假设前一步生成的数据存放在 <code>/home/lizec/IdeaProjects/RandomDataSet/data.txt</code>, 则在Hadoop安装目录下执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/hdfs dfs -put /home/lizec/IdeaProjects/RandomDataSet/data.txt /dataset/user/user.txt  </span><br></pre></td></tr></table></figure>
+
+<p>将本地文件系统中的<code>data.txt</code>文件复制到Hadoop文件系统之中,并且命名为<code>user.txt</code>. 在文件浏览器中查看无误, 则数据以及成功导入到HDFS之中.</p>
+<p>关于HDFS的Shell指令,可以查看<a target="_blank" rel="noopener" href="http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/HDFSCommands.html">HDFS Commands Guide</a>. 实际上, 很多指令都与linux本身的shell指令相类似, 如果有shell的使用经验, 可以很容易的理解上述的指令.</p>
+<h2 id="数据导入Hive"><a href="#数据导入Hive" class="headerlink" title="数据导入Hive"></a>数据导入Hive</h2><h3 id="启动Hive"><a href="#启动Hive" class="headerlink" title="启动Hive"></a>启动Hive</h3><p>在Hive安装目录下执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/hive</span><br></pre></td></tr></table></figure>
+
+<p>启动后Hive给出了输出, 提示基于<code>MapReduce</code>的<code>Hive</code>在<code>Hive 2</code>中已经被标记为废弃, 后续可能不再支持, 建议更换引擎(例如Spark), 或者继续使用<code>Hive 1</code></p>
+<p>因此虽然已经被废弃,但是继续使用是暂时没有问题的, 关于更换引擎的问题,后续有机会再补充.</p>
+<h3 id="导入数据-1"><a href="#导入数据-1" class="headerlink" title="导入数据"></a>导入数据</h3><p>Hive启动后, 先输入以下的HiveQL语句来创建数据库</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE bigdata;</span><br><span class="line">USE bigdata;</span><br></pre></td></tr></table></figure>
+
+<p>然后执行下面的语句创建表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> bigdata.userinfo(</span><br><span class="line">    id STRING,</span><br><span class="line">    uid <span class="type">INT</span>,</span><br><span class="line">    item_id <span class="type">INT</span>,</span><br><span class="line">    behavior_type STRING,</span><br><span class="line">    visit_date <span class="type">DATE</span>,</span><br><span class="line">    province STRING</span><br><span class="line">) </span><br><span class="line">COMMENT <span class="string">&#x27;User Info&#x27;</span> </span><br><span class="line"><span class="type">ROW</span> FORMAT DELIMITED </span><br><span class="line">FIELDS TERMINATED <span class="keyword">BY</span> <span class="string">&#x27;\t&#x27;</span> </span><br><span class="line">STORED <span class="keyword">AS</span> TEXTFILE </span><br><span class="line">LOCATION <span class="string">&#x27;/dataset/user/&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这里解释一下上面的语句, 前面的CREATE操作和SQL一样,创建了一个表<code>dblab.user</code>,其中有若干字段. COMMENT行是表的注释. <code>ROW FORMAT DELIMITED</code>表示将源文件中的每一行视为一条记录, <code>FIELDS TERMINATED BY &#39; &#39;</code>表示以空格作为分隔符切分字段. <code>STORED AS TEXTFILE</code>表示以文本形式存储. <code>LOCATION &#39;/dataset/user/&#39;</code>指定原始数据在HDFS中的路径,该路径下所有的文件都为视为原始数据.</p>
+<p>此外<code>user</code>似乎是关键字, 不能作为表的名称.</p>
+<h2 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h2><h3 id="基本信息"><a href="#基本信息" class="headerlink" title="基本信息"></a>基本信息</h3><p>首先可以查看表的前10条数据,来确保数据已经被正确的解析, 执行如下的语句:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from userinfo limit 10;</span><br></pre></td></tr></table></figure>
+
+<p>返回结果如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">OK</span><br><span class="line">     1	24531	1728	 1	2018-07-09	河南省</span><br><span class="line">     2	14409	1785	 1	2018-03-21	四川省</span><br><span class="line">     3	17986	1680	 1	2017-09-22	河北省</span><br><span class="line">     4	15028	1921	 2	2018-01-25	江苏省</span><br><span class="line">     5	21294	1937	 1	2018-07-24	广西壮族自治区</span><br><span class="line">     6	11613	1649	 1	2018-07-03	江苏省</span><br><span class="line">     7	18916	1031	 1	2018-03-16	河北省</span><br><span class="line">     8	10281	1296	 1	2017-09-01	山东省</span><br><span class="line">     9	11770	1445	 1	2017-12-24	湖南省</span><br><span class="line">    10	24586	1323	 1	2018-07-10	湖南省</span><br><span class="line">Time taken: 0.269 seconds, Fetched: 10 row(s)</span><br></pre></td></tr></table></figure>
+
+<p>由此可见,数据已经被正确的解析,并且可以通过sql语句进行查询.</p>
+<h2 id="数据分布检验"><a href="#数据分布检验" class="headerlink" title="数据分布检验"></a>数据分布检验</h2><h3 id="省份数据检验"><a href="#省份数据检验" class="headerlink" title="省份数据检验"></a>省份数据检验</h3><p>在前一步的数据生成过程中,对省份的数据进行了特殊的处理,使得各省份出现的概率与该省份的人口数量成正比. 下面通过统计检验这一设定是否成立.</p>
+<p>通过统计各个省份实际出现的次数,并且依据次数的多少进行排名,再与实际的人口排名进行对比, 即可简单的检验设定是否正确. 因此执行如下语句统计各个省份实际出现的次数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> province, <span class="built_in">COUNT</span>(<span class="operator">*</span>) num <span class="keyword">FROM</span> userinfo <span class="keyword">GROUP</span> <span class="keyword">BY</span> province <span class="keyword">ORDER</span> <span class="keyword">BY</span> num <span class="keyword">DESC</span> LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<p>统计得到结果如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">广东省	182569</span><br><span class="line">山东省	164191</span><br><span class="line">河南省	156987</span><br><span class="line">四川省	136488</span><br><span class="line">江苏省	131378</span><br><span class="line">河北省	123386</span><br><span class="line">湖南省	113062</span><br><span class="line">安徽省	102961</span><br><span class="line">湖北省	97062</span><br><span class="line">浙江省	92326</span><br></pre></td></tr></table></figure>
+
+<p>与之前的<a target="_blank" rel="noopener" href="http://www.chamiji.com/chinaprovincepopulation">2018年全国各省人口总数排行榜</a>进行比较,可以看到两者的结果是完全一致的,各部分之间比例也是接近的, 从而说明之前的随机算法是正确的.</p>
+<h2 id="数据导入MySQL"><a href="#数据导入MySQL" class="headerlink" title="数据导入MySQL"></a>数据导入MySQL</h2><h3 id="创建Hive表"><a href="#创建Hive表" class="headerlink" title="创建Hive表"></a>创建Hive表</h3><p>经过前面的各种数据分析,我们可以把最后的分析结果导入到MySQL数据库中,从而可以被其他应用程序访问和展示. 首先在Hive中创建一个省份的分布表,并向其中插入数据, 代码如下:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> bigdata.prvinfo(</span><br><span class="line">    province STRING,</span><br><span class="line">    num <span class="type">INT</span></span><br><span class="line">) </span><br><span class="line"><span class="type">ROW</span> FORMAT DELIMITED </span><br><span class="line">FIELDS TERMINATED <span class="keyword">BY</span> <span class="string">&#x27;\t&#x27;</span> </span><br><span class="line">STORED <span class="keyword">AS</span> TEXTFILE;</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> OVERWRITE <span class="keyword">TABLE</span> bigdata.prvinfo</span><br><span class="line"><span class="keyword">SELECT</span> province, <span class="built_in">COUNT</span>(<span class="operator">*</span>) num <span class="keyword">FROM</span> userinfo <span class="keyword">GROUP</span> <span class="keyword">BY</span> province <span class="keyword">ORDER</span> <span class="keyword">BY</span> num <span class="keyword">DESC</span>;</span><br></pre></td></tr></table></figure>
+
+<p>其中第一部分的代码创建了一个名为<code>prvinfo</code>的表,其中包含省份名和数量两个字段. 第二部分代码之前已经使用过,从原始的表中分别统计了每个省份的人数.</p>
+<p>上述代码执行完毕后, 可以使用HDFS的文件浏览器查看<code>/user/hive/warehouse/bigdata.db/prvinfo</code>目录下是否有创建文件,以及文件内容是否为上述指令的查询结果. </p>
+<h3 id="创建MySQL表"><a href="#创建MySQL表" class="headerlink" title="创建MySQL表"></a>创建MySQL表</h3><p>启动mysql,并且执行如下的语句:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE bigdata;</span><br><span class="line">USE bigdata;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> bigdata.prvinfo (</span><br><span class="line">    province <span class="type">CHAR</span>(<span class="number">20</span>),</span><br><span class="line">    num <span class="type">INT</span></span><br><span class="line">) </span><br><span class="line">ENGINE<span class="operator">=</span>InnoDB </span><br><span class="line"><span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8;</span><br></pre></td></tr></table></figure>
+
+<p>第一部分代码创建了一个数据库<code>bigdata</code>,第二部分代码创建了一个表<code>prvinfo</code>. 由于MySQL中并没有的STRING类型,因此可以使用CHAR代替.</p>
+<h3 id="使用Sqoop导入数据"><a href="#使用Sqoop导入数据" class="headerlink" title="使用Sqoop导入数据"></a>使用Sqoop导入数据</h3><p>这里使用的Sqoop是<code>Sqoop1.4.7</code>, 是当前的最新稳定版. 还有一个版本是<code>Sqoop1.99.7</code>, 根据官网介绍,这个版本与<code>Sqoop1.4.7</code>不兼容,不建议在生产环境中部署此版本. </p>
+<p>在Sqoop的安装目录下执行以下指令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/sqoop <span class="built_in">export</span> --connect jdbc:mysql://localhost:3306/bigdata --username root --password 123456 --table <span class="string">&#x27;prvinfo&#x27;</span> --export-dir <span class="string">&#x27;/user/hive/warehouse/bigdata.db/prvinfo&#x27;</span> --fields-terminated-by <span class="string">&#x27;\t&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>各参数含义如下</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>connect</td>
+<td>需要连接的mysql数据库</td>
+</tr>
+<tr>
+<td>username</td>
+<td>mysql用户名</td>
+</tr>
+<tr>
+<td>password</td>
+<td>mysql密码</td>
+</tr>
+<tr>
+<td>table</td>
+<td>被导入的mysql数据库表名</td>
+</tr>
+<tr>
+<td>export-dir</td>
+<td>Hive数据的HDFS路径</td>
+</tr>
+<tr>
+<td>fields-terminated-by</td>
+<td>数据分割符号</td>
+</tr>
+</tbody></table>
+<p>注意: <code>--table</code> 指定表名时, 表名一定要用引号括起来,否则可能导入失败.</p>
+<h2 id="数据可视化"><a href="#数据可视化" class="headerlink" title="数据可视化"></a>数据可视化</h2><p>在前一步, 我们已经将省份的数据导入了MySQL之中, 之后我们就可以使用Java Web的有关技术来获得数据并且在网页上展示出来. 这里使用Tomcat作为Web服务器, 使用<a target="_blank" rel="noopener" href="http://echarts.baidu.com/index.html">ECharts</a>作为数据可视化工具. ECharts是一个JavaScript编写的图像库, 可以简单地绘制各种常见图形.</p>
+<h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><p>环境配置可以参考如下的一些文章, Tomcat和ECharts的配置都很简单,就不赘述了.</p>
+<ul>
+<li><a href="http://lizec.top/2018/03/01/Web%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">Java Web开发与运行环境配置</a></li>
+<li><a target="_blank" rel="noopener" href="http://echarts.baidu.com/tutorial.html#5%20%E5%88%86%E9%92%9F%E4%B8%8A%E6%89%8B%20ECharts">ECharts用户文档</a></li>
+</ul>
+<h3 id="数据转换"><a href="#数据转换" class="headerlink" title="数据转换"></a>数据转换</h3><p>把数据库中的数据绘制到网页上有三个步骤</p>
+<ol>
+<li>使用Java语言将数据从数据库中取出</li>
+<li>将JSP的数据转换为JS的数组</li>
+<li>调用EChart的函数绘制图形</li>
+</ol>
+<p>其中第一步和第三步都是常规操作, 这里简单介绍第二步的实现方案.</p>
+<p>在JSP代码部分, 首先声明数组并且把数据填充为HTML代码:</p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 声明存放数据的Java数组,并获得数据 --&gt;</span><br><span class="line">&lt;%! </span><br><span class="line">ArrayList&lt;ProvincePair&gt; data = ProvinceDb.getInfo();</span><br><span class="line">%&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 将Java数组转化为HTML代码 --&gt;</span><br><span class="line"> &lt;%       </span><br><span class="line"> <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;data.size();i++)</span><br><span class="line"> &#123;</span><br><span class="line"></span><br><span class="line">      %&gt;</span><br><span class="line">      &lt;input name=<span class="string">&quot;store_name&quot;</span> type=<span class="string">&quot;hidden&quot;</span> value=<span class="string">&quot;&lt;%=data.get(i).getName()%&gt;&quot;</span>/&gt;</span><br><span class="line">      &lt;input name=<span class="string">&quot;store_num&quot;</span> type=<span class="string">&quot;hidden&quot;</span> value=<span class="string">&quot;&lt;%=data.get(i).getNum()%&gt;&quot;</span>/&gt;</span><br><span class="line">      &lt;%</span><br><span class="line">&#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接下来使用js的标签查找方式获得上述的标签, 然后取出各个标签的value字段</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sname = <span class="built_in">document</span>.getElementsByName(<span class="string">&quot;store_name&quot;</span>) </span><br><span class="line"><span class="keyword">var</span> snum = <span class="built_in">document</span>.getElementsByName(<span class="string">&quot;store_num&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> name = [];</span><br><span class="line"><span class="keyword">var</span> num = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;sname.length;i++)&#123;</span><br><span class="line">    name[i] = sname[i].value;</span><br><span class="line">    num[i] = snum[i].value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样就完成了JSP数组到JS数组的转化, 由于本人没系统学过JS, 因此不能保证这种转化方案是最优的, 欢迎各位在评论区补充.</p>
+<h3 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h3><p>对于省份数据, 可以考虑使用饼图进行展示. ECharts网站上提供了很多实例, 我们只需要稍加修改即可完成数据的展示, 例如选择<a target="_blank" rel="noopener" href="http://echarts.baidu.com/examples/editor.html?c=pie-legend">Pie With Scollable Legend</a>.</p>
+<p>直接复制左侧的实例代码, 将其中的数据源修改为我们从数据库中提取的数据, 最终绘制结果如下所示</p>
+<p><img src="/images/bigdata/province.png" alt="部分省份购买人数分布情况"></p>
+<h2 id="特别感谢"><a href="#特别感谢" class="headerlink" title="特别感谢"></a>特别感谢</h2><p>在本文的编写过程中, 参考了如下的两个系列的博客, 对博客的作者表示由衷地感谢!</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://dblab.xmu.edu.cn/post/7499/">网站用户行为分析</a></li>
+<li><a target="_blank" rel="noopener" href="http://dblab.xmu.edu.cn/blog/1369-2/">淘宝双11数据分析与预测课程案例</a></li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.quora.com/Why-do-we-use-row-format-delimited-and-fields-terminated-by-in-table-creation-in-Hive-and-in-Hadoop">Why do we use ‘row format delimited’ and ‘fields terminated by’ in table creation in Hive and in Hadoop?</a></li>
+<li><a target="_blank" rel="noopener" href="http://ilovejavaforever.iteye.com/blog/760731">hive sql语法解读</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.aboutyun.com/thread-7458-1-1.html">hive内部表与外部表区别详细介绍</a></li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年02月07日 17:42</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2018/08/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5%E5%92%8C%E5%88%86%E6%9E%90/" title="大数据导入和分析">https://lizec.top/2018/08/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5%E5%92%8C%E5%88%86%E6%9E%90/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2018/08/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5%E5%92%8C%E5%88%86%E6%9E%90/&title=《大数据导入和分析》 — LiZeC的博客&pic=images/bigdata/bigdata.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2018/08/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5%E5%92%8C%E5%88%86%E6%9E%90/&title=《大数据导入和分析》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2018/08/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5%E5%92%8C%E5%88%86%E6%9E%90/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《大数据导入和分析》 — LiZeC的博客&url=https://lizec.top/2018/08/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5%E5%92%8C%E5%88%86%E6%9E%90/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2018/08/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5%E5%92%8C%E5%88%86%E6%9E%90/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2018/08/15/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5%E5%92%8C%E5%88%86%E6%9E%90/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/大数据/" class="color4">大数据</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5Hadoop"><span class="post-toc-text">数据导入Hadoop</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%90%AF%E5%8A%A8Hadoop"><span class="post-toc-text">启动Hadoop</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="post-toc-text">导入数据</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5Hive"><span class="post-toc-text">数据导入Hive</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%90%AF%E5%8A%A8Hive"><span class="post-toc-text">启动Hive</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE-1"><span class="post-toc-text">导入数据</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90"><span class="post-toc-text">数据分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="post-toc-text">基本信息</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E6%A3%80%E9%AA%8C"><span class="post-toc-text">数据分布检验</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%9C%81%E4%BB%BD%E6%95%B0%E6%8D%AE%E6%A3%80%E9%AA%8C"><span class="post-toc-text">省份数据检验</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5MySQL"><span class="post-toc-text">数据导入MySQL</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BAHive%E8%A1%A8"><span class="post-toc-text">创建Hive表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BAMySQL%E8%A1%A8"><span class="post-toc-text">创建MySQL表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8Sqoop%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="post-toc-text">使用Sqoop导入数据</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="post-toc-text">数据可视化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="post-toc-text">环境配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2"><span class="post-toc-text">数据转换</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%BB%93%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="post-toc-text">结果展示</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%89%B9%E5%88%AB%E6%84%9F%E8%B0%A2"><span class="post-toc-text">特别感谢</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="post-toc-text">参考资料</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/09/07/Git%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%88%86%E6%94%AF%E6%93%8D%E4%BD%9C/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Git笔记之分支操作
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/08/14/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%92%8C%E6%95%B0%E6%8D%AE%E7%94%9F%E6%88%90/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">大数据环境配置和数据生成</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Wed Aug 15 2018 11:22:39 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

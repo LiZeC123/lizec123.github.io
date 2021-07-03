@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>《SICP》读书笔记 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="About This BookStructure and Interpretation of Computer Programs(also named as  SICP) is a textbook about the principles of computer programming,such as abstraction in programming, metalinguistic abst">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《SICP》读书笔记">
+<meta property="og:url" content="https://lizec.top/2017/09/01/%E3%80%8ASICP%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="About This BookStructure and Interpretation of Computer Programs(also named as  SICP) is a textbook about the principles of computer programming,such as abstraction in programming, metalinguistic abst">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-09-01T03:24:10.000Z">
+<meta property="article:modified_time" content="2020-06-26T14:43:13.410Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="函数式编程">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-《SICP》读书笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      《SICP》读书笔记
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-09-01
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="About-This-Book"><a href="#About-This-Book" class="headerlink" title="About This Book"></a>About This Book</h2><p><code>Structure and Interpretation of Computer Programs</code>(also named as  <code>SICP</code>) is a textbook about the principles of computer programming,such as abstraction in programming, metalinguistic abstracion, recursion, interpreters, and modular programming. It is widely considered a classic text in computer science. SCIP focuses on finding general patterns from specific problem and building software tools that embody each pattern. </p>
+<h3 id="How-to-Start-Learning-This-Book"><a href="#How-to-Start-Learning-This-Book" class="headerlink" title="How to Start Learning This Book"></a>How to Start Learning This Book</h3><ol>
+<li>Get this book.</li>
+<li>Get Scheme dialect of Lisp.</li>
+<li>Get all code of this book.</li>
+</ol>
+<p>You can get all of those above from <a target="_blank" rel="noopener" href="https://mitpress.mit.edu/sicp/">https://mitpress.mit.edu/sicp/</a></p>
+<h3 id="How-to-Use-Edwin"><a href="#How-to-Use-Edwin" class="headerlink" title="How to Use Edwin"></a>How to Use Edwin</h3><p>When I first tried to learn Sheme, I had a lot of problem about how to use the interpreter. One of the main reason is that Edwin is an Emacs-like editor, which is not easy for beginner to use. Therefore, I want to give an outline of Edwin. </p>
+<p>Edwin is an Emace-like editor, that is, all the usages of Edwin are almost same as Emacs. Emacs is a famous editor in Linux platforms, and almost all the commands used by Emacs are begin with Ctrl key or Alt key.Now I give some the most used commands to help beginner to use Edwin. In the following, the prefix <code>C-</code> refers to the Ctrl key. For example, <code>C-x</code> means to simultaneously press the Ctrl key and the x key.</p>
+<table>
+<thead>
+<tr>
+<th align="left">command</th>
+<th align="left">means</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">C-x c</td>
+<td align="left">close Edwin and back to interpreter</td>
+</tr>
+<tr>
+<td align="left">M-z</td>
+<td align="left">evalute the expression</td>
+</tr>
+<tr>
+<td align="left">C-i</td>
+<td align="left">auto indent</td>
+</tr>
+<tr>
+<td align="left">M-/</td>
+<td align="left">auto complete</td>
+</tr>
+<tr>
+<td align="left">C-x C-s</td>
+<td align="left">save this file</td>
+</tr>
+<tr>
+<td align="left">C-x C-f</td>
+<td align="left">open a new file</td>
+</tr>
+<tr>
+<td align="left">C-x o</td>
+<td align="left">switching windows</td>
+</tr>
+<tr>
+<td align="left">C-x 0</td>
+<td align="left">close this windows</td>
+</tr>
+</tbody></table>
+<p>For more commands, You can read the article written by me <code>&lt;&lt;Edwin笔记&gt;&gt;</code></p>
+<h2 id="Building-Abstractions-with-Procedures"><a href="#Building-Abstractions-with-Procedures" class="headerlink" title="Building Abstractions with Procedures"></a>Building Abstractions with Procedures</h2><h3 id="The-Elements-of-Programming"><a href="#The-Elements-of-Programming" class="headerlink" title="The Elements of Programming"></a>The Elements of Programming</h3><p>Every powerful language has three mechanisms for accomplishing this:</p>
+<ul>
+<li><strong>primitive expressions</strong>, which represent the simplest entities the language is concerned with.</li>
+<li><strong>means of combinatoin</strong>, by which compound elements are built form simpler ones.</li>
+<li><strong>means of abstraction</strong>, by which compound elements can be named and manipulated as units.</li>
+</ul>
+<p>In programming, we deal with two kinds of elements: procedures and data. Thus any powerful programming language should be able to describle primitive data and primitive procedures and should have methonds for combining and abstracting procedures and data.</p>
+<p>For example, in Java language, basic statements and basic number are primitive procedures and primitive data, and functions and classes are methonds for combining and abstracting procedures and data. When we defined a class in Java, we can manipulate it as an unit.</p>
+<h3 id="Expressions"><a href="#Expressions" class="headerlink" title="Expressions"></a>Expressions</h3><ul>
+<li>There are some examples about based expressions in Scheme.</li>
+</ul>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">486</span></span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">+</span></span> <span class="number">137</span> <span class="number">248</span>)</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">*</span></span> <span class="number">2.7</span> <span class="number">12</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Expressions such as these,formed by delimiting a list of expresions within parentheses in order to denote procedure applicartion, are called <strong>combinations</strong>.</li>
+<li>The leftmost element in the list is called the <strong>operator</strong>,and the other elements are called <strong>operands</strong>.</li>
+<li>The value of a combination is obtained by applying the procedure specified by the operator to the <strong>arguments</strong> that are the values of the operands.</li>
+<li>The convention of placing the operator to the left of the operands is konwn as <strong>prefix</strong> notation.</li>
+<li>Prefix notation has several advantages<ul>
+<li>it can accommodate procedures that may take an arbitray number of arguments.</li>
+<li>it extends in a straightforward way to allow combinations to be <strong>nested</strong>,that is, to have combinatons whose elements are themselver combinations</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">+</span></span> <span class="number">137</span> <span class="number">248</span> <span class="number">342</span> <span class="number">23</span>)</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">*</span></span> (<span class="name"><span class="builtin-name">+</span></span> <span class="number">4</span> <span class="number">3</span>) (<span class="name"><span class="builtin-name">-</span></span> <span class="number">10</span> <span class="number">3</span>))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>There is no limit to the depth of such nesting and to the overall complexity of the expressions that the Lisp interpreter can evaluate.</li>
+<li>We can use a formatting convention known as <strong>pretty-printing</strong>, in which each long combination is written so that the operands are aligned vertically.</li>
+</ul>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">+</span></span> (<span class="name"><span class="builtin-name">*</span></span> <span class="number">3</span> (<span class="name"><span class="builtin-name">+</span></span> (<span class="name"><span class="builtin-name">*</span></span> <span class="number">2</span> <span class="number">4</span>) (<span class="name"><span class="builtin-name">+</span></span> <span class="number">3</span> <span class="number">5</span>))) (<span class="name"><span class="builtin-name">+</span></span> (<span class="name"><span class="builtin-name">-</span></span> <span class="number">10</span> <span class="number">7</span>) <span class="number">6</span>))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">+</span></span> (<span class="name"><span class="builtin-name">*</span></span> <span class="number">3</span></span><br><span class="line">      (<span class="name"><span class="builtin-name">+</span></span> (<span class="name"><span class="builtin-name">*</span></span> <span class="number">2</span> <span class="number">4</span>)</span><br><span class="line">   		(<span class="name"><span class="builtin-name">+</span></span> <span class="number">3</span> <span class="number">5</span>)))</span><br><span class="line">   (<span class="name"><span class="builtin-name">+</span></span> (<span class="name"><span class="builtin-name">-</span></span> <span class="number">10</span> <span class="number">7</span>)</span><br><span class="line">      <span class="number">6</span>))</span><br></pre></td></tr></table></figure>
+
+<h3 id="Read-Eval-Print-Loop"><a href="#Read-Eval-Print-Loop" class="headerlink" title="Read-Eval-Print Loop"></a>Read-Eval-Print Loop</h3><ul>
+<li>The interpreter always operates in the same basic cycle<ol>
+<li>read an expression from the terminal</li>
+<li>evaluate the expression</li>
+<li>print the result</li>
+</ol>
+</li>
+<li>This mode of operation is often expressed by saying that the interpreter runs in a <strong>read-eval-print loop</strong>(REPL).</li>
+</ul>
+<h3 id="Naming"><a href="#Naming" class="headerlink" title="Naming"></a>Naming</h3><ul>
+<li>A critical aspect of a programming language is the means it provides for using names to refer to computational objects.</li>
+<li>In the Scheme dialect of Lisp, we name things with <strong>define</strong>.</li>
+</ul>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">define</span></span> size <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">*</span></span> size <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> PI <span class="number">3.1415</span>)</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">*</span></span> <span class="number">2</span> PI size)</span><br></pre></td></tr></table></figure>
+<h3 id="Evaluating-Combinations"><a href="#Evaluating-Combinations" class="headerlink" title="Evaluating Combinations"></a>Evaluating Combinations</h3><ul>
+<li>To evaluate a combination, do the following:<ol>
+<li>Evaluate the subexpressions of the combination</li>
+<li>Apply the procedure that is the value of the leftmost subexpression(the operator) to the arguments that are the value of the other subexpressions(the operands).</li>
+</ol>
+</li>
+</ul>
+<h3 id="Evaluating-Combinations-1"><a href="#Evaluating-Combinations-1" class="headerlink" title="Evaluating Combinations"></a>Evaluating Combinations</h3><h4 id="Applicative-order"><a href="#Applicative-order" class="headerlink" title="Applicative order"></a>Applicative order</h4><ul>
+<li>To evaluate a combination, do the following:<ul>
+<li>Evaluate the subexpressions of the combination.</li>
+<li>Apply the proceduce that is the value of the leftmost subexpression (the operator) to the arguments that are the values of the other subexpressions.</li>
+</ul>
+</li>
+</ul>
+<h4 id="Normal-order"><a href="#Normal-order" class="headerlink" title="Normal order"></a>Normal order</h4><ul>
+<li>To evaluate a combination, do the following:<ul>
+<li>Not evaluate a combination until its value was needed.</li>
+<li>substitute operand expressions for parameters until it obtained an expression involving only primitive operators,and would then preform the evaluation.</li>
+</ul>
+</li>
+</ul>
+<h4 id="Which-is-used-in-Scheme"><a href="#Which-is-used-in-Scheme" class="headerlink" title="Which is used in Scheme?"></a>Which is used in Scheme?</h4><ul>
+<li>Lisp uses <strong>applicative-order</strong> evaluation,partly because of the additional efficiency obtained from avoiding multiple evaluation of ecpressions.</li>
+<li>normal-order evaluation becomes much more complicated to deal with when we leave the realm of procedures that can be modeled by substitution.</li>
+<li>On the other hand, normal-order evaluation can be an extremely valuable tool.</li>
+</ul>
+<h3 id="Compound-Procedures"><a href="#Compound-Procedures" class="headerlink" title="Compound Procedures"></a>Compound Procedures</h3><p>We can use a much more powerful abstraction technique by which a compound operation can be given a name and then referred to as a unit.</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">; General Form</span></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">&lt;name&gt;</span> &lt;formal parameters&gt;) &lt;body&gt;)</span><br><span class="line"></span><br><span class="line"><span class="comment">; Examples</span></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">square</span> x) (<span class="name"><span class="builtin-name">*</span></span> x x))</span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">return42</span> x)  <span class="number">42</span> )</span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">sum-of-square</span> x y) (<span class="name"><span class="builtin-name">+</span></span> (<span class="name">square</span> x) (<span class="name">square</span> y)))</span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">f</span> a) (<span class="name">sum-of-square</span> (<span class="name"><span class="builtin-name">+</span></span> a <span class="number">1</span>) (<span class="name"><span class="builtin-name">*</span></span> a <span class="number">2</span>)))</span><br><span class="line">(<span class="name">square</span> <span class="number">5</span>)</span><br><span class="line">(<span class="name">square</span> (<span class="name"><span class="builtin-name">+</span></span> <span class="number">3</span> <span class="number">1</span>))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><span id="Substitution_Model"></span></p>
+<h3 id="The-Substitution-Model-for-Procedure-Application"><a href="#The-Substitution-Model-for-Procedure-Application" class="headerlink" title="The Substitution Model for Procedure Application"></a>The Substitution Model for Procedure Application</h3><p>The iterpreter follows much the samme process as for combinations whose operator name primitive procedures. To apply a compound procedure to arguments, evaluate the body of the procedure with each formal parameter replaced by the corresponding argument.</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">; we can try to evaluate the combination</span></span><br><span class="line">(<span class="name">f</span> <span class="number">5</span>)</span><br><span class="line">=&gt; (<span class="name">sum-of-square</span> (<span class="name"><span class="builtin-name">+</span></span> <span class="number">5</span> <span class="number">1</span>) (<span class="name"><span class="builtin-name">*</span></span> <span class="number">5</span> <span class="number">2</span>))</span><br><span class="line">=&gt; (<span class="name">sum-of-square</span> <span class="number">6</span> <span class="number">10</span>)</span><br><span class="line">=&gt; (<span class="name"><span class="builtin-name">+</span></span> (<span class="name">square</span> <span class="number">6</span>) (<span class="name">square</span> <span class="number">10</span>))</span><br><span class="line">=&gt; (<span class="name"><span class="builtin-name">+</span></span> <span class="number">36</span> <span class="number">100</span>)</span><br><span class="line">=&gt; <span class="number">136</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>The purpose of the substitution is to help us think about procedure application, not to provide a description of how the interpreter really works. But it is still an important model whicn can explain many question.</p>
+<h3 id="Condtional-Expressions-and-Predicates"><a href="#Condtional-Expressions-and-Predicates" class="headerlink" title="Condtional Expressions and Predicates"></a>Condtional Expressions and Predicates</h3><figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;General Form</span></span><br><span class="line">(<span class="name"><span class="builtin-name">cond</span></span> (<span class="name">&lt;p1&gt;</span> &lt;e1&gt;)</span><br><span class="line">	  (<span class="name">&lt;p2&gt;</span> &lt;e2&gt;)</span><br><span class="line">	  ...</span><br><span class="line">	  (<span class="name">&lt;pn&gt;</span> &lt;en&gt;))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">cond</span></span> (<span class="name">&lt;p1&gt;</span> &lt;e1&gt;)</span><br><span class="line">	  (<span class="name">&lt;p2&gt;</span> &lt;e2&gt;)</span><br><span class="line">	  ...</span><br><span class="line">	  (<span class="name"><span class="builtin-name">else</span></span> &lt;e&gt;))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">if</span></span> &lt;predicate&gt; &lt;consequent&gt; &lt;alternative&gt;)</span><br><span class="line"></span><br><span class="line"><span class="comment">; Example</span></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name"><span class="builtin-name">abs</span></span> x)</span><br><span class="line">  (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name"><span class="builtin-name">&gt;</span></span> x <span class="number">0</span>) x)</span><br><span class="line">  ((<span class="name"><span class="builtin-name">=</span></span> x <span class="number">0</span>) <span class="number">0</span>)</span><br><span class="line">  ((<span class="name"><span class="builtin-name">&lt;</span></span> x <span class="number">0</span>) (<span class="name"><span class="builtin-name">-</span></span> x))))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name"><span class="builtin-name">abs</span></span> x)</span><br><span class="line">  (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name"><span class="builtin-name">&gt;</span></span> x <span class="number">0</span>) x)</span><br><span class="line">  (<span class="name"><span class="builtin-name">else</span></span> (<span class="name"><span class="builtin-name">-</span></span> x))))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name"><span class="builtin-name">abs</span></span> x)</span><br><span class="line">   (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&lt;</span></span> x <span class="number">0</span>)</span><br><span class="line">       (<span class="name"><span class="builtin-name">-</span></span> x)</span><br><span class="line">       x))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Conditional expressions are evaluated as follows.<ul>
+<li>The predicate <code>&lt;p1&gt;</code> is evaluated first. If its value is false, then <code>&lt;p2&gt;</code> is evaluated.</li>
+<li>If <code>&lt;p2&gt;</code>‘s value is also false, then <code>&lt;p3&gt;</code> is evaluated.</li>
+<li>This process continues until a predicate is found whose value is true, in which case the interpreter returns the value of the corresponding consequent expression.</li>
+<li>If none of the <code>&lt;p&gt;</code>‘s value is true, the value of the cond is <strong>undefined</strong>.</li>
+</ul>
+</li>
+<li>If expressions are evaluated as follows.<ul>
+<li>The interpreter starts by evaluating the <code>&lt;predicate&gt;</code> part of expression.</li>
+<li>If the <code>&lt;predicate&gt;</code> evaluates to a true value,the interpreter then evaluates the <code>&lt;consequent&gt;</code> and return its values</li>
+<li>Otherwise it evaluates the <code>&lt;alternative&gt;</code> and return its values.</li>
+</ul>
+</li>
+<li><strong>Attention:</strong> Conditional expression and If expression are <strong>special form</strong>, that is, this expression can’t be replaced by an ordinary procedure.</li>
+</ul>
+<h4 id="Why-If-Expression-Must-Be-a-Special-Form"><a href="#Why-If-Expression-Must-Be-a-Special-Form" class="headerlink" title="Why If Expression Must Be a Special Form"></a>Why If Expression Must Be a Special Form</h4><p>We can just try to define a funtion to replace if expression, for example</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">new-if</span> predicate then-clause else-clause)</span><br><span class="line">  (<span class="name"><span class="builtin-name">cond</span></span> (<span class="name">predicate</span> then-clause)</span><br><span class="line">		(<span class="name"><span class="builtin-name">else</span></span> else-clause)))</span><br></pre></td></tr></table></figure>
+<p>If we use this new-if like this:</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name">new-if</span> (<span class="name"><span class="builtin-name">=</span></span> <span class="number">2</span> <span class="number">3</span>) <span class="number">0</span> <span class="number">5</span>) </span><br><span class="line"><span class="comment">;value 5</span></span><br><span class="line">(<span class="name">new-if</span> (<span class="name"><span class="builtin-name">=</span></span> <span class="number">1</span> <span class="number">2</span>) <span class="number">0</span> <span class="number">5</span>)</span><br><span class="line"><span class="comment">;value 0</span></span><br></pre></td></tr></table></figure>
+<p>It is seems that new-if can work euqally. But if we use new-if in a more complicated procedure, we will find a tiny difference of if expression and new-if. The difference is also the reason why if expression must be a special form.</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">iter</span> guess x)</span><br><span class="line">  (<span class="name">new-if</span> (<span class="name"><span class="builtin-name">=</span></span> guess x)</span><br><span class="line">          guess</span><br><span class="line">          (<span class="name">iter</span> (<span class="name"><span class="builtin-name">-</span></span> guess <span class="number">1</span>) x)))</span><br><span class="line"></span><br><span class="line">(<span class="name">iter</span> <span class="number">10</span> <span class="number">3</span>)</span><br><span class="line"><span class="comment">;Aborting!: maximum recursion depth exceeded</span></span><br></pre></td></tr></table></figure>
+<p>If we use <code>if expression</code>, interpreter print the value 3 as we expected. But if we use new-if,interpreter tell us maximum recursion depth exceeded. In fact, we can use the <a href="#Substitution_Model">Substitution Model</a> to analyze this question</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(iter 10 3)</span><br><span class="line">=&gt; (new-if (= 10 3) 3 (iter (- 10 1) x))</span><br><span class="line">=&gt; (new-if #f 3 (new-if (= 9 3) 3 (iter (- 9 1) x)))</span><br><span class="line">=&gt; (new-if #f 3 (new-if #f 3 (new-if (= 8 3) 3 (iter (- 8 1) x))))</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>In order to evaluate the value of new-if, we must first evaluate the value of <code>(= 10 3)</code> and <code>(iter (- 10 1) x)</code> . In order to evaluate the value of <code>(iter (- 10 1) x)</code> , we must fisrt evaluate the value of the new-if. This leads to an infinite recursion.<br>However, if expression is different from new-if, if expression only evaluate a subexpression when predicate is decided. Therefore if we overwrite the iter by if expression and use the Substitution Model again, we can get the value we want finally.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(iter 10 3)</span><br><span class="line">=&gt; (if (= 10 3) 3 (iter (- 10 1) x))</span><br><span class="line">=&gt; (iter 9 3)</span><br><span class="line">=&gt; (if (= 9 3) 3 (iter (- 9 1) x))</span><br><span class="line">...</span><br><span class="line">=&gt; (iter 3 3)</span><br><span class="line">=&gt; (if (= 3 3) 3 (iter (- 3 1) x))</span><br><span class="line">=&gt; 3</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="Logic"><a href="#Logic" class="headerlink" title="Logic"></a>Logic</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">;General Form</span><br><span class="line">(and &lt;e1&gt; ... &lt;en&gt;)</span><br><span class="line">(or &lt;e1&gt; ... &lt;en&gt;)</span><br><span class="line">(not &lt;e&gt;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="An-Example-of-Block-Structure"><a href="#An-Example-of-Block-Structure" class="headerlink" title="An Example of Block Structure"></a>An Example of Block Structure</h4><figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name"><span class="builtin-name">sqrt</span></span> x)</span><br><span class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">square</span> x) (<span class="name"><span class="builtin-name">*</span></span> x x) )</span><br><span class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">average</span> x y) (<span class="name"><span class="builtin-name">/</span></span> (<span class="name"><span class="builtin-name">+</span></span> x y) <span class="number">2</span>))</span><br><span class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">good-enough?</span> guess)</span><br><span class="line">    (<span class="name"><span class="builtin-name">&lt;</span></span> (<span class="name"><span class="builtin-name">abs</span></span> (<span class="name"><span class="builtin-name">-</span></span> (<span class="name">square</span> guess) x)) <span class="number">0.001</span>))</span><br><span class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">improve</span> guess)</span><br><span class="line">    (<span class="name">average</span> guess (<span class="name"><span class="builtin-name">/</span></span> x guess)))</span><br><span class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">sqrt-iter</span> guess)</span><br><span class="line">    (<span class="name"><span class="builtin-name">if</span></span> (<span class="name">good-enough?</span> guess)</span><br><span class="line">        guess</span><br><span class="line">        (<span class="name">sqrt-iter</span> (<span class="name">improve</span> guess))))</span><br><span class="line">  (<span class="name">sqrt-iter</span> <span class="number">1.0</span>))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">sqrt</span></span> <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>We hava already learned the basic usages of those function. And there are two new usages</p>
+<ul>
+<li><strong>Internal definitions and block structure</strong>. It allows a procedure to have internal definitions that are local to that procedure. </li>
+<li><strong>lexical scoping</strong>. It allows x to be a free variable in the internal definitions. Thus, it is not necessary to pass x explicitly to each of these procedures.<br>The idea of block structure originated with the programming language Algol 60. It appears in most advanced programming languages and is an important tool for helping to organize the construction of large programs.</li>
+</ul>
+<h4 id="An-Example-of-Exponentiation"><a href="#An-Example-of-Exponentiation" class="headerlink" title="An Example of Exponentiation"></a>An Example of Exponentiation</h4><figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">fast-expt</span> b n)</span><br><span class="line">  (<span class="name"><span class="builtin-name">cond</span></span> ((<span class="name"><span class="builtin-name">=</span></span> n <span class="number">0</span>) <span class="number">1</span>)</span><br><span class="line">        ((<span class="name"><span class="builtin-name">even?</span></span> n) (<span class="name">square</span> (<span class="name">fast-expt</span> b (<span class="name"><span class="builtin-name">/</span></span> n <span class="number">2</span>))))</span><br><span class="line">        (<span class="name"><span class="builtin-name">else</span></span> (<span class="name"><span class="builtin-name">*</span></span> b (<span class="name">fast-expt</span> b (<span class="name"><span class="builtin-name">-</span></span> n <span class="number">1</span>))))))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name"><span class="builtin-name">even?</span></span> n)</span><br><span class="line">  (<span class="name"><span class="builtin-name">=</span></span> (<span class="name"><span class="builtin-name">remainder</span></span> n <span class="number">2</span>) <span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+
+<h4 id="Higher-Order-Procedures"><a href="#Higher-Order-Procedures" class="headerlink" title="Higher-Order Procedures"></a>Higher-Order Procedures</h4><p>Procedures that manipulate procedures are called higher-order proceduces. It can accept procedures as arguments or return proceduces as value.For example, we can define a procedure which computer the sum of the <code>f(i)</code> from <code>i=a</code> tp <code>i=b</code>.</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">sum</span> f a next b)</span><br><span class="line">  (<span class="name"><span class="builtin-name">if</span></span> (<span class="name"><span class="builtin-name">&gt;</span></span> a b)</span><br><span class="line">      <span class="number">0</span></span><br><span class="line">      (<span class="name"><span class="builtin-name">+</span></span> (<span class="name">f</span> a) (<span class="name">sum</span> f (<span class="name">next</span> a) next b))))</span><br><span class="line"></span><br><span class="line">(<span class="name">sum</span> (<span class="name"><span class="builtin-name">lambda</span></span> (x) x) <span class="number">1</span> (<span class="name"><span class="builtin-name">lambda</span></span> (x) (<span class="name"><span class="builtin-name">+</span></span> x <span class="number">1</span>)) <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="Constructing-Procedures-Using-Lambda"><a href="#Constructing-Procedures-Using-Lambda" class="headerlink" title="Constructing Procedures Using Lambda"></a>Constructing Procedures Using Lambda</h4><p>In general, lambda is uesd to create procedures in the same way as <code>define</code>, except that no name is specified for the procedure</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;General Form</span></span><br><span class="line">(<span class="name"><span class="builtin-name">lambda</span></span> (&lt;formal-parameters&gt;) &lt;body&gt;)</span><br><span class="line"></span><br><span class="line"><span class="comment">;An Example</span></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">plus4</span> x) (<span class="name"><span class="builtin-name">+</span></span> x <span class="number">4</span>))</span><br><span class="line"><span class="comment">; is equivalent to</span></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> plus4 (<span class="name"><span class="builtin-name">lambda</span></span> (x) (<span class="name"><span class="builtin-name">+</span></span> x <span class="number">4</span>)))</span><br></pre></td></tr></table></figure>
+<p>Like any expression that has a procedure as its value, a lambda expression can be used as the operator in a combination such as</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">((<span class="name"><span class="builtin-name">lambda</span></span> (x y z) (<span class="name"><span class="builtin-name">+</span></span> x (<span class="name"><span class="builtin-name">-</span></span> y z))) <span class="number">1</span> <span class="number">3</span> <span class="number">2</span>)</span><br><span class="line"><span class="comment">;Value 2</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Use-let-to-create-local-variables"><a href="#Use-let-to-create-local-variables" class="headerlink" title="Use let to create local variables"></a>Use <code>let</code> to create local variables</h4><figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">;General Form</span></span><br><span class="line">(<span class="name"><span class="builtin-name">let</span></span> ((<span class="name">&lt;var1&gt;</span> &lt;exp1&gt;)</span><br><span class="line">      (<span class="name">&lt;var2&gt;</span> &lt;exp2&gt;)</span><br><span class="line">      ...</span><br><span class="line">      (<span class="name">&lt;varn&gt;</span> &lt;expn&gt;))</span><br><span class="line">  &lt;body&gt;)</span><br><span class="line"></span><br><span class="line"><span class="comment">; An Example</span></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">f</span> x y)</span><br><span class="line">  (<span class="name"><span class="builtin-name">let</span></span> ((<span class="name">a</span> (<span class="name"><span class="builtin-name">+</span></span> <span class="number">1</span> (<span class="name"><span class="builtin-name">*</span></span> x y)))</span><br><span class="line">	(<span class="name">b</span> (<span class="name"><span class="builtin-name">-</span></span> <span class="number">1</span> y)))</span><br><span class="line">    (<span class="name"><span class="builtin-name">+</span></span> (<span class="name"><span class="builtin-name">*</span></span> x (<span class="name"><span class="builtin-name">*</span></span> a a))</span><br><span class="line">       (<span class="name"><span class="builtin-name">*</span></span> y b)</span><br><span class="line">       (<span class="name"><span class="builtin-name">*</span></span> a b))))</span><br><span class="line">(<span class="name">f</span> <span class="number">1</span> <span class="number">2</span>)</span><br><span class="line"><span class="comment">;Value 4</span></span><br></pre></td></tr></table></figure>
+<p>The fisrt part of the <code>let</code> expression is a list of name-expression pairs. When the <code>let</code> is evaluated, each name is associated with the value of the corresponding expression. The body of the <code>let</code> is evaluated with these names bound as local variables. The way this happens is that the <code>let</code>  expression is interpreted as an alternate synatax for</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">((<span class="name"><span class="builtin-name">lambda</span></span> (&lt;var1&gt; ... &lt;varn&gt;)</span><br><span class="line">   &lt;body&gt;)</span><br><span class="line">&lt;exp1&gt;</span><br><span class="line">...</span><br><span class="line">&lt;expn&gt;)</span><br></pre></td></tr></table></figure>
+<p>No new mechanism is required in the interpreter in order to provide local variables. A <code>let</code> expression is simply syntactic sugar for the underlying <code>lambda</code> application. We can see from this equivalence that the scope of a variable specified by a <code>let</code> expression is the body of the <code>let</code></p>
+<h4 id="Procedures-as-Returned-Values"><a href="#Procedures-as-Returned-Values" class="headerlink" title="Procedures as Returned Values"></a>Procedures as Returned Values</h4><figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">define</span></span> tolerance <span class="number">0.00001</span>)</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">fixed-point</span> f first-guess)</span><br><span class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">close-enough?</span> v1 v2)</span><br><span class="line">    (<span class="name"><span class="builtin-name">&lt;</span></span> (<span class="name"><span class="builtin-name">abs</span></span> (<span class="name"><span class="builtin-name">-</span></span> v1 v2)) tolerance))</span><br><span class="line">  (<span class="name"><span class="builtin-name">define</span></span> (<span class="name">try</span> guess)</span><br><span class="line">    (<span class="name"><span class="builtin-name">let</span></span> ((<span class="name">next</span> (<span class="name">f</span> guess)))</span><br><span class="line">      (<span class="name"><span class="builtin-name">if</span></span> (<span class="name">close-enough?</span> guess next)</span><br><span class="line">          next</span><br><span class="line">          (<span class="name">try</span> next))))</span><br><span class="line">  (<span class="name">try</span> first-guess))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name">average-damp</span> f)</span><br><span class="line">  (<span class="name"><span class="builtin-name">lambda</span></span> (x) (<span class="name">average</span> x (<span class="name">f</span> x))))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name"><span class="builtin-name">sqrt</span></span> x)</span><br><span class="line">  (<span class="name">fixed-point</span> (<span class="name">average-damp</span> (<span class="name"><span class="builtin-name">lambda</span></span> (y) (<span class="name"><span class="builtin-name">/</span></span> x y)))</span><br><span class="line">               <span class="number">1.0</span>))</span><br></pre></td></tr></table></figure>
+<p>Notice how this formulation makes explicit the three idesa in the method: fixed-point search, average damping, and the fuction <code>y -&gt; x/y</code>. It is instructive to compare this formulation of the suqare-root method with the original version. Bear in mind that these procedures express the same process, and notice how much clearer the idea becomes when we express the process in terms of these abstractions.</p>
+<h4 id="Pair"><a href="#Pair" class="headerlink" title="Pair"></a>Pair</h4><p>Scheme provides a compoind structure called a <code>pair</code>, which can be constructed with the primitive procedure <code>cons</code>. This procedure take two arguments and returns a compound data object that contains the two arguments as pairs. Given a pair, we can extract the parts using the primitive procedures <code>car</code> and <code>cdr</code>. Thus, we can use <code>cons</code>,<code>car</code>, and <code>cdr</code> as follows:</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">define</span></span> x (<span class="name"><span class="builtin-name">cons</span></span> <span class="number">1</span> <span class="number">2</span>))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">car</span></span> x)</span><br><span class="line"><span class="comment">;Value: 1</span></span><br><span class="line">(<span class="name"><span class="builtin-name">cdr</span></span> x)</span><br><span class="line"><span class="comment">;Value: 2</span></span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<p>Pair is an abstract conception. Therefor the implemention of pair is not importan. For example we can give a solution like this</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name"><span class="builtin-name">cons</span></span> x y)</span><br><span class="line">  (<span class="name"><span class="builtin-name">lambda</span></span> (m) (<span class="name">m</span> x y)))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name"><span class="builtin-name">car</span></span> z)</span><br><span class="line">  (<span class="name">z</span> (<span class="name"><span class="builtin-name">lambda</span></span> (p q) p)))</span><br><span class="line"></span><br><span class="line">(<span class="name"><span class="builtin-name">define</span></span> (<span class="name"><span class="builtin-name">cdr</span></span> z)</span><br><span class="line">  (<span class="name">z</span> (<span class="name"><span class="builtin-name">lambda</span></span> (p q) q)))</span><br></pre></td></tr></table></figure>
+
+<p>we can verify this implemention by  <a href="#Substitution_Model">Substitution Model</a></p>
+<h4 id="Abstraction-Barriers"><a href="#Abstraction-Barriers" class="headerlink" title="Abstraction Barriers"></a>Abstraction Barriers</h4><p>In gerneral, the underlying idea of data abstracion is to identify for each type of data object a basic set of operations in terms of which all manipulations of data objects of that type will be expressed, and then to use only those operations in manipulating the data.</p>
+<p>We can also find this idea in the other programming paradigms,such as OOP. This idea can reduce the complexity of programming. We know that the complexity is the major obstacle to build large program. Therefore this idea is widely use in programming paradigms.</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年06月26日 22:43</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2017/09/01/%E3%80%8ASICP%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" title="《SICP》读书笔记">https://lizec.top/2017/09/01/%E3%80%8ASICP%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2017/09/01/%E3%80%8ASICP%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/&title=《《SICP》读书笔记》 — LiZeC的博客&pic=https://lizec.topimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2017/09/01/%E3%80%8ASICP%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/&title=《《SICP》读书笔记》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2017/09/01/%E3%80%8ASICP%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《《SICP》读书笔记》 — LiZeC的博客&url=https://lizec.top/2017/09/01/%E3%80%8ASICP%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2017/09/01/%E3%80%8ASICP%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2017/09/01/%E3%80%8ASICP%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/函数式编程/" class="color1">函数式编程</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#About-This-Book"><span class="post-toc-text">About This Book</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#How-to-Start-Learning-This-Book"><span class="post-toc-text">How to Start Learning This Book</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#How-to-Use-Edwin"><span class="post-toc-text">How to Use Edwin</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Building-Abstractions-with-Procedures"><span class="post-toc-text">Building Abstractions with Procedures</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#The-Elements-of-Programming"><span class="post-toc-text">The Elements of Programming</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Expressions"><span class="post-toc-text">Expressions</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Read-Eval-Print-Loop"><span class="post-toc-text">Read-Eval-Print Loop</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Naming"><span class="post-toc-text">Naming</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Evaluating-Combinations"><span class="post-toc-text">Evaluating Combinations</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Evaluating-Combinations-1"><span class="post-toc-text">Evaluating Combinations</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Applicative-order"><span class="post-toc-text">Applicative order</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Normal-order"><span class="post-toc-text">Normal order</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Which-is-used-in-Scheme"><span class="post-toc-text">Which is used in Scheme?</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Compound-Procedures"><span class="post-toc-text">Compound Procedures</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#The-Substitution-Model-for-Procedure-Application"><span class="post-toc-text">The Substitution Model for Procedure Application</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Condtional-Expressions-and-Predicates"><span class="post-toc-text">Condtional Expressions and Predicates</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Why-If-Expression-Must-Be-a-Special-Form"><span class="post-toc-text">Why If Expression Must Be a Special Form</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Logic"><span class="post-toc-text">Logic</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#An-Example-of-Block-Structure"><span class="post-toc-text">An Example of Block Structure</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#An-Example-of-Exponentiation"><span class="post-toc-text">An Example of Exponentiation</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Higher-Order-Procedures"><span class="post-toc-text">Higher-Order Procedures</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Constructing-Procedures-Using-Lambda"><span class="post-toc-text">Constructing Procedures Using Lambda</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Use-let-to-create-local-variables"><span class="post-toc-text">Use let to create local variables</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Procedures-as-Returned-Values"><span class="post-toc-text">Procedures as Returned Values</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Pair"><span class="post-toc-text">Pair</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Abstraction-Barriers"><span class="post-toc-text">Abstraction Barriers</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/09/01/Java%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84BUG%E8%AE%B0%E5%BD%95/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Java编程中的BUG记录
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/08/31/%E3%80%8A%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%AE%9E%E8%B7%B5%E3%80%8B%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">《程序设计实践》阅读笔记</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Fri Sep 01 2017 11:24:10 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

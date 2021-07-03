@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>再读概率论 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="在以往我已经在几个不同的领域, 学习了好几次概率论了. 但始终感觉没有把握到概率论的本质, 总是停留在各种概念上. 在这一次, 我再一次学习概率论. 我希望能够寻找一种真正理解概率的方法, 从一个更高的层次理解概率问题. 本文的主要内容来自&lt;&lt;程序员的数学: 概率统计&gt;&gt;, 并结合这本书给出一些自己的理解. 概率的定义与线性代数一样, 在数学上并不讨论什么是概率, 而是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="再读概率论">
+<meta property="og:url" content="https://lizec.top/2019/10/05/%E5%86%8D%E8%AF%BB%E6%A6%82%E7%8E%87%E8%AE%BA/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="在以往我已经在几个不同的领域, 学习了好几次概率论了. 但始终感觉没有把握到概率论的本质, 总是停留在各种概念上. 在这一次, 我再一次学习概率论. 我希望能够寻找一种真正理解概率的方法, 从一个更高的层次理解概率问题. 本文的主要内容来自&lt;&lt;程序员的数学: 概率统计&gt;&gt;, 并结合这本书给出一些自己的理解. 概率的定义与线性代数一样, 在数学上并不讨论什么是概率, 而是">
+<meta property="og:locale">
+<meta property="og:image" content="https://lizec.top/images/math/f3d.png">
+<meta property="og:image" content="https://lizec.top/images/math/f3dx.png">
+<meta property="og:image" content="https://lizec.top/images/math/f3dcy.png">
+<meta property="article:published_time" content="2019-10-05T02:41:47.000Z">
+<meta property="article:modified_time" content="2020-06-19T13:29:02.009Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="概率论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lizec.top/images/math/f3d.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-再读概率论" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      再读概率论
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/数学/">数学</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-10-05
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script>
+
+<p>在以往我已经在几个不同的领域, 学习了好几次概率论了. 但始终感觉没有把握到概率论的本质, 总是停留在各种概念上. 在这一次, 我再一次学习概率论. 我希望能够寻找一种真正理解概率的方法, 从一个更高的层次理解概率问题. 本文的主要内容来自&lt;&lt;程序员的数学: 概率统计&gt;&gt;, 并结合这本书给出一些自己的理解.</p>
+<h2 id="概率的定义"><a href="#概率的定义" class="headerlink" title="概率的定义"></a>概率的定义</h2><p>与线性代数一样, 在数学上并不讨论什么是概率, 而是给出了一个概率空间三元组. 只要满足给出的几条性质的东西, 就可以视为概率. 这就相当于在编程中, 只要实现了给定的接口, 就可以直接使用, 而不必关系具体是哪一个类实现.</p>
+<p>由于线性代数抽象程度高, 因此经常出现在各种意想不到的地方, 而概率论研究的问题比较集中, 通常可以明显的感觉到是一个概率问题.</p>
+<h2 id="概率的上帝视角"><a href="#概率的上帝视角" class="headerlink" title="概率的上帝视角"></a>概率的上帝视角</h2><p>由于概率论具有一定的抽象性, 因此引入上帝视角来思考问题. 任意的概率事件, 在上帝视角看来, 都是确定的事件, 只是存在不同的平行世界. 人看起来的概率, 在上帝视角看起来, 实际上是某些世界所占的比例.</p>
+<p>上帝视角可以描述成下图的关系.</p>
+<p>$$<br>\begin{matrix}<br>上帝视角    &amp; \rightarrow  &amp; 完全确定的面积问题   &amp; \rightarrow   &amp; 面积的答案  \\<br>——     &amp;              &amp; \updownarrow        &amp;               &amp; \updownarrow \\<br>人类视角    &amp; \rightarrow  &amp; 结果不确定的概率问题  &amp; \rightarrow   &amp; 概率的答案<br>\end{matrix}<br>$$<br>从上帝视角看来, 所有的事情都是确定的剧本, 从而消除了所有的不确定性.</p>
+<!-- 
+上帝视角的应用
+------------------
+
+1. 酒鬼酒吧问题
+2. 一个男孩, 另一个男孩问题
+3. 三门问题
+
+有一个酒鬼, 在三个酒吧中, 各有30%概率去某个酒吧喝酒, 10%概率不喝酒
+警察查了两个酒吧, 都没有发现, 那么第三个酒吧中有酒鬼的概率
+
+  AB  AC BC
+A x   x   
+B x      x
+C     x  x
+0        
+
+---------------------
+0.3 * 1/3 * 3 + 0.1
+
+
+  A             B           C
+A 0.5B+0.5C     C           B
+B C             0.5A+0.5C   A
+C B             A           0.5A+0.5B
+
+-->
+
+
+<h2 id="三种概率的区别与联系"><a href="#三种概率的区别与联系" class="headerlink" title="三种概率的区别与联系"></a>三种概率的区别与联系</h2><p>从连续变量的概率密度函数可以更好的理解联合概率, 边缘概率, 以及条件概率.  例如, 对于一个有两个随机变量的概率密度函数, 其函数图像是三维空间中的一个二维曲面. </p>
+<p><img src="/images/math/f3d.png" alt="概率密度曲面"></p>
+<p><strong>联合概率</strong>实际上就对应了曲面上的一个点, 而边缘概率对应了图像在xOz屏幕和yOz平面上的投影(当然还需要进过积分运算).</p>
+<p><img src="/images/math/f3dx.png" alt="概率密度曲面X轴方向的投影"></p>
+<p>联合概率对应曲面上的一个点, 条件概率对应某一个切面的情况(同样也需要进行处理,才是条件概率的密度函数).</p>
+<p><img src="/images/math/f3dcy.png" alt="概率密度曲面切面"></p>
+<p>上图为概率密度曲面在Y=2时的切面情况, 这表征了Y=2时,X的分布情况, 也就是条件概率.</p>
+<h2 id="独立性"><a href="#独立性" class="headerlink" title="独立性"></a>独立性</h2><p>独立性实际上体现的是一种均匀性. 如果随机变量X与Y相互独立, 则说明Y对X的各个值的影响相同, 即对于X的每个具体取值x,  Y的各个取值分布相同. 如果是连续变量, 则对于每个具体的x对应的切面, Y的各部分比例都是相同的. </p>
+<p>因此独立性不等于互斥, 两个事件互斥, 则不会同时发生, 这显然是不均匀的. 而且不会同时发生也说明了两个之间之间存在某种联系. </p>
+<h2 id="贝叶斯公式"><a href="#贝叶斯公式" class="headerlink" title="贝叶斯公式"></a>贝叶斯公式</h2><p>贝叶斯公式常用于从结果反推原因的问题. 通常原因X无法被直接观测, 需要通过结果Y来反推. 即已知所有的P(原因)与P(结果|原因), 求P(原因|结果). 如果设原因为A, 结果为B, 则贝叶斯公式可以按照如下的方式推导产生</p>
+<p>$$ P(A|B) = \frac{P(A, B)}{P(B)} = \frac{P(B|A)P(A)}{\sum P(B|A_i)P(A_i)}$$</p>
+<p>从公式的构成可以发现, 整个公式使用了原因A自身的分布, 以及所有的A-&gt;B(原因发生时结果)的概率分布, 求出了B-&gt;A(结果发生时原因)的概率分布</p>
+<h2 id="期望与方差"><a href="#期望与方差" class="headerlink" title="期望与方差"></a>期望与方差</h2><p>对于随机变量X和Y, 有<br>$$E[X+Y] = E[X] + E[Y]$$</p>
+<p>例如, 对于二项分布Bn(n, p), 有<br>$$E[X] = E[Z1+Z2+…+Zn] = E[Z1]+E[Z2]+…+E[Zn] = p + p + …+ p = np$$</p>
+<hr>
+<p>如果随机变量X与Y相互独立, 那么有<br>$$E[XY] = E[X]E[Y]$$</p>
+<p>因为 <code>E[XY]</code> 表示每个位置的X增加Y倍, 如果X与Y相互独立, 则对于每个X而言, Y的分布都是相同的, 因此每个X都扩大Y的平均倍, 即 <code>E[Y]</code> 倍, 因此上式显然成立.</p>
+<p>如果X与Y不独立, 则通常不满足上面的等式. 例如统计发现某些人平均每月喝酒8次, 每次平均喝酒1.5瓶, 但每月平均喝酒瓶数为15瓶.</p>
+<hr>
+<p>如果随机变量X与Y相互独立, 那么有<br>$$V[XY] = V[X]+V[Y]$$</p>
+<p>将 <code>V[XY]</code> 带入方差表达式, 并展开可知</p>
+<p>$$V[XY] = E[(X+Y)-(\mu + \nu)] = V[X]+V[Y]+2E[(X- \mu)(Y - \nu)]$$</p>
+<p>由于X与Y独立, 因此等式最后一项值为零.</p>
+<hr>
+<p>对随机变量X, 有</p>
+<p>$$V[X]=E[X^2]-E[X]^2$$</p>
+<p>或者表示为</p>
+<p>$$E[X^2]= \mu^2 + \sigma^2$$</p>
+<h2 id="大数定理"><a href="#大数定理" class="headerlink" title="大数定理"></a>大数定理</h2><p>假设随机变量X1, X2, …, Xn独立同分布, 其平均值定义为</p>
+<p>$$Z \equiv  \frac{X_1+X_2+…+X_n}{n}$$</p>
+<p>于是有</p>
+<p>$$E[Z] = E\left [ \frac{X_1+X_2+…+X_n}{n} \right ] = \frac{E[X_1]+E[X_2]+…+E[X_n]}{n} = \frac{n \mu}{n} = \mu$$</p>
+<p>由于随机变量X1, X2, …, Xn独立同分布, 因此随机变量和的方差等于各随机变量方差的和, 因此有</p>
+<p>$$V[Z] = V\left [ \frac{X_1+X_2+…+X_n}{n} \right ] = \frac{V[X_1]+V[X_2]+…+V[X_n]}{n^2} = \frac{n \sigma^2}{n^2} = \frac{\sigma^2}{n}$$</p>
+<p>这说明对同一个事件进行n次重复, 可以使得方差减少到原来的\(\frac{1}{n}\), 也即标准差减少到原来的\( \frac{1}{\sqrt{n}}\).</p>
+<p>因此如果一项实验希望将误差减少到原来的\(\frac{1}{10}\), 则需要进行原来的100倍的实验.</p>
+<hr>
+<p>通过以上方差的公式, 我们可以发现, 如果 \( n \rightarrow \infty \), 则 \( V[Z] \rightarrow 0 \) . 方差为零意味着没有随机性, 这说明如果随机变量的数量趋向于无穷, 则他们的平均值将收敛到\( \mu \). 这就是<strong>大数定理</strong>.</p>
+<p>从上帝视角来看, 期望相当于对所有的世界求平均值, 而Z相当于对一个世界的n次重复求平均值. 而大数定理说明这两个平均值在重复次数无限大时会相等. 因此通过大数定理, 在人类视角, 仅观察一个世界的平均值就可以知道全部世界的平均值.</p>
+<!-- 
+3.6 条件期望与最小二乘法
+-->
+
+<h2 id="条件期望与条件方差"><a href="#条件期望与条件方差" class="headerlink" title="条件期望与条件方差"></a>条件期望与条件方差</h2><p>对于随机变量X和Y, 在X=a时的条件期望是<br>$$E[Y|X=a] \equiv \sum_{b}P(Y=b|X=a)$$</p>
+<p>显然, 当X取值不同的时候, E(Y|X=a)可以取不同的值. 类似地, 也可以定义条件方差, 具体的表达式省略.</p>
+<h2 id="中心极限定理"><a href="#中心极限定理" class="headerlink" title="中心极限定理"></a>中心极限定理</h2><p>考虑n个独立同分布随机变量X1, X2, …, Xn. 假设这些变量代表各种微小的差异, 为了使其满足误差的含义, 这些随机变量具有以下的特征<br>$$<br>\left\{\begin{matrix}<br>E[X_1]=E[X_2]=…=E[X_n] = 0 \\<br>V[X_1]=V[X_2]=…=V[X_n] = \sigma^2 &gt; 0<br>\end{matrix}\right.<br>$$<br>如果考虑对上述随机变量和进行标准化操作, 即</p>
+<p>$$ W_n = \frac{X_1+X_2+…+X_n}{\sqrt{V[X_1+X_2+…+X_n]}}=\frac{X_1+X_2+…+X_n}{\sqrt{n}\sigma}$$</p>
+<p>则\( n \rightarrow \infty \)时, \(W_n\)将趋近于标准正态分布N(0,1). 这说明大量微小的误差叠加后的结果将符合正态分布. 另外, 即使n个独立同分布随机变量X1, X2, …, Xn的期望不等于零, 只要进行标准化操作后, 还是满足上述结论, 即定义<br>$$W_n = \frac{(X_1-\mu)+(X_2-\mu)+…+(X_n-\mu)}{\sqrt{V[X_1+X_2+…+X_n]}}$$</p>
+<hr>
+<p>大数定理和中心极限定理的表达式很接近, 但其中的含义并不相同. 大数定理表明随机变量的和除以n以后收敛于期望值, 而中心极限定理描述了随机变量和的分布情况.</p>
+<h2 id="协方差与相关系数"><a href="#协方差与相关系数" class="headerlink" title="协方差与相关系数"></a>协方差与相关系数</h2><p>有随机变量X, Y, 其期望分别为\( \mu \), \( \nu \), 则协方差定义为<br>$$Cov[X,Y] \equiv E\left[(X-\mu)(Y-\nu)\right]$$</p>
+<p>可以注意到, 协方差为正数时, 具有以下的特点</p>
+<ul>
+<li>一方取值大于期望时, 另一方取值大于期望的概率也更大</li>
+<li>一方取值小于期望时, 另一方取值小于期望的概率也更大</li>
+</ul>
+<p>同样, 协方差为负数时, 也有相对应的特点. 如果协方差为零, 则不存在这样的相关性.</p>
+<p>当X与Y相互独立时, 协方差为零. 因为X与Y独立, 所以Y相对X而言分布均匀, 则对于X大于均值和X小于均值的部分Y放大的倍数相同. 因此最后计算时, X必然在均值上相互抵消, 最后结果为0.</p>
+<p>但是反过来, 协方差为零并不能说明X与Y相互独立. 协方差相当于一个评价X与Y线性相关性的指标, X与Y独立时, 必然没有线性相关性. 但没有线性相关性不代表一定没有相关性, 只有存在某种相关关系, 则X与Y就不独立.</p>
+<hr>
+<p>对比方差的定义, 协方差显然具有以下的特点</p>
+<p>$$Cov[aX+b,cY+d] = acCov[X,Y]$$</p>
+<p>由于将随机变量的取值放大, 就可以放大协方差的值, 因此协方差数值的大小无法表现相关性的大小. 针对这一问题, 可以在计算协方差之前, 分别对X和Y进行标准化. 由于期望的偏移不影响协方差的值, 因此可以只进行缩放, 即求解</p>
+<p>$$Cov[\widetilde{X},\widetilde{Y}]=Cov\left[ \frac{X}{\sqrt{V[X]}},\frac{Y}{\sqrt{V[Y]}} \right]=\frac{Cov[X,Y]}{\sqrt{V[X]}\sqrt{V[Y]}}$$</p>
+<p>这一除去比例干扰的指标称为相关系数\( \rho_{XY}\). 可以验证, 对X和Y进行缩放将不会改变\( \rho_{XY}\)的大小. 相关系数具有如下的特点</p>
+<ul>
+<li>取值范围在-1和+1之间</li>
+<li>相关系数绝对值越大,(X,Y)就越接近于一条直线</li>
+<li>如果X和Y相互独立, 则相关系数为0</li>
+</ul>
+<p>相关系数存在以下的缺陷</p>
+<ul>
+<li>相关系数只能表现线性相关性, 而不能体现更加复杂的相关性</li>
+<li>相关关系不能说明因果关系</li>
+</ul>
+<h2 id="协方差矩阵"><a href="#协方差矩阵" class="headerlink" title="协方差矩阵"></a>协方差矩阵</h2><p>设有任意三个随机变量X1, X2, X3, 那么协方差矩阵的定义为</p>
+<p>  | X1                 | X2                 | X3<br>–|——————–|——————–|——————–<br>X1| \(Cov[X_1,X_1]\) | \(Cov[X_1,X_2]\) | \(Cov[X_1,X_3]\)<br>X2| \(Cov[X_2,X_1]\) | \(Cov[X_2,X_2]\) | \(Cov[X_2,X_3]\)<br>X3| \(Cov[X_3,X_1]\) | \(Cov[X_3,X_2]\) | \(Cov[X_3,X_3]\) </p>
+<hr>
+<p>如果令\(X=(X_1,X_2,…,X_n)^T\), 则可以用X表示这几个随机变量构成的列向量, 此时可以得到如下的一些结论</p>
+<p>$$<br>E[X] = E[(X_1,X_2,…,X_n)^T] = (E[X_1],E[X_2],…,E[X_n])^T\\<br>V[X] = E[(X-\mu)(X-\mu)^T]<br>$$</p>
+<p>可以验证, V[X]与前面定义的协方差矩阵具有同样的形式.</p>
+<hr>
+<p>对于任意取值确定的常向量a和矩阵A, 有<br>$$<br>E[a \cdot X] = a \cdot E[X] \\<br>E[AX] = AE[X]<br>$$</p>
+<p>如果将X换成随机变量构成的矩阵, 上述关系依然成立.</p>
+<hr>
+<p>对于方差, 同样可以用矩阵形式得到如下的一组性质<br>$$<br>V[a^TX]=a^TV[X]a \\<br>V[AX]=AV[X]A^T<br>$$</p>
+<p>对于矩阵性质, 可以按照如下的方式证明:</p>
+<p>$$<br>V[AX] = E[(AX-A\mu)(AX-A\mu)^T] = E[A(X-\mu)((X-\mu)^TA^T)] = E[A(X-\mu)(X-\mu)^TA^T] = AV[X]A^T<br>$$</p>
+<!-- 后续内容暂时先不展开, 看完全书再做回顾 -->
+
+<h2 id="多元正态分布"><a href="#多元正态分布" class="headerlink" title="多元正态分布"></a>多元正态分布</h2><p>对于一个列向量\(Z = (Z1,Z2, …, Zn)^T\), 如果其中每个分类都是服从标准正态分布的i.i.d变量, 则称Z服从n元标准正态分布. </p>
+<p>相应的概率密度函数可以表达为</p>
+<p>$$f_Z=g(z_1)g(z_2) \cdots g(z_n)=c exp\left(-\frac{z_1^2}{2}\right) \cdot cexp\left(-\frac{z_2^2}{2}\right)\cdots cexp\left(-\frac{z_n^2}{2}\right) = d exp\left(-\frac{1}{2} ||z||^2 \right)$$</p>
+<p>由此可以显然的得到一个结论, 概率密度的等值面是一个圆(或者球面,超球面). 因为概率密度的表达式中只与Z的模相关,而与具体的Z取值无关.</p>
+<p>通过简单计算可知, n元正态分布的期望向量是0向量, 协方差矩阵是单位矩阵.</p>
+<h2 id="参数估计"><a href="#参数估计" class="headerlink" title="参数估计"></a>参数估计</h2><p>没有给出分布的具体函数形式的问题成为<strong>非参数估计</strong>. 期望值和方差不确定, 但遵从正态分布的问题称为<strong>参数估计</strong>. </p>
+<p>在参数估计问题中, 通常将n个实际观测的数据记为\( X=(X_1,X_2,…,X_n)\), 需要估计的参数\(\theta\)的估计值记为\(\hat{\theta}\).  由于数据X取值随机,  因此\(\hat{\theta}\)也是随机值.  为了强调这一点, 有时将\(\hat{\theta}\)成为估计量,  或记为\(\hat{\theta}(X)\). </p>
+<h3 id="最小无偏估计"><a href="#最小无偏估计" class="headerlink" title="最小无偏估计"></a>最小无偏估计</h3><p>$$E[\hat{\theta}(X)] = \theta$$</p>
+<h3 id="贝叶斯估计"><a href="#贝叶斯估计" class="headerlink" title="贝叶斯估计"></a>贝叶斯估计</h3><p>根据前面提到的<a href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%85%AC%E5%BC%8F">贝叶斯公式</a>, 我们有</p>
+<p>$$ P(A|B) = \frac{P(A, B)}{P(B)} = \frac{P(B|A)P(A)}{\sum P(B|A_i)P(A_i)}$$</p>
+<p>如果我们现在有A事件的概率分布(称为先验概率), 现在想要知道在B事件发生后A的概率变化(称为后验概率), 那么实际上就是求解\(P(A|B)\).</p>
+<p>关于贝叶斯估计在更新对违禁药物使用嫌疑的怀疑这一例子上, 可以参考文章 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/0e44aade0e60">贝叶斯统计2</a>.</p>
+<h3 id="其他检验方法"><a href="#其他检验方法" class="headerlink" title="其他检验方法"></a>其他检验方法</h3><!-- 最后查阅这些方法的详细内容 -->
+
+<ul>
+<li>交叉检验法(cross validation, CV)</li>
+<li>赤池信息量准则(Akaike’s information criterion, AIC)</li>
+<li>贝叶斯信息量准则(Bayesian information criterion, BIC)</li>
+<li>最小描述长度(minimum description length, MDL)</li>
+</ul>
+<h2 id="检验理论"><a href="#检验理论" class="headerlink" title="检验理论"></a>检验理论</h2><p>假设甲乙两人共进行了100场比赛, 其中甲61胜39负, 现在希望证明甲对乙的胜率大于\(\frac{1}{2 }\). 此时可以建立两种假设</p>
+<ul>
+<li>虚无假设\(H_0\): 甲获胜的概率=\(\frac{1}{2 }\)</li>
+<li>对立假设\(H_1\): 甲或是的概率&gt;\(\frac{1}{2 }\)</li>
+</ul>
+<p>这里涉及到这样一个逻辑: 如果\(H_0\)成立, 则出现现在的结果的概率为p, 如果p的值非常小, 则\(H_0\)很有可能是错误的, 因此\(H_1\)更有可能正确. 我们需要支持的是\(H_1\), 但我们通过证明\(H_0\)可能是错误的来证明\(H_1\).</p>
+<p>上面提到的\(H_0\)成立的概率称为p值. 我们先设定一个很小的值\(\alpha\), 并且通过比较p值是否大于\(\alpha\)作为判断依据</p>
+<ul>
+<li>p值 &lt;  \(\alpha\) -&gt; 拒绝\(H_0\) (reject)</li>
+<li>p值 &gt;= \(\alpha\) -&gt; 无法拒接\(H_0\) (accept)</li>
+</ul>
+<p>由此可以产生两种术语</p>
+<ul>
+<li>第一类错误(false reject): 本应为\(H_0\)却错误的拒绝了. 也称为弃真错误</li>
+<li>第二类错误(false accept): \(H_0\)不是正确答案却错误的接受了. 也称为存伪错误</li>
+</ul>
+<p>对于第一类错误, 我们做出了\(H_0\)不对的判断, 而对于第二类错误, 我们做出了\(H_0\)证据不足无法反驳的判断, 因此通常而言, 我们都希望先限制第一类错误发生的概率, 然后选择第二类错误发生概率小的方案.</p>
+<!-- 关于`奈曼-皮尔逊`引理的有关内容, 后续根据实际情况再补充 -->
+
+
+
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年06月19日 21:29</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2019/10/05/%E5%86%8D%E8%AF%BB%E6%A6%82%E7%8E%87%E8%AE%BA/" title="再读概率论">https://lizec.top/2019/10/05/%E5%86%8D%E8%AF%BB%E6%A6%82%E7%8E%87%E8%AE%BA/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2019/10/05/%E5%86%8D%E8%AF%BB%E6%A6%82%E7%8E%87%E8%AE%BA/&title=《再读概率论》 — LiZeC的博客&pic=images/Probability.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2019/10/05/%E5%86%8D%E8%AF%BB%E6%A6%82%E7%8E%87%E8%AE%BA/&title=《再读概率论》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2019/10/05/%E5%86%8D%E8%AF%BB%E6%A6%82%E7%8E%87%E8%AE%BA/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《再读概率论》 — LiZeC的博客&url=https://lizec.top/2019/10/05/%E5%86%8D%E8%AF%BB%E6%A6%82%E7%8E%87%E8%AE%BA/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2019/10/05/%E5%86%8D%E8%AF%BB%E6%A6%82%E7%8E%87%E8%AE%BA/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2019/10/05/%E5%86%8D%E8%AF%BB%E6%A6%82%E7%8E%87%E8%AE%BA/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/概率论/" class="color4">概率论</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%A6%82%E7%8E%87%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="post-toc-text">概率的定义</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%A6%82%E7%8E%87%E7%9A%84%E4%B8%8A%E5%B8%9D%E8%A7%86%E8%A7%92"><span class="post-toc-text">概率的上帝视角</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%B8%89%E7%A7%8D%E6%A6%82%E7%8E%87%E7%9A%84%E5%8C%BA%E5%88%AB%E4%B8%8E%E8%81%94%E7%B3%BB"><span class="post-toc-text">三种概率的区别与联系</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%8B%AC%E7%AB%8B%E6%80%A7"><span class="post-toc-text">独立性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%85%AC%E5%BC%8F"><span class="post-toc-text">贝叶斯公式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%9C%9F%E6%9C%9B%E4%B8%8E%E6%96%B9%E5%B7%AE"><span class="post-toc-text">期望与方差</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%A4%A7%E6%95%B0%E5%AE%9A%E7%90%86"><span class="post-toc-text">大数定理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%9D%A1%E4%BB%B6%E6%9C%9F%E6%9C%9B%E4%B8%8E%E6%9D%A1%E4%BB%B6%E6%96%B9%E5%B7%AE"><span class="post-toc-text">条件期望与条件方差</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%B8%AD%E5%BF%83%E6%9E%81%E9%99%90%E5%AE%9A%E7%90%86"><span class="post-toc-text">中心极限定理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8D%8F%E6%96%B9%E5%B7%AE%E4%B8%8E%E7%9B%B8%E5%85%B3%E7%B3%BB%E6%95%B0"><span class="post-toc-text">协方差与相关系数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8D%8F%E6%96%B9%E5%B7%AE%E7%9F%A9%E9%98%B5"><span class="post-toc-text">协方差矩阵</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%A4%9A%E5%85%83%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83"><span class="post-toc-text">多元正态分布</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%82%E6%95%B0%E4%BC%B0%E8%AE%A1"><span class="post-toc-text">参数估计</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9C%80%E5%B0%8F%E6%97%A0%E5%81%8F%E4%BC%B0%E8%AE%A1"><span class="post-toc-text">最小无偏估计</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E4%BC%B0%E8%AE%A1"><span class="post-toc-text">贝叶斯估计</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%B6%E4%BB%96%E6%A3%80%E9%AA%8C%E6%96%B9%E6%B3%95"><span class="post-toc-text">其他检验方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%A3%80%E9%AA%8C%E7%90%86%E8%AE%BA"><span class="post-toc-text">检验理论</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/10/08/%E5%A4%8D%E5%8F%98%E5%87%BD%E6%95%B0%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          复变函数笔记
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/10/04/%E5%AE%8F%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">宏观经济学笔记</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Sat Oct 05 2019 10:41:47 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

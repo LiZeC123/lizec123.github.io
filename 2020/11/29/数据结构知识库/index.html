@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>数据结构知识库 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="栈的性质栈满的时候要考虑上溢的情况，栈空的时候要考虑下溢的情况。 队列的性质设队尾指针是rear, 队头是front, 循环队列的最大长度为QueueSize, 循环队列的相关条件和公式为:    条件 代码 条件 代码    队空条件 rear&#x3D;&#x3D;front 队满条件 (rear+1) % QueueSIze&#x3D;&#x3D;front   入队位置 (rear+1)%QueueSize 出队条件 (f">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构知识库">
+<meta property="og:url" content="https://lizec.top/2020/11/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9F%A5%E8%AF%86%E5%BA%93/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="栈的性质栈满的时候要考虑上溢的情况，栈空的时候要考虑下溢的情况。 队列的性质设队尾指针是rear, 队头是front, 循环队列的最大长度为QueueSize, 循环队列的相关条件和公式为:    条件 代码 条件 代码    队空条件 rear&#x3D;&#x3D;front 队满条件 (rear+1) % QueueSIze&#x3D;&#x3D;front   入队位置 (rear+1)%QueueSize 出队条件 (f">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-11-29T14:36:46.000Z">
+<meta property="article:modified_time" content="2021-03-03T09:06:23.000Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-数据结构知识库" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      数据结构知识库
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2020-11-29
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script>
+
+
+<h2 id="栈的性质"><a href="#栈的性质" class="headerlink" title="栈的性质"></a>栈的性质</h2><p>栈满的时候要考虑上溢的情况，栈空的时候要考虑下溢的情况。</p>
+<h2 id="队列的性质"><a href="#队列的性质" class="headerlink" title="队列的性质"></a>队列的性质</h2><p>设队尾指针是rear, 队头是front, 循环队列的最大长度为QueueSize, 循环队列的相关条件和公式为:</p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>代码</th>
+<th>条件</th>
+<th>代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>队空条件</td>
+<td>rear==front</td>
+<td>队满条件</td>
+<td>(rear+1) % QueueSIze==front</td>
+</tr>
+<tr>
+<td>入队位置</td>
+<td>(rear+1)%QueueSize</td>
+<td>出队条件</td>
+<td>(front+1) % QueueSize</td>
+</tr>
+</tbody></table>
+<p>计算队列长度 : (rear-front+QueueSize) % QueueSize</p>
+<h2 id="二叉树的性质"><a href="#二叉树的性质" class="headerlink" title="二叉树的性质"></a>二叉树的性质</h2><h3 id="节点与度的关系"><a href="#节点与度的关系" class="headerlink" title="节点与度的关系"></a>节点与度的关系</h3><p>设k为节点数, 则整个树的度为k-1, 分别考虑节点数量和度数量有</p>
+<p>k   = n0 + n1 + n2<br>k-1 = 2*n2 + n1</p>
+<p>求解上式可得</p>
+<p>n0 = n2 + 1</p>
+<p>即度为0的节点数为度为2的节点数加1</p>
+<h3 id="二叉树的种类"><a href="#二叉树的种类" class="headerlink" title="二叉树的种类"></a>二叉树的种类</h3><p>完全二叉树: 对于深度为K的，有n个结点的二叉树，当且仅当其每一个结点都与深度为K的满二叉树中编号从1至n的结点一一对应时称之为完全二叉树。<br>注意: 完全二叉树在给定深度的情况下, 存在最多节点和最少节点两种情况</p>
+<p>二叉排序树: 左右子节点和根节点满足排序关系的树, 也就是最基本的树</p>
+<h3 id="树转森林与森林转树"><a href="#树转森林与森林转树" class="headerlink" title="树转森林与森林转树"></a>树转森林与森林转树</h3><ol>
+<li>将树通过儿子兄弟表示法变成二叉树</li>
+<li>由于根节点右子树为空, 因此依次连接所有的树</li>
+<li>二叉树转森林过程相反, 断开所有右子树的连接即可</li>
+</ol>
+<h3 id="B树"><a href="#B树" class="headerlink" title="B树"></a>B树</h3><p>对于m阶B树</p>
+<ol>
+<li>每个节点至多有m个节点</li>
+<li>除了根节点与叶节点外, 每个节点至少有 m/2向上取整 个节点</li>
+<li>根节点至少有两个节点</li>
+<li>所有叶子节点在同一层</li>
+<li>有k个子节点的非根节点包含k-1个关键码</li>
+</ol>
+<h3 id="平衡二叉树"><a href="#平衡二叉树" class="headerlink" title="平衡二叉树"></a>平衡二叉树</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/56066942">什么是平衡二叉树（AVL）</a></li>
+</ul>
+<h3 id="查找表"><a href="#查找表" class="headerlink" title="查找表"></a>查找表</h3><p>静态查找表（Static Search Table）：只作查找操作的查找表。<br>A：查询某个“特定”数据元素是否在查找表中；<br>B：检索某个“特定”数据元素和各种属性。</p>
+<p>动态查找表（Dynamic Search Table）：在查找过程同时插入查找表中不存在的数据元素，或者从查找表中删除已经存在的某个数据元素。<br>A：查找是插入数据元素；<br>B：查找时删除数据元素。</p>
+<h3 id="最优二叉树"><a href="#最优二叉树" class="headerlink" title="最优二叉树"></a>最优二叉树</h3><p>最优二叉树就是从已给出的目标带权结点(单独的结点) 经过一种方式的组合形成一棵树，使树的权值最小.<br>最优二叉树是带权路径长度最短的二叉树, 典型代表是*<strong>哈夫曼树</strong></p>
+<h3 id="胜者树与败者树"><a href="#胜者树与败者树" class="headerlink" title="胜者树与败者树"></a>胜者树与败者树</h3><p>假设数据直接进行比赛, 中间节点记录比赛的胜者信息, 由此构成的树称为胜者树. 借助于这一结构, 可以快速的找到一组数据中的最大值, 并且可以不断的插入和删除数据</p>
+<h2 id="堆的性质"><a href="#堆的性质" class="headerlink" title="堆的性质"></a>堆的性质</h2><p>堆一般构造成完全二叉树的结构, 但这只是为了计算简便, 也可以构造满足堆要求但不是完全二叉树的结构</p>
+<h2 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h2><h3 id="冲突解决算法"><a href="#冲突解决算法" class="headerlink" title="冲突解决算法"></a>冲突解决算法</h3><ol>
+<li>开放地址法: 根据某种规则使用其他的位置, 例如线性探查法, 平方探查法 </li>
+<li>再哈希法: 使用另外的哈希函数在此计算, 包括</li>
+<li>拉链法: 也称为链地址法, 即使用链表</li>
+<li>建立公共溢出区</li>
+</ol>
+<p>开放地址法可以将所有数据都存放在哈希表的数组中, 而不必引入额外的链表结果, 因此结构上更简单. 但是非常不适合需要删除数据的情况. 当删除数据时, 除了删除当前元素, 还需要妥善的处理之前由于碰撞而放到其他地方的元素. 无论是移动元素还是加入DELETE标记, 都会引入额外的开销.  </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lppl010_/article/details/80839160">解决Hash碰撞冲突方法总结</a></li>
+</ul>
+<h2 id="图的性质"><a href="#图的性质" class="headerlink" title="图的性质"></a>图的性质</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>图的表示方法: 对于图 <code>G=(V, E)</code> 有两种表示方法, 分别是邻接链表和邻接矩阵, 当边的数量\(E\)远远小于\(V^2\)时(即稀疏图), 使用邻接链表表示法更加紧凑, 反之可能使用邻接矩阵更加简单. 此外如果希望快速判断两个节点之间是否联通, 使用邻接矩阵也更快. </p>
+<p>由于两种存储方式的差异, 可以认为邻接链表的空间复杂度为\(O(V+E)\), 而邻接矩阵的空间复杂度为\(O(V^2)\). 由于很多图的操作本质上是对图的数据结构的遍历, 因此存储结构的差异也决定了这些操作的时间复杂度.</p>
+<hr>
+<p>邻接表: 邻接表是表示了图中与每一个顶点相邻的边集的集合<br>邻接多重表: 与邻接表的差别，仅仅在于同一条边在邻接表中用两个节点表示，在邻接多重表中只用一个节点</p>
+<p>注意: 边的数量与度的区别, 无向图中一条边会计算两次度</p>
+<p>入度与出度: od表示初度，id表示入度</p>
+<p>邻接表的边结点是指示弧尾到弧头，而逆邻接表的边结点指示弧头到弧尾，所以有多少条边就有多少个结点，一一对应，逆邻接表中边节点个数等于邻接表边结点个数</p>
+<h3 id="拓扑排序"><a href="#拓扑排序" class="headerlink" title="拓扑排序"></a>拓扑排序</h3><p>拓扑排序有两种计算方式, 通常的拓扑排序可以表述为, 依次从图中选择入度为0的边, 将其从图中移除并输出该节点. 以下图为例, 可以依次</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">digraph graphname &#123;</span><br><span class="line">    rankdir=LR;</span><br><span class="line">    1 -&gt; 4 -&gt; 5;</span><br><span class="line">    1 -&gt; 2 -&gt; 4;</span><br><span class="line">    2 -&gt; 3 -&gt; 5;</span><br><span class="line">    4 -&gt; 3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>输出节点1, 移除节点1指向2和4节点的边</li>
+<li>输出节点2, 移除节点2指向3和4节点的边</li>
+<li>省略后续操作…</li>
+</ol>
+<hr>
+<p>拓扑排序也可以用深度优先遍历算法完成. 此时深度优先算法在递归开始前和递归结束后都需要给每个节点一个遍历的时间戳, 然后按照结束时间戳的大小进行排序输出. 对上面的图遍历结果如下图所示:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">digraph graphname &#123;</span><br><span class="line">    rankdir=LR;</span><br><span class="line">    1 [label=&quot;1(1/10)&quot;];</span><br><span class="line">    2 [label=&quot;2(2/9)&quot;];</span><br><span class="line">    3 [label=&quot;3(3/6)&quot;];</span><br><span class="line">    4 [label=&quot;4(7/8)&quot;];</span><br><span class="line">    5 [label=&quot;5(4/5)&quot;];</span><br><span class="line"></span><br><span class="line">    1 -&gt; 4 -&gt; 5;</span><br><span class="line">    1 -&gt; 2 -&gt; 4;</span><br><span class="line">    2 -&gt; 3 -&gt; 5;</span><br><span class="line">    4 -&gt; 3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中括号内数字表示开始遍历和结束遍历时的时间戳大小.</p>
+<hr>
+<p>拓扑排序算法和深度优先遍历都可以实现有向无环图的拓扑排序, 但针对有环的情况, 拓扑排序能够探测到环的存在, 而深度优先遍历无法探测到环的存在.</p>
+<h3 id="最小生成树"><a href="#最小生成树" class="headerlink" title="最小生成树"></a>最小生成树</h3><p>最小生成树有两个算法, 分别是Kruskal算法和Prim算法. Kruskal算法通过不断合并两个集合完成最小生成树的构建, 而Prim通过不断加入新的点来实现最小生成树的构建. </p>
+<h3 id="流量计算"><a href="#流量计算" class="headerlink" title="流量计算"></a>流量计算</h3><p>技巧：  按层计算，瞻前顾后</p>
+<p>首先计算每一层向终点方向的最大输出能力，不包括回流的量<br>然后计算总体的最大流量，为各个层中流量最小的一层的流量</p>
+<p>本题中分为三层：<br>第一层为s。                        朝终点最大输出量为11+22+10 = 43<br>第二层为节点1、2、3。      朝终点最大输出量为10+17+14 = 41（10是因为节点4最多接受10，出度为10，14是因为节点3的入度为14，所以是14而不是16）<br>第三层为节点4、5、6。      朝终点最大输出量为10+16+16 = 42<br>所以综合考虑总体最大的流量只能41.</p>
+<h3 id="拓扑排序-1"><a href="#拓扑排序-1" class="headerlink" title="拓扑排序"></a>拓扑排序</h3><p>拓扑排序算法将一个<strong>有向</strong>, <strong>无环图</strong> 排列成一个有序序列.</p>
+<p>图的深度优先遍历有一个特点: 当一个顶点的<strong>子结点</strong>都被访问完了, <strong>该顶点</strong>才会结束访问, 并开始向上回溯访问它的父结点的其它子结点<br>==&gt; 一个顶点的结束访问时间与其子结点的结束访问时间存在先后关系 ==&gt; 逆拓扑排序<br>注意: <strong>此方案无法检测环路</strong></p>
+<h3 id="关键路径"><a href="#关键路径" class="headerlink" title="关键路径"></a>关键路径</h3><p>关键路径是指设计中从输入到输出经过的<strong>延时最长</strong>的逻辑路径</p>
+<h3 id="最小生成树-1"><a href="#最小生成树-1" class="headerlink" title="最小生成树"></a>最小生成树</h3><p>Prim算法: 从一个顶点开始, 依次选择可到的边中, 权值最小的<br>Kruskal算法: 对边权值进行排序, 依次选择权值最小的边, 如果这条边连接了新的点, 则加入</p>
+<p>相比于Kruskal算法，Prim算法更适合于求边稠密的无向网的最小代价生成树</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/efcd21494dff">图的基本算法（最小生成树）</a></li>
+</ul>
+<h2 id="其他内容"><a href="#其他内容" class="headerlink" title="其他内容"></a>其他内容</h2><p>总时差TF(Total Float):一项工作在不影响总工期的前提下所具有的机动时间, 最迟完成时间与最早完成时间之差<br>自由时差FF(Free Float): 一项工作在不影响其紧后工作最早开始时间的条件下, 本工作可以利用的机动时间</p>
+<blockquote>
+<p>总时差就是拖拖拖，可以拖多少天才做工作M，自由时差就是早早完成，然后在下次工作委派之前可以休息多少天</p>
+</blockquote>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><table>
+<thead>
+<tr>
+<th>排序算法</th>
+<th>平均时间</th>
+<th>空间</th>
+<th>排序方式</th>
+<th>稳定性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>冒泡排序</td>
+<td>O(n^2)</td>
+<td>O(1)</td>
+<td>In-place</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>选择排序</td>
+<td>O(n^2)</td>
+<td>O(1)</td>
+<td>In-place</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td>插入排序</td>
+<td>O(n^2)</td>
+<td>O(1)</td>
+<td>In-place</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>希尔排序</td>
+<td>O(nlogn)</td>
+<td>O(1)</td>
+<td>In-place</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td>归并排序</td>
+<td>O(nlogn)</td>
+<td>O(n)</td>
+<td>Out-place</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>快速排序</td>
+<td>O(nlogn)</td>
+<td>O(logn)</td>
+<td>In-place</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td>堆排序</td>
+<td>O(nlogn)</td>
+<td>O(1)</td>
+<td>In-place</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td>计数排序</td>
+<td>O(n+k)</td>
+<td>O(k)</td>
+<td>Out-place</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>桶排序</td>
+<td>O(n+k)</td>
+<td>O(n+k)</td>
+<td>Out-place</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>基数排序</td>
+<td>O(nk)</td>
+<td>O(n+k)</td>
+<td>Out-place</td>
+<td>稳定</td>
+</tr>
+</tbody></table>
+<ul>
+<li>完整信息可参考<a target="_blank" rel="noopener" href="https://uploadfiles.nowcoder.com/images/20190219/242025553_1550564529306_DF5F4A0D06D13185C873BE851CBF7E9F">排序表</a></li>
+</ul>
+<p><strong>空间复杂度说明</strong>: </p>
+<ol>
+<li>归并排序需要一个额外的空间做合并操作</li>
+<li>快速排序由于递归而产生对数级别的空间占用</li>
+<li>计数排序k表示数据分布范围, 基数排序k表示数字的位数</li>
+</ol>
+<p><strong>稳定性分析</strong>:</p>
+<ol>
+<li>选择排序由于直接交换位置, 因此可能导致顺序变化, 而冒泡和插入排序只移动相邻的元素, 因此顺序不变</li>
+<li>希尔排序和快速排序显然不稳定</li>
+<li>归并排序按照顺序划分区间, 按照顺序合并区间, 因此稳定</li>
+<li>堆排序建立堆的过程按照堆结构交换元素位置, 因此顺序可能变化</li>
+</ol>
+<p><strong>排序方法说明</strong>:</p>
+<ol>
+<li>堆排序: 首先构建一个最大堆, 依次将堆顶元素与最后一个未排序元素交换</li>
+<li>计数排序: 已知数字位于0..99, 开一个100元素的数组, 每遇到一个数字, 数组相应位置++, 最后输出<ul>
+<li>遍历数据一次, 遍历记录的数组一次, 因此时间复杂度为O(n+k), 空间复杂度为记录数组的消耗, 为O(k)</li>
+</ul>
+</li>
+<li>桶排序: 先将数据映射到不同的桶中, 然后对桶内数据进行排序, 最后合并所有数据<ul>
+<li>桶排序是计数排序的升级版, 计数排序相当于每个数字一个桶</li>
+</ul>
+</li>
+<li>计数排序</li>
+</ol>
+<hr>
+<p><strong>基数排序的正确性</strong></p>
+<p>如果给定如下的一组数据, 并进行基数排序, 则排序结果如下表所示</p>
+<p>123 234 345 532 244 332 451 321</p>
+<table>
+<thead>
+<tr>
+<th>第一轮</th>
+<th>第二轮</th>
+<th>第三轮</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>451</td>
+<td>321</td>
+<td>123</td>
+</tr>
+<tr>
+<td>321</td>
+<td>123</td>
+<td>234</td>
+</tr>
+<tr>
+<td>532</td>
+<td>532</td>
+<td>244</td>
+</tr>
+<tr>
+<td>332</td>
+<td>332</td>
+<td>321</td>
+</tr>
+<tr>
+<td>123</td>
+<td>234</td>
+<td>332</td>
+</tr>
+<tr>
+<td>234</td>
+<td>244</td>
+<td>451</td>
+</tr>
+<tr>
+<td>244</td>
+<td>451</td>
+<td>532</td>
+</tr>
+</tbody></table>
+<p>注意在进行第k轮排序后, 如果只看末尾的k位数字, 则这部分数据均是正确排序的. 例如经过第二轮排序后, 如果只看每个数字的末尾两位, 那么这些两位数都是正确排序的. </p>
+<p>那么在进行第k+1轮排序时, 针对每一个桶内的数字, 第k+1位是相同的, 而末尾的k位根据顺序, 数字越小越先进入桶中, 因此经过第k+1轮排序后, 末尾的k+1位数字都是正确排序的.</p>
+<p>根据这个性质, 可以显然的证明基数排序的正确性.</p>
+<h2 id="主定理"><a href="#主定理" class="headerlink" title="主定理"></a>主定理</h2><p>对于一个递推公式</p>
+<p>$$T(n) = aT(n/b) + O(n^d)$$</p>
+<p>并且令</p>
+<p>$$f=\log_{b}{a}$$</p>
+<p>则可以通过比较f与d的大小关系获得递推式的时间复杂度</p>
+<table>
+<thead>
+<tr>
+<th>相对关系</th>
+<th>时间复杂度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>f &gt; d</td>
+<td>\(O(n^f)\)</td>
+</tr>
+<tr>
+<td>f = d</td>
+<td>\(O(n^f \log{n})\)</td>
+</tr>
+<tr>
+<td>f &lt; d</td>
+<td>\(O(n^d)\)</td>
+</tr>
+</tbody></table>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/100531135">主定理 Master Theorem</a></li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2021年03月03日 17:06</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2020/11/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9F%A5%E8%AF%86%E5%BA%93/" title="数据结构知识库">https://lizec.top/2020/11/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9F%A5%E8%AF%86%E5%BA%93/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2020/11/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9F%A5%E8%AF%86%E5%BA%93/&title=《数据结构知识库》 — LiZeC的博客&pic=https://lizec.topimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2020/11/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9F%A5%E8%AF%86%E5%BA%93/&title=《数据结构知识库》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2020/11/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9F%A5%E8%AF%86%E5%BA%93/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《数据结构知识库》 — LiZeC的博客&url=https://lizec.top/2020/11/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9F%A5%E8%AF%86%E5%BA%93/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2020/11/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9F%A5%E8%AF%86%E5%BA%93/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2020/11/29/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9F%A5%E8%AF%86%E5%BA%93/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/数据结构/" class="color5">数据结构</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%A0%88%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="post-toc-text">栈的性质</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%98%9F%E5%88%97%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="post-toc-text">队列的性质</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="post-toc-text">二叉树的性质</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%8A%82%E7%82%B9%E4%B8%8E%E5%BA%A6%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="post-toc-text">节点与度的关系</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E7%A7%8D%E7%B1%BB"><span class="post-toc-text">二叉树的种类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A0%91%E8%BD%AC%E6%A3%AE%E6%9E%97%E4%B8%8E%E6%A3%AE%E6%9E%97%E8%BD%AC%E6%A0%91"><span class="post-toc-text">树转森林与森林转树</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#B%E6%A0%91"><span class="post-toc-text">B树</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="post-toc-text">平衡二叉树</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9F%A5%E6%89%BE%E8%A1%A8"><span class="post-toc-text">查找表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9C%80%E4%BC%98%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="post-toc-text">最优二叉树</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%83%9C%E8%80%85%E6%A0%91%E4%B8%8E%E8%B4%A5%E8%80%85%E6%A0%91"><span class="post-toc-text">胜者树与败者树</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%A0%86%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="post-toc-text">堆的性质</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%93%88%E5%B8%8C%E8%A1%A8"><span class="post-toc-text">哈希表</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E7%AE%97%E6%B3%95"><span class="post-toc-text">冲突解决算法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9B%BE%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="post-toc-text">图的性质</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="post-toc-text">基本概念</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F"><span class="post-toc-text">拓扑排序</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91"><span class="post-toc-text">最小生成树</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B5%81%E9%87%8F%E8%AE%A1%E7%AE%97"><span class="post-toc-text">流量计算</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F-1"><span class="post-toc-text">拓扑排序</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84"><span class="post-toc-text">关键路径</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91-1"><span class="post-toc-text">最小生成树</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%85%B6%E4%BB%96%E5%86%85%E5%AE%B9"><span class="post-toc-text">其他内容</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%8E%92%E5%BA%8F"><span class="post-toc-text">排序</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%B8%BB%E5%AE%9A%E7%90%86"><span class="post-toc-text">主定理</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2021/01/11/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E4%B9%8B%E5%AD%97%E8%8A%82%E7%A0%81/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          深入理解JVM之字节码
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2020/11/01/VIM%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">VIM笔记</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Sun Nov 29 2020 22:36:46 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

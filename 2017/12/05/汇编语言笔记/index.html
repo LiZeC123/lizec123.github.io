@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>汇编语言笔记 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="本文是对基于IBM-PC汇编语言程序设计的一些笔记。内容主要是汇编程序设计的基础知识和示例代码  目录 基本知识介绍 数据和内存 汇编程序结构 数据声明方式 数据寻址方式 循环程序设计 分支程序设计 子程序设计 标志位寄存器 中断程序设计 端口和外中断 标号与直接定址表 宏指令 显存操作    基本知识介绍 -----------------------  首先介绍汇编语言的基本工具. 本文使用在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="汇编语言笔记">
+<meta property="og:url" content="https://lizec.top/2017/12/05/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="本文是对基于IBM-PC汇编语言程序设计的一些笔记。内容主要是汇编程序设计的基础知识和示例代码  目录 基本知识介绍 数据和内存 汇编程序结构 数据声明方式 数据寻址方式 循环程序设计 分支程序设计 子程序设计 标志位寄存器 中断程序设计 端口和外中断 标号与直接定址表 宏指令 显存操作    基本知识介绍 -----------------------  首先介绍汇编语言的基本工具. 本文使用在">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-12-05T14:31:19.000Z">
+<meta property="article:modified_time" content="2018-06-05T07:44:26.060Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="汇编语言">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-汇编语言笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      汇编语言笔记
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/计算机核心课程/">计算机核心课程</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-12-05
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>本文是对基于IBM-PC汇编语言程序设计的一些笔记。内容主要是汇编程序设计的基础知识和示例代码</p>
+<hr>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#base_info">基本知识介绍</a></li>
+<li><a href="#data_and_memory">数据和内存</a></li>
+<li><a href="#asm_struct">汇编程序结构</a></li>
+<li><a href="#data_declaration">数据声明方式</a></li>
+<li><a href="#data_addressing">数据寻址方式</a></li>
+<li><a href="#loop_program">循环程序设计</a></li>
+<li><a href="#branch_program">分支程序设计</a></li>
+<li><a href="#sub_program">子程序设计</a></li>
+<li><a href="#flag_register">标志位寄存器</a></li>
+<li><a href="#interrupt_program">中断程序设计</a></li>
+<li><a href="#port">端口和外中断</a></li>
+<li><a href="#direct_addressing_table">标号与直接定址表</a></li>
+<li><a href="#macro">宏指令</a></li>
+<li><a href="#show">显存操作</a></li>
+</ul>
+<hr>
+<span id="base_info" />
+基本知识介绍
+-----------------------
+
+<p>首先介绍汇编语言的基本工具. 本文使用在dos环境下运行的MASM6.0. 为了需要运行dos环境, 首先需要下载dos的虚拟机. 这里推荐dosbox, 这是一个跨平台的dos虚拟机, 在其官网上可以下载到各个平台的程序. 首先介绍MASM6.0的程序结构, 下载了相应的程序后, 直接解压, 可以看到如下的几个程序, 程序名和作用如下表所示</p>
+<h5 id="程序结构"><a href="#程序结构" class="headerlink" title="程序结构"></a>程序结构</h5><table>
+<thead>
+<tr>
+<th align="left">程序名</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">MASM.exe</td>
+<td align="left">汇编主程序</td>
+</tr>
+<tr>
+<td align="left">Link.exe</td>
+<td align="left">链接器</td>
+</tr>
+<tr>
+<td align="left">ML.exe</td>
+<td align="left">汇编和链接</td>
+</tr>
+<tr>
+<td align="left">LIB.exe</td>
+<td align="left">相关库</td>
+</tr>
+<tr>
+<td align="left">DEBUG.exe</td>
+<td align="left">调试程序</td>
+</tr>
+</tbody></table>
+<p>其中, DEBUG.exe在前期使用较为频繁, 其相关指令较多, 因此下面给出DEBUG.exe的常见指令</p>
+<h5 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h5><table>
+<thead>
+<tr>
+<th align="left">命令名</th>
+<th align="left">作用</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">r(Register)</td>
+<td align="left">显示或修改寄存器数</td>
+<td align="left">r / r ax</td>
+</tr>
+<tr>
+<td align="left">d(Dump)</td>
+<td align="left">显示指定位置的内存数据</td>
+<td align="left">d 1000:0004/d:1000:0004 38</td>
+</tr>
+<tr>
+<td align="left">e(Enter)</td>
+<td align="left">向指定位置写入数据</td>
+<td align="left">e 1000:0000 1 2 3 4 5 6</td>
+</tr>
+<tr>
+<td align="left">u(Unassmble)</td>
+<td align="left">显示指定位置对应的汇编代码</td>
+<td align="left">u 1000:0000</td>
+</tr>
+<tr>
+<td align="left">t(Trace)</td>
+<td align="left">执行一步</td>
+<td align="left">t</td>
+</tr>
+<tr>
+<td align="left">a(Assemble)</td>
+<td align="left">向指定位置输入汇编代码</td>
+<td align="left">a</td>
+</tr>
+<tr>
+<td align="left">q(quit)</td>
+<td align="left">退出程序</td>
+<td align="left">q</td>
+</tr>
+</tbody></table>
+<p>在DEBUG.exe输入r指令, 会显示所有寄存器的当前数值, 下面给出各个寄存器的含义</p>
+<h5 id="通用寄存器结构"><a href="#通用寄存器结构" class="headerlink" title="通用寄存器结构"></a>通用寄存器结构</h5><table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">作用</th>
+<th align="left">名称</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">AX</td>
+<td align="left">累加器</td>
+<td align="left">CS</td>
+<td align="left">代码段</td>
+</tr>
+<tr>
+<td align="left">BX</td>
+<td align="left">基址变址</td>
+<td align="left">DS</td>
+<td align="left">数据段</td>
+</tr>
+<tr>
+<td align="left">CX</td>
+<td align="left">计数</td>
+<td align="left">ES</td>
+<td align="left">附加段</td>
+</tr>
+<tr>
+<td align="left">DX</td>
+<td align="left">数据</td>
+<td align="left">SS</td>
+<td align="left">堆栈段</td>
+</tr>
+<tr>
+<td align="left">SP</td>
+<td align="left">堆栈指针</td>
+<td align="left">DI</td>
+<td align="left">目的变址</td>
+</tr>
+<tr>
+<td align="left">BP</td>
+<td align="left">基址指针</td>
+<td align="left">SI</td>
+<td align="left">源变址</td>
+</tr>
+<tr>
+<td align="left">IP</td>
+<td align="left">指令指针</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h4 id="段的几点说明"><a href="#段的几点说明" class="headerlink" title="段的几点说明"></a>段的几点说明</h4><ol>
+<li>ax,bx,cx,dx除了作为16bit寄存器使用以外, 均可分为两个8bit的寄存器</li>
+<li>由于偏移地址是一个16bit的寄存器, 所以一个段最多有64K的空间</li>
+<li>一个段要求至少有16Byte的空间</li>
+<li>段的起始位置和容量必须是16的整数倍</li>
+<li>段实际地址 = 段地址x16+偏移地址</li>
+<li><strong>注意:<strong>不能使用</strong>立即数</strong>对<strong>段寄存器</strong>赋值</li>
+</ol>
+<hr>
+<span id="data_and_memory" />
+数据和内存
+-----------
+
+<h4 id="数据在内存中的存放"><a href="#数据在内存中的存放" class="headerlink" title="数据在内存中的存放"></a>数据在内存中的存放</h4><p>在内存中, 先存放低位数据, 再存放高位数据,例如数据<code>0x1234</code> 在内存中的实际存放顺序是<code>34 12</code></p>
+<h4 id="内存寻址和ds寄存器"><a href="#内存寻址和ds寄存器" class="headerlink" title="内存寻址和ds寄存器"></a>内存寻址和ds寄存器</h4><p>在汇编代码中, 可以使用如下的格式引用内存中的数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov ax [0]</span><br></pre></td></tr></table></figure>
+<p>上述代码实际是默认段寄存器为ds寄存器。汇编代码中访问内存时, 总是默认从ds指定的位置开始读取数据</p>
+<p><strong>注意:</strong> 不可以使用mov指令在两个内存单元中直接移动数据</p>
+<h4 id="内存中的栈"><a href="#内存中的栈" class="headerlink" title="内存中的栈"></a>内存中的栈</h4><p>在内存中, 有ss段寄存器和sp堆栈指针寄存器两者共同维护程序堆栈。由于堆栈从高位开始, 向低位扩展, 所以当选择一块区域作为栈时, ss指向这一区域的开始位置, 而sp指向这一区域的结束位置。<br>在使用栈的过程中, sp始终指向当前的栈顶位置。执行Push操作时, sp先减2, 然后写入数据。执行Pop操作时, 先读取sp指向的位置的数据, 之后sp加2</p>
+<hr>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li>设置堆栈段寄存器和寄存器的时候, 两条指令必须连续执行</li>
+<li>si和di只能作为16bit寄存器使用</li>
+<li>不能直接在两个内存单元中传递数据</li>
+<li><code>mov al [6]</code>在asm文件中, 汇编器会将其汇编成<code>mov al 6</code>, 此时应该先将偏移地址放在某个寄存器中, 如bx, 使用<code>mov al [bx]</code>获得数据, 但是在DEBUG.exe程序中使用a指令逐行汇编时并没有这种问题</li>
+</ol>
+<hr>
+<span id="asm_struct" />
+汇编程序结构
+---------------------
+
+<h4 id="汇编语言程序组成"><a href="#汇编语言程序组成" class="headerlink" title="汇编语言程序组成"></a>汇编语言程序组成</h4><ol>
+<li>汇编指令<ul>
+<li>有对应的机器指令, 可以被编译成机器指令, 最终被CPU执行</li>
+</ul>
+</li>
+<li>伪操作(伪指令)<ul>
+<li>在源程序编译过程中由编译器处理的操作</li>
+</ul>
+</li>
+</ol>
+<h4 id="汇编代码结构"><a href="#汇编代码结构" class="headerlink" title="汇编代码结构"></a>汇编代码结构</h4><p>下面是一个完成的汇编程序的结构</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">assume cs:code,ds:data,ss:stack     ;关联自定义段</span><br><span class="line">data segment                        ;定义数据段</span><br><span class="line">...</span><br><span class="line">data ends</span><br><span class="line">;------------------------</span><br><span class="line">stack segment                       ;定义栈段</span><br><span class="line">...</span><br><span class="line">stack ends</span><br><span class="line">;------------------------</span><br><span class="line">code segment                        ;定义代码段</span><br><span class="line">start:</span><br><span class="line">    mov ax,data</span><br><span class="line">    mov ds,ax                       ;初始段寄存器</span><br><span class="line">    ...</span><br><span class="line">    mov ax, 4c00H                   ;这两句调用系统指令, 结束程序</span><br><span class="line">    int 21H</span><br><span class="line">code ends</span><br><span class="line">end start                           ;设置代码开始位置</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>下面就上述代码中出现的语法元素进行简要介绍</p>
+<h4 id="定义段"><a href="#定义段" class="headerlink" title="定义段"></a>定义段</h4><p>定义段的结构如下所示, 段名可以使任意合法的标识符</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">段名 segment</span><br><span class="line">...</span><br><span class="line">段名 ends</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>:<code>ends</code>的含义是<code>end segment</code></p>
+<h4 id="关联自定义段和程序段"><a href="#关联自定义段和程序段" class="headerlink" title="关联自定义段和程序段"></a>关联自定义段和程序段</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ASSCUME CS: codeseg, DS:dataseg</span><br></pre></td></tr></table></figure>
+<ul>
+<li>上述指令将CS段与自定义的codeseg段关联, 将DS段与dataseg段关联</li>
+<li><strong>注意</strong>:语句结束后没有分号, 在汇编代码中, 分号表示注释</li>
+</ul>
+<h4 id="设置标号"><a href="#设置标号" class="headerlink" title="设置标号"></a>设置标号</h4><p>在汇编代码中, 可以在某一行的位置前设置一个标号, 类似于C语言中goto语句的标号, 此标号可在后续的其他语句中被引用, 表示程序的这个位置</p>
+<h4 id="设置程序起始位置"><a href="#设置程序起始位置" class="headerlink" title="设置程序起始位置"></a>设置程序起始位置</h4><p>默认情况下, 程序从CS段的起始位置开始执行, 使用<code>end start</code>语句, 可以使汇编器在汇编的时候, 将程序的起始位置指定在<code>start</code>处于的位置</p>
+<h4 id="结束汇编文件"><a href="#结束汇编文件" class="headerlink" title="结束汇编文件"></a>结束汇编文件</h4><p>汇编语言文件中, 使用一个单独的<code>END</code>表示程序结束</p>
+<hr>
+<span id="data_declaration" />
+数据声明方式
+----------------
+
+<h4 id="基本声明"><a href="#基本声明" class="headerlink" title="基本声明"></a>基本声明</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DATA_BYTE db 10,4,10H</span><br><span class="line">DATA_WORD dw 100,100H,-5</span><br><span class="line">DATA_DW   dd 3*20,0FFFDH ;所有的数值都必须是0-9开头, 因此使用16进制时, 高位使用0补齐</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第一项是标号(一般称为变量), 表示数据在内存中的位置信息 </li>
+<li>第二项相当于变量类型, 上述三个分别代表byte, word, double word</li>
+<li>第三项是逗号分割开的若干数据, 这些数据都是同样的类型</li>
+</ul>
+<h4 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">message1 db &#x27;HELLO&#x27;</span><br><span class="line">message2 dw &#x27;AB&#x27;,?</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>可以定义字符串, 字符串在内存中使用ASCII码保存</li>
+<li>对于给定的字符串, 如果可以存入指定的数据类型中, 则按照小端的顺序存放, 否则在内存中按照顺序存放</li>
+<li>对于不同的数据类型, 使用?占位时, 占据的空间与数据类型声明相同</li>
+</ul>
+<h4 id="标号和地址"><a href="#标号和地址" class="headerlink" title="标号和地址"></a>标号和地址</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PAR dw 100,200</span><br><span class="line">ADDR_TABLE1 dw PAR</span><br><span class="line">ADDR_TABLE2 dd PAR</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>标号可以像数据一样存入, 此时存入内存的是这个标号对应的内存地址, 此时创建的标号, 相当于指针的指针</li>
+<li>一个数据的标号包含一个16bit的偏移地址, 和一个16bit的段地址</li>
+<li>如果被赋值的数据类型足够大, 则将一个地址赋给变量时, 偏移地址在数据低位, 段地址在数据高位</li>
+<li>如果被赋值的数据类型不够大, 则变量中只有偏移地址</li>
+</ul>
+<h4 id="大量数据分配"><a href="#大量数据分配" class="headerlink" title="大量数据分配"></a>大量数据分配</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">array db 100 dup(10)</span><br><span class="line">      db 2 dup(0,2 dup(1,2),3)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第一行表示填充100个数据, 每个数据是10</li>
+<li>第二行是嵌套表示, 外部表示总体重复两次, 内部的表示将1,2重复2次<ul>
+<li>即最后的序列为 0 1 2 1 2 3</li>
+</ul>
+</li>
+</ul>
+<h4 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">OPER1 db 1,2</span><br><span class="line">OPER2 dw 1234H,5678H</span><br><span class="line">...</span><br><span class="line">    mov ax, word ptr oper1+1</span><br><span class="line">    mov al, byte ptr oper2</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用ptr关键字可以进行类型转化</li>
+<li>具体格式为 type ptr variable, 其中type可以为byte, word, dword</li>
+<li>先进行计算, 计算完成后, 将结果按照制定的格式进行转换</li>
+<li>其中的变量+1操作等于对应的内存地址+1</li>
+</ul>
+<h4 id="多类型"><a href="#多类型" class="headerlink" title="多类型"></a>多类型</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">byte_array label byte</span><br><span class="line">word_array dw 50 dup(?)</span><br><span class="line">...</span><br><span class="line">    mov word_array + 2, 0</span><br><span class="line">    mov byte_array + 2, 0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用label关键字指定类型</li>
+<li>具体格式为 name label type, 其中type可选项与上一节相同</li>
+<li>相当于给一个内存指定了两个名字, 在代码中可以任意的使用</li>
+</ul>
+<hr>
+<span id="data_addressing" />
+数据寻址方式
+--------------
+
+<h4 id="数据表达方式"><a href="#数据表达方式" class="headerlink" title="数据表达方式"></a>数据表达方式</h4><p>汇编语言中数据有3中表达方式</p>
+<ol>
+<li>立即数<ul>
+<li>数据由字面值给出, 数据实际编码在机器指令中, 执行时, 保存在译码电路中</li>
+</ul>
+</li>
+<li>寄存器<ul>
+<li>数据存放在寄存器中</li>
+</ul>
+</li>
+<li>段地址：偏移地址<ul>
+<li>数据在内存中</li>
+</ul>
+</li>
+</ol>
+<h4 id="寄存器间接寻址"><a href="#寄存器间接寻址" class="headerlink" title="寄存器间接寻址"></a>寄存器间接寻址</h4><p>使用形如<code>[bx]</code>的形式进行寄存器间接寻址, 表示将指定的寄存器的内容作为内存的地址, 取出相应地址上的数据</p>
+<h4 id="寄存器相对寻址"><a href="#寄存器相对寻址" class="headerlink" title="寄存器相对寻址"></a>寄存器相对寻址</h4><p>使用形如<code>[bx+idata]</code>的形式进行寄存器相对寻址, 表示将计算结果作为内存的地址, 取出相应地址上的数据<br>相对寻址的特点在于每次执行的时候idata是不变的立即数, 而每次改变寄存器的值, 从而对一组相对位置不变的数据操作</p>
+<h4 id="基址变址寻址"><a href="#基址变址寻址" class="headerlink" title="基址变址寻址"></a>基址变址寻址</h4><p>使用形如<code>[si+bx]</code>的形式进行基址变址寻址</p>
+<h4 id="相对基址变址寻址"><a href="#相对基址变址寻址" class="headerlink" title="相对基址变址寻址"></a>相对基址变址寻址</h4><p>使用形如<code>[bx+si+idata]</code>的形式进行相对基址变址寻址</p>
+<h4 id="一些限制"><a href="#一些限制" class="headerlink" title="一些限制"></a>一些限制</h4><ol>
+<li>在8086CPU中, 只有bx, si, di, bp可以用于[…]</li>
+<li>只能以bx+si,bx+di,bp+si,bp+di的形式出现, 其他组合都是非法的形式</li>
+<li>如果在[…]中使用bp, 且没有指定段寄存器, 则默认段寄存器为ss, 即<code>[bp+di+5] &lt;=&gt; (ss)x16+(bp)+(di)+5</code></li>
+</ol>
+<hr>
+<span id="loop_program" />
+循环程序设计
+------------------
+#### LOOP指令
+- 指令格式 `LOOP 标号`
+- 执行步骤
+    1. `（CX) = (CX) - 1`
+    2. 判断CX的值, 如果不为零, 则转至标号处执行, 否在继续向下执行
+
+<h4 id="循环指令的例子"><a href="#循环指令的例子" class="headerlink" title="循环指令的例子"></a>循环指令的例子</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">assume cs:codeseg</span><br><span class="line">codeseg segment</span><br><span class="line">    mov ax, 2</span><br><span class="line">    mov cx, 11          ; 初始化循环变量, 执行11次</span><br><span class="line">s:  add ax, ax</span><br><span class="line">    loop s</span><br><span class="line">    mov ax 4c00H</span><br><span class="line">    int 21H</span><br><span class="line">codeseg ends</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+<ul>
+<li>类似于高级语言中的循环结构, 汇编语言中的循环结构基本按照上述形式固定不变</li>
+<li>可以使用si寄存器和di寄存器作为一定数据的辅助段寄存器</li>
+</ul>
+<hr>
+<span id="branch_program" />
+分支程序设计
+----------------
+
+<h4 id="offset操作"><a href="#offset操作" class="headerlink" title="offset操作"></a>offset操作</h4><p>offset是一个伪操作, 属于数值回送操作符, 作用是获得标号的偏移地址, 以下面的代码为例</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">assume sc:code</span><br><span class="line">code segment</span><br><span class="line">	start: mov ax, offset start    ;相当于 mov ax, 0</span><br><span class="line">	    s: mov ax, offset s        ;相当于 mov ax, 3</span><br><span class="line">	       mov ax, 4C00H</span><br><span class="line">	       int 21H</span><br><span class="line">code ends</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<h3 id="指令分类"><a href="#指令分类" class="headerlink" title="指令分类"></a>指令分类</h3><p>8086CPU的跳转指令可以分成如下的几类</p>
+<table>
+<thead>
+<tr>
+<th align="left">指令</th>
+<th align="left">效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">loop</td>
+<td align="left">循环</td>
+</tr>
+<tr>
+<td align="left">jmp</td>
+<td align="left">无条件跳转</td>
+</tr>
+<tr>
+<td align="left">jcxz</td>
+<td align="left">有条件跳转</td>
+</tr>
+<tr>
+<td align="left">call/ret</td>
+<td align="left">子程序调用</td>
+</tr>
+<tr>
+<td align="left">int</td>
+<td align="left">中断</td>
+</tr>
+</tbody></table>
+<h4 id="无条件转移"><a href="#无条件转移" class="headerlink" title="无条件转移"></a>无条件转移</h4><p>接下来介绍几种常见的无条件转移指令</p>
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">指令格式</th>
+<th align="left">特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">段内短转移</td>
+<td align="left"><code>jmp short 标号</code></td>
+<td align="left">指令中使用8bit保存IP的偏移量</td>
+</tr>
+<tr>
+<td align="left">段内近转移</td>
+<td align="left"><code>jmp near ptr 标号</code></td>
+<td align="left">指令中使用16bit保存IP的偏移量</td>
+</tr>
+<tr>
+<td align="left">段间直接远转移</td>
+<td align="left"><code>jmp far ptr 标号</code></td>
+<td align="left">使用标号所在的段和偏移地址修改CS和SP</td>
+</tr>
+<tr>
+<td align="left">段内间接近转移</td>
+<td align="left"><code>jmp word ptr 内存单元</code></td>
+<td align="left">使用指定内存单元的字修改IP</td>
+</tr>
+<tr>
+<td align="left">段间间接远转移</td>
+<td align="left"><code>jmp dword ptr 内存单元</code></td>
+<td align="left">使用指定内存的两个字, 低位字修改IP, 高位字修改CS</td>
+</tr>
+<tr>
+<td align="left">寄存器转移</td>
+<td align="left"><code>jmp 寄存器</code></td>
+<td align="left">使用指定寄存器的值修改IP</td>
+</tr>
+</tbody></table>
+<h4 id="几点补充"><a href="#几点补充" class="headerlink" title="几点补充"></a>几点补充</h4><ol>
+<li>在执行跳转指令时, IP以及指向下一条指令, 因此所有的偏移都是相对于下一条指令的开始位置</li>
+<li>因为段内短转移使用8bit保存偏移量, 所以只能向前跳转128字节或向后跳转127字节</li>
+<li>因为段内近转移使用16bit保存偏移量, 所以只能向前跳转32768字节, 或者向后跳转32767字节</li>
+</ol>
+<h4 id="有条件转移"><a href="#有条件转移" class="headerlink" title="有条件转移"></a>有条件转移</h4><p>有条件转移根据之前的cmp指令计算结果决定是否转移, 且所有的转移都是短转移, 即只能在当前位置, 相对的跳转大约128个字节</p>
+<h4 id="有条件指令结构"><a href="#有条件指令结构" class="headerlink" title="有条件指令结构"></a>有条件指令结构</h4><p>有条件转移指令都是j开头, 根据转移条件不同跟上不同的后续符号, 后续符号可以分成如下几种情况</p>
+<table>
+<thead>
+<tr>
+<th align="left">类型</th>
+<th align="left">无符号</th>
+<th align="left">有符号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">相等</td>
+<td align="left">e(equal)</td>
+<td align="left">e(equal)</td>
+</tr>
+<tr>
+<td align="left">大于</td>
+<td align="left">a(abve)</td>
+<td align="left">l(less)</td>
+</tr>
+<tr>
+<td align="left">小于</td>
+<td align="left">b(below)</td>
+<td align="left">g(greater)</td>
+</tr>
+<tr>
+<td align="left">否定</td>
+<td align="left">n(not)</td>
+<td align="left">n(not)</td>
+</tr>
+</tbody></table>
+<p>例如, 无符号的大于指令是<code>ja</code> 有符号的大于指令是<code>jg</code> 有符号的小于等于指令是<code>jle</code> 或者<code>jng</code></p>
+<h4 id="jcxz指令"><a href="#jcxz指令" class="headerlink" title="jcxz指令"></a>jcxz指令</h4><p>从名字可以知道, 此指令是比较cx寄存器是否为0, 所以当cx为0跳转到标号, 否则指向下一条指令。此指令跳转条件与loop正好相反</p>
+<hr>
+<span id="sub_program" />
+子程序设计
+-----------------
+
+<h4 id="ret指令"><a href="#ret指令" class="headerlink" title="ret指令"></a>ret指令</h4><p>利用栈中的数据, 修改ip寄存器的内容, 从而实现近转移, 等价于如下的代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(ip) = ((ss)*16+sp)</span><br><span class="line">(sp) = (sp) + 2; </span><br></pre></td></tr></table></figure>
+
+<h4 id="retf指令"><a href="#retf指令" class="headerlink" title="retf指令"></a>retf指令</h4><p>使用栈中的两个数据修改IP寄存器和CS寄存器, 用于实现远转移, 等价于如下的代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(ip) = ((ss)*16+(sp)</span><br><span class="line">(sp) = (sp) + 2; </span><br><span class="line">(cs) = ((ss)*16+(sp))</span><br><span class="line">(sp) = (sp) + 2; </span><br></pre></td></tr></table></figure>
+<p><strong>注：</strong> </p>
+<ol>
+<li>实际上所有的入栈操作时, 都是先压入段寄存器, 在压入偏移地址寄存器, 所以出栈操作正好相反</li>
+<li>retf即return far </li>
+</ol>
+<h4 id="call指令"><a href="#call指令" class="headerlink" title="call指令"></a>call指令</h4><p>将当前的IP或CS和IP压入栈中, 并根据指令格式中的目的地址进行转移, 各指令格式与等价操作如下所示</p>
+<h5 id="入栈操作"><a href="#入栈操作" class="headerlink" title="入栈操作"></a>入栈操作</h5><table>
+<thead>
+<tr>
+<th align="left">call 标号</th>
+<th>call far ptr 标号</th>
+<th>call 寄存器</th>
+<th>call dword ptr 内存单元</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">(SP) = (SP) - 2</td>
+<td>(SP) = (SP) - 2</td>
+<td>(SP) = (SP) - 2</td>
+<td>(SP) = (SP) - 2</td>
+</tr>
+<tr>
+<td align="left">((SS)*16+(SP)) = (IP)</td>
+<td>((SS)*16+(SP)) = (CS)</td>
+<td>((SS)*16+(SP)) = (IP)</td>
+<td>((SS)*16+(SP)) = (CS)</td>
+</tr>
+</tbody></table>
+<pre><code>                   |(SP) = (SP) - 2                |                     |(SP) = (SP) - 2  
+                   |((SS)*16+(SP)) = (IP)          |                     |((SS)*16+(SP)) = (IP)  
+</code></pre>
+<h5 id="跳转操作"><a href="#跳转操作" class="headerlink" title="跳转操作"></a>跳转操作</h5><table>
+<thead>
+<tr>
+<th align="left">call 标号</th>
+<th>call far ptr 标号</th>
+<th>call 寄存器</th>
+<th>call dword ptr 内存单元</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">(IP) = (IP) + 16bit位移</td>
+<td>(IP) = 目标标号所在段的偏移地址</td>
+<td>(IP) = (16bit寄存器)</td>
+<td>(IP) = 内存单元地址</td>
+</tr>
+</tbody></table>
+<pre><code>                   |(CS) = 目标标号所在段的段地址  |                      |(CS) = 内存单元地址+2
+</code></pre>
+<p><strong>注：</strong></p>
+<ol>
+<li><code>call 标号</code>不能实现短转移, 因为是否为短转移是按照偏移量长度区分</li>
+<li><code>call 标号</code>与jmp指令相同, call指令的二进制代码中保存的是标号相对于当前IP的偏移量, 而不是绝对地址</li>
+<li><code>call far ptr 标号</code>类似于远转移指令, 但是在跳转前分别压入CS寄存器IP寄存器的值</li>
+<li>所有CS和IP同时出现的地方(内存地址和栈),都是IP在低位,CS在高位</li>
+</ol>
+<h4 id="MUL指令"><a href="#MUL指令" class="headerlink" title="MUL指令"></a>MUL指令</h4><p>指令格式为：mul 寄存器/mul 内存单元<br>两个8bit数据或两个16bit数据相乘</p>
+<ul>
+<li>8bit数据使用al的值和指定的值相乘, 存放在ax中</li>
+<li>16bit数据使用ax的值和指定的值相乘, 高位存放在dx, 低位存放在ax</li>
+</ul>
+<h4 id="参数传递方式"><a href="#参数传递方式" class="headerlink" title="参数传递方式"></a>参数传递方式</h4><ol>
+<li>利用寄存器传递少量参数<ul>
+<li>在子程序的调用过程中, 如果不对寄存器做任何处理, 则寄存器中的值可以之间传递到子程序中</li>
+<li>但是寄存器数量有限, 不能大量传递数据</li>
+</ul>
+</li>
+<li>使用内存单元<ul>
+<li>可以批量存放数据</li>
+<li>对于需要批量返回的结果, 也可以使用此方法</li>
+</ul>
+</li>
+</ol>
+<h4 id="寄存器冲突"><a href="#寄存器冲突" class="headerlink" title="寄存器冲突"></a>寄存器冲突</h4><p>在调用子程序的时候, 由于寄存器数量有限, 因此当前程序和子程序可能使用了相同的寄存器。可以在子程序中可以很使用如下的框架来解决寄存器冲突</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">子程序入口：子程序中用到的寄存器入栈</span><br><span class="line">            ...</span><br><span class="line">            子程序内容</span><br><span class="line">            ...</span><br><span class="line">            子程序中用到的寄存器出栈</span><br><span class="line">            子程序返回</span><br></pre></td></tr></table></figure>
+
+
+<hr>
+<span id="flag_register" />
+标志位寄存器
+-----------------
+
+<h5 id="标志位说明"><a href="#标志位说明" class="headerlink" title="标志位说明"></a>标志位说明</h5><table>
+<thead>
+<tr>
+<th align="left">标志名</th>
+<th align="left">解释</th>
+<th align="left">选项1</th>
+<th align="left">选项2</th>
+<th align="left">含义</th>
+<th>针对数据类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">OF</td>
+<td align="left">溢出标志位</td>
+<td align="left">NV(未溢出)</td>
+<td align="left">OV(溢出)</td>
+<td align="left">记录运算结果是否溢出</td>
+<td>有符号数</td>
+</tr>
+<tr>
+<td align="left">DF</td>
+<td align="left">方向标志位</td>
+<td align="left">UP(递增)</td>
+<td align="left">DN(递减)</td>
+<td align="left">控制串传送的增减方式</td>
+<td>无关</td>
+</tr>
+<tr>
+<td align="left">IF</td>
+<td align="left">允许中断标志位</td>
+<td align="left">DI(禁止)</td>
+<td align="left">EI(许可)</td>
+<td align="left">……</td>
+<td>……</td>
+</tr>
+<tr>
+<td align="left">SF</td>
+<td align="left">符号标志位</td>
+<td align="left">PL(正)</td>
+<td align="left">NG(负)</td>
+<td align="left">运算结果的符号状态</td>
+<td>有符号数</td>
+</tr>
+<tr>
+<td align="left">ZF</td>
+<td align="left">零标志位</td>
+<td align="left">NZ(不等于零)</td>
+<td align="left">ZF(等于零)</td>
+<td align="left">运算结果是否为零</td>
+<td>全部类型</td>
+</tr>
+<tr>
+<td align="left">AF</td>
+<td align="left">辅助进位标志位</td>
+<td align="left">NA(无进位)</td>
+<td align="left">AC(进位)</td>
+<td align="left">……</td>
+<td>……</td>
+</tr>
+<tr>
+<td align="left">PF</td>
+<td align="left">奇偶标志位</td>
+<td align="left">PO(奇)</td>
+<td align="left">PE(偶)</td>
+<td align="left">当前二进制数据1的个数</td>
+<td>全部类型</td>
+</tr>
+<tr>
+<td align="left">CF</td>
+<td align="left">进位标志位</td>
+<td align="left">NC(无进位)</td>
+<td align="left">CY(进位)</td>
+<td align="left">记录运算结果的最高有效位进位或借位</td>
+<td>无符号数</td>
+</tr>
+</tbody></table>
+<p><strong>注:</strong> </p>
+<ol>
+<li>选项一对应为0,选项二对应为1</li>
+<li>只有算数运算置标志位,数据移动运算不置标志位</li>
+</ol>
+<h4 id="CF与OF比较"><a href="#CF与OF比较" class="headerlink" title="CF与OF比较"></a>CF与OF比较</h4><ul>
+<li>CF是Carry Flag, 即进位标志位, 只针对无符号数</li>
+<li>OF是Overflow Flag, 即溢出标志位, 只针对有符号数</li>
+<li>由于表示范围不一致,因此可以出现溢出但不进位<ul>
+<li>例如对于有符号两个较大的数相加</li>
+<li>但无符号比有符号大一倍,没有进位</li>
+</ul>
+</li>
+<li>由于对于正负的认识不同,因此也可能出现进位但不溢出<ul>
+<li>例如有符号是负数+整数</li>
+<li>对于无符号就是两个正数相加</li>
+<li>此时无符号进位,有符号没有溢出</li>
+</ul>
+</li>
+</ul>
+<h4 id="DF标志位"><a href="#DF标志位" class="headerlink" title="DF标志位"></a>DF标志位</h4><ul>
+<li>DF指示在进行串传递的时候, 每次执行si或di的变化</li>
+<li>置为递增<ul>
+<li>指令格式<code>cld</code></li>
+<li>将DF置为0</li>
+</ul>
+</li>
+<li>置为递减<ul>
+<li>指令格式<code>std</code></li>
+<li>将DF置为1</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="串传送指令"><a href="#串传送指令" class="headerlink" title="串传送指令"></a>串传送指令</h3><h4 id="字节传送"><a href="#字节传送" class="headerlink" title="字节传送"></a>字节传送</h4><ul>
+<li>指令格式 <code>movsb</code></li>
+<li>以字节为单位传送指令, 将ds:si指向的内存单元的数据传输到es:di执行的内存单元</li>
+<li>执行过程如下<ol>
+<li><code>((es)*16+di) = ((ds)*16+si)</code></li>
+<li>如果DF=0, <code>(si) = (si) + 1</code>, <code>(di) = (di) + 1</code></li>
+<li>如果DF=1, <code>(si) = (si) - 1</code>, <code>(di) = (di) - 1</code></li>
+</ol>
+</li>
+</ul>
+<h4 id="字传送"><a href="#字传送" class="headerlink" title="字传送"></a>字传送</h4><ul>
+<li>指令格式 <code>movsw</code></li>
+<li>以字为单位传送指令, 将ds:si指向的内存单元的数据传输到es:di执行的内存单元</li>
+<li>执行过程如下<ol>
+<li><code>((es)*16+di) = ((ds)*16+si)</code></li>
+<li>如果DF=0, <code>(si) = (si) + 2</code>, <code>(di) = (di) + 2</code></li>
+<li>如果DF=1, <code>(si) = (si) - 2</code>, <code>(di) = (di) - 2</code></li>
+</ol>
+</li>
+</ul>
+<h4 id="串传送"><a href="#串传送" class="headerlink" title="串传送"></a>串传送</h4><ul>
+<li>指令格式 <code>rep movsb</code> 或 <code>rep movsw</code></li>
+<li>rep指令与movsb/movsw指令结合使用可用于串传送</li>
+<li>rep movsb指令等价于<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s: 	movsb</span><br><span class="line">	loop s</span><br></pre></td></tr></table></figure></li>
+<li>将这样两条指令配合使用, 通过cx即可实现一段数据的传输</li>
+</ul>
+<hr>
+<h3 id="标志寄存器与栈操作"><a href="#标志寄存器与栈操作" class="headerlink" title="标志寄存器与栈操作"></a>标志寄存器与栈操作</h3><h4 id="入栈操作-1"><a href="#入栈操作-1" class="headerlink" title="入栈操作"></a>入栈操作</h4><ul>
+<li>指令格式： <code>pushf</code></li>
+<li>将标志寄存器的值入栈</li>
+</ul>
+<h4 id="出栈操作"><a href="#出栈操作" class="headerlink" title="出栈操作"></a>出栈操作</h4><ul>
+<li>指令格式：<code>popf</code></li>
+<li>将标志寄存器的值出栈 </li>
+</ul>
+<hr>
+<span id="interrupt_program" />
+中断程序设计
+-----------------
+
+<h4 id="内中断与外中断"><a href="#内中断与外中断" class="headerlink" title="内中断与外中断"></a>内中断与外中断</h4><ul>
+<li>由外设控制器或协处理器引起的中断称为<strong>硬件中断</strong>或<strong>外中断</strong></li>
+<li>由程序安排的中断指令INT产生的中断称为<strong>软件中断</strong>或<strong>内中断</strong></li>
+</ul>
+<h4 id="内中断的产生原因"><a href="#内中断的产生原因" class="headerlink" title="内中断的产生原因"></a>内中断的产生原因</h4><ol>
+<li>CPU内部错误, 如除数为零等</li>
+<li>为调试程序设置的中断</li>
+<li>执行into指令</li>
+<li>执行int指令</li>
+</ol>
+<h4 id="常见中断类型"><a href="#常见中断类型" class="headerlink" title="常见中断类型"></a>常见中断类型</h4><table>
+<thead>
+<tr>
+<th>中断号</th>
+<th>名称</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>除法错误中断</td>
+<td align="left">执行除法指令时, 如果除数为零或者商操作寄存器范围, 立即产生此中断</td>
+</tr>
+<tr>
+<td>1</td>
+<td>单步执行中断</td>
+<td align="left">调试程序时, 使用此中断, 使得程序每次一条指令后立即中断</td>
+</tr>
+<tr>
+<td>3</td>
+<td>断点中断</td>
+<td align="left">当程序需要加入断点时, 使用此中断, 产生一个断点</td>
+</tr>
+<tr>
+<td>4</td>
+<td>溢出中断</td>
+<td align="left">程序产生溢出时, 产生此中断</td>
+</tr>
+</tbody></table>
+<p><strong>注：</strong></p>
+<ol>
+<li>使用断点中断实际上就是在需要断点的地方插入一条<code>int 3</code>指令</li>
+<li>产生溢出后, 可以使用into指令, 转入溢出中断处理, 如果没有溢出, 则into指令没有任何效果</li>
+</ol>
+<h4 id="中断向量表"><a href="#中断向量表" class="headerlink" title="中断向量表"></a>中断向量表</h4><ul>
+<li>80x86系统可以处理256种中断类型</li>
+<li>中断向量表存放在内存单元0000:0000-0000:03FF的1024个内存单元中</li>
+<li>一个表项占两个字(4个字节), 其中低位存放偏移地址, 高位存放段地址</li>
+</ul>
+<h4 id="中断过程"><a href="#中断过程" class="headerlink" title="中断过程"></a>中断过程</h4><p>根据中断类型码, 在中断向量表中获得中断向量并设置CS与IP称为中断过程, 此过程有硬件自动完成, 不能通过程序修改, 执行过程如下</p>
+<ol>
+<li>获得中断类型码N</li>
+<li>标志位寄存器入栈</li>
+<li>CS寄存器入栈</li>
+<li>IP寄存器入栈</li>
+<li>设置TF标志位和IF标志位为0</li>
+<li>从中断向量表获得数据, 设置CS和IP寄存器</li>
+<li>跳转至中断程序</li>
+</ol>
+<h4 id="中断程序设计"><a href="#中断程序设计" class="headerlink" title="中断程序设计"></a>中断程序设计</h4><p>由于中断随时都有可能发生, 因此中断处理程序必须存放内存中的特定位置。中断程序步骤与子程序类似, 有如下几步</p>
+<ol>
+<li>保存用到的寄存器</li>
+<li>处理中断</li>
+<li>恢复用到的寄存器</li>
+<li>用iret返回</li>
+</ol>
+<h4 id="iret指令"><a href="#iret指令" class="headerlink" title="iret指令"></a>iret指令</h4><p>在调用中断程序之前, 标志位寄存器, CS寄存器, IP寄存器依次入栈, 因此iret执行相反的出栈操作即可恢复到中断以前的状态, 即iret等价于以下代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pop ip</span><br><span class="line">pop cs</span><br><span class="line">popf</span><br></pre></td></tr></table></figure>
+
+<h4 id="DIV指令为"><a href="#DIV指令为" class="headerlink" title="DIV指令为"></a>DIV指令为</h4><ul>
+<li>指令格式： <code>div 寄存器</code>/<code>DIV 内存单元</code></li>
+<li>指令含义<ol>
+<li>8bit除法, 被除数16bit存放在ax中, 计算后al保存商, ah保存余数</li>
+<li>16bit除法, 被除数为32bit, 高位存放在dx, 低位存放在ax, 计算后ax保存商, dx保存余数</li>
+</ol>
+</li>
+<li>如果商大于al或ax的保存范围则产生除法溢出</li>
+</ul>
+<h4 id="安装程序结构"><a href="#安装程序结构" class="headerlink" title="安装程序结构"></a>安装程序结构</h4><p>编写一个安装程序可以分成如下的几个步骤</p>
+<ol>
+<li>编写要被安装的程序, 并将代码置于安装程序中</li>
+<li>设置ds:si指向被安装程序在安装程序中的位置, 将es:di执行被安装程序需要存在的位置</li>
+<li>使用传输指令, 复制被安装程序</li>
+<li>设置中断向量表<br>以下是一个安装程序的示例<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">assume cs:codeseg</span><br><span class="line">codeseg segment</span><br><span class="line">start:  mov ax, cs</span><br><span class="line">        mov ds, ax</span><br><span class="line">        mov si, offset dd0</span><br><span class="line">        mov ax, 0</span><br><span class="line">        mov es, ax</span><br><span class="line">        mov di, 200h</span><br><span class="line">        mov cx, offset dd0end - offset dd0</span><br><span class="line">        cld</span><br><span class="line">        rep movsb</span><br><span class="line">        mov ax, 0</span><br><span class="line">        mov es, ax</span><br><span class="line">        mov word ptr es:[0*4],200h</span><br><span class="line">        mov word ptr es:[0*4+2],0</span><br><span class="line">        mov ax, 4C00H</span><br><span class="line">        int 21H</span><br><span class="line">dd0:    jmp short dd0start</span><br><span class="line">        db &quot;overflow!&quot;</span><br><span class="line">dd0start:</span><br><span class="line">        mov ax, cs</span><br><span class="line">        mov ds, ax</span><br><span class="line">        mov si, 202h</span><br><span class="line">        mov ax, 0b800h</span><br><span class="line">        mov es, ax</span><br><span class="line">        mov di, 12*160+36*2</span><br><span class="line">        mov cx, 9</span><br><span class="line">s:      mov al, [si]</span><br><span class="line">        mov es:[di], al</span><br><span class="line">        inc si</span><br><span class="line">        add di, 2</span><br><span class="line">        loop s</span><br><span class="line">        mov ax, 4c00h</span><br><span class="line">        int 21h</span><br><span class="line">dd0end: nop</span><br><span class="line">codeseg ends</span><br><span class="line">end start</span><br></pre></td></tr></table></figure>
+说明：</li>
+<li>上述代码中, 从start标号开始, 到dd0标号之前, 是安装程序, 可以看到此部分程序严格按照上述顺序完成了安装操作</li>
+<li>从dd0标号到dd0end标号之间的代码是被安装程序</li>
+<li>上述示例中, 将程序安装到了200H的位置, 此处通常为空, 但是正式程序中不建议这么使用</li>
+<li><code>mov cx, offset dd0end - offset dd0</code>指令中, 使用两个标号的运算实现了被安装程序长度的可扩展性, 后续修改被安装程序的时候, 不需要修改安装程序</li>
+<li>在dd0end标号对应的地方, 使用了一条nop指令占位, 从而可以添加一个标号, 之后用于计算程序长度</li>
+</ol>
+<hr>
+<span id="port" />
+端口和外中断
+-------------
+
+<h4 id="IO设备的数据传输方式"><a href="#IO设备的数据传输方式" class="headerlink" title="IO设备的数据传输方式"></a>IO设备的数据传输方式</h4><ol>
+<li>程序控制方式(查询方式)<ul>
+<li>在PC系统中, 除存储器外, 和CPU通过总线连接的各种输入输出设备</li>
+<li>每种IO设备都要通过一个硬件接口或控制器芯片和CPU相连</li>
+<li>这些接口或控制器芯片都能支持输入输出指令与外部设备交换信息</li>
+</ul>
+</li>
+<li>中断方式</li>
+<li>DMA方式</li>
+</ol>
+<h4 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h4><ul>
+<li>在各种硬件接口或控制器芯片中, 有一组可由CPU读写的寄存器</li>
+<li>CPU将这些寄存器作为端口, 对它们统一进行编制</li>
+<li>CPU对它们进行读写控制都是通过控制总线向芯片发出端口的读写指令</li>
+</ul>
+<h4 id="端口地址空间"><a href="#端口地址空间" class="headerlink" title="端口地址空间"></a>端口地址空间</h4><ul>
+<li>80x86系统允许设置64K个8bit端口或32K个16bit端口</li>
+<li>对端口的读写需要使用IN和OUT指令进行信息传输</li>
+</ul>
+<h4 id="端口指令"><a href="#端口指令" class="headerlink" title="端口指令"></a>端口指令</h4><ul>
+<li>格式 <code>in al 60h</code></li>
+<li>CPU通过地址总线将地址信息60H发出</li>
+<li>CUP通过控制总线发出端口读指令</li>
+<li>端口所在芯片将60h端口中的数据通过数据总线送入CPU</li>
+</ul>
+<h4 id="端口指令的一些限制"><a href="#端口指令的一些限制" class="headerlink" title="端口指令的一些限制"></a>端口指令的一些限制</h4><ol>
+<li>对于端口号在0-255之间的端口, 可以直接访问</li>
+<li>对于端口号在236-65535之间的端口, 端口地址需要放在dx寄存器中</li>
+<li>访问8bit端口时, 数据只能存入al, 访问16bit端口时, 只能使用ax</li>
+</ol>
+<h4 id="通过端口访问CMOS-RAM"><a href="#通过端口访问CMOS-RAM" class="headerlink" title="通过端口访问CMOS RAM"></a>通过端口访问CMOS RAM</h4><ul>
+<li>芯片由电池供电</li>
+<li>包含128个存储单元的RAM存储器</li>
+<li>内部实时时钟占用0-d单元保存系统时间</li>
+<li>内部有两个端口70H和71H, 通过这两个端口进行读写<ol>
+<li>70H端口为地址端口</li>
+<li>71H端口为数据端口, 可以使用此端口读取或者写入数据<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">; 读取CMOS RAM 2号单元</span><br><span class="line">assume cs:code</span><br><span class="line">code segment</span><br><span class="line">start:</span><br><span class="line">	mov al, 2</span><br><span class="line">	out 70h, al</span><br><span class="line">	in al,71h</span><br><span class="line">	mov ax,4C00h</span><br><span class="line">	int 21h</span><br><span class="line">code ends</span><br><span class="line">end start</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ul>
+<h5 id="移位操作"><a href="#移位操作" class="headerlink" title="移位操作"></a>移位操作</h5><ol>
+<li>SHL指令<ul>
+<li>shl 寄存器,n / shl 内存单元,n</li>
+<li>逻辑左移</li>
+<li>最后移出的位置CF标志位</li>
+<li>如果移动次数大于1,移动次数存在cl中</li>
+</ul>
+</li>
+<li>SHR指令<ul>
+<li>shr 寄存器,n / shr 内存单元,n</li>
+<li>逻辑右移</li>
+<li>最后移出的位置CF标志位</li>
+<li>如果移动次数大于1,移动次数存在cl中</li>
+</ul>
+</li>
+<li>SAL指令<ul>
+<li>sal 寄存器,n / sal 内存单元,n</li>
+<li>算数左移</li>
+<li>最后移出的位置CF标志位</li>
+<li>如果移动次数大于1,移动次数存在cl中</li>
+</ul>
+</li>
+<li>SAR指令<ul>
+<li>sar 寄存器,n / sar 内存单元,n</li>
+<li>算数右移</li>
+<li>使用符号位补全高位</li>
+<li>最后移出的位置CF标志位</li>
+<li>如果移动次数大于1,移动次数存在cl中    </li>
+</ul>
+</li>
+</ol>
+<h4 id="可屏蔽中断"><a href="#可屏蔽中断" class="headerlink" title="可屏蔽中断"></a>可屏蔽中断</h4><ul>
+<li>如果IF等于0,则不响应可屏蔽中断</li>
+<li>在中断处理过程中,将IF置为0,即可屏蔽其他可屏蔽中断</li>
+<li>几乎所有的外设引起的外中断都是可屏蔽中断</li>
+</ul>
+<h4 id="不可屏蔽中断"><a href="#不可屏蔽中断" class="headerlink" title="不可屏蔽中断"></a>不可屏蔽中断</h4><ul>
+<li>是CPU必须响应的外中断</li>
+<li>中断码固定为2, 中断过程不需要取中断类型码</li>
+<li>是系统有必须处理的紧急情况发生时,用于通知CPU的中断信息</li>
+</ul>
+<hr>
+<span id="direct_addressing_table" />
+标号与直接定址表
+------------------
+
+<h4 id="地址标号"><a href="#地址标号" class="headerlink" title="地址标号"></a>地址标号</h4><ul>
+<li>地址标号代表一个内存单元地址</li>
+<li>地址标号后跟上一个冒号</li>
+<li>只能在代码段使用地址标号</li>
+</ul>
+<h4 id="数据标号"><a href="#数据标号" class="headerlink" title="数据标号"></a>数据标号</h4><ul>
+<li><p>数据标号直接跟上数据,不加冒号</p>
+</li>
+<li><p>此标号除了代表内存地址以外,还隐含了此处数据的类型</p>
+</li>
+<li><p>在使用此标号代表内存单元时,会进行检查数据类型是否匹配</p>
+</li>
+<li><p>计算偏移的时候,类型信息没有影响</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">assume cs:codesg, ds:datasg     // 此信息仅用于编译,对程序不可见</span><br><span class="line">datasg segment</span><br><span class="line">    a db 1,2,3,4</span><br><span class="line">    b dw 0</span><br><span class="line">datasg segment</span><br><span class="line"></span><br><span class="line">codesg segment</span><br><span class="line">start:</span><br><span class="line">    mov ax,datasg       // 声明了数据段关联,但还是需要手动为ds赋值</span><br><span class="line">    mov ds, ax</span><br><span class="line">    mov si,0</span><br><span class="line">    mov cx,4</span><br><span class="line">s:  mov ax, a[si]</span><br><span class="line">    mov ah, 0</span><br><span class="line">    add b, ax</span><br><span class="line">    inc si</span><br><span class="line">    loop s</span><br></pre></td></tr></table></figure></li>
+<li><p>数据标号可以作为数据被定义,标号表示此标号所表示的地址</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">datasg segment                  datasg segment</span><br><span class="line">    a db 1,2,3,4                a db 1,2,3,4</span><br><span class="line">    b dw 0            &lt;==&gt;      b dw 0</span><br><span class="line">    c dw a, b                   c dw offset a, offset b</span><br><span class="line">datasg segment                  datasg segment</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">datasg segment                  datasg segment</span><br><span class="line">    a db 1,2,3,4                a db 1,2,3,4</span><br><span class="line">    b dw 0            &lt;==&gt;      b dw 0</span><br><span class="line">    c dw a, b                   c dw offset a,seg, offset b,seg</span><br><span class="line">datasg segment                  datasg segment</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用dw时,只保存标号的偏移地址,使用dd时,保存偏移地址和标号所在段的段地址</li>
+</ul>
+<h4 id="直接定址表"><a href="#直接定址表" class="headerlink" title="直接定址表"></a>直接定址表</h4><ul>
+<li>用查表的方法的编程技巧</li>
+</ul>
+<h4 id="数值映射"><a href="#数值映射" class="headerlink" title="数值映射"></a>数值映射</h4><p>0-9   数值+30h<br>10-15 数值+37h</p>
+<h4 id="使用直接定址表实现映射"><a href="#使用直接定址表实现映射" class="headerlink" title="使用直接定址表实现映射"></a>使用直接定址表实现映射</h4><ul>
+<li><p>其实就是类似数组的操作</p>
+</li>
+<li><p>可以提高算法的简洁性</p>
+</li>
+<li><p>由于可以查表,从而提升了运算速度</p>
+</li>
+<li><p>例子: 通过查表计算sin(x)</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">table db ag0 ag30 ag60 ag90</span><br><span class="line">ag0  db &#x27;0&#x27;,0</span><br><span class="line">ag30 db &#x27;0.5&#x27;, 0</span><br><span class="line">ag60 db &#x27;0.866&#x27;, 0</span><br><span class="line">ag90 db &#x27;1&#x27;,0</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用两步查询获得数据<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov bx, 2</span><br><span class="line">mov bx, table[bx]	; 先取出偏移地址</span><br><span class="line">mov ah, cs:[bx]		; 再从偏移地址取出实际内容</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>例子:清屏程序</p>
+<ol>
+<li>清屏</li>
+<li>设置前景色</li>
+<li>设置背景色</li>
+<li>向上滚动一行</li>
+</ol>
+<ul>
+<li>先编写四个子函数,通过直接定址的方法,通过给定一个序号来指定调用的功能</li>
+</ul>
+<ol>
+<li>清屏:将显存中当前屏幕字符设置为空格</li>
+<li>设置前景色:设置属性字节(奇数字节)的0,1,2位</li>
+<li>设置背景色:设置属性字节(奇数字节)的4,5,6位</li>
+<li>向上滚动一行:依次将n+1行的内容复制到第n行,最后一行置为空</li>
+</ol>
+<hr>
+<span id="macro" />
+
+<h2 id="宏指令"><a href="#宏指令" class="headerlink" title="宏指令"></a>宏指令</h2><h4 id="宏定义"><a href="#宏定义" class="headerlink" title="宏定义"></a>宏定义</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">macro_name macro [dummy parameter list]</span><br><span class="line">[local label1, label2 ...]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">endm</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>dummy parameter list 相当于是高级语言中的形式参数列表</li>
+<li>由local引导的是本地标签,在不同的地方调用时,本地标号会被展开成不同的唯一标号</li>
+<li>标号必须是macro定义体的第一行,严格来说,之间包括注释也不能插入</li>
+</ul>
+<h4 id="宏调用"><a href="#宏调用" class="headerlink" title="宏调用"></a>宏调用</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">macro_name [actual parameter list]</span><br></pre></td></tr></table></figure>
+
+<h4 id="宏展开"><a href="#宏展开" class="headerlink" title="宏展开"></a>宏展开</h4><ul>
+<li>宏定义必须出现在调用之前</li>
+<li>汇编过程中,将宏展开编程实际的代码</li>
+</ul>
+<h4 id="宏汇编操作符"><a href="#宏汇编操作符" class="headerlink" title="宏汇编操作符"></a>宏汇编操作符</h4><ol>
+<li><code>&amp;</code><ul>
+<li>拼接指令,与C语言宏的##类似</li>
+</ul>
+</li>
+<li><code>;;</code><ul>
+<li>在宏中使用的注释</li>
+</ul>
+</li>
+<li><code>%</code><ul>
+<li>计算表达式</li>
+<li>在汇编过程中,计算%后的表达式,并将计算结果加入后续运算</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">strg macro string</span><br><span class="line">    db &#x27;&amp;string&amp;&#x27;</span><br><span class="line">endm</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    strg 25-1</span><br><span class="line">==&gt; db &#x27;25-1&#x27;</span><br><span class="line"></span><br><span class="line">    strg % 25-1</span><br><span class="line">==&gt; db &#x27;24&#x27;</span><br></pre></td></tr></table></figure>
+
+
+<p>宏库的建立和调用</p>
+<p>宏库<br>macro.mac</p>
+<p>调用<br>include macro.mac</p>
+<ul>
+<li>引入macro,mac文件中全部的宏</li>
+</ul>
+<p>排除<br>purge macroA …</p>
+<ul>
+<li>制定宏名,剔除不需要的宏</li>
+</ul>
+<p>rept expression<br>… ;重复块<br>endm</p>
+<ul>
+<li>根据表达式的计算结果,重复制定次数</li>
+</ul>
+<p>irp x, &lt;1,2,3,4,5,6,7,8,9,10&gt;<br>db x<br>endm</p>
+<ul>
+<li>x会依次带入后面的值</li>
+<li>可以是数字或者寄存器,字符串等</li>
+</ul>
+<hr>
+<span id="show" />
+
+<h2 id="显存操作"><a href="#显存操作" class="headerlink" title="显存操作"></a>显存操作</h2><h4 id="显存结构"><a href="#显存结构" class="headerlink" title="显存结构"></a>显存结构</h4><ul>
+<li>显存分为8页,每页4KB</li>
+<li>显示器规格是每屏25行,每行80个字符</li>
+<li>每个字符占2B,低位是对应ASCII码,高位是显示属性</li>
+<li>每屏实际占用4000B,剩余96字节无效果</li>
+<li>显存地址空间为B8000H-BFFFFH</li>
+</ul>
+<h4 id="字符属性"><a href="#字符属性" class="headerlink" title="字符属性"></a>字符属性</h4><table>
+<thead>
+<tr>
+<th>位数</th>
+<th>含义</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>7</td>
+<td>BL</td>
+<td align="left">闪烁</td>
+</tr>
+<tr>
+<td>6</td>
+<td>R</td>
+<td align="left">背景色</td>
+</tr>
+<tr>
+<td>5</td>
+<td>G</td>
+<td align="left">背景色</td>
+</tr>
+<tr>
+<td>4</td>
+<td>B</td>
+<td align="left">背景色</td>
+</tr>
+<tr>
+<td>3</td>
+<td>I</td>
+<td align="left">高亮</td>
+</tr>
+<tr>
+<td>2</td>
+<td>R</td>
+<td align="left">前景色</td>
+</tr>
+<tr>
+<td>1</td>
+<td>G</td>
+<td align="left">前景色</td>
+</tr>
+<tr>
+<td>0</td>
+<td>B</td>
+<td align="left">前景色</td>
+</tr>
+</tbody></table>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年06月05日 15:44</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2017/12/05/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/" title="汇编语言笔记">https://lizec.top/2017/12/05/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2017/12/05/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/&title=《汇编语言笔记》 — LiZeC的博客&pic=https://lizec.topimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2017/12/05/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/&title=《汇编语言笔记》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2017/12/05/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《汇编语言笔记》 — LiZeC的博客&url=https://lizec.top/2017/12/05/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2017/12/05/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2017/12/05/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/汇编语言/" class="color5">汇编语言</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="post-toc-text">目录</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84"><span class="post-toc-text">程序结构</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="post-toc-text">基本操作</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#%E9%80%9A%E7%94%A8%E5%AF%84%E5%AD%98%E5%99%A8%E7%BB%93%E6%9E%84"><span class="post-toc-text">通用寄存器结构</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%AE%B5%E7%9A%84%E5%87%A0%E7%82%B9%E8%AF%B4%E6%98%8E"><span class="post-toc-text">段的几点说明</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%AD%98%E6%94%BE"><span class="post-toc-text">数据在内存中的存放</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%86%85%E5%AD%98%E5%AF%BB%E5%9D%80%E5%92%8Cds%E5%AF%84%E5%AD%98%E5%99%A8"><span class="post-toc-text">内存寻址和ds寄存器</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E6%A0%88"><span class="post-toc-text">内存中的栈</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="post-toc-text">注意事项</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%A8%8B%E5%BA%8F%E7%BB%84%E6%88%90"><span class="post-toc-text">汇编语言程序组成</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84"><span class="post-toc-text">汇编代码结构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AE%9A%E4%B9%89%E6%AE%B5"><span class="post-toc-text">定义段</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%85%B3%E8%81%94%E8%87%AA%E5%AE%9A%E4%B9%89%E6%AE%B5%E5%92%8C%E7%A8%8B%E5%BA%8F%E6%AE%B5"><span class="post-toc-text">关联自定义段和程序段</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%A0%87%E5%8F%B7"><span class="post-toc-text">设置标号</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%AE%BE%E7%BD%AE%E7%A8%8B%E5%BA%8F%E8%B5%B7%E5%A7%8B%E4%BD%8D%E7%BD%AE"><span class="post-toc-text">设置程序起始位置</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%BB%93%E6%9D%9F%E6%B1%87%E7%BC%96%E6%96%87%E4%BB%B6"><span class="post-toc-text">结束汇编文件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%A3%B0%E6%98%8E"><span class="post-toc-text">基本声明</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="post-toc-text">字符串</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%A0%87%E5%8F%B7%E5%92%8C%E5%9C%B0%E5%9D%80"><span class="post-toc-text">标号和地址</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE%E5%88%86%E9%85%8D"><span class="post-toc-text">大量数据分配</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="post-toc-text">类型转换</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%A4%9A%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">多类型</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E8%A1%A8%E8%BE%BE%E6%96%B9%E5%BC%8F"><span class="post-toc-text">数据表达方式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E9%97%B4%E6%8E%A5%E5%AF%BB%E5%9D%80"><span class="post-toc-text">寄存器间接寻址</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E7%9B%B8%E5%AF%B9%E5%AF%BB%E5%9D%80"><span class="post-toc-text">寄存器相对寻址</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%9F%BA%E5%9D%80%E5%8F%98%E5%9D%80%E5%AF%BB%E5%9D%80"><span class="post-toc-text">基址变址寻址</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%9B%B8%E5%AF%B9%E5%9F%BA%E5%9D%80%E5%8F%98%E5%9D%80%E5%AF%BB%E5%9D%80"><span class="post-toc-text">相对基址变址寻址</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%80%E4%BA%9B%E9%99%90%E5%88%B6"><span class="post-toc-text">一些限制</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%BE%AA%E7%8E%AF%E6%8C%87%E4%BB%A4%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="post-toc-text">循环指令的例子</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#offset%E6%93%8D%E4%BD%9C"><span class="post-toc-text">offset操作</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8C%87%E4%BB%A4%E5%88%86%E7%B1%BB"><span class="post-toc-text">指令分类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%97%A0%E6%9D%A1%E4%BB%B6%E8%BD%AC%E7%A7%BB"><span class="post-toc-text">无条件转移</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%87%A0%E7%82%B9%E8%A1%A5%E5%85%85"><span class="post-toc-text">几点补充</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%9C%89%E6%9D%A1%E4%BB%B6%E8%BD%AC%E7%A7%BB"><span class="post-toc-text">有条件转移</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%9C%89%E6%9D%A1%E4%BB%B6%E6%8C%87%E4%BB%A4%E7%BB%93%E6%9E%84"><span class="post-toc-text">有条件指令结构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#jcxz%E6%8C%87%E4%BB%A4"><span class="post-toc-text">jcxz指令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ret%E6%8C%87%E4%BB%A4"><span class="post-toc-text">ret指令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#retf%E6%8C%87%E4%BB%A4"><span class="post-toc-text">retf指令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#call%E6%8C%87%E4%BB%A4"><span class="post-toc-text">call指令</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#%E5%85%A5%E6%A0%88%E6%93%8D%E4%BD%9C"><span class="post-toc-text">入栈操作</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#%E8%B7%B3%E8%BD%AC%E6%93%8D%E4%BD%9C"><span class="post-toc-text">跳转操作</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#MUL%E6%8C%87%E4%BB%A4"><span class="post-toc-text">MUL指令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92%E6%96%B9%E5%BC%8F"><span class="post-toc-text">参数传递方式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8%E5%86%B2%E7%AA%81"><span class="post-toc-text">寄存器冲突</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#%E6%A0%87%E5%BF%97%E4%BD%8D%E8%AF%B4%E6%98%8E"><span class="post-toc-text">标志位说明</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#CF%E4%B8%8EOF%E6%AF%94%E8%BE%83"><span class="post-toc-text">CF与OF比较</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DF%E6%A0%87%E5%BF%97%E4%BD%8D"><span class="post-toc-text">DF标志位</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%B2%E4%BC%A0%E9%80%81%E6%8C%87%E4%BB%A4"><span class="post-toc-text">串传送指令</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AD%97%E8%8A%82%E4%BC%A0%E9%80%81"><span class="post-toc-text">字节传送</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AD%97%E4%BC%A0%E9%80%81"><span class="post-toc-text">字传送</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%B2%E4%BC%A0%E9%80%81"><span class="post-toc-text">串传送</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A0%87%E5%BF%97%E5%AF%84%E5%AD%98%E5%99%A8%E4%B8%8E%E6%A0%88%E6%93%8D%E4%BD%9C"><span class="post-toc-text">标志寄存器与栈操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%85%A5%E6%A0%88%E6%93%8D%E4%BD%9C-1"><span class="post-toc-text">入栈操作</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%87%BA%E6%A0%88%E6%93%8D%E4%BD%9C"><span class="post-toc-text">出栈操作</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%86%85%E4%B8%AD%E6%96%AD%E4%B8%8E%E5%A4%96%E4%B8%AD%E6%96%AD"><span class="post-toc-text">内中断与外中断</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%86%85%E4%B8%AD%E6%96%AD%E7%9A%84%E4%BA%A7%E7%94%9F%E5%8E%9F%E5%9B%A0"><span class="post-toc-text">内中断的产生原因</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%B8%B8%E8%A7%81%E4%B8%AD%E6%96%AD%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">常见中断类型</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%AD%E6%96%AD%E5%90%91%E9%87%8F%E8%A1%A8"><span class="post-toc-text">中断向量表</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%AD%E6%96%AD%E8%BF%87%E7%A8%8B"><span class="post-toc-text">中断过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%AD%E6%96%AD%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1"><span class="post-toc-text">中断程序设计</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#iret%E6%8C%87%E4%BB%A4"><span class="post-toc-text">iret指令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DIV%E6%8C%87%E4%BB%A4%E4%B8%BA"><span class="post-toc-text">DIV指令为</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84"><span class="post-toc-text">安装程序结构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#IO%E8%AE%BE%E5%A4%87%E7%9A%84%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%96%B9%E5%BC%8F"><span class="post-toc-text">IO设备的数据传输方式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%AB%AF%E5%8F%A3"><span class="post-toc-text">端口</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%AB%AF%E5%8F%A3%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="post-toc-text">端口地址空间</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%8C%87%E4%BB%A4"><span class="post-toc-text">端口指令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%8C%87%E4%BB%A4%E7%9A%84%E4%B8%80%E4%BA%9B%E9%99%90%E5%88%B6"><span class="post-toc-text">端口指令的一些限制</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E9%80%9A%E8%BF%87%E7%AB%AF%E5%8F%A3%E8%AE%BF%E9%97%AECMOS-RAM"><span class="post-toc-text">通过端口访问CMOS RAM</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#%E7%A7%BB%E4%BD%8D%E6%93%8D%E4%BD%9C"><span class="post-toc-text">移位操作</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%8F%AF%E5%B1%8F%E8%94%BD%E4%B8%AD%E6%96%AD"><span class="post-toc-text">可屏蔽中断</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%8D%E5%8F%AF%E5%B1%8F%E8%94%BD%E4%B8%AD%E6%96%AD"><span class="post-toc-text">不可屏蔽中断</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%9C%B0%E5%9D%80%E6%A0%87%E5%8F%B7"><span class="post-toc-text">地址标号</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%87%E5%8F%B7"><span class="post-toc-text">数据标号</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%AE%9A%E5%9D%80%E8%A1%A8"><span class="post-toc-text">直接定址表</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%95%B0%E5%80%BC%E6%98%A0%E5%B0%84"><span class="post-toc-text">数值映射</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8%E7%9B%B4%E6%8E%A5%E5%AE%9A%E5%9D%80%E8%A1%A8%E5%AE%9E%E7%8E%B0%E6%98%A0%E5%B0%84"><span class="post-toc-text">使用直接定址表实现映射</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%AE%8F%E6%8C%87%E4%BB%A4"><span class="post-toc-text">宏指令</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AE%8F%E5%AE%9A%E4%B9%89"><span class="post-toc-text">宏定义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AE%8F%E8%B0%83%E7%94%A8"><span class="post-toc-text">宏调用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AE%8F%E5%B1%95%E5%BC%80"><span class="post-toc-text">宏展开</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AE%8F%E6%B1%87%E7%BC%96%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="post-toc-text">宏汇编操作符</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%98%BE%E5%AD%98%E6%93%8D%E4%BD%9C"><span class="post-toc-text">显存操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%98%BE%E5%AD%98%E7%BB%93%E6%9E%84"><span class="post-toc-text">显存结构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AD%97%E7%AC%A6%E5%B1%9E%E6%80%A7"><span class="post-toc-text">字符属性</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/12/20/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          数据库系统原理
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/11/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">设计模式</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Tue Dec 05 2017 22:31:19 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

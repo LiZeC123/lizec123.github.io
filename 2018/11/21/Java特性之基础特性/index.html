@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java特性之基础特性 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="本文介绍一些零散的Java特性, 虽然这些知识都比较零散, 但是合理使用可以有效的简化程序的逻辑, 降低开发难度. Java泛型简介定义泛型函数任何一个泛型函数都需要在函数的返回类型前声明使用到的类型,例如 123public &lt;T&gt; void print(T num) &amp;#123;    System.out.println(num);&amp;#125; 上述代码中首先声明了一个泛型名">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java特性之基础特性">
+<meta property="og:url" content="https://lizec.top/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%89%B9%E6%80%A7/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="本文介绍一些零散的Java特性, 虽然这些知识都比较零散, 但是合理使用可以有效的简化程序的逻辑, 降低开发难度. Java泛型简介定义泛型函数任何一个泛型函数都需要在函数的返回类型前声明使用到的类型,例如 123public &lt;T&gt; void print(T num) &amp;#123;    System.out.println(num);&amp;#125; 上述代码中首先声明了一个泛型名">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-11-21T08:05:22.000Z">
+<meta property="article:modified_time" content="2020-08-03T03:22:01.688Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Java特性之基础特性" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Java特性之基础特性
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java特性/">Java特性</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-11-21
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script> -->
+
+<p>本文介绍一些零散的Java特性, 虽然这些知识都比较零散, 但是合理使用可以有效的简化程序的逻辑, 降低开发难度.</p>
+<h2 id="Java泛型简介"><a href="#Java泛型简介" class="headerlink" title="Java泛型简介"></a>Java泛型简介</h2><h3 id="定义泛型函数"><a href="#定义泛型函数" class="headerlink" title="定义泛型函数"></a>定义泛型函数</h3><p>任何一个泛型函数都需要在函数的<strong>返回类型</strong>前声明使用到的类型,例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(T num)</span> </span>&#123;</span><br><span class="line">    System.out.println(num);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码中首先声明了一个泛型名T,然后此函数接受一个类型为T的变量作为参数.</p>
+<h3 id="有界的参数类型"><a href="#有界的参数类型" class="headerlink" title="有界的参数类型"></a>有界的参数类型</h3><p>有时候并不希望任何类型都被传递给函数,而希望只接受某个类的子类,此时可以使用extern关键字,例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;T extends Person&gt; f(T p) &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+<p>上述函数表示只接受Person及其子类作为参数</p>
+<h3 id="类型通配符"><a href="#类型通配符" class="headerlink" title="类型通配符"></a>类型通配符</h3><p>使用类型通配符<code>?</code>来代替任意一种类型,例如<code>List&lt;?&gt;</code>表示任意List实例化的类型,例如<code>List&lt;Integer&gt;</code>或者<code>List&lt;String&gt;</code>. 通配符既可直接作为模板类型也可以用于构成更复杂的模板类型,例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(List&lt;?&gt; list)</span> </span>&#123; ... &#125;</span><br><span class="line"><span class="keyword">public</span> &lt;T extends List&lt;?&gt;&gt; print(T list) &#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>类型通配符也可以进行限制,例如在Compartor接口中定义的comparing函数声明如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T, U extends Comparable&lt;? <span class="keyword">super</span> U&gt;&gt; <span class="function">Comparator&lt;T&gt; <span class="title">comparing</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">        Function&lt;? <span class="keyword">super</span> T, ? extends U&gt; keyExtractor)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>首先<code>&lt;T, U extends Comparable&lt;? super U&gt;&gt;</code>表面这个函数使用了两个类型名<code>T</code>和<code>U</code>,其中<code>T</code>为任意类型,<code>U</code>是某个<code>Comparable</code>的子类,而该<code>Comparable</code>实例化的类型必须是U的父类.</p>
+<p>再看返回类型<code> Comparator&lt;T&gt;</code>,该函数返回一个T类型的<code>Comparator</code>对象</p>
+<p>最后看参数声明<code>Function&lt;? super T, ? extends U&gt; keyExtractor</code>,首先这是一个函数对象,根据文档,<code>Function&lt;T,R&gt;</code>表示接受参数<code>T</code>,返回类型为<code>R</code>的函数,所以这里的<code>keyExtractor</code>是一个接受<code>T</code>和其父类的类型为参数的,返回类型为<code>U</code>或其子类的函数. </p>
+<p>注意声明<code>Function&lt;? super T, ? extends U&gt;</code>中,  其中<code>? super T</code>是逆变性的一种体现, 即如果要求传入的函数是一个处理String的函数, 那么传入的函数可以是接受Object的函数, 因为String满足Object的所有特点, 可以被传入. 其中<code>? extends U</code>, 是协变性的体现, 即如果要求函数是一个返回Object的函数, 那么可以接受返回String的函数. 这种接口的声明方式, 在各种函数有关的接口中非常常见.</p>
+<h2 id="Java注解简介"><a href="#Java注解简介" class="headerlink" title="Java注解简介"></a>Java注解简介</h2><h3 id="注解的定义"><a href="#注解的定义" class="headerlink" title="注解的定义"></a>注解的定义</h3><p>注解使用<code>@interface</code>定义, 定义的方式和接口类似, 例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> LiZeC &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上就定义了一个名为LiZeC的注解, 之后就可以和其他注解一样使用,例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@LiZeC</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Me</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意: <strong>注解本身只提供一个标记, 具体的作用需要通过Java的反射机制, 使用额外的代码来实现</strong></p>
+<h3 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h3><p>元注解就是注解的注解, 元注解为我们自定的注解提供了基本的语义信息. Java的元注解包括</p>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@Retention</td>
+<td>指定注解的保留期,是仅保留至源代码还是保留到运行时</td>
+</tr>
+<tr>
+<td>@Documented</td>
+<td>指示注解与文档相关</td>
+</tr>
+<tr>
+<td>@Target</td>
+<td>指定注解运用的对象,例如是类还是方法或者字段</td>
+</tr>
+<tr>
+<td>@Inherited</td>
+<td>指定注解可以被继承</td>
+</tr>
+<tr>
+<td>@Repeatable</td>
+<td>指定注解可以被重复</td>
+</tr>
+</tbody></table>
+<p>其中@Retention具有如下三种类型</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SOURCE</td>
+<td>编译时被编译器丢弃(discard)</td>
+</tr>
+<tr>
+<td>CLASS</td>
+<td>被编译到字节码文件但不加载到VM, 是默认值</td>
+</tr>
+<tr>
+<td>RUNTIME</td>
+<td>被编译到字节码文件并且加载到VM,从而可以被反射获得</td>
+</tr>
+</tbody></table>
+<p>其中@Target具有如下的类型</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TYPE</td>
+<td>类,接口(包括注解),枚举</td>
+<td>LOCAL_VARIABLE</td>
+<td>局部变量</td>
+</tr>
+<tr>
+<td>FIELD</td>
+<td>字段</td>
+<td>ANNOTATION_TYPE</td>
+<td>注解</td>
+</tr>
+<tr>
+<td>METHOD</td>
+<td>方法</td>
+<td>PACKAGE</td>
+<td>包</td>
+</tr>
+<tr>
+<td>PARAMETER</td>
+<td>参数</td>
+<td>TYPE_PARAMETER</td>
+<td>类型参数</td>
+</tr>
+<tr>
+<td>CONSTRUCTOR</td>
+<td>构造函数</td>
+<td>TYPE_USE</td>
+<td>任意类型</td>
+</tr>
+</tbody></table>
+<h3 id="注解的值"><a href="#注解的值" class="headerlink" title="注解的值"></a>注解的值</h3><p>通常情况下, 注解的内部会定义一些值, 从而为处理注解时提供更多额外的信息. 例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> LiZeC &#123;</span><br><span class="line">	<span class="function">String <span class="title">name</span><span class="params">()</span> <span class="keyword">default</span> &quot;&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上述注解中, 定义了名为name的元素, 其类型为String, 默认值为空字符串. 之后就可以如下的使用注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@LiZeC(name=&quot;Me&quot;)</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Me</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注解的元素类型可以是 基本类型, String, Class, enum, Annotation 以及这些类型的数组.  此外, 如果定义的元素名称为value, 且此元素是唯一需要赋值的元素, 则可以省略元素名, 直接赋值.</p>
+<h3 id="参考文献和扩展阅读"><a href="#参考文献和扩展阅读" class="headerlink" title="参考文献和扩展阅读"></a>参考文献和扩展阅读</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/briblue/article/details/73824058">秒懂，Java 注解 （Annotation）你可以这样学</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/javazejian/article/details/71860633">深入理解Java注解类型(@Annotation)</a></li>
+</ul>
+<h2 id="Java枚举类型"><a href="#Java枚举类型" class="headerlink" title="Java枚举类型"></a>Java枚举类型</h2><p>Java从JDK1.5开始, 加入了枚举类型. 和各种语言中定义的枚举类型一样, Java枚举中的字段可以表示一个选项, 从而用于判断或者switch语句. 枚举的定义语法与类定义语法相似, 只是关键词不同, 例如:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">Color</span> </span>&#123;  </span><br><span class="line">  RED, GREEN, BLANK, YELLOW  </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+
+<h3 id="枚举方法"><a href="#枚举方法" class="headerlink" title="枚举方法"></a>枚举方法</h3><p>实际上, Java中的枚举相当于一个继承了<code>java.lang.Enum</code>的类, 可以向枚举中添加任意的方法和构造函数, 例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">Color</span> </span>&#123;  </span><br><span class="line">    RED(<span class="string">&quot;红色&quot;</span>, <span class="number">1</span>), GREEN(<span class="string">&quot;绿色&quot;</span>, <span class="number">2</span>), BLANK(<span class="string">&quot;白色&quot;</span>, <span class="number">3</span>), YELLO(<span class="string">&quot;黄色&quot;</span>, <span class="number">4</span>); <span class="comment">// 注意最后的分号</span></span><br><span class="line">    <span class="comment">// 成员变量  </span></span><br><span class="line">    <span class="keyword">private</span> String name;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> index;  </span><br><span class="line">    <span class="comment">// 构造方法  </span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Color</span><span class="params">(String name, <span class="keyword">int</span> index)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.name = name;  </span><br><span class="line">        <span class="keyword">this</span>.index = index;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="comment">// 普通方法  </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getName</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">for</span> (Color c : Color.values()) &#123;  </span><br><span class="line">            <span class="keyword">if</span> (c.getIndex() == index) &#123;  </span><br><span class="line">                <span class="keyword">return</span> c.name;  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="comment">// get set 方法  </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> name;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.name = name;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getIndex</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> index;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setIndex</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">this</span>.index = index;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/jzhf2012/article/details/8528979">Java枚举的七种常见用法</a></li>
+</ul>
+<h2 id="Java可变参数简介"><a href="#Java可变参数简介" class="headerlink" title="Java可变参数简介"></a>Java可变参数简介</h2><p>Java的可变参数本质就是<strong>数组</strong>, 函数被编译成字节码后,可变参数就是一个数组. </p>
+<h3 id="可变参数与数组的转换"><a href="#可变参数与数组的转换" class="headerlink" title="可变参数与数组的转换"></a>可变参数与数组的转换</h3><ul>
+<li>声明一个可变参数以后,既可以传入多个单独的参数,也可以传入一个数组</li>
+<li>在函数内部,总是视为一个数组</li>
+</ul>
+<h3 id="匹配规则"><a href="#匹配规则" class="headerlink" title="匹配规则"></a>匹配规则</h3><ol>
+<li>可变参数至少传入一个参数</li>
+<li>可变参数函数与固定参数函数同时匹配时,调用固定参数函数</li>
+<li>多种可变参数同时匹配时,编译失败</li>
+</ol>
+<h2 id="Java函数式接口"><a href="#Java函数式接口" class="headerlink" title="Java函数式接口"></a>Java函数式接口</h2><h3 id="函数式接口标记"><a href="#函数式接口标记" class="headerlink" title="函数式接口标记"></a>函数式接口标记</h3><p>对于自定义的函数式接口,可以使用<code>@FunctionalInterface</code>注解, 这样有两个效果</p>
+<ol>
+<li>编译器会检测此接口是否只包含一个抽象接口</li>
+<li>在javadoc中提供一项声明,指出这是一个函数式接口</li>
+</ol>
+<h3 id="Java常见函数式接口"><a href="#Java常见函数式接口" class="headerlink" title="Java常见函数式接口"></a>Java常见函数式接口</h3><table>
+<thead>
+<tr>
+<th>函数式接口</th>
+<th>参数类型</th>
+<th>返回类型</th>
+<th>抽象方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Runnable</td>
+<td>Node</td>
+<td>void</td>
+<td>run</td>
+<td>执行一个没有参数和返回值的操作</td>
+</tr>
+<tr>
+<td>Supplier<T></td>
+<td>None</td>
+<td>T</td>
+<td>get</td>
+<td>提供一个T类型的值</td>
+</tr>
+<tr>
+<td>Consumer<T></td>
+<td>T</td>
+<td>void</td>
+<td>accept</td>
+<td>处理一个T类型的值</td>
+</tr>
+<tr>
+<td>BiConsumer&lt;T,U&gt;</td>
+<td>T, U</td>
+<td>void</td>
+<td>accept</td>
+<td>处理T类型和U类型的值</td>
+</tr>
+<tr>
+<td>Predicate<T></td>
+<td>T</td>
+<td>bollean</td>
+<td>test</td>
+<td>计算出一个逻辑结果</td>
+</tr>
+<tr>
+<td>toIntFunction<T></td>
+<td>T</td>
+<td>int</td>
+<td>applyasInt</td>
+<td>转化为int,也存在转化为long和double的同类函数</td>
+</tr>
+<tr>
+<td>IntFunction<R></td>
+<td>int</td>
+<td>R</td>
+<td>apply</td>
+<td>从int转化为其他类型,也存在从long和double转化的同类函数</td>
+</tr>
+<tr>
+<td>Function&lt;T,R&gt;</td>
+<td>T</td>
+<td>R</td>
+<td>apply</td>
+<td>一个参数类型为T返回类型为R的函数</td>
+</tr>
+<tr>
+<td>BiFunction&lt;T,U,R&gt;</td>
+<td>T, U</td>
+<td>R</td>
+<td>apply</td>
+<td>一个参数类型为T和U,返回类型为R的函数</td>
+</tr>
+<tr>
+<td>UnaryOperator<T></td>
+<td>T</td>
+<td>T</td>
+<td>apply</td>
+<td>对类型T的一元操作</td>
+</tr>
+<tr>
+<td>BinaryOperator<T></td>
+<td>T, T</td>
+<td>T</td>
+<td>apply</td>
+<td>对类型T的二元操作</td>
+</tr>
+</tbody></table>
+<h2 id="try-with-resources语句"><a href="#try-with-resources语句" class="headerlink" title="try-with-resources语句"></a>try-with-resources语句</h2><p>从Java 7开始,可以在try后跟上一个括号, 从而打开一个资源并由编译器保证无论发生何种情况, 都正确的调用close语句关闭资源. 该特性与C#的using语句类似. </p>
+<p>编译器只保证在离开作用域后能调用close,但不主动catch任何异常,因此在try中的异常还是需要进行处理.</p>
+<p>所有实现了AutoCloseable接口的资源类都可以使用此机制.</p>
+<h2 id="对null的处理"><a href="#对null的处理" class="headerlink" title="对null的处理"></a>对null的处理</h2><p>Java提供了如下的一组方法来处理各种常见的null值问题, 使用下面的方法可以减少代码中的判断逻辑.</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Objects.equals(a,b)</td>
+<td>可以正确的处理a,b为null的情况,而不抛出异常</td>
+</tr>
+<tr>
+<td>Objects.hash(a,b, …)</td>
+<td>可以组合多个对象,产生一个hash值</td>
+</tr>
+<tr>
+<td>String.valueof(obj)</td>
+<td>可以保证null也被转化为字符串”null”,而不抛出异常</td>
+</tr>
+<tr>
+<td>Objects.toString(o,””)</td>
+<td>可以在o为null时,返回第二个参数指定的值</td>
+</tr>
+<tr>
+<td>Integer.compare(a,b)</td>
+<td>比较两个数的值,并且保证没有溢出风险</td>
+</tr>
+</tbody></table>
+<h2 id="全局日志"><a href="#全局日志" class="headerlink" title="全局日志"></a>全局日志</h2><p>从Java 7开始, 提供了一种简便获得日志对象的方法, 即<code>Logger.getClobel()</code>, 使用此函数可以简便的替换<code>System.out.println()</code>进行日志输出.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Logger.getGlobal().setLevel(Level.WARNING);</span><br><span class="line">Logger.getGlobal().info(()-&gt;<span class="string">&quot;Hello&quot;</span>);</span><br><span class="line">Logger.getGlobal().warning(()-&gt;<span class="string">&quot;Warning&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="默认方法"><a href="#默认方法" class="headerlink" title="默认方法"></a>默认方法</h2><p>在Java 8中,可以对接口添加默认的方法,使用default关键字声明,例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">long</span> <span class="title">getAge</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">plusOne</span><span class="params">(<span class="keyword">int</span> old, <span class="keyword">int</span> you)</span> </span>&#123; old += <span class="number">1</span>; you -= <span class="number">1</span>;&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过默认方法, Java在行为上实现了多继承, 对于继承过程中可能的冲突问题, 按照如下的规则判断</p>
+<ol>
+<li>类中的方法优先级最高, 类或父类中声明的方法的优先级高于任何声明为默认方法的优先级</li>
+<li>子接口优先级更高, 函数签名相同时, 优先选择最具体的实现的默认方法</li>
+<li>若以上两条规则均无法判定, 则类中需要显式的指定调用哪一个方法</li>
+</ol>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年08月03日 11:22</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%89%B9%E6%80%A7/" title="Java特性之基础特性">https://lizec.top/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%89%B9%E6%80%A7/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%89%B9%E6%80%A7/&title=《Java特性之基础特性》 — LiZeC的博客&pic=images/java.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%89%B9%E6%80%A7/&title=《Java特性之基础特性》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%89%B9%E6%80%A7/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java特性之基础特性》 — LiZeC的博客&url=https://lizec.top/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%89%B9%E6%80%A7/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%89%B9%E6%80%A7/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%89%B9%E6%80%A7/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Java/" class="color5">Java</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Java%E6%B3%9B%E5%9E%8B%E7%AE%80%E4%BB%8B"><span class="post-toc-text">Java泛型简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%9A%E4%B9%89%E6%B3%9B%E5%9E%8B%E5%87%BD%E6%95%B0"><span class="post-toc-text">定义泛型函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9C%89%E7%95%8C%E7%9A%84%E5%8F%82%E6%95%B0%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">有界的参数类型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%B1%BB%E5%9E%8B%E9%80%9A%E9%85%8D%E7%AC%A6"><span class="post-toc-text">类型通配符</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Java%E6%B3%A8%E8%A7%A3%E7%AE%80%E4%BB%8B"><span class="post-toc-text">Java注解简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="post-toc-text">注解的定义</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%83%E6%B3%A8%E8%A7%A3"><span class="post-toc-text">元注解</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B3%A8%E8%A7%A3%E7%9A%84%E5%80%BC"><span class="post-toc-text">注解的值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E5%92%8C%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB"><span class="post-toc-text">参考文献和扩展阅读</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Java%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">Java枚举类型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9E%9A%E4%B8%BE%E6%96%B9%E6%B3%95"><span class="post-toc-text">枚举方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Java%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E7%AE%80%E4%BB%8B"><span class="post-toc-text">Java可变参数简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E4%B8%8E%E6%95%B0%E7%BB%84%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="post-toc-text">可变参数与数组的转换</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8C%B9%E9%85%8D%E8%A7%84%E5%88%99"><span class="post-toc-text">匹配规则</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Java%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">Java函数式接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3%E6%A0%87%E8%AE%B0"><span class="post-toc-text">函数式接口标记</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Java%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0%E5%BC%8F%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">Java常见函数式接口</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#try-with-resources%E8%AF%AD%E5%8F%A5"><span class="post-toc-text">try-with-resources语句</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%AF%B9null%E7%9A%84%E5%A4%84%E7%90%86"><span class="post-toc-text">对null的处理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%85%A8%E5%B1%80%E6%97%A5%E5%BF%97"><span class="post-toc-text">全局日志</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%BB%98%E8%AE%A4%E6%96%B9%E6%B3%95"><span class="post-toc-text">默认方法</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/11/21/JDK%E8%BE%85%E5%8A%A9%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          JDK辅助工具介绍
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/09/07/Git%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%88%86%E6%94%AF%E6%93%8D%E4%BD%9C/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Git笔记之分支操作</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Wed Nov 21 2018 16:05:22 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

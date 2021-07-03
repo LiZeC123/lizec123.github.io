@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>大数据技术原理 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="本文的主要介绍大数据原理与技术, 对大数据的基本概念, 大数据处理架构, Hadoop平台及其生态系统进行概要性的介绍. 本文的主要内容都基于中国大学MOOC上的&lt;&lt;大数据技术原理与应用&gt;&gt;课程, 并且结合Hadoop官网上的文档进行适当补充.  概述数据产生的三个阶段 运营式系统阶段: 通过各种运营系统产生数据 用户原创内容阶段: 博客,微博等各种用户可以发布数据的平">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据技术原理">
+<meta property="og:url" content="https://lizec.top/2018/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="本文的主要介绍大数据原理与技术, 对大数据的基本概念, 大数据处理架构, Hadoop平台及其生态系统进行概要性的介绍. 本文的主要内容都基于中国大学MOOC上的&lt;&lt;大数据技术原理与应用&gt;&gt;课程, 并且结合Hadoop官网上的文档进行适当补充.  概述数据产生的三个阶段 运营式系统阶段: 通过各种运营系统产生数据 用户原创内容阶段: 博客,微博等各种用户可以发布数据的平">
+<meta property="og:locale">
+<meta property="og:image" content="https://lizec.top/images/hadoop/struct.JPG">
+<meta property="og:image" content="https://lizec.top/images/hadoop/%E6%A6%82%E5%BF%B5%E8%A7%86%E5%9B%BE.JPG">
+<meta property="og:image" content="https://lizec.top/images/hadoop/%E7%89%A9%E7%90%86%E8%A7%86%E5%9B%BE.JPG">
+<meta property="og:image" content="https://lizec.top/images/hadoop/HBaseStruct.png">
+<meta property="og:image" content="https://lizec.top/images/hadoop/%E4%B8%89%E7%BA%A7%E7%BB%93%E6%9E%84.png">
+<meta property="article:published_time" content="2018-04-28T06:23:42.000Z">
+<meta property="article:modified_time" content="2020-06-26T14:43:49.000Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="大数据">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lizec.top/images/hadoop/struct.JPG">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-大数据技术原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      大数据技术原理
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/大数据/">大数据</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-28
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <!-- <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script> -->
+
+<p>本文的主要介绍大数据原理与技术, 对大数据的基本概念, 大数据处理架构, Hadoop平台及其生态系统进行概要性的介绍. 本文的主要内容都基于中国大学MOOC上的<a href="(https://www.icourse163.org/course/XMU-1002335004?tid=1002787005">&lt;&lt;大数据技术原理与应用&gt;&gt;</a>课程, 并且结合Hadoop官网上的文档进行适当补充. </p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><h3 id="数据产生的三个阶段"><a href="#数据产生的三个阶段" class="headerlink" title="数据产生的三个阶段"></a>数据产生的三个阶段</h3><ol>
+<li>运营式系统阶段: 通过各种运营系统产生数据</li>
+<li>用户原创内容阶段: 博客,微博等各种用户可以发布数据的平台产生数据</li>
+<li>感知式阶段: 物联网设备的大量普及,各种传感器产生数据</li>
+</ol>
+<h3 id="大数据的特征"><a href="#大数据的特征" class="headerlink" title="大数据的特征"></a>大数据的特征</h3><p>大数据的特征可以使用5V来概括</p>
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>大量化(Volume)</td>
+<td>数据流跃升, 数据量大</td>
+</tr>
+<tr>
+<td>多样化(Variety)</td>
+<td>种类繁多, 来源各异</td>
+</tr>
+<tr>
+<td>快速化(Velocity)</td>
+<td>实时响应要求</td>
+</tr>
+<tr>
+<td>价值密度低(Value)</td>
+<td>大数据的价值往往呈现稀疏性的特点</td>
+</tr>
+<tr>
+<td>可信性(Veracity)</td>
+<td>数据可信性和可用性</td>
+</tr>
+</tbody></table>
+<h3 id="大数据的思维方式"><a href="#大数据的思维方式" class="headerlink" title="大数据的思维方式"></a>大数据的思维方式</h3><ol>
+<li>全样而非抽样</li>
+<li>效率而非精度</li>
+<li>相关而非因果</li>
+</ol>
+<p>在以往的数据处理过程中, 由于使用抽样, 因此对计算过程要求有一定的精度, 否则可能随着计算过程不断的放大误差. 在大数据中, 由于对全体数据进行处理, 因此往往不再要求算法精度, 反而对算法的执行效率有更高的要求.</p>
+<h3 id="云计算"><a href="#云计算" class="headerlink" title="云计算"></a>云计算</h3><p>云计算是指通过网络以服务的方式向用户提供非常廉价的IT资源. 云计算的主要内容就是解决分布式存储和分布式处理的问题. 大数据时代的海量数据只能通过集群来进行存储和处理.云计算的典型特征是虚拟化和多租户. 用户不需要自己购买机房, 而是直接购买相关的服务.</p>
+<h2 id="大数据处理架构介绍"><a href="#大数据处理架构介绍" class="headerlink" title="大数据处理架构介绍"></a>大数据处理架构介绍</h2><p>Hadoop是Apache基金会下的一个开源的分布式计算平台. Hadoop实际上包含了一系列的组件.</p>
+<h3 id="Hadoop架构"><a href="#Hadoop架构" class="headerlink" title="Hadoop架构"></a>Hadoop架构</h3><p>Hadoop大致有如下的几大部分组成:<br><img src="/images/hadoop/struct.JPG" alt="Hadoop架构"></p>
+<p>每个部分的基本功能如下所示, 具体的细节和使用在后续各章节分别介绍.</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th align="left">作用</th>
+<th>名称</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HDFS</td>
+<td align="left">分布式文件存储</td>
+<td>TeZ</td>
+<td align="left">分析优化工具</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td align="left">资源调度</td>
+<td>Pig</td>
+<td align="left">类SQL的脚本语言</td>
+</tr>
+<tr>
+<td>MapReduce</td>
+<td align="left">基于磁盘的分布式计算</td>
+<td>Oozie</td>
+<td align="left">作业流调度系统</td>
+</tr>
+<tr>
+<td>Spark</td>
+<td align="left">基于内存的分布式计算</td>
+<td>Zookeeper</td>
+<td align="left">分布式协调服务</td>
+</tr>
+<tr>
+<td>Hive</td>
+<td align="left">数据仓库</td>
+<td>Flume</td>
+<td align="left">日志收集分析框架</td>
+</tr>
+<tr>
+<td>HBase</td>
+<td align="left">非关系型的分布式数据库</td>
+<td>Ambari</td>
+<td align="left">集群部署和监控工具</td>
+</tr>
+<tr>
+<td>Sqoop</td>
+<td align="left">与传统数据库传递数据</td>
+<td></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h3 id="Hadoop安装与配置"><a href="#Hadoop安装与配置" class="headerlink" title="Hadoop安装与配置"></a>Hadoop安装与配置</h3><p>Hadoop平台上有很多项目, 这些项目基本都是独立的, 需要到各个项目的官网上下载相关的代码. </p>
+<p>在学习Hadoop的过程中, 由于国内的文档多数比较陈旧, 存在很多兼容性问题, 因此安装时推荐安装官网教程操作. 官方的文档比起各种转述或者翻译的文章, 更具有权威性, 内容的正确性更有保证.</p>
+<h2 id="HDFS简介"><a href="#HDFS简介" class="headerlink" title="HDFS简介"></a>HDFS简介</h2><p>Hadoop分布式文件系统(Hadoop Distributed File System, HDFS), 是Hadoop平台下的分布式文件系统, 主要以分布式集群的方式来实现海量数据的存储. HDFS是Google文件系统(Google File System, GFS)的开源实现, 关于GFS的有关内容参考<a href="http://lizec.top/2018/08/12/%E8%AE%BA%E6%96%87GoogleFileSystem/">阅读笔记</a>.</p>
+<h3 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h3><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>块</td>
+<td>与普通的文件系统的块含义类似,是数据存储的基本单位</td>
+</tr>
+<tr>
+<td>名称节点</td>
+<td>整个集群的主节点, 管理了所有文件的位置信息</td>
+</tr>
+<tr>
+<td>数据节点</td>
+<td>实际存放数据的节点</td>
+</tr>
+<tr>
+<td>FsImage</td>
+<td>保存系统文件树和文件的属性信息, 包括访问与修改时间, 访问权限等</td>
+</tr>
+<tr>
+<td>EditLog</td>
+<td>记录了对数据的操作记录</td>
+</tr>
+</tbody></table>
+<p>几点补充</p>
+<ol>
+<li>与普通的文件系统相比, 一个默认的HDFS块大小为64MB</li>
+<li>较大的块大小有助于减少索引空间., 但由于MapReduce使用块作为基本处理单位, 因此如果块过大, 又会导致并行性降低</li>
+<li>HDFS是基于文件的系统, 数据保存在磁盘上, 但名称节点的元数据由于频繁访问, 因此保存在内存之中</li>
+</ol>
+<h3 id="EditLog的作用"><a href="#EditLog的作用" class="headerlink" title="EditLog的作用"></a>EditLog的作用</h3><p>HDFS文件的元数据保存在内存之中, 同时有关的信息也同时存储到FsImage之中. 如果每次修改文件信息后, 都同步的将修改写到FsImage之中, 就会导致大量的磁盘读写, 限制了程序的性能. </p>
+<p>因此因此在HDFS中, 所有的操作都是记录到EditLog之中, 而FsImage不发生改变.</p>
+<h3 id="第二名称节点"><a href="#第二名称节点" class="headerlink" title="第二名称节点"></a>第二名称节点</h3><p>在名称节点中, 虽然FsImage不发生改变, 但EditLog依然会不断增大. 在HDFS的设计中, 每次启动时会将EditLog与FsImage合并, 但如果长时间运行, 当EditLog增大到一定程度以后, 会同样的影响程序性能. 因此HDFS引入第二名称节点.</p>
+<p>第二名称节点定期的与名称节点通信, 请求名称节点停止项EditLog写入. 名称节点受到请求后, 创建一个edits.new的文件, 将后续更新写入此文件之中. 第二名称节点将原来的EditLog文件和FsImage文件下载dao本地进行合并. 第二名称节点将合并的FsImage文件返回给名称节点. 名称节点将原有的FsImage文件替换并且将edits.new更名为EditLog</p>
+<p>通过上述操作, 第二名称节点实现了FsImage和EditLog的合并, 而保存在第二名称节点上的FsImage又可以作为备份文件, 在名称节点出现故障时用来恢复状态.</p>
+<h3 id="HDFS-1-0的局限性"><a href="#HDFS-1-0的局限性" class="headerlink" title="HDFS 1.0的局限性"></a>HDFS 1.0的局限性</h3><ol>
+<li>命名空间限制: 名称节点保存在内存中,因而存储规模受单机内存大小限制</li>
+<li>性能瓶颈: 整个系统的吞吐量受单个节点的性能限制</li>
+<li>隔离性: 只有一个名称节点, 各个应用之间不能隔离</li>
+<li>集群可用性: 名称节点出现故障整个集群失效</li>
+</ol>
+<h3 id="HDFS存储机制"><a href="#HDFS存储机制" class="headerlink" title="HDFS存储机制"></a>HDFS存储机制</h3><ol>
+<li><p>冗余存储机制<br>由于底层架构在廉价的设备上, 因此设备出现故障是常态, HDFS引入冗余机制, 将数据以块为单位进行冗余保存.此外, 由于有多个副本, 因此还可以加快传输速度.</p>
+</li>
+<li><p> 数据存储策略</p>
+</li>
+</ol>
+<p>第一个副本存放在发起请求的节点上, 从而减少网络传输. 后续副本存放在不同机架和不同节点的设备上, 从而在减少网络传输和提高数据安全性之间取得一个平衡</p>
+<h2 id="MapReduce编程"><a href="#MapReduce编程" class="headerlink" title="MapReduce编程"></a>MapReduce编程</h2><p>MapReduce的基本策略是分而治之, 把庞大的数据切分为多个独立的小分片, 然后为每个分片启动一个单独的map任务, 最终通过多个map任务, 并行的在多个机器上处理. </p>
+<p>MapReduce过程中有一个重要的理念, 即 <strong>计算向数据靠拢而不是数据向计算靠拢</strong>. 在需要一个计算时, 将应用程序分发到数据所在的机器, 从而绕过网络带宽对数据传输的限制, 极大的提高总体的处理效率.</p>
+<p>更多关于MapReduce概念性的内容, 可以参考关于Google的论文《MapReduce：Simplified Data Proessing on Large Clusters》的<a href="http://lizec.top/2018/08/09/%E8%AE%BA%E6%96%87MapRudece/">阅读记录</a>. 本文接下来介绍MapReduce在架构方面的内容.</p>
+<h3 id="体系结构"><a href="#体系结构" class="headerlink" title="体系结构"></a>体系结构</h3><!-- 图 -->
+
+
+<h4 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h4><ul>
+<li>提交用户编写的程序</li>
+<li>查看作业运行状态</li>
+</ul>
+<h4 id="JobTracker"><a href="#JobTracker" class="headerlink" title="JobTracker"></a>JobTracker</h4><ul>
+<li> 负责资源的监控和作业调度</li>
+<li>监控底层其他的TaskTracjer以及当前Job的状态</li>
+<li>探测到失败时进行任务转移</li>
+<li>跟踪任务进度和资源使用量</li>
+</ul>
+<h4 id="TaskTracker"><a href="#TaskTracker" class="headerlink" title="TaskTracker"></a>TaskTracker</h4><ul>
+<li>接收JobTracker发送的任务, 执行具体的任务</li>
+<li>监控自身的资源使用情况, 使用心跳方式发送给JobTracker</li>
+<li>把资源分成若干个slot,, 即map类型的slot和reduce类型的slot</li>
+<li>统计slot占用使用量衡量资源占用率</li>
+</ul>
+<h4 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h4><ul>
+<li>分为map任务和reduce任务</li>
+<li>一台物理设备可以同时运行两种类型的任务</li>
+</ul>
+<h3 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h3><h4 id="分片大小"><a href="#分片大小" class="headerlink" title="分片大小"></a>分片大小</h4><p>分片大小和HDFS的块大小并没有直接联系, 但是为了减少不必要的数据传输, 通常使分片大小和块大小相等.</p>
+<h4 id="map任务数量确定"><a href="#map任务数量确定" class="headerlink" title="map任务数量确定"></a>map任务数量确定</h4><p>由于每个分片都需要分配一个map任务, 因此map任务数量等于分配数量</p>
+<h4 id="reduce任务数量确定"><a href="#reduce任务数量确定" class="headerlink" title="reduce任务数量确定"></a>reduce任务数量确定</h4><p>通常依据系统可以提供的reduce的slot数量决定reduce任务数量,且实际数量略小于最大可用数量.</p>
+<h3 id="Shuffle过程"><a href="#Shuffle过程" class="headerlink" title="Shuffle过程"></a>Shuffle过程</h3><h4 id="数据流动过程"><a href="#数据流动过程" class="headerlink" title="数据流动过程"></a>数据流动过程</h4><ol>
+<li>数据首先通过HDFS系统提取出来,进行map任务</li>
+<li>map任务执行结果写入缓存</li>
+<li>缓存慢后进行溢写操作,溢写过程执行分区,排序和合并操作</li>
+<li>多个磁盘文件进行归并</li>
+<li>reduce机器取走相应分区的数据</li>
+<li>reduce函数进行处理,并最终输出到HDFS</li>
+</ol>
+<h4 id="Map端的Shuffle过程"><a href="#Map端的Shuffle过程" class="headerlink" title="Map端的Shuffle过程"></a>Map端的Shuffle过程</h4><ol>
+<li>数据输入和执行任务</li>
+<li>转换的键值对写入缓存</li>
+<li>溢写过程<ul>
+<li>达到溢写比后启动溢写操作</li>
+<li>分区: 按照不同的reduce任务分到不同的区</li>
+<li>排序: 对分区的数据按照字典序排序</li>
+<li>合并: 多个键值对合并成一个键值对(不是必须的,由用户定义)</li>
+</ul>
+</li>
+<li>文件归并: 将多个溢写文件归并成一个大的文件(最终文件时分区且排序的)</li>
+</ol>
+<h4 id="Reduce端Shuffle过程"><a href="#Reduce端Shuffle过程" class="headerlink" title="Reduce端Shuffle过程"></a>Reduce端Shuffle过程</h4><ol>
+<li>从Map机器领取需要的数据</li>
+<li>归并(生成key-valuelist)后合并(合并value值)</li>
+<li>将数据输入给Reduce任务</li>
+</ol>
+<h3 id="MapReduce程序执行过程"><a href="#MapReduce程序执行过程" class="headerlink" title="MapReduce程序执行过程"></a>MapReduce程序执行过程</h3><ol>
+<li>程序部署: 将程序分发到不同的机器</li>
+<li>不同的机器分别执行map任务和reduce任务</li>
+<li>读数据,生成键值对</li>
+<li>本地写数据, 将缓存的数据写入磁盘</li>
+<li>远程读数据, 执行reduce任务机器获取相关数据</li>
+<li>写数据, 写入输出结果</li>
+</ol>
+<h2 id="HBase简介"><a href="#HBase简介" class="headerlink" title="HBase简介"></a>HBase简介</h2><p>HBase是BigTable的开源实现. HBase是一个 <strong>高可靠</strong>, <strong>高性能</strong>, <strong>面向列</strong>的可伸缩的分布式数据库. HBase主要用于存储非结构化和半结构化的数据, 是对HDFS和MapReduce在实时性上的扩展, 同时弥补了传统数据库在大量数据上无法应对的问题. </p>
+<p>HBase不保存数据类型, 全部都是原始数据, 由应用程序去解释数据类型. 不同于关系数据库, Hbase是基于列的存储. HBase不存在替换操作, 定时的清理无效数据.  HBase构建在HDFS之上, 使用集群保存数据, 因此很容易扩展设备. </p>
+<h3 id="传统数据库的问题"><a href="#传统数据库的问题" class="headerlink" title="传统数据库的问题"></a>传统数据库的问题</h3><p>传统的数据库在面临大量数据时, 有两个主要问题</p>
+<ol>
+<li>数据库不便于分布式扩展, 难以面对海量的数据读写请求</li>
+<li>数据库模式无法轻易改变, 无法满足数据类型快速变化的需求</li>
+</ol>
+<p>实际上, HBase的产生, 也就是对上述两个问题的解决方案. </p>
+<h3 id="HBase访问接口"><a href="#HBase访问接口" class="headerlink" title="HBase访问接口"></a>HBase访问接口</h3><p>HBase本身使用Java开发, 因此可以通过JavaAPI进行访问.  此外HBase还提供基于shell的命令行工具, 和基于网络的API.  最后还可以通过构建在HBase之上的类SQL脚本语言Pig或者数据仓库产品Hive进行访问. </p>
+<h3 id="HBase数据模型"><a href="#HBase数据模型" class="headerlink" title="HBase数据模型"></a>HBase数据模型</h3><p>HBase中的数据需要通过行键, 列族, 列限定符和时间戳四个元素来唯一确定. </p>
+<p>HBase的概念视图如下所示:<br><img src="/images/hadoop/%E6%A6%82%E5%BF%B5%E8%A7%86%E5%9B%BE.JPG" alt="概念视图"></p>
+<p>一行可以有一个行键(RowKey)和若干列族, 每个列族可以包含若干列, 使用<code>列族:列限定符</code>来指定具体的一列,通过时间戳区分新旧版本的数据. 必须使用行键, 列族, 列限定符和时间戳才能唯一的确定一个数据.</p>
+<p>从概念视图来看, 由于每次更新并不是更新一行的所有数据, 因此存储是稀疏的.</p>
+<p>HBase的物理视图如下所示:<br><img src="/images/hadoop/%E7%89%A9%E7%90%86%E8%A7%86%E5%9B%BE.JPG" alt="物理视图"></p>
+<p>HBase采用以列族为单元的存储方式, 从而避免了概念视图过于稀疏的问题.</p>
+<h3 id="效率与规范化"><a href="#效率与规范化" class="headerlink" title="效率与规范化"></a>效率与规范化</h3><p>根据关系数据理论, 如果不准守规范化的要求, 可能会导致数据冗余, 更新异常, 插入异常, 以及删除异常. HBase中存储的数据并没有任何的规范化的要求, 主要有两个原因：</p>
+<ol>
+<li>存储空间价格快速降低, 可以接受一定程度的数据冗余, 相反此时查询时间更加重要, 遵守规范化理论导致在查询时通常需要进行多表连结操作, 在面对海量数据时, 连接操作低效且耗时</li>
+<li>HBase构建在HDFS上, 本质上只插入新数据, 处理的海量数据也往往也不会再被修改, 从而可以一定程度上容忍更新异常, 插入异常和删除异常</li>
+</ol>
+<h3 id="HBase系统结构"><a href="#HBase系统结构" class="headerlink" title="HBase系统结构"></a>HBase系统结构</h3><p><img src="/images/hadoop/HBaseStruct.png" alt="HBase系统结构"></p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>客户端</td>
+<td>为客户提供访问接口</td>
+</tr>
+<tr>
+<td>ZooKeeper服务器</td>
+<td>提供协同管理, 保证任意时刻只有一个Master服务器运行</td>
+</tr>
+<tr>
+<td>Master服务器</td>
+<td>维护分区信息、维护Region服务器列表和状态、负载均衡</td>
+</tr>
+<tr>
+<td>Region服务器</td>
+<td>实际维护和管理数据, 与客户端直接通信</td>
+</tr>
+</tbody></table>
+<h3 id="HBase三级访问结构"><a href="#HBase三级访问结构" class="headerlink" title="HBase三级访问结构"></a>HBase三级访问结构</h3><p><img src="/images/hadoop/%E4%B8%89%E7%BA%A7%E7%BB%93%E6%9E%84.png" alt="三级访问结构"></p>
+<p>HBase最初有一个<code>.META</code>表, 用于存放Region ID和服务器ID的映射关系.<code>.META</code>表本身也保存于Region中, 因此一定容量以后也会无法被一个Region保存, 这个时候使用类似二级页表的方法, 使用<code>-ROOT-</code>表保存<code>.META</code>表的位置. HBase设计时规定只能有一个<code>-ROOOT-</code>文件, 使用Zookeeper文件保存<code>-ROOT-</code>表的位置.</p>
+<p>与页表的缓冲机制类似, 客户端也会对位置信息进行缓存, 从而减少寻址的时间. </p>
+<h3 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h3><ul>
+<li>在HBase中每个族列对应一个Store, 保存在磁盘上的Store称为StoreFile文件.</li>
+<li>写入数据是先写入MemStore,并且将记录写入HLog.</li>
+<li>读取数据时先访问MemStore(因为其中可能包含更新后的数据), 如果没有找到,再去访问磁盘. </li>
+<li>服务器周期性的将MemStore中的数据刷写到磁盘中,然后清空MemStore并且对Hlog进行标记. 每次刷写都产生新的StoreFile文件.</li>
+<li>多个StoreFile可以合并成一个更大的StoreFile,进一步增大,达到Region上限后又会触发分裂操作. 这也是唯一的Region分裂操作. </li>
+</ul>
+<h3 id="HBase的Shell指令"><a href="#HBase的Shell指令" class="headerlink" title="HBase的Shell指令"></a>HBase的Shell指令</h3><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>指令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>创建表</td>
+<td><code>create &#39;tempTable&#39;,&#39;f1&#39;, &#39;f2&#39;, &#39;f3&#39;</code></td>
+<td>创建表tempTable,其中包含列族f1,f2和f3</td>
+</tr>
+<tr>
+<td>显示表</td>
+<td><code>list</code></td>
+<td>显示所有的表</td>
+</tr>
+<tr>
+<td>浏览记录</td>
+<td><code>scan &#39;tempTable&#39;</code></td>
+<td>浏览表中所有的数据</td>
+</tr>
+<tr>
+<td>添加记录</td>
+<td><code>put &#39;tempTable&#39;,&#39;r1&#39;,&#39;f1:c1&#39;,&#39;hello dblab&#39;</code></td>
+<td>向tempTable的r1行,f1族c1列放入数据’hello dblab’</td>
+</tr>
+<tr>
+<td>查询记录</td>
+<td><code>get &#39;tempTable&#39;,&#39;r1&#39;, &#123;COLUMN=&gt;&#39;f1:c1&#39;&#125;</code></td>
+<td>获得tempTable的r1行,f1族c1列的数据</td>
+</tr>
+<tr>
+<td>删除表</td>
+<td><code>disable &#39;tempTable&#39;  drop &#39;tempTable&#39;</code></td>
+<td>先令表失效之后才能删除表格</td>
+</tr>
+</tbody></table>
+<p>注意: </p>
+<ul>
+<li>不需要事先声明列的名称,可以直接添加新的列</li>
+<li>每次只能为一个表的一行的某一列添加数据</li>
+</ul>
+<h2 id="NoSQL简介"><a href="#NoSQL简介" class="headerlink" title="NoSQL简介"></a>NoSQL简介</h2><p>NoSQL最初是表示反对SQL, 后来发现关系数据库和非关系数据库各有优势, 因此NoSQL现在是Not Only SQL的缩写.</p>
+<h3 id="NoSQL数据库与传统数据库"><a href="#NoSQL数据库与传统数据库" class="headerlink" title="NoSQL数据库与传统数据库"></a>NoSQL数据库与传统数据库</h3><h4 id="NoSQL特点"><a href="#NoSQL特点" class="headerlink" title="NoSQL特点"></a>NoSQL特点</h4><ul>
+<li>具有灵活的可扩展性, 可以对多个节点扩增</li>
+<li>灵活的数据模型, 可以动态变换,甚至没有模式</li>
+<li>与云计算紧密结合, 可以充分利用底层硬件的伸缩性</li>
+</ul>
+<h3 id="传统数据库的缺陷"><a href="#传统数据库的缺陷" class="headerlink" title="传统数据库的缺陷"></a>传统数据库的缺陷</h3><ul>
+<li>无法满足海量数据管理需求</li>
+<li>无法满足高并发需求(用户数据必须实时生成)</li>
+<li>无法满足高可扩展性和高可用性的需求</li>
+</ul>
+<h3 id="NoSQL兴起的原因"><a href="#NoSQL兴起的原因" class="headerlink" title="NoSQL兴起的原因"></a>NoSQL兴起的原因</h3><ul>
+<li>关系数据库无法满足Web2.0的需求</li>
+<li>数据模型局限性</li>
+<li>Web2.0关系型数据库许多特性没有被发挥(例如事务机制)</li>
+</ul>
+<h3 id="Web2-0的特点"><a href="#Web2-0的特点" class="headerlink" title="Web2.0的特点"></a>Web2.0的特点</h3><ul>
+<li>不需要严格的事务机制</li>
+<li>不需要严格的实时性</li>
+<li>不需要复杂的SQL查询(去规范化)</li>
+</ul>
+<h3 id="NoSQL数据库分类"><a href="#NoSQL数据库分类" class="headerlink" title="NoSQL数据库分类"></a>NoSQL数据库分类</h3><p>NoSQL数据库现在有4大类, 各类基本特征如下所示</p>
+<table>
+<thead>
+<tr>
+<th>数据库类型</th>
+<th>特点</th>
+<th>常见产品</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>键值数据库</td>
+<td>存储数据是一堆键值对</td>
+<td>Redis,Memcached,SimpleDB等</td>
+</tr>
+<tr>
+<td>列族数据库</td>
+<td>数据按照列存储</td>
+<td>BigTable,HBase, Cassandra等</td>
+</tr>
+<tr>
+<td>文档数据库</td>
+<td>存储键值对且值是文档</td>
+<td>MongoDB, CouchDB等</td>
+</tr>
+<tr>
+<td>图数据库</td>
+<td>基于图结构的数据库</td>
+<td>Neo4j</td>
+</tr>
+</tbody></table>
+<h4 id="键值数据库"><a href="#键值数据库" class="headerlink" title="键值数据库"></a>键值数据库</h4><ul>
+<li>键是字符串对象, 值是任意类型数据</li>
+<li>扩增性好, 读写性能高</li>
+<li>适合简单存储, 高性能读写的场景, 如配置文件,购物车等</li>
+<li>适合作为Web数据的缓冲层</li>
+<li>无法存储结构化信息, 条件查询效率低</li>
+<li>不适合按值查询或者关系查询, 可能无法回滚</li>
+</ul>
+<h4 id="列族数据库"><a href="#列族数据库" class="headerlink" title="列族数据库"></a>列族数据库</h4><ul>
+<li>适合分布式存储和管理</li>
+<li>适合需要动态字段的以及可以运行短期不一致的应用</li>
+<li>查找速度块,可扩展性强</li>
+</ul>
+<h4 id="文档数据库"><a href="#文档数据库" class="headerlink" title="文档数据库"></a>文档数据库</h4><ul>
+<li>本质是键值数据库,且值是一个文档</li>
+<li>文档可以根据数据库内容自描述, 通常使用JSON格式</li>
+<li>更好的并发性, 修改属性通常只用修改一个文件</li>
+<li>不支持事务机制</li>
+</ul>
+<h4 id="图数据库"><a href="#图数据库" class="headerlink" title="图数据库"></a>图数据库</h4><ul>
+<li>专门用于具有高度相关的数据,如社交网络,模式识别,推荐系统等</li>
+<li>支持图论的各种复杂算法</li>
+<li>使用场景有限</li>
+</ul>
+<h3 id="NoSQL三大基石"><a href="#NoSQL三大基石" class="headerlink" title="NoSQL三大基石"></a>NoSQL三大基石</h3><h4 id="CAP理论"><a href="#CAP理论" class="headerlink" title="CAP理论"></a>CAP理论</h4><ul>
+<li>一致性(Consistency): 任何一个读操作总能读到之前完成的写操作的结果</li>
+<li>可用性(Availability): 可以快速的获得数据</li>
+<li>分区容忍性(Partition tolerance): 当某一部分节点出现错误是,分离的系统依然可以正常工作</li>
+</ul>
+<p>理论和实践证明CAP不可能同时满足, 三者只能取其二<br>CA: 所有事务都放在同一机器,避免分区问题<br>CP: 使用网络分区, 数据一致后再取数据<br>AP: 立即获得数据, 忽略一致性</p>
+<p>传统数据库一般采用CA, HBase采用CP</p>
+<h4 id="Base理论"><a href="#Base理论" class="headerlink" title="Base理论"></a>Base理论</h4><p>Basically Avaible Soft state和Eventual consistency的简写, 缩写是BASE,即”碱” 与关系型数据库中的ACID(酸)对应</p>
+<ul>
+<li>基本可用: 部分出错不影响其他分区</li>
+<li>软状态: 状态可以有一定的滞后性</li>
+<li>最终一致性: 数据最终能到达一致</li>
+</ul>
+<h3 id="NewSQL"><a href="#NewSQL" class="headerlink" title="NewSQL"></a>NewSQL</h3><p>原有SQL无法满足各种新的业务场景的需求, 因此在不同的领域对SQL产生了一些分化. NewSQL是同时具备OldSQL和NoSQL数据库的优点. 既保证了事务一致性有保证了非常好的可扩展性.</p>
+<h3 id="MonogoDB数据库"><a href="#MonogoDB数据库" class="headerlink" title="MonogoDB数据库"></a>MonogoDB数据库</h3><p>MongoDB是文档数据库, 其中的值部分是二进制的JSON格式,称为BSON.<br>可以针对任何属性建立索引,从而可以依据值进行查询</p>
+<p>传统数据库术语与mongoDB数据库术语对应关系入下表所示</p>
+<table>
+<thead>
+<tr>
+<th>传统数据库</th>
+<th>MongoDB</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>database</td>
+<td>database</td>
+</tr>
+<tr>
+<td>table</td>
+<td>collection</td>
+</tr>
+<tr>
+<td>row</td>
+<td>document</td>
+</tr>
+<tr>
+<td>column</td>
+<td>field</td>
+</tr>
+<tr>
+<td>index</td>
+<td>index</td>
+</tr>
+</tbody></table>
+<p>注意:在MongoDB同一个集合的文档结构不需要相同,同名字段也不需要内容相同</p>
+<h2 id="数据仓库"><a href="#数据仓库" class="headerlink" title="数据仓库"></a>数据仓库</h2><p>数据仓库是一个面向主题的, 集成的, 相对稳定的, 反应历史变化的数据集合, 用于支持管理决策.</p>
+<h3 id="Hive"><a href="#Hive" class="headerlink" title="Hive"></a>Hive</h3><ul>
+<li>不提供存储</li>
+<li>只提供编程接口</li>
+<li>借助于HDFS和MadReduce完成数据存储和计算 </li>
+<li>使用HiveQL语言完成分析任务</li>
+</ul>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
+<li>Pig  主要用于数据的源的转换操作</li>
+<li>Hive 主要用于数据的批处理分析</li>
+</ul>
+<h3 id="与传统数据的区别"><a href="#与传统数据的区别" class="headerlink" title="与传统数据的区别"></a>与传统数据的区别</h3><ul>
+<li>Hive只支持数据的批量导入</li>
+<li>Hive不支持数据更新</li>
+<li>Hive执行延迟高,扩展性较好</li>
+</ul>
+<h3 id="Hive对外接口"><a href="#Hive对外接口" class="headerlink" title="Hive对外接口"></a>Hive对外接口</h3><ul>
+<li>CLI: 命令行工具</li>
+<li>HWI: Hive Web Interface, Hive的Web接口</li>
+<li>JDBC/ODBC: 开放数据库接口</li>
+<li>Thrift Server: 基于Thrift的接口</li>
+</ul>
+<h3 id="Impala"><a href="#Impala" class="headerlink" title="Impala"></a>Impala</h3><ul>
+<li>提供类似Hive的功能</li>
+<li>性能比Hive高3~30倍</li>
+<li>支持SQL查询</li>
+<li>不能独立运行,依赖Hive的元数据</li>
+<li>使用分布式查询引擎直接对HDFS或者HBase查询,而不需要进行转化</li>
+</ul>
+<h4 id="Impala系统架构"><a href="#Impala系统架构" class="headerlink" title="Impala系统架构"></a>Impala系统架构</h4><ul>
+<li>Impalad: 查询任务<ul>
+<li>Query Planner</li>
+<li>Query Coorddinator</li>
+<li>Query Exec Engine</li>
+</ul>
+</li>
+<li>State Store 元数据管理状态信息维护</li>
+<li> CLI 用户访问接口</li>
+</ul>
+<h2 id="Hadoop再探讨"><a href="#Hadoop再探讨" class="headerlink" title="Hadoop再探讨"></a>Hadoop再探讨</h2><h3 id="最初版本Hadoop的缺陷"><a href="#最初版本Hadoop的缺陷" class="headerlink" title="最初版本Hadoop的缺陷"></a>最初版本Hadoop的缺陷</h3><ul>
+<li>抽象层次低, 需要人工编码</li>
+<li>Map/Reduce表达能力有限</li>
+<li>需要开发者管理作业之间的关系</li>
+<li>无法看到整体的逻辑</li>
+<li>迭代执行效率低</li>
+<li>实时性差</li>
+</ul>
+<h3 id="Hadoop2-0的改进"><a href="#Hadoop2-0的改进" class="headerlink" title="Hadoop2.0的改进"></a>Hadoop2.0的改进</h3><ul>
+<li>设计HDFS HA, 提供名称节点的热备份机制</li>
+<li>设计HDFS Federation管理多个命名空间</li>
+<li>设计新的资源管理框架Yarn(Yet Another Resource Negotiator)</li>
+<li>使用Pig解决抽象层次低的问题</li>
+<li>使用Spark解决实时性差,迭代效率低的问题</li>
+<li>使用Ooize解决不同的作业协同问题</li>
+<li>使用Tez支持有向无环图的问题,减少重复操作</li>
+<li>使用Kafka进行分布式发布订阅消息,实现对各种组件的数据交换</li>
+</ul>
+<h3 id="HDFS-HA"><a href="#HDFS-HA" class="headerlink" title="HDFS HA"></a>HDFS HA</h3><!-- 架构图 -->
+
+<ul>
+<li>同时运行两个名称节点,一个处于活跃状态,一个处于待命状态</li>
+<li>使用Zookeeper协同两个节点的运行</li>
+<li>使用共享存储系统保持两个名称节点的数据(Editlog)同步</li>
+<li>底层的数据节点需要同时向两个名称节点同时汇报状态, 从而保证映射表信息的同步</li>
+</ul>
+<h3 id="HDFS-Federation"><a href="#HDFS-Federation" class="headerlink" title="HDFS Federation"></a>HDFS Federation</h3><ul>
+<li>支持同时运行多个名称节点,各名称节点独立工作</li>
+<li>通过挂载方式访问不同的命名空间</li>
+<li>解决了HDFS名称接待的扩展问题</li>
+<li>使用多个名称节点同时服务, 提高了系统的吞吐量</li>
+<li>多个名称节点为系统提供了良好的隔离性</li>
+<li>注意: 各名称节点是联盟关系, 因此不能解决单点故障的问题</li>
+</ul>
+<h3 id="Yarn"><a href="#Yarn" class="headerlink" title="Yarn"></a>Yarn</h3><h4 id="原有架构的缺陷"><a href="#原有架构的缺陷" class="headerlink" title="原有架构的缺陷"></a>原有架构的缺陷</h4><ul>
+<li>使用JobTracker进行管理, 存在单点故障</li>
+<li>由于JobTracker管理过多, 导致任务繁忙</li>
+<li>任务分配只考虑数量,容易内存溢出</li>
+<li>资源划分不合理, Map任务和Reduce任务的slot不可通用</li>
+</ul>
+<h4 id="Yarn设计思路"><a href="#Yarn设计思路" class="headerlink" title="Yarn设计思路"></a>Yarn设计思路</h4><p>对原有JobTracker功能拆分, Yarn作为纯粹的资源调度框架</p>
+<!-- 架构图 -->
+
+<h4 id="ResourceManager功能"><a href="#ResourceManager功能" class="headerlink" title="ResourceManager功能"></a>ResourceManager功能</h4><ul>
+<li>处理客户端请求</li>
+<li>监控NodeManager</li>
+<li>启动/监控ApplicationMaster</li>
+<li>资源分配与调度</li>
+</ul>
+<h4 id="ApplicationMaster"><a href="#ApplicationMaster" class="headerlink" title="ApplicationMaster"></a>ApplicationMaster</h4><ul>
+<li>为资源申请资源,分配内部任务</li>
+<li>任务调度,监控和容错</li>
+</ul>
+<h4 id="NodeManager"><a href="#NodeManager" class="headerlink" title="NodeManager"></a>NodeManager</h4><ul>
+<li>管理单个节点</li>
+<li>处理ResourceManager指令</li>
+<li>处理ApplicationMaster指令</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.icourse163.org/course/XMU-1002335004?tid=1002787005">中国大学MOOC &lt;&lt;大数据技术原理与应用&gt;&gt;</a></li>
+<li>DouglasEadline. 写给大忙人的Hadoop 2[M]. 电子工业出版社, 2016. </li>
+</ul>
+<p>本文内容主要是基于中国大学MOOC上厦门大学开设的&lt;&lt;大数据技术原理与应用&gt;&gt;课程. 该课程整合了很多资源, 因此相比于在网络查阅各种资料, 更加适合初学者学习.</p>
+<!-- 在上述内容的学习过程中, 发现Google的三大论文对于理解各种项目的架构有很大帮助, 推荐阅读 -->
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年06月26日 22:43</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/" title="大数据技术原理">https://lizec.top/2018/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2018/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/&title=《大数据技术原理》 — LiZeC的博客&pic=images/hadoop/hadoop.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2018/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/&title=《大数据技术原理》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2018/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《大数据技术原理》 — LiZeC的博客&url=https://lizec.top/2018/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2018/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2018/04/28/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/大数据/" class="color4">大数据</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="post-toc-text">概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BA%A7%E7%94%9F%E7%9A%84%E4%B8%89%E4%B8%AA%E9%98%B6%E6%AE%B5"><span class="post-toc-text">数据产生的三个阶段</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%9A%84%E7%89%B9%E5%BE%81"><span class="post-toc-text">大数据的特征</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%9A%84%E6%80%9D%E7%BB%B4%E6%96%B9%E5%BC%8F"><span class="post-toc-text">大数据的思维方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BA%91%E8%AE%A1%E7%AE%97"><span class="post-toc-text">云计算</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%9E%B6%E6%9E%84%E4%BB%8B%E7%BB%8D"><span class="post-toc-text">大数据处理架构介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Hadoop%E6%9E%B6%E6%9E%84"><span class="post-toc-text">Hadoop架构</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Hadoop%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE"><span class="post-toc-text">Hadoop安装与配置</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HDFS%E7%AE%80%E4%BB%8B"><span class="post-toc-text">HDFS简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="post-toc-text">核心概念</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#EditLog%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="post-toc-text">EditLog的作用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%AC%AC%E4%BA%8C%E5%90%8D%E7%A7%B0%E8%8A%82%E7%82%B9"><span class="post-toc-text">第二名称节点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HDFS-1-0%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7"><span class="post-toc-text">HDFS 1.0的局限性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HDFS%E5%AD%98%E5%82%A8%E6%9C%BA%E5%88%B6"><span class="post-toc-text">HDFS存储机制</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MapReduce%E7%BC%96%E7%A8%8B"><span class="post-toc-text">MapReduce编程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="post-toc-text">体系结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Client"><span class="post-toc-text">Client</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#JobTracker"><span class="post-toc-text">JobTracker</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#TaskTracker"><span class="post-toc-text">TaskTracker</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Task"><span class="post-toc-text">Task</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="post-toc-text">工作流程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%88%86%E7%89%87%E5%A4%A7%E5%B0%8F"><span class="post-toc-text">分片大小</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#map%E4%BB%BB%E5%8A%A1%E6%95%B0%E9%87%8F%E7%A1%AE%E5%AE%9A"><span class="post-toc-text">map任务数量确定</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#reduce%E4%BB%BB%E5%8A%A1%E6%95%B0%E9%87%8F%E7%A1%AE%E5%AE%9A"><span class="post-toc-text">reduce任务数量确定</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Shuffle%E8%BF%87%E7%A8%8B"><span class="post-toc-text">Shuffle过程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E6%B5%81%E5%8A%A8%E8%BF%87%E7%A8%8B"><span class="post-toc-text">数据流动过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Map%E7%AB%AF%E7%9A%84Shuffle%E8%BF%87%E7%A8%8B"><span class="post-toc-text">Map端的Shuffle过程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Reduce%E7%AB%AFShuffle%E8%BF%87%E7%A8%8B"><span class="post-toc-text">Reduce端Shuffle过程</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MapReduce%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="post-toc-text">MapReduce程序执行过程</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HBase%E7%AE%80%E4%BB%8B"><span class="post-toc-text">HBase简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BC%A0%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E9%97%AE%E9%A2%98"><span class="post-toc-text">传统数据库的问题</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HBase%E8%AE%BF%E9%97%AE%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">HBase访问接口</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HBase%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="post-toc-text">HBase数据模型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%95%88%E7%8E%87%E4%B8%8E%E8%A7%84%E8%8C%83%E5%8C%96"><span class="post-toc-text">效率与规范化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HBase%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84"><span class="post-toc-text">HBase系统结构</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HBase%E4%B8%89%E7%BA%A7%E8%AE%BF%E9%97%AE%E7%BB%93%E6%9E%84"><span class="post-toc-text">HBase三级访问结构</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B"><span class="post-toc-text">存储过程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HBase%E7%9A%84Shell%E6%8C%87%E4%BB%A4"><span class="post-toc-text">HBase的Shell指令</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#NoSQL%E7%AE%80%E4%BB%8B"><span class="post-toc-text">NoSQL简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#NoSQL%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8E%E4%BC%A0%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="post-toc-text">NoSQL数据库与传统数据库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#NoSQL%E7%89%B9%E7%82%B9"><span class="post-toc-text">NoSQL特点</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BC%A0%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="post-toc-text">传统数据库的缺陷</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#NoSQL%E5%85%B4%E8%B5%B7%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="post-toc-text">NoSQL兴起的原因</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Web2-0%E7%9A%84%E7%89%B9%E7%82%B9"><span class="post-toc-text">Web2.0的特点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#NoSQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E7%B1%BB"><span class="post-toc-text">NoSQL数据库分类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E9%94%AE%E5%80%BC%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="post-toc-text">键值数据库</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%88%97%E6%97%8F%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="post-toc-text">列族数据库</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%96%87%E6%A1%A3%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="post-toc-text">文档数据库</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%9B%BE%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="post-toc-text">图数据库</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#NoSQL%E4%B8%89%E5%A4%A7%E5%9F%BA%E7%9F%B3"><span class="post-toc-text">NoSQL三大基石</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#CAP%E7%90%86%E8%AE%BA"><span class="post-toc-text">CAP理论</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Base%E7%90%86%E8%AE%BA"><span class="post-toc-text">Base理论</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#NewSQL"><span class="post-toc-text">NewSQL</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MonogoDB%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="post-toc-text">MonogoDB数据库</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93"><span class="post-toc-text">数据仓库</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Hive"><span class="post-toc-text">Hive</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="post-toc-text">应用场景</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%8E%E4%BC%A0%E7%BB%9F%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="post-toc-text">与传统数据的区别</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Hive%E5%AF%B9%E5%A4%96%E6%8E%A5%E5%8F%A3"><span class="post-toc-text">Hive对外接口</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Impala"><span class="post-toc-text">Impala</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Impala%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84"><span class="post-toc-text">Impala系统架构</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Hadoop%E5%86%8D%E6%8E%A2%E8%AE%A8"><span class="post-toc-text">Hadoop再探讨</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9C%80%E5%88%9D%E7%89%88%E6%9C%ACHadoop%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="post-toc-text">最初版本Hadoop的缺陷</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Hadoop2-0%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="post-toc-text">Hadoop2.0的改进</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HDFS-HA"><span class="post-toc-text">HDFS HA</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HDFS-Federation"><span class="post-toc-text">HDFS Federation</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Yarn"><span class="post-toc-text">Yarn</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%8E%9F%E6%9C%89%E6%9E%B6%E6%9E%84%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="post-toc-text">原有架构的缺陷</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Yarn%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF"><span class="post-toc-text">Yarn设计思路</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ResourceManager%E5%8A%9F%E8%83%BD"><span class="post-toc-text">ResourceManager功能</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ApplicationMaster"><span class="post-toc-text">ApplicationMaster</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#NodeManager"><span class="post-toc-text">NodeManager</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="post-toc-text">参考资料</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/06/21/JavaWeb%E4%B9%8B%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          JavaWeb之环境配置
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/30/Markdown%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Markdown中插入数学公式</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Sat Apr 28 2018 14:23:42 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>深入理解JVM之内存与垃圾回收 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="运行时数据区 程序计数区这一部分和计算机结构中的程序计数器原理相同, 用于指示当前程序执行的指令位置. 程序计数器是线程私有的, 每个线程都具有一个独立的程序计数区. 虚拟机栈与本地方法栈与C语言一样, Java内存也可以大致分为栈和堆, 但Java的内存划分实际上更为细致. 对于栈空间, 处理有传统意义上的虚拟机栈以外, 还包括一个本地方法栈. 虚拟机栈保存了虚拟机在执行某个方法时需要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解JVM之内存与垃圾回收">
+<meta property="og:url" content="https://lizec.top/2020/10/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E4%B9%8B%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="运行时数据区 程序计数区这一部分和计算机结构中的程序计数器原理相同, 用于指示当前程序执行的指令位置. 程序计数器是线程私有的, 每个线程都具有一个独立的程序计数区. 虚拟机栈与本地方法栈与C语言一样, Java内存也可以大致分为栈和堆, 但Java的内存划分实际上更为细致. 对于栈空间, 处理有传统意义上的虚拟机栈以外, 还包括一个本地方法栈. 虚拟机栈保存了虚拟机在执行某个方法时需要">
+<meta property="og:locale">
+<meta property="og:image" content="https://lizec.top/images/jvm/runtimeStruct.png">
+<meta property="og:image" content="https://lizec.top/images/jvm/GC.jpg">
+<meta property="article:published_time" content="2020-10-17T07:40:01.000Z">
+<meta property="article:modified_time" content="2020-11-18T14:24:49.000Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lizec.top/images/jvm/runtimeStruct.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-深入理解JVM之内存与垃圾回收" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      深入理解JVM之内存与垃圾回收
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/深入理解JVM/">深入理解JVM</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2020-10-17
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script>
+
+
+
+
+<h2 id="运行时数据区"><a href="#运行时数据区" class="headerlink" title="运行时数据区"></a>运行时数据区</h2><p><img src="/images/jvm/runtimeStruct.png" alt="Java虚拟机运行时数据区"></p>
+<h3 id="程序计数区"><a href="#程序计数区" class="headerlink" title="程序计数区"></a>程序计数区</h3><p>这一部分和计算机结构中的程序计数器原理相同, 用于指示当前程序执行的指令位置. 程序计数器是线程私有的, 每个线程都具有一个独立的程序计数区.</p>
+<h3 id="虚拟机栈与本地方法栈"><a href="#虚拟机栈与本地方法栈" class="headerlink" title="虚拟机栈与本地方法栈"></a>虚拟机栈与本地方法栈</h3><p>与C语言一样, Java内存也可以大致分为<code>栈</code>和<code>堆</code>, 但Java的内存划分实际上更为细致. 对于栈空间, 处理有传统意义上的<strong>虚拟机栈</strong>以外, 还包括一个<strong>本地方法栈</strong>. 虚拟机栈保存了虚拟机在执行某个方法时需要的局部变量表, 操作数栈, 动态链接和方法出口等信息. 具体的栈帧接口在后面会有详细介绍.</p>
+<p>虚拟机栈中的局部变量表保存了编译期可知的各种基本信息, 包括各个变量的类型, 引用的对象的地址(可能是指针, 也可能是句柄)和方法的返回地址. 这些数据类型在局部变量表中的存储空间以局部变量槽（Slot）来表示, long和double类型的数据占用两个Slot, 其他类型的数据占用一个Slot(每个Slot对应多少内存空间是JVM实现自己决定的)</p>
+<p>对于虚拟机栈, 定义了两种内存异常. 如果线程请求的栈深度大于虚拟机运行的最大深度, 就会抛出StackOverflowError异常. 如果Java虚拟机栈容量可以动态扩展, 但内存耗尽, 则抛出OutOfMemoryError异常.</p>
+<blockquote>
+<p>HotSpot虚拟机的栈容量是不可以动态扩展, 因此只要栈空间申请成功就不会抛出OutOfMemoryError异常.</p>
+</blockquote>
+<p>本地方法栈与虚拟机栈类似, 也定义了就会抛出StackOverflowError异常和OutOfMemoryError异常.</p>
+<h3 id="Java堆"><a href="#Java堆" class="headerlink" title="Java堆"></a>Java堆</h3><p><strong>Java堆</strong>主要存放创建的对象和数据, 几乎所有对象都在堆上分配. 但由于逃逸分析技术的日渐强大, 也存在栈上分配和标量替换等技术, 使得对象没有在堆上分配.</p>
+<p>多年以前, Java的垃圾收集器都采用了分代回收算法, 因此Java堆可以细分为新生代和老年代. 但现在垃圾收集器已经有了很大的变化, 已经存在不使用分代算法的垃圾收集器. 因此堆内存不再可以简单的划分为新生代和老年代了.</p>
+<p>Java虚拟机的堆可以是固定大小的, 也可以是可扩展的. 不过目前主流的Java虚拟机都是按照可扩展实现的. 如果需要分配新的对象且堆无法扩展, 则虚拟机抛出OutOfMemoryError异常.</p>
+<p>在内存分配方面, Java堆是所有线程共享的区域, 但为了提高分配效率, Java堆中也存在线程私有的分配缓冲区.</p>
+<h3 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h3><p><strong>方法区</strong>是所有线程共享的区域, 存储了已经被虚拟机加载的类型信息, 常量, 静态变量, JIT编译的代码等数据. 根据Java虚拟机规范, 方法区在逻辑上应该是堆的一部分, 但它却有一个别名叫作”非堆”(Non-Heap), 其实质上与堆是不同的内存空间.</p>
+<p>在以前, Java程序员习惯将方法区称为永久代, 因为HotSpot虚拟机将垃圾回收扩展到方法区, 并使用永久代来管理方法区的内存. 但这种设计存在一些问题, 使得Java应用更容易遇到内存溢出的问题. 因此在JDK8之后, 就放弃了永久代的概念, 改用使用本地内存中实现的元空间(Metaspace)来代替.</p>
+<p>如果方法区无法满足新的内存分配要求, 则会抛出utOfMemoryError异常.</p>
+<hr>
+<p><strong>运行时常量池</strong>是方法区的一部分, 对应了Class文件中的常量池. 但Java语言中并非在编译时确定值的变量才是常量, 在运行时也可以产生常量, 因此运行时常量池可以在运行时动态的添加常量的特性使得Java语言的这一特性得以实现. 常见的产生运行时常量的方法是<code>String.intern</code>方法.</p>
+<h3 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h3><p>直接内存不是虚拟机运行时数据区的一部分, 也不是Java虚拟机规范规定的内存区域. </p>
+<p>在JDK1.4中引入了NIO类, 引入了基于通道与缓冲区的I/O方式, 可以使用Native方法直接分配的堆外内存, 然后通过存储在Java堆中的对象对这块内存进行操作. 这样能在一些场景中避免在Java堆和Native堆中来回复制数据.</p>
+<p>这一部分内存不会受到虚拟机内存总量的限制, 但会受到物理机器的总内存限制. 设置内存参数时, 如果忽略了直接内存, 则可能导致总内存操作物理内存的限制, 从而导致OutOfMemoryError.</p>
+<h2 id="HotSpot对象"><a href="#HotSpot对象" class="headerlink" title="HotSpot对象"></a>HotSpot对象</h2><h3 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h3><p>Java虚拟机在遇到一个new指令时,  首先需要检查需要创建的类是否能在常量池找到定义, 对应的类是否被加载. 如果没有没加载就先执行类加载过程. 完成类加载过程后, 虚拟机为对象分配内存空间. 根据不同的内存分配算法, 分配内存空间的过程可能是简单的移动一个指针, 也可能是根据空闲列表选择一个合适的区域. </p>
+<p>由于创建对象是一个高频操作, 因此虚拟机需要考虑创建对象的线程安全问题. 这也有两种方案. 第一种方案是使用CAS操作保证更新是一个原子操作, 第二种方案是给每个线程在Java堆中预先分配一部分内存, 只有预先分配的内存用完之后才进行同步锁定. </p>
+<p>内存分配完成后, Java虚拟机需要将分配的内存空间全部置零, 从而使得实例的字段即使没有初始化也有正确的零值. 接下来Java虚拟机填充对象头, 包括这个对象是哪个类的实例, 如何找到类的元数据, 对象的哈希吗以及GC年龄信息等内容.</p>
+<p>完成上面的工作后, 从虚拟机的角度看, 一个对象已经创建了. 但从Java语言的角度看, 这才是刚刚开始. 接下来虚拟机需要调用对象的构造函数即Class文件中的<code>&lt;init&gt;()</code>方法. 执行完此方法后, 才算是从Java语言的角度完成了对象的创建工作. </p>
+<h3 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h3><p>在HotSpot虚拟机中, Java对象的内存布局可以划分为三个部分, 即对象头, 实例数据和对齐填充.</p>
+<p>对象头中包含两类信息, 第一类是存储对象自身的运行时数据, 包括哈希吗, GC分代年龄,  锁状态标志, 线程持有的锁等, 这部分数据的长度在32位虚拟机和64位虚拟机上的长度分别为32bit和64bit. 但因为需要存储的数据很多, 已经超过了能够记录的最大数据量, 因此实际上这部分内存会根据不同的状态存储不同的值.</p>
+<p>对象头中的另一部分是类型指针, 此指针指向了此对象的类型元数据, 从而Java虚拟机能够得知这块内存对应的实例是那种类型. 但并非所有的虚拟机都以这种方案获取对象的元数据.</p>
+<p>此外, 如果是数组类型, 对象头中还包括了数组的长度信息.</p>
+<hr>
+<p>实例数据部分存储的就是在Java语言层面上定义的各种成员变量. 通常按照先父类变量再子类变量的方式排布成员变量, 但如果开启压缩字段功能, 那么也运行将子类中较窄的变量插入到父类变量的空隙之间.</p>
+<hr>
+<p>最后是对齐填充, HotSpot虚拟机对象的内存必须是8字节的整数倍, 因此如果不满足要求时, 将会填充一些额外的字节.</p>
+<h3 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h3><p>Java虚拟机规范只规定了通过引用获得对象, 但如何实现引用并没有规定. 因此有句柄和直接指针两种实现方式. 如果使用句柄, 那么内存中可能会划分出一部分空间作为句柄池, 句柄中存储对象的具体地址和类型信息, Java栈通过引用句柄来间接引用对象. 如果使用直接指针, 那么所有的引用就都直接是对象的具体地址, 此时就要考虑如何存储对象的类型信息.</p>
+<p>使用句柄的好处是所有的引用都通过句柄间接引用, 因此可以直接修改对象的地址. 移动对象在垃圾回收过程中很常见. 但使用句柄导致访问对象要经过多次寻址, 这对于程序的性能可能有较多的影响.</p>
+<h2 id="垃圾收集概述"><a href="#垃圾收集概述" class="headerlink" title="垃圾收集概述"></a>垃圾收集概述</h2><h3 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h3><p>Java中定义了四种不同的应用类型, 各种类型和相应的含义如下表所示</p>
+<table>
+<thead>
+<tr>
+<th>引用类型</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>强引用</td>
+<td>传统的引用, 只要存在强引用就不会被回收</td>
+</tr>
+<tr>
+<td>软引用</td>
+<td>当内存不足时, 虚拟机回收只有软引用对象</td>
+</tr>
+<tr>
+<td>弱引用</td>
+<td>无论是否内存不足, 虚拟机都会回收只有弱引用的对象</td>
+</tr>
+<tr>
+<td>虚引用</td>
+<td>虚引用的存在不影响对象的生命周期, 仅用于对象被回收是收到系统通知</td>
+</tr>
+</tbody></table>
+<h3 id="分代收集理论"><a href="#分代收集理论" class="headerlink" title="分代收集理论"></a>分代收集理论</h3><p>当代的商业虚拟机垃圾收集器大都遵守分代收集理论, 即</p>
+<blockquote>
+<ol>
+<li>弱分代假说: 绝大多数对象都是朝生夕灭的</li>
+<li>强分代假说: 熬过越多次垃圾收集过程的对象就越难以消亡</li>
+</ol>
+</blockquote>
+<p>根据上面的分代假设, Java虚拟机可以将内存划分为新生代和老年代. 其中新生代的对象大部分都是新创建的, 而经过足够多次垃圾回收后仍存活的对象进入老年代. Java虚拟机可以以不同的评率扫描新生代和老年代, 从而获得更好的收集效果.</p>
+<p>虽然分代可以使虚拟机针对某一个区域进行垃圾收集, 但这里存在一个跨代引用的问题, 即老年代可能对新生代有引用, 而如果进扫描新生代来判断是否有引用则会导致错误. 针对这一问题, 可以引入第三个假设, 即</p>
+<blockquote>
+<ol start="3">
+<li>跨代引用假说: 跨代引用相对于同代引用来说仅占极少数</li>
+</ol>
+</blockquote>
+<p>一般情况下, 相互引用的对象应该具有相似的GC年龄, 从而一同进入老年代, 只有少量的对象存在跨代引用. 因此针对少量的跨代引用, 可以通过引入额外的数据结构(记忆集, Remembered Set)来避免对整个老年代的扫描.</p>
+<p>记忆集将老年代划分为若干小区域, 每个区域有一个标志位指示此区域内的对象有没有跨代引用. 从而在后续的扫描时, 只需要扫描少量有标记的区域中的对象.</p>
+<h3 id="标记清除算法"><a href="#标记清除算法" class="headerlink" title="标记清除算法"></a>标记清除算法</h3><p>标记清除算法首先标记对象的可达性, 然后直接原地清除不可达对象. 整个过程不需要移动任何对象, 但会产生空间碎片. 空间碎片过多可能导致大对象无法分配, 进而触发又一次的垃圾回收动作.</p>
+<h3 id="标记复制算法"><a href="#标记复制算法" class="headerlink" title="标记复制算法"></a>标记复制算法</h3><p>标记复制算法首先将内存分割为两个相等大小的区域, 每次只使用其中的一个区域. 在进行垃圾回收时, 标记复制算法首先标记对象的可达性, 然后将存活的对象直接复制到另一个区域之中, 最后直接情况原区域的内存.</p>
+<p>由于存在一个复制过程, 因此可以保证垃圾收集以后的内存是规整的, 但复制过程需要改变对象的地址, 因此可能需要调整对象引用的值. 根据弱分代假说, 如果收集时大部分对象都是死亡的, 那么复制导致的影响可以接受.</p>
+<p>在具体的实现时, 不一定需要划分为两个等大的区域, 而是可以划分一个较大的Eden区域和两个较小的Survivor区域. 每次只使用Eden区域和其中的一个Survivor区域. 在清理的时候直接把存活对象都复制到另外一个Survivor区域. HotSpot虚拟机默认Eden和Survivor的大小比例是8:1, 即Eden区域占80%的空间, 两个Survivor区域各占10%的空间.</p>
+<hr>
+<p>如果按照Eden和Survivor的模式进行划分, 存在一定概率出现存活的对象较多, 一个Survivor区域无法存放的情况. 这种情况下就会出现<strong>分配担保</strong>, 即让一部分存活对象直接进入老年代.</p>
+<h3 id="标记整理方法"><a href="#标记整理方法" class="headerlink" title="标记整理方法"></a>标记整理方法</h3><p>标记复制算法虽然可以避免空间碎片, 但当大部分对象都是存活状态时, 复制操作的代价较大, 而且如果不使用等大的两块内存空间, 就可能出现需要分配担保的情况. 因此老年代一般不使用标记复制算法. </p>
+<p>标记整理方法的初始步骤与标记清除方法一致, 但后续步骤不是直接对可回收对象进行清理, 而是让所有存活的对象都向内存空间一端移动, 然后直接清理掉边界以外的内存. 这个过程有点类似磁盘的<strong>碎片整理</strong>过程.</p>
+<p>虽然移动存活对象可以避免空间碎片, 但也导致虚拟机需要更新引用值. 老年代中的对象大部分都是存货的, 因此更新地址值的代价也很大, 垃圾回收器需要仔细的衡量空间碎片和更新地址的代价.</p>
+<h2 id="HotSpot算法实现细节"><a href="#HotSpot算法实现细节" class="headerlink" title="HotSpot算法实现细节"></a>HotSpot算法实现细节</h2><h3 id="根节点枚举"><a href="#根节点枚举" class="headerlink" title="根节点枚举"></a>根节点枚举</h3><p>垃圾回收的第一步是获得GC Root, 从而后续可以通过GC Root遍历引用关系来寻找所有的可达对象.</p>
+<h3 id="安全点与安全区域"><a href="#安全点与安全区域" class="headerlink" title="安全点与安全区域"></a>安全点与安全区域</h3><p>垃圾收集器并不能随意的暂停用户的进程. 用户进程可以被垃圾收集器暂停的地方称为安全点. 设置安全点有性能开销, 因此虚拟机只会在方法调用, 循环跳转, 异常跳转等位置设置安全点.</p>
+<p>当垃圾收集器希望用户进程暂停时, 一般会设置一个标志位, 然后等待用户线程自己检查是否需要暂停, 并自己主动挂起.</p>
+<hr>
+<p>安全区域是一段代码区域, 其中引用关系不会发生变化, 从而在这个区域的任何位置开始垃圾收集都是安全的. 当线程进入安全区域时, 设置一个标志位, 从而当垃圾收集器进行根节点枚举时, 直接忽略这些线程. 当这些线程离开安全区时, 会检查是否完成了根节点枚举, 如果没有完成就等待根节点枚举完成后再继续执行. 否则就可以当做什么事情都没有发生, 继续正常执行.</p>
+<h3 id="记忆集与卡表"><a href="#记忆集与卡表" class="headerlink" title="记忆集与卡表"></a>记忆集与卡表</h3><p>记忆集从逻辑上只需要能够记录是否有跨代引用即可, 在实现上可以以不同的粒度进行实现. 其中以内存块为粒度的实现称为卡表. 这一实现类似操作系统的分页机制, 将内存分成不同的内存块, 每一块称为一个卡页. 记忆集中保存每个卡页是否有跨代引用.</p>
+<h3 id="写屏障"><a href="#写屏障" class="headerlink" title="写屏障"></a>写屏障</h3><p>虽然记忆集可以缩小搜索范围, 但是维护记忆集又需要引入额外的计算. 针对维护问题, HotSpot虚拟机引入了写屏障技术. 写屏障可以理解为对引用类型字段赋值的AOP切面. 虚拟机能够在赋值操作的前后执行需要的代码. 对卡表的维护就可以通过写屏障在每次赋值的时候进行维护.</p>
+<p>虽然使用写屏障导致每次赋值都存在一些额外的开销, 但相比于Mirror GC需要扫描整个老年代的开销还是小很多了.</p>
+<hr>
+<p>虽然写屏障能够更新卡表, 但由于CPU的缓存机制, 卡表存在伪共享问题. 一般情况下, CPU会一次读取一行数据(64字节)并放入缓存之中, 而卡表的一个元素只有一个字节, 因此有可能64个卡表元素在一个缓存行. 在多核情况下, 一个CPU对某一行数据进行修改会导致其他CPU中的该行缓存数据失效, 从而强制其他CPU重新获取该行数据, 这将导致多线程下对卡表的更新性能下降. </p>
+<p>为了避免这一问题, 可以在写卡表之前先检查对应的元素是否被标记了, 只有需要更新的时候才对卡表进行写入. 不过这又会引入一次额外的判断,  因此虽然避免了伪共享的问题, 但也有性能损耗. 可以通过JVM参数控制是否需要开启写入前判断的功能.</p>
+<p>-<a target="_blank" rel="noopener" href="https://juejin.im/post/6844903841964507150">杂谈 什么是伪共享（false sharing）？</a></p>
+<h3 id="并发的可达性分析"><a href="#并发的可达性分析" class="headerlink" title="并发的可达性分析"></a>并发的可达性分析</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34687559/article/details/105795213">JVM学习 并发可达性分析详解</a></li>
+</ul>
+<h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p><img src="/images/jvm/GC.jpg" alt="image"></p>
+<p>经典的七种引用于不同的分代的垃圾收集器如上图所示.</p>
+<h3 id="Serial系列收集器"><a href="#Serial系列收集器" class="headerlink" title="Serial系列收集器"></a>Serial系列收集器</h3><p>Serial / Serial Old收集器如同其名称这样, 是线性的垃圾收集器, 两者分别应用于新生代和老年代. 新生代采取标记-复制算法, 老年代采取标记-整理算法. 在执行垃圾收集的过程时, 都需要暂停所有的用户进程.</p>
+<p>虽然现在已经有很多其他更为复杂的垃圾收集器, 但Serial系列的收集器具有实现简单, 内存占用少, 单核性能高的优势, 因此在资源受限的环境下还是有很好的效果.</p>
+<h3 id="ParNew收集器"><a href="#ParNew收集器" class="headerlink" title="ParNew收集器"></a>ParNew收集器</h3><p>ParNew收集器是Serial收集器的多线程版本. 收集过程中还是需要暂停用户线程, 但收集过程新生代时会使用多条GC线程同时收集.</p>
+<p>ParNew收集器并没有太多创新, 但在JDK9以后, 就只能和CMS收集器搭配使用了, 可以将ParNew收集器视为CMS收集器的新生代部分了.</p>
+<h3 id="Parallel-Scavenger收集器"><a href="#Parallel-Scavenger收集器" class="headerlink" title="Parallel Scavenger收集器"></a>Parallel Scavenger收集器</h3><p>Parallel Scavenger收集器也是基于标记复制的多线程并行收集器, 与ParNew收集的特性非常相似. 但Parallel Scavenger收集器更关注于吞吐量. </p>
+<p>$$吞吐量=\frac{运行用户代码时间}{运行用户代码时间+运行垃圾收集时间}$$ </p>
+<p>停顿时间段可以保证服务的相应时间, 提高用户体验. 而吞吐量高能够最高效率的利用服务器资源, 因此适合在后台计算不需要太多交互的任务.</p>
+<p>Parallel Scavenger收集器能够明确的指定最大停顿时间和吞吐量比例, 并且支持给定一个参数后由虚拟机根据运行情况决定另外一个参数的值.</p>
+<h3 id="Parallel-Old收集器"><a href="#Parallel-Old收集器" class="headerlink" title="Parallel Old收集器"></a>Parallel Old收集器</h3><p>Parallel Old收集器是Parallel Scavenger收集器的老年代版本. 采用多线程收集和标记-整理算法. 在Parallel Old收集器出现之前, Parallel Scavenger收集器只能和Serial Old收集器搭配, 在服务器端的多核环境中, Serial Old拖累了整个垃圾收集的效率, 因此吞吐量可能还不如ParNew和CMS的组合.</p>
+<h3 id="CMS收集器"><a href="#CMS收集器" class="headerlink" title="CMS收集器"></a>CMS收集器</h3><p>CMS(Concurrent Mark Sweep)收集器是以最短回收停顿时间为目标的收集器. 正如名字的含义, CMS收集器使用标记-清除算法且具有并发收集的特性. CMS收集器的运行过程可以分为四个步骤</p>
+<table>
+<thead>
+<tr>
+<th>步骤名称</th>
+<th>是否暂停用户线程</th>
+<th>相对耗时</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>初始标记</td>
+<td>是</td>
+<td>较短</td>
+</tr>
+<tr>
+<td>并发标记</td>
+<td>否</td>
+<td>较长</td>
+</tr>
+<tr>
+<td>重新标记</td>
+<td>是</td>
+<td>较短</td>
+</tr>
+<tr>
+<td>并发清除</td>
+<td>否</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>其中初始标记和重新标记阶段需要暂停用户线程, 其他阶段可以与用户线程并发执行. </p>
+<p>初始标记节点仅标记CG Root可以直接关联的对象, 速度很快. 并发标记节点与用户线程一同并发的标记其他可达对象, 这一操作的用时较长. 重新标记阶段修正并发标记阶段用户改变的一些引用关系(采用增量更新), 这一阶段需要重新标记的对象较少, 因此耗时也与并发标记阶段耗时更短. 最后的并发清除阶段因为不需要移动对象, 因此也可以和用户进程一同运行.</p>
+<p>CMS收集器具有低停顿, 并发收集的特点, 但也存在三个明显的缺点</p>
+<ol>
+<li>对CPU资源敏感, 与用户进程并行执行时会导致用户进程执行时间变长</li>
+<li>无法处理浮动垃圾, 即垃圾收集过程中新产生的垃圾</li>
+<li>标记-清除算法会导致内存碎片</li>
+</ol>
+<h3 id="Garbage-First收集器"><a href="#Garbage-First收集器" class="headerlink" title="Garbage First收集器"></a>Garbage First收集器</h3><p>Garbage First(G1)收集器与以往的分代收集器不同, G1收集器采取Region布局, 对象局部收集的思路. G1收集器可以对每个Region分析收集价值, 每次都先收集价值最高的Region, 并且对收集时间进行建模预测, 从而能够保证每次的收集时间都少于一个给定的值.</p>
+<p>G1虽然保留新生代和老年代的概念, 但此时的新生代和老年代不再需要是连续的内存空间, 任何一个Region都可以是新生代或者老年代.</p>
+<p>由于每个Region都可以是老年代, 因此G1收集器需要维护一个更复杂的记忆集, 记录所有Region之间的引用关系. 这导致G1收集器需要额外消耗大约10%到20%的内存空间来维护这些信息.</p>
+<p>G1收集器的并发标记节点采用原始快照实现与用户进程并发执行.因此在此过程中创建的新对象都会直接分配到一个指定的区域, 并且均视为存活对象. 如果回收速度赶不上垃圾产生的速度, 那么G1收集器就要被迫暂停用户进行执行Full GC.</p>
+<p>G1收集器的过程与CMS收集器差不多, 但最后的清理阶段G1将Region中存活的对象复制到新的Region之中. G1收集器与CMS收集器相比具有优势, 但也存在内存消耗更大, CPU性能消耗更多的问题. 一般认为在更大的Java堆上(大约6~8GB)G1收集器能获得更好的效果.</p>
+<h3 id="Shenandoah收集器"><a href="#Shenandoah收集器" class="headerlink" title="Shenandoah收集器"></a>Shenandoah收集器</h3><p>Shenandoah是以低延迟为目标的收集器, 几乎可以在任意的堆大小上做到固定的停顿时间. Shenandoah的布局与G1非常相似, 可以视为对G1收集器的改进. Shenandoah的改进包括</p>
+<ol>
+<li>使用连接矩阵代替记忆集, 连接矩阵以Region为单位记录引用关系</li>
+<li>引入读屏障和Brooks Pointers解决并发移动对象的问题</li>
+</ol>
+<h3 id="ZCG"><a href="#ZCG" class="headerlink" title="ZCG"></a>ZCG</h3><p>ZGC也是以低延迟为目标的收集器, 也采取和G1类似的Region布局, 由于当前还处于开发阶段, 因此不支持分代. ZGC采用染色指针和转发表实现在不暂停用户进程的同时移动对象.</p>
+<p>ZGC的主要特点是将对象的状态信息记录到引用这个对象的指针之中. ZGC可以大致分为四个阶段:</p>
+<p><strong>并发标记</strong>: 此阶段与G1类似, 包括初始标记, 并发标记和重新标记三个阶段, 具体操作和停顿原因都和G1一致.</p>
+<p><strong>并发预备重分配</strong>: 通过规则判断哪些Region要回收. ZGC目前不进行分代, 因此不需要记忆集, 但因此也需要扫描更多内存空间.</p>
+<p><strong>并发重分配</strong>: 移动Region中存活的对象, 并维护一个转发表. 由于染色指针的标记, ZCG可以根据指针判断一个对象是否被重分配. 如果对象被重分配, 则通过内存屏障截获请求并通过转发表返回新的对象地址并更新此指针的值. 此后再通过此指针即可直接访问最新的对象, 这一特性也称为<strong>指针的自愈</strong></p>
+<p><strong>并发重映射</strong>: 此阶段修正指向就对象的指针. 由于指针可以自愈, 因此这一操作并不紧急, 被ZGC合并到了并发标记阶段, 从而节省一次遍历对象图的操作.</p>
+<p>ZGC的主要问题是没有采取分代的设计, 导致新生对象不能单独以一个较高的速率进行处理. 由于整个垃圾回收过程是并行执行的, 一次垃圾回收可能需要一段较长的时间, 这段时间产生的浮动垃圾都无法有效的收集.</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年11月18日 22:24</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2020/10/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E4%B9%8B%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" title="深入理解JVM之内存与垃圾回收">https://lizec.top/2020/10/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E4%B9%8B%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2020/10/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E4%B9%8B%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/&title=《深入理解JVM之内存与垃圾回收》 — LiZeC的博客&pic=images/JVM.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2020/10/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E4%B9%8B%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/&title=《深入理解JVM之内存与垃圾回收》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2020/10/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E4%B9%8B%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《深入理解JVM之内存与垃圾回收》 — LiZeC的博客&url=https://lizec.top/2020/10/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E4%B9%8B%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2020/10/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E4%B9%8B%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2020/10/17/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E4%B9%8B%E5%86%85%E5%AD%98%E4%B8%8E%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Java/" class="color5">Java</a>
+      
+    <a href="/tags/JVM/" class="color4">JVM</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA"><span class="post-toc-text">运行时数据区</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%8C%BA"><span class="post-toc-text">程序计数区</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88%E4%B8%8E%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="post-toc-text">虚拟机栈与本地方法栈</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Java%E5%A0%86"><span class="post-toc-text">Java堆</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="post-toc-text">方法区</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98"><span class="post-toc-text">直接内存</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HotSpot%E5%AF%B9%E8%B1%A1"><span class="post-toc-text">HotSpot对象</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="post-toc-text">对象的创建</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="post-toc-text">对象的内存布局</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BF%E9%97%AE%E5%AE%9A%E4%BD%8D"><span class="post-toc-text">对象的访问定位</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E6%A6%82%E8%BF%B0"><span class="post-toc-text">垃圾收集概述</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">引用类型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86%E7%90%86%E8%AE%BA"><span class="post-toc-text">分代收集理论</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95"><span class="post-toc-text">标记清除算法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A0%87%E8%AE%B0%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="post-toc-text">标记复制算法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86%E6%96%B9%E6%B3%95"><span class="post-toc-text">标记整理方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HotSpot%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82"><span class="post-toc-text">HotSpot算法实现细节</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A0%B9%E8%8A%82%E7%82%B9%E6%9E%9A%E4%B8%BE"><span class="post-toc-text">根节点枚举</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AE%89%E5%85%A8%E7%82%B9%E4%B8%8E%E5%AE%89%E5%85%A8%E5%8C%BA%E5%9F%9F"><span class="post-toc-text">安全点与安全区域</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%AE%B0%E5%BF%86%E9%9B%86%E4%B8%8E%E5%8D%A1%E8%A1%A8"><span class="post-toc-text">记忆集与卡表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%86%99%E5%B1%8F%E9%9A%9C"><span class="post-toc-text">写屏障</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B9%B6%E5%8F%91%E7%9A%84%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90"><span class="post-toc-text">并发的可达性分析</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="post-toc-text">垃圾收集器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Serial%E7%B3%BB%E5%88%97%E6%94%B6%E9%9B%86%E5%99%A8"><span class="post-toc-text">Serial系列收集器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ParNew%E6%94%B6%E9%9B%86%E5%99%A8"><span class="post-toc-text">ParNew收集器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Parallel-Scavenger%E6%94%B6%E9%9B%86%E5%99%A8"><span class="post-toc-text">Parallel Scavenger收集器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Parallel-Old%E6%94%B6%E9%9B%86%E5%99%A8"><span class="post-toc-text">Parallel Old收集器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CMS%E6%94%B6%E9%9B%86%E5%99%A8"><span class="post-toc-text">CMS收集器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Garbage-First%E6%94%B6%E9%9B%86%E5%99%A8"><span class="post-toc-text">Garbage First收集器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Shenandoah%E6%94%B6%E9%9B%86%E5%99%A8"><span class="post-toc-text">Shenandoah收集器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ZCG"><span class="post-toc-text">ZCG</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2020/10/21/Wireshark%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Wireshark数据分析笔记
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2020/08/10/CSAPP%E7%AC%94%E8%AE%B0%E4%B9%8B%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">CSAPP笔记之汇编语言</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Sat Oct 17 2020 15:40:01 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Python笔记之高阶技巧 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="本文主要介绍一些Python中的高级技巧, 从而使我们的代码更加pythonic. 本文的主要内容来自《Python Cookbook》3rd Edition, 可以访问python3-cookbook查看中文翻译版本. 基础与数据结构星号表达式Python可以将一个集合拆开赋值给多个变量, 如果涉及的变量比较多, 也可以使用*表示匹配任意多个字段, 例如 123first, *middle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python笔记之高阶技巧">
+<meta property="og:url" content="https://lizec.top/2021/06/02/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E9%AB%98%E9%98%B6%E6%8A%80%E5%B7%A7/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="本文主要介绍一些Python中的高级技巧, 从而使我们的代码更加pythonic. 本文的主要内容来自《Python Cookbook》3rd Edition, 可以访问python3-cookbook查看中文翻译版本. 基础与数据结构星号表达式Python可以将一个集合拆开赋值给多个变量, 如果涉及的变量比较多, 也可以使用*表示匹配任意多个字段, 例如 123first, *middle">
+<meta property="og:locale">
+<meta property="article:published_time" content="2021-06-02T02:50:07.000Z">
+<meta property="article:modified_time" content="2021-06-27T00:36:08.710Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Python笔记之高阶技巧" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Python笔记之高阶技巧
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Python笔记/">Python笔记</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2021-06-02
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script> -->
+
+
+<p>本文主要介绍一些Python中的高级技巧, 从而使我们的代码更加pythonic. 本文的主要内容来自《Python Cookbook》3rd Edition, 可以访问<a target="_blank" rel="noopener" href="https://python3-cookbook.readthedocs.io/zh_CN/latest/preface.html">python3-cookbook</a>查看中文翻译版本.</p>
+<h2 id="基础与数据结构"><a href="#基础与数据结构" class="headerlink" title="基础与数据结构"></a>基础与数据结构</h2><h3 id="星号表达式"><a href="#星号表达式" class="headerlink" title="星号表达式"></a>星号表达式</h3><p>Python可以将一个集合拆开赋值给多个变量, 如果涉及的变量比较多, 也可以使用*表示匹配任意多个字段, 例如</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">first, *middle, last = grades   <span class="comment"># 将成绩的第一个数据和最后一个数据取出, 其他数据存放在middle之中</span></span><br><span class="line">record = (<span class="string">&#x27;Dave&#x27;</span>, <span class="string">&#x27;dave@example.com&#x27;</span>, <span class="string">&#x27;773-555-1212&#x27;</span>, <span class="string">&#x27;847-555-1212&#x27;</span>)</span><br><span class="line">name, email, *phone_numbers = record    <span class="comment"># 将剩余的字段复制给phone_numbers</span></span><br></pre></td></tr></table></figure>
+
+<p>使用*表达式产生的字段必然是列表类型, 而且这个字段允许匹配0个数据. 因此可以始终按照集合类型处理这些字段, 而不必考虑空值问题.</p>
+<h3 id="字典的键映射多个值"><a href="#字典的键映射多个值" class="headerlink" title="字典的键映射多个值"></a>字典的键映射多个值</h3><p>解决方案: 将list或者set作为字典的值. 为了方便使用, 可以使用<code>collections</code>模块中的<code>defaultdict</code></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"></span><br><span class="line">d = defaultdict(<span class="built_in">list</span>)</span><br><span class="line">d[<span class="string">&#x27;a&#x27;</span>].append(<span class="number">1</span>)</span><br><span class="line">d[<span class="string">&#x27;a&#x27;</span>].append(<span class="number">2</span>)</span><br><span class="line">d[<span class="string">&#x27;b&#x27;</span>].append(<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">d = defaultdict(<span class="built_in">set</span>)</span><br><span class="line">d[<span class="string">&#x27;a&#x27;</span>].add(<span class="number">1</span>)</span><br><span class="line">d[<span class="string">&#x27;a&#x27;</span>].add(<span class="number">2</span>)</span><br><span class="line">d[<span class="string">&#x27;b&#x27;</span>].add(<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="命名切片"><a href="#命名切片" class="headerlink" title="命名切片"></a>命名切片</h3><p>切片是可以作为一个变量的, 因此可以将一个切片赋值给一个变量, 从而使切片具有含义. 这避免了硬编码大量magic number.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">######    0123456789012345678901234567890123456789012345678901234567890&#x27;</span></span><br><span class="line">record = <span class="string">&#x27;....................100 .......513.25 ..........&#x27;</span></span><br><span class="line">cost = <span class="built_in">int</span>(record[<span class="number">20</span>:<span class="number">23</span>]) * <span class="built_in">float</span>(record[<span class="number">31</span>:<span class="number">37</span>])</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码可以修改为:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SHARES = <span class="built_in">slice</span>(<span class="number">20</span>, <span class="number">23</span>)</span><br><span class="line">PRICE = <span class="built_in">slice</span>(<span class="number">31</span>, <span class="number">37</span>)</span><br><span class="line">cost = <span class="built_in">int</span>(record[SHARES]) * <span class="built_in">float</span>(record[PRICE])</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="命名元组"><a href="#命名元组" class="headerlink" title="命名元组"></a>命名元组</h3><p>使用<code>namedtuple</code>方法可以将一个元组绑定到一个给定的字段列表上. 其本质是创建了一个类并实现了元组的所有操作, 从而既可以按照字段访问变量, 又支持元组的所有操作.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> namedtuple</span><br><span class="line">Subscriber = namedtuple(<span class="string">&#x27;Subscriber&#x27;</span>, [<span class="string">&#x27;addr&#x27;</span>, <span class="string">&#x27;joined&#x27;</span>])</span><br><span class="line">sub = Subscriber(<span class="string">&#x27;jonesy@example.com&#x27;</span>, <span class="string">&#x27;2012-10-19&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>之后可以按照类的方式访问需要的字段</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>sub.addr</span><br><span class="line"><span class="string">&#x27;jonesy@example.com&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>sub.joined</span><br><span class="line"><span class="string">&#x27;2012-10-19&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>命名元组可以作为字典的替代选项. 且具有不可变且内存消耗更小的优势</p>
+</blockquote>
+<h2 id="字符串和文本"><a href="#字符串和文本" class="headerlink" title="字符串和文本"></a>字符串和文本</h2><h3 id="通配符匹配"><a href="#通配符匹配" class="headerlink" title="通配符匹配"></a>通配符匹配</h3><p>如果在某些时候需要使用一些简单的通配符匹配, 同时又不需要引入正则表达式, 那么可以使用<code>fnmatch</code>库实现这一功能. 例如</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> fnmatch <span class="keyword">import</span> fnmatch, fnmatchcase</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fnmatch(<span class="string">&#x27;foo.txt&#x27;</span>, <span class="string">&#x27;*.txt&#x27;</span>)</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fnmatch(<span class="string">&#x27;foo.txt&#x27;</span>, <span class="string">&#x27;?oo.txt&#x27;</span>)</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>fnmatch(<span class="string">&#x27;Dat45.csv&#x27;</span>, <span class="string">&#x27;Dat[0-9]*&#x27;</span>)</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>names = [<span class="string">&#x27;Dat1.csv&#x27;</span>, <span class="string">&#x27;Dat2.csv&#x27;</span>, <span class="string">&#x27;config.ini&#x27;</span>, <span class="string">&#x27;foo.py&#x27;</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>[name <span class="keyword">for</span> name <span class="keyword">in</span> names <span class="keyword">if</span> fnmatch(name, <span class="string">&#x27;Dat*.csv&#x27;</span>)]</span><br><span class="line">[<span class="string">&#x27;Dat1.csv&#x27;</span>, <span class="string">&#x27;Dat2.csv&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="字符串对齐"><a href="#字符串对齐" class="headerlink" title="字符串对齐"></a>字符串对齐</h3><p>Python提供了<code>ljust()</code>, <code>rjust()</code>和<code>center()</code>方法来提供字符串的对齐操作, 例如</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>text = <span class="string">&quot;Hello&quot;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>text.ljust(<span class="number">20</span>)</span><br><span class="line"><span class="string">&#x27;Hello               &#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>text.rjust(<span class="number">20</span>)</span><br><span class="line"><span class="string">&#x27;               Hello&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>text.center(<span class="number">20</span>, <span class="string">&#x27;*&#x27;</span>)</span><br><span class="line"><span class="string">&#x27;*******Hello********&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>更加一般地, 可以使用format函数进行格式化, 例如</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">format</span>(text, <span class="string">&#x27;=&gt;20s&#x27;</span>)</span><br><span class="line"><span class="string">&#x27;===============Hello&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">format</span>(text, <span class="string">&#x27;*^20s&#x27;</span>)</span><br><span class="line"><span class="string">&#x27;*******Hello********&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>其中format函数的第二个参数用于控制格式化的样式(format_spec). 其基本结构为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">format_spec     ::= [[fill]align][sign][#][0][width][grouping_option][.precision][type]</span><br><span class="line">fill            ::= &lt;any character&gt;         </span><br><span class="line">align           ::= &quot;&lt;&quot; | &quot;&gt;&quot; | &quot;=&quot; | &quot;^&quot;</span><br><span class="line">sign            ::= &quot;+&quot; | &quot;-&quot; | &quot; &quot;</span><br><span class="line">width           ::= digit+</span><br><span class="line">grouping_option ::= &quot;_&quot; | &quot;,&quot;</span><br><span class="line">precision       ::= digit+</span><br><span class="line">type            ::= &quot;b&quot; | &quot;c&quot; | &quot;d&quot; | &quot;e&quot; | &quot;E&quot; | &quot;f&quot; | &quot;F&quot; | &quot;g&quot; | &quot;G&quot; | &quot;n&quot; | &quot;o&quot; | &quot;s&quot; | &quot;x&quot; | &quot;X&quot; | &quot;%&quot;</span><br></pre></td></tr></table></figure>
+
+<p>总体来说, 这部分的语法与其他位置使用的格式化语法差别不大, 其中<code>align</code>部分的四个符号分别表示左对齐, 右对齐, 强制在付好后填充和居中. <code>type</code>部分表示数据的显示类型, 根据其缩写, 分别表示二进制,字符, 货币类型, 八进制, 十六进制以及字符串等. </p>
+<blockquote>
+<p>使用 help(‘FORMATTING’) 查看内置文档</p>
+</blockquote>
+<p>format函数可以格式化任何类型的数据(如果此类型支持), 也能够在字符串上格式化, 例如</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">format</span>(<span class="number">3.1415926</span>, <span class="string">&#x27;&gt;+4.2f&#x27;</span>)</span><br><span class="line"><span class="string">&#x27;+3.14&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">&#x27;&#123;:&gt;10s&#125; &#123;:&gt;10s&#125;&#x27;</span>.<span class="built_in">format</span>(<span class="string">&#x27;Hello&#x27;</span>, <span class="string">&#x27;World&#x27;</span>)</span><br><span class="line"><span class="string">&#x27;     Hello      World&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="数字运算"><a href="#数字运算" class="headerlink" title="数字运算"></a>数字运算</h2><h3 id="分数运算"><a href="#分数运算" class="headerlink" title="分数运算"></a>分数运算</h3><p>Python中提供了Fraction类用于分数运算， 例如</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> fractions <span class="keyword">import</span> Fraction</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = Fraction(<span class="number">5</span>, <span class="number">4</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = Fraction(<span class="number">7</span>, <span class="number">16</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(a + b)</span><br><span class="line"><span class="number">27</span>/<span class="number">16</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(a * b)</span><br><span class="line"><span class="number">35</span>/<span class="number">64</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment"># Getting numerator/denominator</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c = a * b</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c.numerator</span><br><span class="line"><span class="number">35</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>c.denominator</span><br><span class="line"><span class="number">64</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment"># Converting to a float</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">float</span>(c)</span><br><span class="line"><span class="number">0.546875</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment"># Limiting the denominator of a value</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(c.limit_denominator(<span class="number">8</span>))</span><br><span class="line"><span class="number">4</span>/<span class="number">7</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="comment"># Converting a float to a fraction</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = <span class="number">3.75</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>y = Fraction(*x.as_integer_ratio())</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>y</span><br><span class="line">Fraction(<span class="number">15</span>, <span class="number">4</span>)</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="迭代"><a href="#迭代" class="headerlink" title="迭代"></a>迭代</h2><h3 id="同时迭代多个序列"><a href="#同时迭代多个序列" class="headerlink" title="同时迭代多个序列"></a>同时迭代多个序列</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a = [1, 2, 3]</span><br><span class="line">&gt;&gt;&gt; b = [&#x27;w&#x27;, &#x27;x&#x27;, &#x27;y&#x27;, &#x27;z&#x27;]</span><br><span class="line">&gt;&gt;&gt; for i in zip(a,b):</span><br><span class="line">...     print(i)</span><br><span class="line">...</span><br><span class="line">(1, &#x27;w&#x27;)</span><br><span class="line">(2, &#x27;x&#x27;)</span><br><span class="line">(3, &#x27;y&#x27;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; from itertools import zip_longest</span><br><span class="line">&gt;&gt;&gt; for i in zip_longest(a,b):</span><br><span class="line">...     print(i)</span><br><span class="line">...</span><br><span class="line">(1, &#x27;w&#x27;)</span><br><span class="line">(2, &#x27;x&#x27;)</span><br><span class="line">(3, &#x27;y&#x27;)</span><br><span class="line">(None, &#x27;z&#x27;)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; for i in zip_longest(a, b, fillvalue=0):</span><br><span class="line">...     print(i)</span><br><span class="line">...</span><br><span class="line">(1, &#x27;w&#x27;)</span><br><span class="line">(2, &#x27;x&#x27;)</span><br><span class="line">(3, &#x27;y&#x27;)</span><br><span class="line">(0, &#x27;z&#x27;)</span><br></pre></td></tr></table></figure>
+
+
+<p>基于zip的这一特性，也可以用于将两个list对应的转化为dict（dictd的构造函数接受zip的输出）</p>
+<h3 id="不同集合上迭代"><a href="#不同集合上迭代" class="headerlink" title="不同集合上迭代"></a>不同集合上迭代</h3><p>如果需要在多个集合上执行同样的操作， 可以使用chain函数将多个集合链接起来，一次性的迭代处理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; from itertools import chain</span><br><span class="line">&gt;&gt;&gt; a = [1, 2, 3, 4]</span><br><span class="line">&gt;&gt;&gt; b = [&#x27;x&#x27;, &#x27;y&#x27;, &#x27;z&#x27;]</span><br><span class="line">&gt;&gt;&gt; for x in chain(a, b):</span><br><span class="line">... print(x)</span><br><span class="line">...</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">x</span><br><span class="line">y</span><br><span class="line">z</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p>从而避免在两个集合上分别执行两次迭代操作</p>
+<h3 id="展开嵌套集合"><a href="#展开嵌套集合" class="headerlink" title="展开嵌套集合"></a>展开嵌套集合</h3><p>from collections import Iterable</p>
+<p>def flatten(items, ignore_types=(str, bytes)):<br>    for x in items:<br>        if isinstance(x, Iterable) and not isinstance(x, ignore_types):<br>            yield from flatten(x)<br>        else:<br>            yield x</p>
+<p>yield from 是python协程中的用法， 表示将一个可迭代对象逐元素的yield输出</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2021年06月27日 08:36</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2021/06/02/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E9%AB%98%E9%98%B6%E6%8A%80%E5%B7%A7/" title="Python笔记之高阶技巧">https://lizec.top/2021/06/02/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E9%AB%98%E9%98%B6%E6%8A%80%E5%B7%A7/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2021/06/02/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E9%AB%98%E9%98%B6%E6%8A%80%E5%B7%A7/&title=《Python笔记之高阶技巧》 — LiZeC的博客&pic=images/python.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2021/06/02/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E9%AB%98%E9%98%B6%E6%8A%80%E5%B7%A7/&title=《Python笔记之高阶技巧》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2021/06/02/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E9%AB%98%E9%98%B6%E6%8A%80%E5%B7%A7/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Python笔记之高阶技巧》 — LiZeC的博客&url=https://lizec.top/2021/06/02/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E9%AB%98%E9%98%B6%E6%8A%80%E5%B7%A7/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2021/06/02/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E9%AB%98%E9%98%B6%E6%8A%80%E5%B7%A7/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2021/06/02/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E9%AB%98%E9%98%B6%E6%8A%80%E5%B7%A7/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Python/" class="color2">Python</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="post-toc-text">基础与数据结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%98%9F%E5%8F%B7%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="post-toc-text">星号表达式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AD%97%E5%85%B8%E7%9A%84%E9%94%AE%E6%98%A0%E5%B0%84%E5%A4%9A%E4%B8%AA%E5%80%BC"><span class="post-toc-text">字典的键映射多个值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%91%BD%E5%90%8D%E5%88%87%E7%89%87"><span class="post-toc-text">命名切片</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%91%BD%E5%90%8D%E5%85%83%E7%BB%84"><span class="post-toc-text">命名元组</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%96%87%E6%9C%AC"><span class="post-toc-text">字符串和文本</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%80%9A%E9%85%8D%E7%AC%A6%E5%8C%B9%E9%85%8D"><span class="post-toc-text">通配符匹配</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AF%B9%E9%BD%90"><span class="post-toc-text">字符串对齐</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%95%B0%E5%AD%97%E8%BF%90%E7%AE%97"><span class="post-toc-text">数字运算</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%88%86%E6%95%B0%E8%BF%90%E7%AE%97"><span class="post-toc-text">分数运算</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%BF%AD%E4%BB%A3"><span class="post-toc-text">迭代</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%90%8C%E6%97%B6%E8%BF%AD%E4%BB%A3%E5%A4%9A%E4%B8%AA%E5%BA%8F%E5%88%97"><span class="post-toc-text">同时迭代多个序列</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%8D%E5%90%8C%E9%9B%86%E5%90%88%E4%B8%8A%E8%BF%AD%E4%BB%A3"><span class="post-toc-text">不同集合上迭代</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B1%95%E5%BC%80%E5%B5%8C%E5%A5%97%E9%9B%86%E5%90%88"><span class="post-toc-text">展开嵌套集合</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2021/07/01/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Go语言笔记之基础知识
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2021/05/10/MySQL%E7%AC%94%E8%AE%B0%E4%B9%8B%E4%BA%8B%E5%8A%A1%E5%8E%9F%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">MySQL笔记之事务原理</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Wed Jun 02 2021 10:50:07 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

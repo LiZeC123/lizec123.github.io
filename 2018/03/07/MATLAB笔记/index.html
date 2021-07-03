@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MATLAB笔记 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="本文记录MATLAB的基础知识, 包括MATLAB的基础知识介绍, MATLAB的基础运算以及通过MATLAB语言进行编程.  目录 MATLAB基础 MATLAB计算基础 MATLAB运算符 MATLAB矩阵操作 其他数据类型 MATLAB程序设计  Matlab基础主界面窗体启动MATLAB程序后, 程序界面如下所示:  可以分成以下的几个界面  命令窗口: 在此窗口可以直接输入MATLAB指">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MATLAB笔记">
+<meta property="og:url" content="https://lizec.top/2018/03/07/MATLAB%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="本文记录MATLAB的基础知识, 包括MATLAB的基础知识介绍, MATLAB的基础运算以及通过MATLAB语言进行编程.  目录 MATLAB基础 MATLAB计算基础 MATLAB运算符 MATLAB矩阵操作 其他数据类型 MATLAB程序设计  Matlab基础主界面窗体启动MATLAB程序后, 程序界面如下所示:  可以分成以下的几个界面  命令窗口: 在此窗口可以直接输入MATLAB指">
+<meta property="og:locale">
+<meta property="og:image" content="https://lizec.top/images/matlab/matlab.JPG">
+<meta property="article:published_time" content="2018-03-07T06:01:31.000Z">
+<meta property="article:modified_time" content="2018-07-04T07:08:05.515Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="Matlab">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lizec.top/images/matlab/matlab.JPG">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-MATLAB笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      MATLAB笔记
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-07
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>本文记录MATLAB的基础知识, 包括MATLAB的基础知识介绍, MATLAB的基础运算以及通过MATLAB语言进行编程. </p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#MATLAB%E5%9F%BA%E7%A1%80">MATLAB基础</a></li>
+<li><a href="#MATLAB%E8%AE%A1%E7%AE%97%E5%9F%BA%E7%A1%80">MATLAB计算基础</a></li>
+<li><a href="#MATLAB%E8%BF%90%E7%AE%97%E7%AC%A6">MATLAB运算符</a></li>
+<li><a href="#MATLAB%E7%9F%A9%E9%98%B5%E6%93%8D%E4%BD%9C">MATLAB矩阵操作</a></li>
+<li><a href="#%E5%85%B6%E4%BB%96%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B">其他数据类型</a></li>
+<li><a href="#MATLAB%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1">MATLAB程序设计</a></li>
+</ul>
+<h2 id="Matlab基础"><a href="#Matlab基础" class="headerlink" title="Matlab基础"></a>Matlab基础</h2><h3 id="主界面窗体"><a href="#主界面窗体" class="headerlink" title="主界面窗体"></a>主界面窗体</h3><p>启动MATLAB程序后, 程序界面如下所示:</p>
+<p><img src="/images/matlab/matlab.JPG" alt="MATLAB界面"></p>
+<p>可以分成以下的几个界面</p>
+<ol>
+<li>命令窗口: 在此窗口可以直接输入MATLAB指令</li>
+<li>工作空间窗口: 此窗口显示了当前状态下保存的各种变量, 可通过工作空间窗口对这些变量进行操作</li>
+<li>当前目录窗口: 显示了当前的目录,只有位于当前目录和搜索路径下的文件才能被直接使用</li>
+<li>历史命令窗口: 自动保留自安装起所有用过的命令的历史记录, 从而方便用户查询</li>
+</ol>
+<h3 id="MATLAB搜索过程"><a href="#MATLAB搜索过程" class="headerlink" title="MATLAB搜索过程"></a>MATLAB搜索过程</h3><p>在MATLAB的命令窗口中输入一个名称以后, MATLAB按照以下顺序进行检测</p>
+<ol>
+<li>是否为变量</li>
+<li>是否为内部函数</li>
+<li>是否为当前目录下的M文件</li>
+<li>是否为其他搜索路径下的文件</li>
+</ol>
+<h3 id="目录操作"><a href="#目录操作" class="headerlink" title="目录操作"></a>目录操作</h3><h4 id="修改启动目录"><a href="#修改启动目录" class="headerlink" title="修改启动目录"></a>修改启动目录</h4><ul>
+<li>matlab默认的启动位置位于其安装路径, 通常该位置不适合作为工作目录</li>
+<li>通过修改快捷方式中的启动位置, 即可修改matlab启动位置</li>
+<li>可在命令窗口中使用<code>cd</code>指令切换当前目录</li>
+<li>可以通过<code>path(path,&#39;C:/WorkSpace&#39;)</code>指令将指定目录<code>C:/WorkSpace</code>临时加入搜索路径(添加到末尾)</li>
+</ul>
+<h4 id="系统目录和用户目录"><a href="#系统目录和用户目录" class="headerlink" title="系统目录和用户目录"></a>系统目录和用户目录</h4><ol>
+<li>系统目录<ul>
+<li>系统目录指的是matlab本身提供的各种包所在的路径</li>
+<li>可以通过输入<code>matlabroot</code>查看</li>
+<li>通常是matlab的安装路径,例如<code>C:\Program Files\MATLAB\MATLAB Production Server\R2015a</code></li>
+</ul>
+</li>
+<li>用户目录<ul>
+<li>用户自定义的代码可以存放的路径</li>
+<li>可以通过输入<code>userpath</code>查看</li>
+<li>通常位于用户的文档文件夹下,例如<code>C:\Users\lizec\Documents\MATLAB</code></li>
+</ul>
+</li>
+<li>点击<code>HOME</code>界面上<code>ENVIROMENT</code>区域的<code>Set Path</code>,可以设置搜索路径<ul>
+<li>位于搜索路径中的文件可以直接被调用</li>
+<li>如果同时存在多个同名文件,Matlab采用最先出现的</li>
+<li>默认情况下用户目录是第一个路径,所以用户定义的任何同名函数都会覆盖系统提供的函数</li>
+</ul>
+</li>
+</ol>
+<h3 id="帮助系统"><a href="#帮助系统" class="headerlink" title="帮助系统"></a>帮助系统</h3><h4 id="help命令"><a href="#help命令" class="headerlink" title="help命令"></a>help命令</h4><ul>
+<li>无参数,显示当前帮助系统的所有项目,及搜索路径的所有目录名称</li>
+<li>+函数名,显示该函数的帮助说明</li>
+<li>+目录名,显示某一类函数</li>
+</ul>
+<h4 id="lookfor命令"><a href="#lookfor命令" class="headerlink" title="lookfor命令"></a>lookfor命令</h4><ul>
+<li>help指令是完全匹配,而lookfor进行关键字匹配</li>
+<li>无参数,在M文件的第一行进行搜索</li>
+<li>-all参数,搜索全文</li>
+</ul>
+<h4 id="模糊查询"><a href="#模糊查询" class="headerlink" title="模糊查询"></a>模糊查询</h4><ul>
+<li>输入开头几个字母,使用tab建进行补全</li>
+</ul>
+<h4 id="演示系统"><a href="#演示系统" class="headerlink" title="演示系统"></a>演示系统</h4><ul>
+<li>在命令行中输入demos</li>
+<li>实际上是项目文档合集,包括文档,示例,以及联网资料</li>
+</ul>
+<h4 id="资源站"><a href="#资源站" class="headerlink" title="资源站"></a>资源站</h4><ul>
+<li><a target="_blank" rel="noopener" href="http://www.mathworks.com/">公司主页</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.matlabsky.com/">matlabsky</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ilovematlab.cn/">ilovematlab</a></li>
+</ul>
+<h3 id="清空"><a href="#清空" class="headerlink" title="清空"></a>清空</h3><ul>
+<li>使用<code>clear</code>指令清除工作区变量</li>
+<li>使用<code>clc</code>清除命令行 </li>
+</ul>
+<h2 id="MATLAB计算基础"><a href="#MATLAB计算基础" class="headerlink" title="MATLAB计算基础"></a>MATLAB计算基础</h2><h3 id="变量定义"><a href="#变量定义" class="headerlink" title="变量定义"></a>变量定义</h3><ul>
+<li>变量以字母开始,以字母数字下划线构成的,长度不超过63个字符</li>
+<li>变量名区分大小写</li>
+<li>标准库函数始终由全部小写字母构成</li>
+</ul>
+<h3 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h3><ul>
+<li>直接输入表达式,命令行会显示运行结果</li>
+<li>每条命令后加上分号,则命令执行后不输出结果</li>
+</ul>
+<h3 id="注释和节"><a href="#注释和节" class="headerlink" title="注释和节"></a>注释和节</h3><ul>
+<li>matlab中注释以<code>%</code>开始,仅支持单行注释</li>
+<li>如果需要注释多行,直接选择需要注释的内容后点击界面上的commet按钮</li>
+<li>使用<code>%%</code> 开始的注释称为节,可以将一段代码分成若干节,使用界面上的按钮来以节为单位执行代码</li>
+</ul>
+<h3 id="预定义变量"><a href="#预定义变量" class="headerlink" title="预定义变量"></a>预定义变量</h3><ul>
+<li>表示圆周率的<code>pi</code></li>
+<li>表示虚数的<code>i</code>和<code>j</code></li>
+<li>预定义可以被用户自定义变量覆盖</li>
+</ul>
+<h3 id="内存控制"><a href="#内存控制" class="headerlink" title="内存控制"></a>内存控制</h3><ul>
+<li>clear<ul>
+<li>无参数,清除工作空间全部变量</li>
+<li>指定变量名,则清除指定的变量</li>
+</ul>
+</li>
+<li>who/whos<ul>
+<li>who显示当前工作空间全部变量名称</li>
+<li>whos显示当前工作空间全部变量详细信息</li>
+</ul>
+</li>
+<li>save<ul>
+<li><code>save filename</code> 将工作空间保存到指定的文件中</li>
+<li><code>-append</code>    追加模式,即将新的变量和修改的变量追加保存到文件中</li>
+<li><code>-ascii</code>    以文本模式保存,不过实在是没啥优势,不建议使用</li>
+<li>可以在filename后指定变量名,则只保存指定的变量</li>
+</ul>
+</li>
+<li>load<ul>
+<li><code>load filename</code> 将指定的文件中保存的变量加入工作空间</li>
+</ul>
+</li>
+</ul>
+<h3 id="MATBLAB常用函数"><a href="#MATBLAB常用函数" class="headerlink" title="MATBLAB常用函数"></a>MATBLAB常用函数</h3><h4 id="abs函数"><a href="#abs函数" class="headerlink" title="abs函数"></a>abs函数</h4><ul>
+<li>获得实数的绝对值</li>
+<li>获得复数的模</li>
+<li>获得字符串的ASCII码</li>
+</ul>
+<h4 id="取整函数"><a href="#取整函数" class="headerlink" title="取整函数"></a>取整函数</h4><table>
+<thead>
+<tr>
+<th>函数名称</th>
+<th>含义</th>
+<th>示例1</th>
+<th>示例2</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>fix</td>
+<td>向零取整</td>
+<td>fix(3.5) = 3</td>
+<td>fix(-3.5) = -3</td>
+</tr>
+<tr>
+<td>floor</td>
+<td>不大于指定数据的最大整数</td>
+<td>floor(3.5) = 3</td>
+<td>floor(-3.5) = -4</td>
+</tr>
+<tr>
+<td>ceil</td>
+<td>不小于指定数据的最小整数</td>
+<td>ceil(3.5) = 4</td>
+<td>ceil(-3.5) = -3</td>
+</tr>
+<tr>
+<td>round</td>
+<td>四舍五入</td>
+<td>round(3.5) =4</td>
+<td>round(-3.5) = -4</td>
+</tr>
+</tbody></table>
+<h4 id="求余数"><a href="#求余数" class="headerlink" title="求余数"></a>求余数</h4><table>
+<thead>
+<tr>
+<th>函数名称</th>
+<th>含义</th>
+<th>示例1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>rem</td>
+<td>余数与被除数符号相同</td>
+<td>rem(-3,-4) = -3</td>
+</tr>
+<tr>
+<td>mod</td>
+<td>余数与除数符号相同</td>
+<td>mod(7,-4) = -1</td>
+</tr>
+</tbody></table>
+<h4 id="格式化输出"><a href="#格式化输出" class="headerlink" title="格式化输出"></a>格式化输出</h4><p>使用format格式进行输出格式化,format函数用法为<code>format 格式 变量</code>. 其中格式有如下若干选项:</p>
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">SHORT</td>
+<td align="left">Scaled fixed point format with 5 digits.</td>
+</tr>
+<tr>
+<td align="left">LONG</td>
+<td align="left">Scaled fixed point format with 15 digits for double and 7 digits for single.</td>
+</tr>
+<tr>
+<td align="left">SHORTE</td>
+<td align="left">Floating point format with 5 digits.</td>
+</tr>
+<tr>
+<td align="left">LONGE</td>
+<td align="left">Floating point format with 15 digits for double and 7 digits for single.</td>
+</tr>
+<tr>
+<td align="left">SHORTG</td>
+<td align="left">Best of fixed or floating point format with 5 digits.</td>
+</tr>
+<tr>
+<td align="left">LONGG</td>
+<td align="left">Best of fixed or floating point format with 15 digits for double and 7 digits for single.</td>
+</tr>
+<tr>
+<td align="left">SHORTENG</td>
+<td align="left">Engineering format that has at least 5 digits and a power that is a multiple of three</td>
+</tr>
+<tr>
+<td align="left">LONGENG</td>
+<td align="left">Engineering format that has exactly 16 significant digits and a power that is a multiple of three.</td>
+</tr>
+</tbody></table>
+<p>MATLAB模式使用SHORT模式, 其他细节可以使用help指令查阅format文档</p>
+<h3 id="矩阵输入方式"><a href="#矩阵输入方式" class="headerlink" title="矩阵输入方式"></a>矩阵输入方式</h3><ol>
+<li>直接在交互窗口编辑矩阵</li>
+<li>使用M文件<ul>
+<li>即在M文件中先定义矩阵,之后使用文件名导入矩阵</li>
+<li>从而可以一次输入,反复使用</li>
+</ul>
+</li>
+<li>使用冒号表达式<ul>
+<li>e1:e2:e3 从e1开始以e2为步长,到e3结束的行向量</li>
+<li>可以省略e2,此时e2默认等于1, 由于步长原因,最后可能不包含元素e3</li>
+<li>与使用linspace(a,b,n)效果类似,从a到b,产生n个元素(且必定包含边界值b)</li>
+</ul>
+</li>
+<li>使用小矩阵构建大矩阵</li>
+<li>空矩阵<ul>
+<li>创建空矩阵后使用IDE提供的编辑器进行编辑</li>
+</ul>
+</li>
+</ol>
+<h3 id="矩阵引用的转换"><a href="#矩阵引用的转换" class="headerlink" title="矩阵引用的转换"></a>矩阵引用的转换</h3><h4 id="矩阵的引用"><a href="#矩阵的引用" class="headerlink" title="矩阵的引用"></a>矩阵的引用</h4><ul>
+<li>可以使用形如A(m,n)的方式引用矩阵A的第m行,第n列的元素 </li>
+<li>如果引用越界,程序不会报错,而是自动扩展到相应的大小</li>
+<li>可以使用形如A(n)的方式引用矩阵第n个元素, MATLAB按列存储且从1开始计数</li>
+</ul>
+<h4 id="序号和下标的转换"><a href="#序号和下标的转换" class="headerlink" title="序号和下标的转换"></a>序号和下标的转换</h4><p>使用sub2ind和ind2sub可以将序号(Index)和下标(Subscript)相互转换,例如</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; a <span class="built_in">=</span> [<span class="number">10</span>,<span class="number">20</span>,<span class="number">30</span>;<span class="number">40</span>,<span class="number">50</span>,<span class="number">60</span>;<span class="number">70</span>,<span class="number">80</span>,<span class="number">90</span>]</span><br><span class="line"></span><br><span class="line">a <span class="built_in">=</span></span><br><span class="line">    <span class="number">10</span>    <span class="number">20</span>    <span class="number">30</span></span><br><span class="line">    <span class="number">40</span>    <span class="number">50</span>    <span class="number">60</span></span><br><span class="line">    <span class="number">70</span>    <span class="number">80</span>    <span class="number">90</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; sub2ind(size(a),<span class="number">1</span>,<span class="number">2</span>)  <span class="comment">%第1行2列对应的序号</span></span><br><span class="line"></span><br><span class="line">ans <span class="built_in">=</span></span><br><span class="line">     <span class="number">4</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; [i,j] <span class="built_in">=</span> ind2sub(size(a),<span class="number">5</span>)  <span class="comment">%序号为5的元素对应的下标</span></span><br><span class="line"></span><br><span class="line">i <span class="built_in">=</span></span><br><span class="line">     <span class="number">2</span></span><br><span class="line">j <span class="built_in">=</span></span><br><span class="line">     <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="矩阵拆分"><a href="#矩阵拆分" class="headerlink" title="矩阵拆分"></a>矩阵拆分</h3><h4 id="reshape-A-m-n-函数"><a href="#reshape-A-m-n-函数" class="headerlink" title="reshape(A,m,n)函数"></a>reshape(A,m,n)函数</h4><ul>
+<li>在元素不变的情况下,将矩阵A变成m*n的矩阵</li>
+<li>仅仅改变逻辑结构,不改变物理结构</li>
+</ul>
+<h4 id="冒号表达式"><a href="#冒号表达式" class="headerlink" title="冒号表达式"></a>冒号表达式</h4><ul>
+<li>使用冒号表达式获得一段数据</li>
+<li>使用单独的冒号表示获得一整行或者一整列</li>
+<li>冒号表达式配合end表示获取直到末尾</li>
+</ul>
+<h4 id="使用空矩阵删除部分元素"><a href="#使用空矩阵删除部分元素" class="headerlink" title="使用空矩阵删除部分元素"></a>使用空矩阵删除部分元素</h4><ul>
+<li>将矩阵的一部分置为空矩阵<code>[]</code>, 即可将部分元素删除</li>
+</ul>
+<h4 id="矩阵拆分举例"><a href="#矩阵拆分举例" class="headerlink" title="矩阵拆分举例"></a>矩阵拆分举例</h4><figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; A <span class="built_in">=</span> magic(<span class="number">5</span>)</span><br><span class="line">A <span class="built_in">=</span></span><br><span class="line">    <span class="number">17</span>    <span class="number">24</span>     <span class="number">1</span>     <span class="number">8</span>    <span class="number">15</span></span><br><span class="line">    <span class="number">23</span>     <span class="number">5</span>     <span class="number">7</span>    <span class="number">14</span>    <span class="number">16</span></span><br><span class="line">     <span class="number">4</span>     <span class="number">6</span>    <span class="number">13</span>    <span class="number">20</span>    <span class="number">22</span></span><br><span class="line">    <span class="number">10</span>    <span class="number">12</span>    <span class="number">19</span>    <span class="number">21</span>     <span class="number">3</span></span><br><span class="line">    <span class="number">11</span>    <span class="number">18</span>    <span class="number">25</span>     <span class="number">2</span>     <span class="number">9</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; A(<span class="number">1</span>:<span class="number">3</span>,<span class="number">2</span>:<span class="number">4</span>)</span><br><span class="line">ans <span class="built_in">=</span></span><br><span class="line">    <span class="number">24</span>     <span class="number">1</span>     <span class="number">8</span></span><br><span class="line">     <span class="number">5</span>     <span class="number">7</span>    <span class="number">14</span></span><br><span class="line">     <span class="number">6</span>    <span class="number">13</span>    <span class="number">20</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; A(<span class="number">3</span>,:)</span><br><span class="line">ans <span class="built_in">=</span></span><br><span class="line">     <span class="number">4</span>     <span class="number">6</span>    <span class="number">13</span>    <span class="number">20</span>    <span class="number">22</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; A(<span class="number">2</span>,<span class="number">2</span>:end)</span><br><span class="line">ans <span class="built_in">=</span></span><br><span class="line">     <span class="number">5</span>     <span class="number">7</span>    <span class="number">14</span>    <span class="number">16</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; A(<span class="number">1</span>,:) <span class="built_in">=</span> []</span><br><span class="line">A <span class="built_in">=</span></span><br><span class="line">    <span class="number">23</span>     <span class="number">5</span>     <span class="number">7</span>    <span class="number">14</span>    <span class="number">16</span></span><br><span class="line">     <span class="number">4</span>     <span class="number">6</span>    <span class="number">13</span>    <span class="number">20</span>    <span class="number">22</span></span><br><span class="line">    <span class="number">10</span>    <span class="number">12</span>    <span class="number">19</span>    <span class="number">21</span>     <span class="number">3</span></span><br><span class="line">    <span class="number">11</span>    <span class="number">18</span>    <span class="number">25</span>     <span class="number">2</span>     <span class="number">9</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="特殊矩阵"><a href="#特殊矩阵" class="headerlink" title="特殊矩阵"></a>特殊矩阵</h3><h4 id="通用特殊矩阵"><a href="#通用特殊矩阵" class="headerlink" title="通用特殊矩阵"></a>通用特殊矩阵</h4><table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>zeros</td>
+<td>全零矩阵</td>
+</tr>
+<tr>
+<td>ones</td>
+<td>全1矩阵</td>
+</tr>
+<tr>
+<td>eye</td>
+<td>单位矩阵</td>
+</tr>
+<tr>
+<td>rand</td>
+<td>0-1之间的随机数矩阵</td>
+</tr>
+<tr>
+<td>randn</td>
+<td>均值为0,方差为1的标准正态分布随机矩阵</td>
+</tr>
+</tbody></table>
+<p>上述函数具有以下的调用方法,其中f表示上表的任意一个函数</p>
+<table>
+<thead>
+<tr>
+<th>调用方法</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>f(m)</td>
+<td>产生一个m*m的矩阵</td>
+</tr>
+<tr>
+<td>f(m,n)</td>
+<td>产生一个m*n的矩阵</td>
+</tr>
+<tr>
+<td>f(size(A))</td>
+<td>产生一个同A一样大小的矩阵</td>
+</tr>
+</tbody></table>
+<h4 id="学科特殊矩阵"><a href="#学科特殊矩阵" class="headerlink" title="学科特殊矩阵"></a>学科特殊矩阵</h4><table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>magic(n)</td>
+<td>每行,每列和两条对角线上元素之相等</td>
+</tr>
+<tr>
+<td>vander(V)</td>
+<td>最后一列全为1,倒数第二列为一个指定的向量(基础向量), 其他各列是其后列与倒数第二列的点乘积</td>
+</tr>
+<tr>
+<td>hilb(n)</td>
+<td>H(i,j) = 1/(i+j-1) ,高度病态的矩阵</td>
+</tr>
+<tr>
+<td>invhilb(n)</td>
+<td>希尔伯特矩阵对应的逆矩阵</td>
+</tr>
+<tr>
+<td>toeplitz(x,y)</td>
+<td>托普利兹矩阵,除第一行和第一列外，其他每个元素都与左上角的元素相同</td>
+</tr>
+<tr>
+<td>compan(p)</td>
+<td>伴随矩阵,其中p是一个多项式的系数向量，高次幂系数排在前，低次幂排在后</td>
+</tr>
+<tr>
+<td>pascal(n)</td>
+<td>生成一个n阶帕斯卡矩阵</td>
+</tr>
+</tbody></table>
+<p>注意: </p>
+<ol>
+<li>多项式对应的伴随矩阵的特征值是多项式的根</li>
+<li>求5次方系数时, 应该使用pascal(6)</li>
+</ol>
+<h4 id="特殊矩阵使用举例"><a href="#特殊矩阵使用举例" class="headerlink" title="特殊矩阵使用举例"></a>特殊矩阵使用举例</h4><figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; Vand <span class="built_in">=</span> vander([<span class="number">1</span>;<span class="number">2</span>;<span class="number">3</span>;<span class="number">5</span>])</span><br><span class="line">Vand <span class="built_in">=</span></span><br><span class="line">     <span class="number">1</span>     <span class="number">1</span>     <span class="number">1</span>     <span class="number">1</span></span><br><span class="line">     <span class="number">8</span>     <span class="number">4</span>     <span class="number">2</span>     <span class="number">1</span></span><br><span class="line">    <span class="number">27</span>     <span class="number">9</span>     <span class="number">3</span>     <span class="number">1</span></span><br><span class="line">   <span class="number">125</span>    <span class="number">25</span>     <span class="number">5</span>     <span class="number">1</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; H<span class="built_in">=</span>hilb(<span class="number">4</span>)</span><br><span class="line">H <span class="built_in">=</span></span><br><span class="line">       <span class="number">1</span>              <span class="number">1</span>/<span class="number">2</span>            <span class="number">1</span>/<span class="number">3</span>            <span class="number">1</span>/<span class="number">4</span>     </span><br><span class="line">       <span class="number">1</span>/<span class="number">2</span>            <span class="number">1</span>/<span class="number">3</span>            <span class="number">1</span>/<span class="number">4</span>            <span class="number">1</span>/<span class="number">5</span>     </span><br><span class="line">       <span class="number">1</span>/<span class="number">3</span>            <span class="number">1</span>/<span class="number">4</span>            <span class="number">1</span>/<span class="number">5</span>            <span class="number">1</span>/<span class="number">6</span>     </span><br><span class="line">       <span class="number">1</span>/<span class="number">4</span>            <span class="number">1</span>/<span class="number">5</span>            <span class="number">1</span>/<span class="number">6</span>            <span class="number">1</span>/<span class="number">7</span>     </span><br><span class="line"></span><br><span class="line">&gt;&gt; T<span class="built_in">=</span>toeplitz(<span class="number">1</span>:<span class="number">2</span>,<span class="number">1</span>:<span class="number">4</span>) <span class="comment">% 两个参数都是向量,且第一个值应该相等</span></span><br><span class="line">T <span class="built_in">=</span></span><br><span class="line"></span><br><span class="line">       <span class="number">1</span>              <span class="number">2</span>              <span class="number">3</span>              <span class="number">4</span>       </span><br><span class="line">       <span class="number">2</span>              <span class="number">1</span>              <span class="number">2</span>              <span class="number">3</span> </span><br><span class="line"></span><br><span class="line">&gt;&gt; p<span class="built_in">=</span>[<span class="number">1</span>,<span class="number">0</span>,-<span class="number">7</span>,<span class="number">6</span>];</span><br><span class="line">&gt;&gt; compan(p)</span><br><span class="line">ans <span class="built_in">=</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">7</span>    -<span class="number">6</span></span><br><span class="line">     <span class="number">1</span>     <span class="number">0</span>     <span class="number">0</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">1</span>     <span class="number">0</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; pascal(<span class="number">5</span>)</span><br><span class="line">ans <span class="built_in">=</span></span><br><span class="line">     <span class="number">1</span>     <span class="number">1</span>     <span class="number">1</span>     <span class="number">1</span>     <span class="number">1</span></span><br><span class="line">     <span class="number">1</span>     <span class="number">2</span>     <span class="number">3</span>     <span class="number">4</span>     <span class="number">5</span></span><br><span class="line">     <span class="number">1</span>     <span class="number">3</span>     <span class="number">6</span>    <span class="number">10</span>    <span class="number">15</span></span><br><span class="line">     <span class="number">1</span>     <span class="number">4</span>    <span class="number">10</span>    <span class="number">20</span>    <span class="number">35</span></span><br><span class="line">     <span class="number">1</span>     <span class="number">5</span>    <span class="number">15</span>    <span class="number">35</span>    <span class="number">70</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="MATLAB运算符"><a href="#MATLAB运算符" class="headerlink" title="MATLAB运算符"></a>MATLAB运算符</h2><h3 id="算数运算"><a href="#算数运算" class="headerlink" title="算数运算"></a>算数运算</h3><h4 id="基础规则"><a href="#基础规则" class="headerlink" title="基础规则"></a>基础规则</h4><p>Matlab的矩阵加,减,乘法都和数学定义一致,且不可运算时报错. 对于除法运算, 提供了两种除法</p>
+<ol>
+<li><code>A/B</code>(右除) 等价于 <code>A*INV(B)</code>. </li>
+<li><code>A\B</code>(左除) 等价于 <code>INV(A)*B</code></li>
+</ol>
+<p>注意: </p>
+<ul>
+<li>矩阵乘法不可交换,所以注意矩阵位置,这也决定了A和B行,列数的关系</li>
+<li>逆矩阵和原矩阵的行列数交换,例如3x2矩阵的逆矩阵是2x3矩阵</li>
+<li>当除数可逆时(非奇异方阵),被除数要能和除数的逆进行运算即可,而不必是方阵</li>
+<li>当除数不可逆时(奇异或者非方阵或者两者均有), 使用求广义逆(即pinv)代替.</li>
+</ul>
+<h4 id="深入探讨除法"><a href="#深入探讨除法" class="headerlink" title="深入探讨除法"></a>深入探讨除法</h4><p>除法<code>A\B</code>实际上可以认为是线性方程组<code>Ax=B</code>的解,即<code>x = inv(A)*B</code>. 当A是方阵时,运算结果就是其解向量.<br>当A是MxN矩阵时, 有两种情况</p>
+<ol>
+<li><code>M &gt; N</code> , 即方程数大于未知量数, 此时方程无解,  <code>A\B</code>给出最小二乘法下的近似解</li>
+<li><code>M &lt; N</code> , 即未知量数大于方程数, 此数方程无穷多解, <code>A\B</code>给出一个特解</li>
+</ol>
+<h3 id="关系运算"><a href="#关系运算" class="headerlink" title="关系运算"></a>关系运算</h3><ul>
+<li>同维矩阵之间可以进行关系运算, MATLAB将两个矩阵中的同一位置元素逐一比较,并返回一个同维的矩阵</li>
+<li>当标量和矩阵比较时, 标量与矩阵逐一比较并且返回一个同纬度的矩阵.</li>
+<li>关系运算符基本与各个语言使用的格式一致,但不等于使用<code>~=</code>表示.</li>
+<li>充分利用矩阵和矩阵的比较, 矩阵和标量的比较可以简化代码,提高运行速度.</li>
+</ul>
+<h3 id="逻辑运算"><a href="#逻辑运算" class="headerlink" title="逻辑运算"></a>逻辑运算</h3><ul>
+<li>逻辑运算的符号分别为<code>&amp;</code>,<code>|</code>,<code>~</code></li>
+<li>和关系运算一样,可以在同维矩阵直接进行或者矩阵与标量之间进行. </li>
+<li>和C语言的位运算一样, 这些符号的运算结果只能为0或者1.</li>
+</ul>
+<h3 id="运算优先级"><a href="#运算优先级" class="headerlink" title="运算优先级"></a>运算优先级</h3><p>算数运算 &gt; 关系运算 &gt; 逻辑运算</p>
+<h3 id="MATLAB运算示例"><a href="#MATLAB运算示例" class="headerlink" title="MATLAB运算示例"></a>MATLAB运算示例</h3><p>建立矩阵A，找出大于4的元素的位置，并输出这些元素的序号</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A<span class="built_in">=</span>[<span class="number">4</span>,-<span class="number">65</span>,-<span class="number">54</span>,<span class="number">0</span>,<span class="number">6</span>;<span class="number">56</span>,<span class="number">0</span>,<span class="number">67</span>,-<span class="number">45</span>,<span class="number">0</span>];</span><br><span class="line">k <span class="built_in">=</span> find(A&gt;<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="MATLAB矩阵操作"><a href="#MATLAB矩阵操作" class="headerlink" title="MATLAB矩阵操作"></a>MATLAB矩阵操作</h2><p>本节介绍MATLAB中关于矩阵的各种操作, 大部分操作都涉及线性代数的有关内容, 有关线性代数的定义可以查阅相关课本, 本节直接使用而不进行解释.</p>
+<h3 id="对角阵"><a href="#对角阵" class="headerlink" title="对角阵"></a>对角阵</h3><ul>
+<li>diag函数可以提取一个矩阵的对角线,组成一个向量,或者将一个向量变成一个对角阵</li>
+<li>当输入的矩阵不是一个方阵时, 尽可能的获得对角线的元素 </li>
+<li>可以指定一个数字k来提取第k条对角线的元素(与主对角线平行，往上为第1，2，…，n条对角线，往下为第-1，-2，…，-n条对角线，主对角线为第0条对角线).</li>
+<li>当输入是向量时, 将向量还原成一个矩阵, 同时也可以指定一个数字k来指定是还原成那一条对角线.</li>
+</ul>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; A<span class="built_in">=</span>[<span class="number">4</span>,-<span class="number">65</span>,-<span class="number">54</span>,<span class="number">0</span>,<span class="number">6</span>;<span class="number">56</span>,<span class="number">0</span>,<span class="number">67</span>,-<span class="number">45</span>,<span class="number">0</span>]</span><br><span class="line">A <span class="built_in">=</span></span><br><span class="line">     <span class="number">4</span>   -<span class="number">65</span>   -<span class="number">54</span>     <span class="number">0</span>     <span class="number">6</span></span><br><span class="line">    <span class="number">56</span>     <span class="number">0</span>    <span class="number">67</span>   -<span class="number">45</span>     <span class="number">0</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; diag(A)</span><br><span class="line">ans <span class="built_in">=</span></span><br><span class="line">     <span class="number">4</span></span><br><span class="line">     <span class="number">0</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; diag(A,<span class="number">1</span>)</span><br><span class="line">ans <span class="built_in">=</span></span><br><span class="line">   -<span class="number">65</span></span><br><span class="line">    <span class="number">67</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; diag(A,-<span class="number">1</span>)</span><br><span class="line">ans <span class="built_in">=</span></span><br><span class="line">    <span class="number">56</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; V <span class="built_in">=</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>];</span><br><span class="line">&gt;&gt; diag(V,<span class="number">1</span>)</span><br><span class="line">ans <span class="built_in">=</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">1</span>     <span class="number">0</span>     <span class="number">0</span>     <span class="number">0</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">0</span>     <span class="number">2</span>     <span class="number">0</span>     <span class="number">0</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">0</span>     <span class="number">0</span>     <span class="number">3</span>     <span class="number">0</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">0</span>     <span class="number">0</span>     <span class="number">0</span>     <span class="number">4</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">0</span>     <span class="number">0</span>     <span class="number">0</span>     <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="上三角矩阵和下三角矩阵"><a href="#上三角矩阵和下三角矩阵" class="headerlink" title="上三角矩阵和下三角矩阵"></a>上三角矩阵和下三角矩阵</h3><ul>
+<li>triu函数将给定的矩阵提取称为上三角矩阵</li>
+<li>tril函数将给定的矩阵提取为下三角矩阵 </li>
+<li>与diag函数一样,两个函数都可以指定一个数字k来决定从哪一条对角线开始提取.</li>
+</ul>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; A <span class="built_in">=</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>;<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>;<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]</span><br><span class="line">&gt;&gt; triu(A)</span><br><span class="line">ans <span class="built_in">=</span></span><br><span class="line">     <span class="number">1</span>     <span class="number">2</span>     <span class="number">3</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">5</span>     <span class="number">6</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">0</span>     <span class="number">9</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; triu(A,<span class="number">1</span>)</span><br><span class="line">ans <span class="built_in">=</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">2</span>     <span class="number">3</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">0</span>     <span class="number">6</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">0</span>     <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="矩阵的转置和旋转"><a href="#矩阵的转置和旋转" class="headerlink" title="矩阵的转置和旋转"></a>矩阵的转置和旋转</h3><ul>
+<li>使用’表示转置</li>
+<li>使用rot90函数以90为单位旋转矩阵</li>
+<li>使用fliplr和flipud进行左右反转或者上下翻转.</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; A = [1,2;3,4]</span><br><span class="line">&gt;&gt; A&#x27;</span><br><span class="line">ans =</span><br><span class="line">     1     3</span><br><span class="line">     2     4</span><br><span class="line"></span><br><span class="line">&gt;&gt; rot90(A,1)</span><br><span class="line">ans =</span><br><span class="line">     2     4</span><br><span class="line">     1     3</span><br><span class="line"></span><br><span class="line">&gt;&gt; fliplr(A)</span><br><span class="line">ans =</span><br><span class="line">     2     1</span><br><span class="line">     4     3</span><br></pre></td></tr></table></figure>
+
+<h3 id="矩阵的逆和伪逆"><a href="#矩阵的逆和伪逆" class="headerlink" title="矩阵的逆和伪逆"></a>矩阵的逆和伪逆</h3><ul>
+<li>使用inv函数求非奇异矩阵的逆矩阵</li>
+<li>使用pinv求解矩阵的伪逆</li>
+</ul>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; A <span class="built_in">=</span> [<span class="number">1</span>,<span class="number">2</span>;<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">&gt;&gt; inv(A)</span><br><span class="line">ans <span class="built_in">=</span></span><br><span class="line"></span><br><span class="line">   -<span class="number">2.0000</span>    <span class="number">1.0000</span></span><br><span class="line">    <span class="number">1.5000</span>   -<span class="number">0.5000</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="行列式"><a href="#行列式" class="headerlink" title="行列式"></a>行列式</h3><p>使用det函数求解矩阵的行列式</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; A <span class="built_in">=</span> [<span class="number">1</span>,<span class="number">2</span>;<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">&gt;&gt; <span class="keyword">det</span>(A)</span><br><span class="line">ans <span class="built_in">=</span></span><br><span class="line">    -<span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="矩阵的秩和迹"><a href="#矩阵的秩和迹" class="headerlink" title="矩阵的秩和迹"></a>矩阵的秩和迹</h3><ul>
+<li>使用rank函数求解矩阵的秩</li>
+<li>矩阵的秩可以分为行秩和列秩, 两种总是相等的, 统称为秩. 矩阵的秩也称为奇异值数.</li>
+<li>使用trace函数求解矩阵的迹, 矩阵的迹等于矩阵对角线元素之和,或特征值之和.</li>
+</ul>
+<h3 id="向量和矩阵的范数"><a href="#向量和矩阵的范数" class="headerlink" title="向量和矩阵的范数"></a>向量和矩阵的范数</h3><p>度量矩阵或者向量在某种意义下的长度. </p>
+<ul>
+<li>使用norm(V,1)计算1范数</li>
+<li>使用norm(V,2)或者norm(V)计算2范数</li>
+<li>使用norm(V,Inf)计算无穷范数</li>
+</ul>
+<h3 id="矩阵的条件数"><a href="#矩阵的条件数" class="headerlink" title="矩阵的条件数"></a>矩阵的条件数</h3><ul>
+<li>如果在表达式AX=B中解向量X随矩阵A的微小扰动而发生很大变化, 则称矩阵A是病态矩阵, 否则称A为良性矩阵</li>
+<li>条件数是用来描述矩阵良性或者病态性能的参数.</li>
+<li><code>矩阵A的条件数 = A的范数* A的逆矩阵的范数</code> </li>
+<li>任何矩阵的条件数都大于1, 条件数越接近1, 则矩阵越接近良性. </li>
+<li>使用cond计算条件数, cond函数的参数与norm类似,从而可以使用3种范数方法计算条件数.</li>
+</ul>
+<h3 id="特征值和特征向量"><a href="#特征值和特征向量" class="headerlink" title="特征值和特征向量"></a>特征值和特征向量</h3><p>使用如下的函数获得特征值或特征向量</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>E = eig(A)</td>
+<td>获得特征值组成的向量</td>
+</tr>
+<tr>
+<td>[V,D] = eig(A)</td>
+<td>全部特征值构成的对角阵D,特征向量组成V的列向量</td>
+</tr>
+<tr>
+<td>[V,D] = eig(A,’nobalance’)</td>
+<td>不做相似变换,直接求特征值和特征向量</td>
+</tr>
+</tbody></table>
+<h3 id="矩阵的超越函数"><a href="#矩阵的超越函数" class="headerlink" title="矩阵的超越函数"></a>矩阵的超越函数</h3><p>对矩阵整体进行运算,而不是对各个元素进行运算. 各种运算都要求矩阵必须是方阵.例如</p>
+<ul>
+<li>sqrtm(A)      求解矩阵X,使得X*X=A</li>
+<li>funm(A,’fun’) 用指定的函数计算相应的矩阵版本,例如 funm(A,’sqrt’)等价于sqrtm(A)</li>
+</ul>
+<h2 id="其他数据类型"><a href="#其他数据类型" class="headerlink" title="其他数据类型"></a>其他数据类型</h2><h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><ul>
+<li>MATLAB种使用单引号括起来的字符序列表示字符串</li>
+<li>MATLAB将字符串视为一个行向量</li>
+<li>可以使用字符串构成矩阵,每<strong>行</strong>字符数必须相同</li>
+<li>字符串中的<code>&#39;</code>使用<code>&#39;&#39;</code>表示<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; ch <span class="built_in">=</span> [<span class="string">&#x27;abcdef&#x27;</span>;<span class="string">&#x27;123456&#x27;</span>]</span><br><span class="line">ch <span class="built_in">=</span></span><br><span class="line">abcdef</span><br><span class="line"><span class="number">123456</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h4><ul>
+<li>使用abs和double函数获得字符串矩阵对应的ASCII码数值矩阵</li>
+<li>使用char获得ASCII码数值矩阵对应的字符串</li>
+</ul>
+<h4 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h4><p>在使用MATLAB对字符串进行操作时, 也应该充分的使用MATLAB提供的矩阵操作, 从而更加高效的完成任务</p>
+<ol>
+<li><p>以下代码演示将字符串逆序排列</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">revch <span class="built_in">=</span> ch(end:-<span class="number">1</span>:<span class="number">1</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p>以下代码演示将小写字符转化为大写字母,其他字符不变</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ch <span class="built_in">=</span> <span class="string">&#x27;Good Good&#x27;</span>;</span><br><span class="line">k <span class="built_in">=</span> find(ch&gt;<span class="built_in">=</span><span class="string">&#x27;a&#x27;</span> &amp; ch <span class="built_in">&lt;=</span><span class="string">&#x27;z&#x27;</span>);</span><br><span class="line">ch(k) <span class="built_in">=</span> ch(k) - (<span class="string">&#x27;a&#x27;</span>-<span class="string">&#x27;A&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="输出函数"><a href="#输出函数" class="headerlink" title="输出函数"></a>输出函数</h3><p>使用disp函数, 此函数接受一个向量, 输出向量元素依次连接构成的字符串</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f <span class="built_in">=</span> <span class="number">12.33</span></span><br><span class="line">disp([<span class="string">&#x27;Room temperature is&#x27;</span>,num2str(f)])</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="结构矩阵"><a href="#结构矩阵" class="headerlink" title="结构矩阵"></a>结构矩阵</h3><p>使用结构可以存储不同元素,并且将不同类型的元素使用同一个变量名进行管理</p>
+<h4 id="结构矩阵的建立"><a href="#结构矩阵的建立" class="headerlink" title="结构矩阵的建立"></a>结构矩阵的建立</h4><figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; a.x1 <span class="built_in">=</span> <span class="number">12</span>; a.x2 <span class="built_in">=</span> <span class="string">&#x27;LiZeC&#x27;</span>; a.x3 <span class="built_in">=</span> [<span class="number">12</span>;<span class="number">32</span>];</span><br><span class="line">&gt;&gt; a(<span class="number">2</span>).x1 <span class="built_in">=</span> <span class="number">233</span>;a(<span class="number">2</span>).x2<span class="built_in">=</span><span class="string">&#x27;Hello,&#x27;</span>;a(<span class="number">2</span>).x3<span class="built_in">=</span>[];</span><br><span class="line">&gt;&gt; a</span><br><span class="line">a <span class="built_in">=</span> </span><br><span class="line"><span class="number">1</span>x2 struct array with fields:</span><br><span class="line">    x1</span><br><span class="line">    x2</span><br><span class="line">    x3</span><br></pre></td></tr></table></figure>
+
+<p>从定义方式来看, MATLAB的结构与Python的类很相似, 可以动态的添加属性. 定义的时候,可以将a(1)写成a, 后续引用的时候,a就表示整个结构数组了</p>
+<h4 id="结构矩阵的引用"><a href="#结构矩阵的引用" class="headerlink" title="结构矩阵的引用"></a>结构矩阵的引用</h4><ul>
+<li>引用结构变量(矩阵本身): 显示矩阵大小,成员名</li>
+<li>引用结构矩阵元素: <ul>
+<li>成员是矩阵时,显示矩阵大小</li>
+<li>成员不是矩阵时,显示成员的值</li>
+</ul>
+</li>
+<li>引用元素的成员: 显示值</li>
+</ul>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; a(<span class="number">1</span>)</span><br><span class="line">ans <span class="built_in">=</span> </span><br><span class="line">    x1: <span class="number">12</span></span><br><span class="line">    x2: <span class="string">&#x27;LiZeC&#x27;</span></span><br><span class="line">    x3: [<span class="number">2</span>x1 double]</span><br><span class="line">&gt;&gt; a(<span class="number">1</span>).x3</span><br><span class="line">ans <span class="built_in">=</span></span><br><span class="line">    <span class="number">12</span></span><br><span class="line">    <span class="number">32</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="结构矩阵的修改"><a href="#结构矩阵的修改" class="headerlink" title="结构矩阵的修改"></a>结构矩阵的修改</h4><ul>
+<li>矩阵大小,成员都可以动态的添加, 如果赋值的属性不存在,则自动扩展</li>
+<li>使用rmfield函数删除成员</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; a = rmfield(a,&#x27;x2&#x27;)</span><br><span class="line">a = </span><br><span class="line">1x2 struct array with fields:</span><br><span class="line">    x1</span><br><span class="line">    x3</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="单元数据-Cell"><a href="#单元数据-Cell" class="headerlink" title="单元数据(Cell)"></a>单元数据(Cell)</h3><p>单元数据的每个元素都可以是不同的类型, 通过下标或者序号直接访问各个元素</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; b = &#123;10,&#x27;Hello&#x27;,[1,2,3];12,&#x27;LiZeC&#x27;,[4,5,6];&#x27;GGBoy&#x27;,[23,33,3],23&#125;</span><br><span class="line">b = </span><br><span class="line"></span><br><span class="line">    [   10]    &#x27;Hello&#x27;         [1x3 double]</span><br><span class="line">    [   12]    &#x27;LiZeC&#x27;         [1x3 double]</span><br><span class="line">    &#x27;GGBoy&#x27;    [1x3 double]    [        23]</span><br><span class="line"></span><br><span class="line">&gt;&gt; b&#123;1,3&#125;</span><br><span class="line">ans =</span><br><span class="line">     1     2     3</span><br><span class="line"></span><br><span class="line">&gt;&gt; b&#123;3&#125;</span><br><span class="line">ans =</span><br><span class="line">GGBoy</span><br><span class="line"></span><br><span class="line">% 将元素置为空</span><br><span class="line">&gt;&gt; b&#123;3&#125; = []</span><br><span class="line">b = </span><br><span class="line">    [10]    &#x27;Hello&#x27;         [1x3 double]</span><br><span class="line">    [12]    &#x27;LiZeC&#x27;         [1x3 double]</span><br><span class="line">      []    [1x3 double]    [        23]</span><br><span class="line"></span><br><span class="line">% 将元素删除,注意矩阵变成一维了(无法通过b&#123;2,1&#125;访问元素)</span><br><span class="line">&gt;&gt; b(3) = []     </span><br><span class="line">b = </span><br><span class="line">    [10]    [12]    &#x27;Hello&#x27;    &#x27;LiZeC&#x27;    [1x3 double]    [1x3 double]    [1x3 double]    [23]</span><br><span class="line"></span><br><span class="line">% 输出每个元素的具体值(此处省略输出)</span><br><span class="line">&gt;&gt; celldisp(b)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="稀疏矩阵"><a href="#稀疏矩阵" class="headerlink" title="稀疏矩阵"></a>稀疏矩阵</h3><h4 id="稀疏存储矩阵的创建"><a href="#稀疏存储矩阵的创建" class="headerlink" title="稀疏存储矩阵的创建"></a>稀疏存储矩阵的创建</h4><ul>
+<li>稀疏存储矩阵仅存储矩阵所有的非零元素的值及其位置, 从而节省存储空间</li>
+<li>使用sparse函数创建一个稀疏矩阵</li>
+</ul>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; A <span class="built_in">=</span> sparse(<span class="number">4</span>,<span class="number">5</span>)</span><br><span class="line">A <span class="built_in">=</span></span><br><span class="line">   All zero sparse: <span class="number">4</span>-by-<span class="number">5</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; A <span class="built_in">=</span> sparse(<span class="number">2</span>:<span class="number">5</span>,<span class="number">3</span>:<span class="number">6</span>,<span class="number">3</span>)</span><br><span class="line">A <span class="built_in">=</span></span><br><span class="line">   (<span class="number">2</span>,<span class="number">3</span>)        <span class="number">3</span></span><br><span class="line">   (<span class="number">3</span>,<span class="number">4</span>)        <span class="number">3</span></span><br><span class="line">   (<span class="number">4</span>,<span class="number">5</span>)        <span class="number">3</span></span><br><span class="line">   (<span class="number">5</span>,<span class="number">6</span>)        <span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="转化和产生"><a href="#转化和产生" class="headerlink" title="转化和产生"></a>转化和产生</h4><ul>
+<li>使用sparse函数将一个完全存储的矩阵转化为稀疏存储的矩阵</li>
+<li>使用full函数将一个稀疏存储的矩阵转化为完全存储矩阵</li>
+<li>使用spconvert产生一个指定格式的稀疏矩阵</li>
+</ul>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; I <span class="built_in">=</span> eye(<span class="number">5</span>)</span><br><span class="line">I <span class="built_in">=</span></span><br><span class="line">     <span class="number">1</span>     <span class="number">0</span>     <span class="number">0</span>     <span class="number">0</span>     <span class="number">0</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">1</span>     <span class="number">0</span>     <span class="number">0</span>     <span class="number">0</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">0</span>     <span class="number">1</span>     <span class="number">0</span>     <span class="number">0</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">0</span>     <span class="number">0</span>     <span class="number">1</span>     <span class="number">0</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">0</span>     <span class="number">0</span>     <span class="number">0</span>     <span class="number">1</span></span><br><span class="line"></span><br><span class="line">&gt;&gt; s <span class="built_in">=</span> sparse(I)</span><br><span class="line">s <span class="built_in">=</span></span><br><span class="line">   (<span class="number">1</span>,<span class="number">1</span>)        <span class="number">1</span></span><br><span class="line">   (<span class="number">2</span>,<span class="number">2</span>)        <span class="number">1</span></span><br><span class="line">   (<span class="number">3</span>,<span class="number">3</span>)        <span class="number">1</span></span><br><span class="line">   (<span class="number">4</span>,<span class="number">4</span>)        <span class="number">1</span></span><br><span class="line">   (<span class="number">5</span>,<span class="number">5</span>)        <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 寻找所有不为0的元素,返回值可以作为sparse的参数</span></span><br><span class="line">&gt;&gt; [u,v,S]<span class="built_in">=</span>find(A);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 对于A的每一行,其元素分别表示行号,列号,元素值实部,元素值虚部</span></span><br><span class="line"><span class="comment">% 如果全部是实数,第四列可以省略</span></span><br><span class="line">&gt;&gt; A<span class="built_in">=</span>[<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>;<span class="number">3</span>,<span class="number">1</span>,-<span class="number">1</span>;<span class="number">4</span>,<span class="number">3</span>,<span class="number">3</span>;<span class="number">5</span>,<span class="number">3</span>,<span class="number">8</span>;<span class="number">6</span>,<span class="number">6</span>,<span class="number">12</span>];</span><br><span class="line">&gt;&gt; B<span class="built_in">=</span>spconvert(A)</span><br><span class="line">B <span class="built_in">=</span></span><br><span class="line">   (<span class="number">3</span>,<span class="number">1</span>)       -<span class="number">1</span></span><br><span class="line">   (<span class="number">2</span>,<span class="number">2</span>)        <span class="number">1</span></span><br><span class="line">   (<span class="number">4</span>,<span class="number">3</span>)        <span class="number">3</span></span><br><span class="line">   (<span class="number">5</span>,<span class="number">3</span>)        <span class="number">8</span></span><br><span class="line">   (<span class="number">6</span>,<span class="number">6</span>)       <span class="number">12</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="带状稀疏矩阵"><a href="#带状稀疏矩阵" class="headerlink" title="带状稀疏矩阵"></a>带状稀疏矩阵</h3><p>带状稀疏矩阵指非零元素主要分布在对角线或其平行线上的矩阵.  例如下面的矩阵A就是一个带状稀疏矩阵</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">A <span class="built_in">=</span> </span><br><span class="line">    <span class="number">11</span>     <span class="number">0</span>     <span class="number">0</span>    <span class="number">12</span>     <span class="number">0</span>     <span class="number">0</span></span><br><span class="line">     <span class="number">0</span>    <span class="number">21</span>     <span class="number">0</span>     <span class="number">0</span>    <span class="number">22</span>     <span class="number">0</span></span><br><span class="line">     <span class="number">0</span>     <span class="number">0</span>    <span class="number">31</span>     <span class="number">0</span>     <span class="number">0</span>    <span class="number">32</span></span><br><span class="line">    <span class="number">41</span>     <span class="number">0</span>     <span class="number">0</span>    <span class="number">42</span>     <span class="number">0</span>     <span class="number">0</span></span><br><span class="line">     <span class="number">0</span>    <span class="number">51</span>     <span class="number">0</span>     <span class="number">0</span>    <span class="number">52</span>     <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>对于上述矩阵,可以按照以下方式创建</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">m <span class="built_in">=</span> <span class="number">5</span>;          <span class="comment">% 最终矩阵的行数</span></span><br><span class="line">n <span class="built_in">=</span> <span class="number">6</span>;          <span class="comment">% 最终矩阵的列数</span></span><br><span class="line">d <span class="built_in">=</span> [-<span class="number">3</span>,<span class="number">0</span>,<span class="number">3</span>];   <span class="comment">% 矩阵中包含元素的对角线序号, 与矩阵B对应</span></span><br><span class="line">B <span class="built_in">=</span> </span><br><span class="line">[</span><br><span class="line">     <span class="number">0</span>    <span class="number">11</span>    <span class="number">12</span>;</span><br><span class="line">     <span class="number">0</span>    <span class="number">21</span>    <span class="number">22</span>;</span><br><span class="line">     <span class="number">0</span>    <span class="number">31</span>    <span class="number">32</span>;</span><br><span class="line">    <span class="number">41</span>    <span class="number">42</span>     <span class="number">0</span>;</span><br><span class="line">    <span class="number">51</span>    <span class="number">52</span>     <span class="number">0</span>;</span><br><span class="line">];              <span class="comment">% B对应了对角线的元素数量</span></span><br><span class="line">A <span class="built_in">=</span> spdiags(B,d,m,n); </span><br></pre></td></tr></table></figure>
+
+<p>注意: </p>
+<ul>
+<li>对于B矩阵, 如果<code>m &lt; n</code> , 则对于每条对角线,从第一行开始补零, 如果<code>m &gt;= n</code> , 则对于每条对角线,从第一列开始补零</li>
+<li>例如上述矩阵A的-3对角线上,第一个元素是第4行,因此前面补3个零</li>
+<li>分析可知, 补零无论是从行数还是从列数, 总是试图加入少的零, 相等时数列</li>
+</ul>
+<h4 id="其他格式介绍"><a href="#其他格式介绍" class="headerlink" title="其他格式介绍"></a>其他格式介绍</h4><table>
+<thead>
+<tr>
+<th>调用方法</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[B,d] = spdiags(A)</td>
+<td>根据矩阵A提取前述的矩阵B和d</td>
+</tr>
+<tr>
+<td>B = spdiags(A,d)</td>
+<td>根据d提取矩阵A指定的对角线(符合B的格式)</td>
+</tr>
+<tr>
+<td>E = spdiags(B,d,A)</td>
+<td>使用B替换矩阵A中由d指定的对角线</td>
+</tr>
+<tr>
+<td>speye(m,n)</td>
+<td>产生稀疏单位矩阵</td>
+</tr>
+</tbody></table>
+<h2 id="MATLAB程序设计"><a href="#MATLAB程序设计" class="headerlink" title="MATLAB程序设计"></a>MATLAB程序设计</h2><h3 id="M文件分类"><a href="#M文件分类" class="headerlink" title="M文件分类"></a>M文件分类</h3><ul>
+<li>M文件可以分为命令文件(Script)和函数文件(Function)</li>
+<li>使用命令文件时可以直接操作工作空间中的变量, 和直接在命令行上执行其中的命令一样</li>
+<li>使用函数文件时, 函数的变量会作为函数的局部变量在执行完毕后清除</li>
+</ul>
+<h3 id="数据的输入与输出"><a href="#数据的输入与输出" class="headerlink" title="数据的输入与输出"></a>数据的输入与输出</h3><ul>
+<li>输入使用 A = input(‘提示信息’,选择), 选项为’s’时表示作为字符串处理,否则始终视为数字</li>
+<li>输出使用 disp([输出项1,输出项2,…])</li>
+</ul>
+<h3 id="MATLAB其他特殊语法结构"><a href="#MATLAB其他特殊语法结构" class="headerlink" title="MATLAB其他特殊语法结构"></a>MATLAB其他特殊语法结构</h3><h4 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">switch 表达式</span><br><span class="line">    case 表达式1</span><br><span class="line">        语句组1</span><br><span class="line">    case 表达式2</span><br><span class="line">        语句组2</span><br><span class="line">    ......</span><br><span class="line">    otherwise</span><br><span class="line">        语句组n</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>注意: </p>
+<ul>
+<li>不需要break, 执行一个语句组以后直接退出</li>
+<li>switch表达式可以时标量或者字符串, case语句可以时标量,字符串以及单元矩阵</li>
+</ul>
+<h4 id="try语句"><a href="#try语句" class="headerlink" title="try语句"></a>try语句</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">try</span><br><span class="line">    语句组1</span><br><span class="line">catch</span><br><span class="line">    语句组2</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>注意:</p>
+<ul>
+<li>抛出异常后,保存在lasterr中,通过该变量获得异常信息</li>
+<li>各种错误(包括指令拼写错误等)都可以被catch, 因此可以保证程序执行不出现错误</li>
+</ul>
+<h3 id="函数文件"><a href="#函数文件" class="headerlink" title="函数文件"></a>函数文件</h3><p>function 输出形参表 = 函数名(输入形参表)<br>    注释说明部分<br>    函数体语句</p>
+<p>函数是按照文件名调用的, 因此一定要保证文件名和函数名一致</p>
+<h3 id="函数参数可调性"><a href="#函数参数可调性" class="headerlink" title="函数参数可调性"></a>函数参数可调性</h3><ul>
+<li>nargin 调用函数时, 输入变量的个数</li>
+<li>nargout 调用函数时,输出变量的个数</li>
+</ul>
+<h3 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h3><ul>
+<li>使用global声明全局变量</li>
+<li>在工作空间使用global定义全局变量后, 函数内部使用global再次声明</li>
+<li>大量数据的传递可以使用全局变量</li>
+</ul>
+<h2 id="MATLAB符号计算"><a href="#MATLAB符号计算" class="headerlink" title="MATLAB符号计算"></a>MATLAB符号计算</h2><h3 id="产生符号"><a href="#产生符号" class="headerlink" title="产生符号"></a>产生符号</h3><figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">syms x y a b</span><br></pre></td></tr></table></figure>
+
+<h3 id="求导"><a href="#求导" class="headerlink" title="求导"></a>求导</h3><table>
+<thead>
+<tr>
+<th>function</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>diff(S,’v’)</td>
+<td>对符号对象S 中指定的符号变量v，求其1阶导数</td>
+</tr>
+<tr>
+<td>diff(S)</td>
+<td>对符号对象S 中的默认的独立变量求其1阶导数</td>
+</tr>
+<tr>
+<td>diff(S,n)</td>
+<td>对符号对象S中的默认的独立变量求其n阶导数</td>
+</tr>
+<tr>
+<td>diff(S,’v’,n)</td>
+<td>对符号对象S 中指定的符号变量v求其n阶导数</td>
+</tr>
+</tbody></table>
+<h3 id="符号表达式求值"><a href="#符号表达式求值" class="headerlink" title="符号表达式求值"></a>符号表达式求值</h3><figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">subs(f,x,<span class="number">1</span>)         <span class="comment">% 将x替换为1</span></span><br><span class="line">double(r)           <span class="comment">% 将符号表示的数值转化为浮点表示,例如double(1/5) = 0.2</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="符号求解"><a href="#符号求解" class="headerlink" title="符号求解"></a>符号求解</h3><figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sol <span class="built_in">=</span> solve(eq1, eq2, …, eqn, var1, var2, …, varn) </span><br></pre></td></tr></table></figure>
+
+<p>其中eq1到eqn为表达式,var1到varn为未知变量, 例如</p>
+<figure class="highlight m"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">syms x y</span><br><span class="line">[Sx,Sy] <span class="built_in">=</span> solve(x^<span class="number">2</span> + x*y + y <span class="built_in">=</span><span class="built_in">=</span> <span class="number">3</span>,x^<span class="number">2</span> - <span class="number">4</span>*x + <span class="number">3</span> <span class="built_in">=</span><span class="built_in">=</span> <span class="number">0</span>) returns</span><br><span class="line"></span><br><span class="line">    Sx <span class="built_in">=</span></span><br><span class="line">    <span class="number">1</span></span><br><span class="line">    <span class="number">3</span></span><br><span class="line"></span><br><span class="line">    Sy <span class="built_in">=</span></span><br><span class="line">        <span class="number">1</span></span><br><span class="line">    -<span class="number">3</span>/<span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="补充阅读"><a href="#补充阅读" class="headerlink" title="补充阅读"></a>补充阅读</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/zengxiantao1994/article/details/77943305">Matlab符号计算与方程组求解</a></li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月04日 15:08</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/07/MATLAB%E7%AC%94%E8%AE%B0/" title="MATLAB笔记">https://lizec.top/2018/03/07/MATLAB%E7%AC%94%E8%AE%B0/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2018/03/07/MATLAB%E7%AC%94%E8%AE%B0/&title=《MATLAB笔记》 — LiZeC的博客&pic=images/matlab.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2018/03/07/MATLAB%E7%AC%94%E8%AE%B0/&title=《MATLAB笔记》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2018/03/07/MATLAB%E7%AC%94%E8%AE%B0/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MATLAB笔记》 — LiZeC的博客&url=https://lizec.top/2018/03/07/MATLAB%E7%AC%94%E8%AE%B0/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2018/03/07/MATLAB%E7%AC%94%E8%AE%B0/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2018/03/07/MATLAB%E7%AC%94%E8%AE%B0/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Matlab/" class="color2">Matlab</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="post-toc-text">目录</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Matlab%E5%9F%BA%E7%A1%80"><span class="post-toc-text">Matlab基础</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%BB%E7%95%8C%E9%9D%A2%E7%AA%97%E4%BD%93"><span class="post-toc-text">主界面窗体</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MATLAB%E6%90%9C%E7%B4%A2%E8%BF%87%E7%A8%8B"><span class="post-toc-text">MATLAB搜索过程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%9B%AE%E5%BD%95%E6%93%8D%E4%BD%9C"><span class="post-toc-text">目录操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BF%AE%E6%94%B9%E5%90%AF%E5%8A%A8%E7%9B%AE%E5%BD%95"><span class="post-toc-text">修改启动目录</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%9B%AE%E5%BD%95%E5%92%8C%E7%94%A8%E6%88%B7%E7%9B%AE%E5%BD%95"><span class="post-toc-text">系统目录和用户目录</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B8%AE%E5%8A%A9%E7%B3%BB%E7%BB%9F"><span class="post-toc-text">帮助系统</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#help%E5%91%BD%E4%BB%A4"><span class="post-toc-text">help命令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#lookfor%E5%91%BD%E4%BB%A4"><span class="post-toc-text">lookfor命令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%A8%A1%E7%B3%8A%E6%9F%A5%E8%AF%A2"><span class="post-toc-text">模糊查询</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%BC%94%E7%A4%BA%E7%B3%BB%E7%BB%9F"><span class="post-toc-text">演示系统</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%B5%84%E6%BA%90%E7%AB%99"><span class="post-toc-text">资源站</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B8%85%E7%A9%BA"><span class="post-toc-text">清空</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MATLAB%E8%AE%A1%E7%AE%97%E5%9F%BA%E7%A1%80"><span class="post-toc-text">MATLAB计算基础</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8F%98%E9%87%8F%E5%AE%9A%E4%B9%89"><span class="post-toc-text">变量定义</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%AF%AD%E5%8F%A5"><span class="post-toc-text">语句</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B3%A8%E9%87%8A%E5%92%8C%E8%8A%82"><span class="post-toc-text">注释和节</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%A2%84%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="post-toc-text">预定义变量</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%86%85%E5%AD%98%E6%8E%A7%E5%88%B6"><span class="post-toc-text">内存控制</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MATBLAB%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="post-toc-text">MATBLAB常用函数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#abs%E5%87%BD%E6%95%B0"><span class="post-toc-text">abs函数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%8F%96%E6%95%B4%E5%87%BD%E6%95%B0"><span class="post-toc-text">取整函数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%B1%82%E4%BD%99%E6%95%B0"><span class="post-toc-text">求余数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA"><span class="post-toc-text">格式化输出</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%9F%A9%E9%98%B5%E8%BE%93%E5%85%A5%E6%96%B9%E5%BC%8F"><span class="post-toc-text">矩阵输入方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%9F%A9%E9%98%B5%E5%BC%95%E7%94%A8%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="post-toc-text">矩阵引用的转换</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%9F%A9%E9%98%B5%E7%9A%84%E5%BC%95%E7%94%A8"><span class="post-toc-text">矩阵的引用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%BA%8F%E5%8F%B7%E5%92%8C%E4%B8%8B%E6%A0%87%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="post-toc-text">序号和下标的转换</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%9F%A9%E9%98%B5%E6%8B%86%E5%88%86"><span class="post-toc-text">矩阵拆分</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#reshape-A-m-n-%E5%87%BD%E6%95%B0"><span class="post-toc-text">reshape(A,m,n)函数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%86%92%E5%8F%B7%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="post-toc-text">冒号表达式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8%E7%A9%BA%E7%9F%A9%E9%98%B5%E5%88%A0%E9%99%A4%E9%83%A8%E5%88%86%E5%85%83%E7%B4%A0"><span class="post-toc-text">使用空矩阵删除部分元素</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%9F%A9%E9%98%B5%E6%8B%86%E5%88%86%E4%B8%BE%E4%BE%8B"><span class="post-toc-text">矩阵拆分举例</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%89%B9%E6%AE%8A%E7%9F%A9%E9%98%B5"><span class="post-toc-text">特殊矩阵</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E9%80%9A%E7%94%A8%E7%89%B9%E6%AE%8A%E7%9F%A9%E9%98%B5"><span class="post-toc-text">通用特殊矩阵</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AD%A6%E7%A7%91%E7%89%B9%E6%AE%8A%E7%9F%A9%E9%98%B5"><span class="post-toc-text">学科特殊矩阵</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%89%B9%E6%AE%8A%E7%9F%A9%E9%98%B5%E4%BD%BF%E7%94%A8%E4%B8%BE%E4%BE%8B"><span class="post-toc-text">特殊矩阵使用举例</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MATLAB%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="post-toc-text">MATLAB运算符</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%AE%97%E6%95%B0%E8%BF%90%E7%AE%97"><span class="post-toc-text">算数运算</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%9F%BA%E7%A1%80%E8%A7%84%E5%88%99"><span class="post-toc-text">基础规则</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8%E9%99%A4%E6%B3%95"><span class="post-toc-text">深入探讨除法</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97"><span class="post-toc-text">关系运算</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97"><span class="post-toc-text">逻辑运算</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BF%90%E7%AE%97%E4%BC%98%E5%85%88%E7%BA%A7"><span class="post-toc-text">运算优先级</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MATLAB%E8%BF%90%E7%AE%97%E7%A4%BA%E4%BE%8B"><span class="post-toc-text">MATLAB运算示例</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MATLAB%E7%9F%A9%E9%98%B5%E6%93%8D%E4%BD%9C"><span class="post-toc-text">MATLAB矩阵操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AF%B9%E8%A7%92%E9%98%B5"><span class="post-toc-text">对角阵</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%B8%8A%E4%B8%89%E8%A7%92%E7%9F%A9%E9%98%B5%E5%92%8C%E4%B8%8B%E4%B8%89%E8%A7%92%E7%9F%A9%E9%98%B5"><span class="post-toc-text">上三角矩阵和下三角矩阵</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%9F%A9%E9%98%B5%E7%9A%84%E8%BD%AC%E7%BD%AE%E5%92%8C%E6%97%8B%E8%BD%AC"><span class="post-toc-text">矩阵的转置和旋转</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%9F%A9%E9%98%B5%E7%9A%84%E9%80%86%E5%92%8C%E4%BC%AA%E9%80%86"><span class="post-toc-text">矩阵的逆和伪逆</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%A1%8C%E5%88%97%E5%BC%8F"><span class="post-toc-text">行列式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%9F%A9%E9%98%B5%E7%9A%84%E7%A7%A9%E5%92%8C%E8%BF%B9"><span class="post-toc-text">矩阵的秩和迹</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%90%91%E9%87%8F%E5%92%8C%E7%9F%A9%E9%98%B5%E7%9A%84%E8%8C%83%E6%95%B0"><span class="post-toc-text">向量和矩阵的范数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%9F%A9%E9%98%B5%E7%9A%84%E6%9D%A1%E4%BB%B6%E6%95%B0"><span class="post-toc-text">矩阵的条件数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%89%B9%E5%BE%81%E5%80%BC%E5%92%8C%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F"><span class="post-toc-text">特征值和特征向量</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%9F%A9%E9%98%B5%E7%9A%84%E8%B6%85%E8%B6%8A%E5%87%BD%E6%95%B0"><span class="post-toc-text">矩阵的超越函数</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%85%B6%E4%BB%96%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">其他数据类型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="post-toc-text">字符串</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="post-toc-text">定义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%BD%AC%E6%8D%A2"><span class="post-toc-text">转换</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="post-toc-text">代码示例</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BE%93%E5%87%BA%E5%87%BD%E6%95%B0"><span class="post-toc-text">输出函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%BB%93%E6%9E%84%E7%9F%A9%E9%98%B5"><span class="post-toc-text">结构矩阵</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%BB%93%E6%9E%84%E7%9F%A9%E9%98%B5%E7%9A%84%E5%BB%BA%E7%AB%8B"><span class="post-toc-text">结构矩阵的建立</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%BB%93%E6%9E%84%E7%9F%A9%E9%98%B5%E7%9A%84%E5%BC%95%E7%94%A8"><span class="post-toc-text">结构矩阵的引用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%BB%93%E6%9E%84%E7%9F%A9%E9%98%B5%E7%9A%84%E4%BF%AE%E6%94%B9"><span class="post-toc-text">结构矩阵的修改</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8D%95%E5%85%83%E6%95%B0%E6%8D%AE-Cell"><span class="post-toc-text">单元数据(Cell)</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%A8%80%E7%96%8F%E7%9F%A9%E9%98%B5"><span class="post-toc-text">稀疏矩阵</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%A8%80%E7%96%8F%E5%AD%98%E5%82%A8%E7%9F%A9%E9%98%B5%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="post-toc-text">稀疏存储矩阵的创建</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%BD%AC%E5%8C%96%E5%92%8C%E4%BA%A7%E7%94%9F"><span class="post-toc-text">转化和产生</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%B8%A6%E7%8A%B6%E7%A8%80%E7%96%8F%E7%9F%A9%E9%98%B5"><span class="post-toc-text">带状稀疏矩阵</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%85%B6%E4%BB%96%E6%A0%BC%E5%BC%8F%E4%BB%8B%E7%BB%8D"><span class="post-toc-text">其他格式介绍</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MATLAB%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1"><span class="post-toc-text">MATLAB程序设计</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#M%E6%96%87%E4%BB%B6%E5%88%86%E7%B1%BB"><span class="post-toc-text">M文件分类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%95%B0%E6%8D%AE%E7%9A%84%E8%BE%93%E5%85%A5%E4%B8%8E%E8%BE%93%E5%87%BA"><span class="post-toc-text">数据的输入与输出</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MATLAB%E5%85%B6%E4%BB%96%E7%89%B9%E6%AE%8A%E8%AF%AD%E6%B3%95%E7%BB%93%E6%9E%84"><span class="post-toc-text">MATLAB其他特殊语法结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#switch%E8%AF%AD%E5%8F%A5"><span class="post-toc-text">switch语句</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#try%E8%AF%AD%E5%8F%A5"><span class="post-toc-text">try语句</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%87%BD%E6%95%B0%E6%96%87%E4%BB%B6"><span class="post-toc-text">函数文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0%E5%8F%AF%E8%B0%83%E6%80%A7"><span class="post-toc-text">函数参数可调性</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="post-toc-text">全局变量</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MATLAB%E7%AC%A6%E5%8F%B7%E8%AE%A1%E7%AE%97"><span class="post-toc-text">MATLAB符号计算</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BA%A7%E7%94%9F%E7%AC%A6%E5%8F%B7"><span class="post-toc-text">产生符号</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B1%82%E5%AF%BC"><span class="post-toc-text">求导</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%AC%A6%E5%8F%B7%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B1%82%E5%80%BC"><span class="post-toc-text">符号表达式求值</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%AC%A6%E5%8F%B7%E6%B1%82%E8%A7%A3"><span class="post-toc-text">符号求解</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%A1%A5%E5%85%85%E9%98%85%E8%AF%BB"><span class="post-toc-text">补充阅读</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/09/%E5%BE%AE%E5%9E%8B%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%8E%A5%E5%8F%A3%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          微型计算机接口笔记
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">计算机网络笔记</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Wed Mar 07 2018 14:01:31 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

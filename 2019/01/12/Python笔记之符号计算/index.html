@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Python笔记之符号计算 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="在学习机器学习等内容时, 我们经常遇到需要公式推导的情景. 但实际上我们往往只需要理解其中的概念, 具体的计算过程并不重要. 因此如果符号推导过程可以由计算机完成, 则可以节省很多时间, 从而把精力集中到最核心的部分.  文本介绍Python中两个与符号计算相关的第三方库, 即Sympy库和Linalg库. 其中Sympy库用于符号计算, Linalg库是Scipy的一个子包, 用于线性代数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python笔记之符号计算">
+<meta property="og:url" content="https://lizec.top/2019/01/12/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%A6%E5%8F%B7%E8%AE%A1%E7%AE%97/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="在学习机器学习等内容时, 我们经常遇到需要公式推导的情景. 但实际上我们往往只需要理解其中的概念, 具体的计算过程并不重要. 因此如果符号推导过程可以由计算机完成, 则可以节省很多时间, 从而把精力集中到最核心的部分.  文本介绍Python中两个与符号计算相关的第三方库, 即Sympy库和Linalg库. 其中Sympy库用于符号计算, Linalg库是Scipy的一个子包, 用于线性代数">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-01-12T12:45:22.000Z">
+<meta property="article:modified_time" content="2019-12-27T08:19:15.000Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Python笔记之符号计算" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Python笔记之符号计算
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Python笔记/">Python笔记</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-01-12
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script>
+
+
+<p>在学习机器学习等内容时, 我们经常遇到需要公式推导的情景. 但实际上我们往往只需要理解其中的概念, 具体的计算过程并不重要. 因此如果符号推导过程可以由计算机完成, 则可以节省很多时间, 从而把精力集中到最核心的部分. </p>
+<p>文本介绍Python中两个与符号计算相关的第三方库, 即Sympy库和Linalg库. 其中Sympy库用于符号计算, Linalg库是Scipy的一个子包, 用于线性代数的计算.</p>
+<p>本文只展示部分函数的计算结果, 更多API调用和计算结果可以参考<a href="/notebook/UseSympy.html">Sympy使用示例补充</a></p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>由于Sympy库中主要以单独的方法为主, 较少提供类, 因此在单独使用的场景下, 可以直接导入其中所有的方法.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sympy <span class="keyword">import</span> *</span><br></pre></td></tr></table></figure>
+
+<p>如果在Jupyter notebook环境中使用, 还可以执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">init_printing(use_latex=True)</span><br></pre></td></tr></table></figure>
+
+<p>从而使输出变为LaTex格式, 由于notebook本身支持LaTeX格式的输出, 因此这样可以获得最佳的公式表现形式. 在IPython环境中, 使用此参数也可以获得更好的分数表达式效果.</p>
+<p>如果需要输入LaTeX代码, 可以使用latex()函数, 直接从Python命令行输出的LaTeX代码已经正确的处理了部分转义字符的问题, 可以直接输出矩阵.</p>
+<p>Sympy中所有的符号对象都是不可变的, 因此所有的运算都会产生新的符号对象. </p>
+<h2 id="创建变量"><a href="#创建变量" class="headerlink" title="创建变量"></a>创建变量</h2><p>有如下的一些方式来创建符号变量</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 简单变量可以直接导入</span></span><br><span class="line"><span class="keyword">from</span> sympy.abc <span class="keyword">import</span> x,y</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用symbols函数导入任意的表达式</span></span><br><span class="line">x, t, z, nu = symbols(<span class="string">&#x27;x t z nu&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建函数</span></span><br><span class="line">f = Function(<span class="string">&#x27;f&#x27;</span>)</span><br><span class="line">g = Function(<span class="string">&#x27;g&#x27;</span>)(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从字符串创建任意表达式</span></span><br><span class="line">str_expr = <span class="string">&quot;x**2 + 3*x - 1/2&quot;</span></span><br><span class="line">expr = sympify(str_expr)</span><br></pre></td></tr></table></figure>
+
+<h2 id="基础运算"><a href="#基础运算" class="headerlink" title="基础运算"></a>基础运算</h2><p>由于Python支持运算符重载, 因此包括幂运算在内的所有算数运算都可以直接使用. 可以使用如下的两个方法将符号结果转化为数值结果.</p>
+<table>
+<thead>
+<tr>
+<th>方法示例</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>expr.subs(x, 2)</td>
+<td>将x等于2带入表达式并求表达式的值</td>
+</tr>
+<tr>
+<td>pi.evalf(100)</td>
+<td>计算表达式的结果并指定精度</td>
+</tr>
+</tbody></table>
+<p><code>subs</code>方法本质是做了一个替换, 因此既可以将一个变量替换为一个常数, 也可以将一个变量替换为另外一个表达式, 甚至将一个表达式替换为另外一个表达式. 如果有多个替换, 则应该传入一个列表. </p>
+<p><code>evalf</code>方法可以对表达式求任意精度的浮点结果, 例如</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>pi.evalf(<span class="number">100</span>)</span><br><span class="line"><span class="number">3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117068</span></span><br></pre></td></tr></table></figure>
+
+<p>同时, 此函数也支持subs的替换功能, 从而能够更简单的求数值结果, 例如</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>expr = cos(<span class="number">2</span>*x)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>expr.evalf(subs=&#123;x: <span class="number">2.4</span>&#125;)</span><br><span class="line"><span class="number">0.0874989834394464</span></span><br></pre></td></tr></table></figure>
+
+<p>默认情况下, <code>evalf</code>提供15位小数的精度.</p>
+<h2 id="微积分"><a href="#微积分" class="headerlink" title="微积分"></a>微积分</h2><table>
+<thead>
+<tr>
+<th>方法示例</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>diff(sin(x)*exp(x), x)</td>
+<td>导数</td>
+</tr>
+<tr>
+<td>Derivative(expr, x, y)</td>
+<td>创建一个不计算的导数对象</td>
+</tr>
+<tr>
+<td>integrate(exp(x)*sin(x) + exp(x)*cos(x), x)</td>
+<td>不定积分</td>
+</tr>
+<tr>
+<td>integrate(sin(x**2), (x, -oo, oo))</td>
+<td>定积分</td>
+</tr>
+<tr>
+<td>Integral(expr, x, y)</td>
+<td>创建一个不计算的积分对象</td>
+</tr>
+<tr>
+<td>doit()</td>
+<td>求不计算对象的实际结果</td>
+</tr>
+<tr>
+<td>limit(sin(x)/x, x, 0)</td>
+<td>极限</td>
+</tr>
+</tbody></table>
+<p>更多关于极限, 扩展等内容, 可以参考官方文档的<a target="_blank" rel="noopener" href="https://docs.sympy.org/latest/tutorial/calculus.html">Calculus</a>章节. 以下仅介绍导数和计算的有关内容</p>
+<h3 id="导数运算"><a href="#导数运算" class="headerlink" title="导数运算"></a>导数运算</h3><p>将自变量多次传入, 可以对一个表达式求多阶导入, 例如</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>diff(x**<span class="number">4</span>, x, x, x)</span><br><span class="line"><span class="number">24</span>⋅x</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>diff(x**<span class="number">4</span>, x, <span class="number">3</span>)</span><br><span class="line"><span class="number">24</span>⋅x</span><br></pre></td></tr></table></figure>
+
+<p>同样, 如果要求偏导数, 也只需要按照顺序依次传入自变量即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">expr = exp(x*y*z)</span><br><span class="line">diff(expr, x, y, y, z, z, z, z)</span><br></pre></td></tr></table></figure>
+
+<p>不计算结果的导数对象可以用于延迟计算或者展示中间结果. 如果Sympy对于某个表达式无法计算导数, 也会采用这种格式.</p>
+<h3 id="积分运算"><a href="#积分运算" class="headerlink" title="积分运算"></a>积分运算</h3><p>默认情况下, Sympy按照不定积分进行计算, 但是也可以指定上下限来完成定积分计算. </p>
+<p>在Sympy中使用两个连续的小写字母o来表示无穷大, 即<code>oo</code>.</p>
+<p>和导数计算类似, 可以传入多组积分上下限构成的元组来完成多次积分的运算, 例如一个经典的二重积分</p>
+<p>$$ \int_{-\infty}^\infty \int_{-\infty}^\infty{e^{-x^2-y^2}} dxdy $$</p>
+<p>可以执行如下的代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">integrate(exp(-x**2 - y**2), (x, -oo, oo), (y, -oo, oo))</span><br></pre></td></tr></table></figure>
+
+<p>和导数一样, 不可积分的对象会使用一个不计算的积分结果. 当然, 这个积分结果也是可以参与后续的导数运算的, 如果最后微分和积分抵消了, 则后续结果就还是一个计算后的符号对象.</p>
+<h2 id="求解等式"><a href="#求解等式" class="headerlink" title="求解等式"></a>求解等式</h2><p>Sympy既可以求解基本的线性方程组, 也可以求解微分方程, 一些方法如下所示</p>
+<table>
+<thead>
+<tr>
+<th>方法示例</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Eq(x+1,4)</td>
+<td>创建一个等式</td>
+</tr>
+<tr>
+<td>solveset(Eq(x**2, 1), x)</td>
+<td>求解等式的结果</td>
+</tr>
+<tr>
+<td>linsolve([x + y + z - 1, x + y + 2*z - 3 ], (x, y, z))</td>
+<td>求解线性方程组</td>
+</tr>
+<tr>
+<td>nonlinsolve([a**2 + a, a - b], [a, b])</td>
+<td>求解非线性方程组</td>
+</tr>
+<tr>
+<td>dsolve(diffeq, f(x))</td>
+<td>求解微分方程</td>
+</tr>
+</tbody></table>
+<p>Python中的赋值<code>=</code>和<code>==</code>不便于重载, 因此当需要创建一个等式的时候, 需要使用Eq函数. </p>
+<p>由于理论证明, 没有通用的方法可以判断两个符号表达式是否相等. 因此如果想判断相等, 只能使用减法, 即如果A-B等于0, 则A等于B. 或者使用equals函数, 此函数通过随机选取若干点来判断两个表达式是否相等.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = cos(x)**<span class="number">2</span> - sin(x)**<span class="number">2</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = cos(<span class="number">2</span>*x)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.equals(b)</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<p>在所有的求解方法中, 如果直接传入一个表达式, 而不是一个等式, 则默认是求解表达式等于0的时候的值.</p>
+<p>以下内容可以参考官方文档的<a target="_blank" rel="noopener" href="https://docs.sympy.org/latest/tutorial/solvers.html">Solvers</a>章节</p>
+<ul>
+<li>限定解的范围, 例如在实数范围求解</li>
+<li>求解包含三角函数的非线性方程</li>
+<li>LambertW</li>
+</ul>
+<h3 id="求解集"><a href="#求解集" class="headerlink" title="求解集"></a>求解集</h3><p><code>solveset</code>方法本质是返回解的集合, 因此返回结果可能是包含若干个解的集合, 也可以是由实数构成的一段连续的集合. 如果无解, 则返回一个空集, 如果无法求解, 则返回一个等式构成的条件集合.</p>
+<h3 id="线性方程组"><a href="#线性方程组" class="headerlink" title="线性方程组"></a>线性方程组</h3><p>使用<code>linsolve</code>可以求解任意形式的线性方程组, 参数既可以以数组的方式传入, 也可以使用矩阵的方式传入, 例如</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linsolve(Matrix(([<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])), (x, y, z))</span><br></pre></td></tr></table></figure>
+
+<h3 id="非线性方程组"><a href="#非线性方程组" class="headerlink" title="非线性方程组"></a>非线性方程组</h3><p>使用<code>nonlinsolve</code>可以求解非线性方程组, 求解范围默认是复数, 如果需要, 也可以指定为实数. 如果表达式带有参数, 也可以求解基于参数的结果, 例如下面的方程中<code>c</code>是一个参数, 依然可以获得解集.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">system = [a**<span class="number">2</span> + a*c, a - b]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>nonlinsolve(system, [a, b])</span><br><span class="line">&#123;(<span class="number">0</span>, <span class="number">0</span>), (-c, -c)&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="微分方程"><a href="#微分方程" class="headerlink" title="微分方程"></a>微分方程</h3><p>首先创建不定的函数对象</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f, g = symbols(<span class="string">&#x27;f g&#x27;</span>, cls=Function)</span><br></pre></td></tr></table></figure>
+
+<p>然后创建微分方程的等式, 例如</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diffeq = Eq(f(x).diff(x, x) - <span class="number">2</span>*f(x).diff(x) + f(x), sin(x))</span><br></pre></td></tr></table></figure>
+
+<p>最后指定函数对象来求解最终的结果</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dsolve(diffeq, f(x))</span><br></pre></td></tr></table></figure>
+
+<h2 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h2><h3 id="矩阵基础"><a href="#矩阵基础" class="headerlink" title="矩阵基础"></a>矩阵基础</h3><table>
+<thead>
+<tr>
+<th>方法示例</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Matrix([[1, -1], [3, 4], [0, 2]])</td>
+<td>创建一个矩阵</td>
+</tr>
+<tr>
+<td>diag(1,2,3)</td>
+<td>创建对角线为1,2,3的对角矩阵</td>
+</tr>
+<tr>
+<td>M.shape</td>
+<td>获得矩阵的维度信息</td>
+</tr>
+<tr>
+<td>M.row(0)</td>
+<td>获得第0行的内容</td>
+</tr>
+<tr>
+<td>M.col(-1)</td>
+<td>获得从右数第一列的内容</td>
+</tr>
+<tr>
+<td>M.col_del(0)</td>
+<td>删除列</td>
+</tr>
+<tr>
+<td>M.row_del(1)</td>
+<td>删除行</td>
+</tr>
+<tr>
+<td>M = M.row_insert(1, Matrix([[0, 4]]))</td>
+<td>插入列</td>
+</tr>
+<tr>
+<td>M = M.col_insert(0, Matrix([1, -2]))</td>
+<td>插入行</td>
+</tr>
+</tbody></table>
+<p>输入多个数据时, 使用嵌套的列表, 列表中的每组数据视为矩阵的一行. 而为了方便, 单层的列表会视为一个列向量.</p>
+<p>矩阵的加法和乘法运算可以直接使用运算符, 幂运算和逆运算也可以直接使用幂运算符号.</p>
+<h3 id="矩阵操作"><a href="#矩阵操作" class="headerlink" title="矩阵操作"></a>矩阵操作</h3><table>
+<thead>
+<tr>
+<th>方法示例</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>M.T</td>
+<td>转置</td>
+</tr>
+<tr>
+<td>det()</td>
+<td>求行列式</td>
+</tr>
+<tr>
+<td>rref()</td>
+<td>执行行化简</td>
+</tr>
+<tr>
+<td>nullspace()</td>
+<td>求nullsapce</td>
+</tr>
+<tr>
+<td>columnspace()</td>
+<td>求columnspace</td>
+</tr>
+<tr>
+<td>eigenvals()</td>
+<td>求特征值</td>
+</tr>
+<tr>
+<td>eigenvects()</td>
+<td>求特征向量</td>
+</tr>
+<tr>
+<td>diagonalize()</td>
+<td>求对角矩阵</td>
+</tr>
+<tr>
+<td>pinv()</td>
+<td>广义逆</td>
+</tr>
+<tr>
+<td>jordan_form()</td>
+<td>约当标准型</td>
+</tr>
+</tbody></table>
+<p>对于特征值, 具有如下的结构</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>M = Matrix([[<span class="number">3</span>, -<span class="number">2</span>,  <span class="number">4</span>, -<span class="number">2</span>], [<span class="number">5</span>,  <span class="number">3</span>, -<span class="number">3</span>, -<span class="number">2</span>], [<span class="number">5</span>, -<span class="number">2</span>,  <span class="number">2</span>, -<span class="number">2</span>], [<span class="number">5</span>, -<span class="number">2</span>, -<span class="number">3</span>,  <span class="number">3</span>]])</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>M</span><br><span class="line">⎡<span class="number">3</span>  -<span class="number">2</span>  <span class="number">4</span>   -<span class="number">2</span>⎤</span><br><span class="line">⎢             ⎥</span><br><span class="line">⎢<span class="number">5</span>  <span class="number">3</span>   -<span class="number">3</span>  -<span class="number">2</span>⎥</span><br><span class="line">⎢             ⎥</span><br><span class="line">⎢<span class="number">5</span>  -<span class="number">2</span>  <span class="number">2</span>   -<span class="number">2</span>⎥</span><br><span class="line">⎢             ⎥</span><br><span class="line">⎣<span class="number">5</span>  -<span class="number">2</span>  -<span class="number">3</span>  <span class="number">3</span> ⎦</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>M.eigenvals()</span><br><span class="line">&#123;-<span class="number">2</span>: <span class="number">1</span>, <span class="number">3</span>: <span class="number">1</span>, <span class="number">5</span>: <span class="number">2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一个列表, 第一个参数是特征值, 第二个参数是特征值对应的跟数量, 例如上面的结果表明M有三个特征值, 分别是-2, 3, 5, 其中-2和3只有一重根, 5有两重根.</p>
+<p>对于对角矩阵, 方法会返回两个矩阵P和D, 使得D是一个对角矩阵, 而且有</p>
+<p>$$ M = PDP^{-1} $$</p>
+<h2 id="简化表达式"><a href="#简化表达式" class="headerlink" title="简化表达式"></a>简化表达式</h2><table>
+<thead>
+<tr>
+<th>方法示例</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>expand(expr)</td>
+<td>按照指数展开表达式</td>
+</tr>
+<tr>
+<td>factor(expr)</td>
+<td>因式分解</td>
+</tr>
+</tbody></table>
+<p>此外, Sympy还提供包括三角函数化简在内的若干方法, 由于不常用, 就不一一列举了, 详细内容可以阅读官方文档的<a target="_blank" rel="noopener" href="https://docs.sympy.org/latest/tutorial/simplification.html">Simplification</a>章节</p>
+<h2 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://reverland.org/python/2012/10/22/scipy/">Scipy:高端科学计算</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.phpyuan.com/285188.html">用Python来学高数？解方程组？简直不敢相信！简直不可思议！</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.sympy.org/latest/index.html">Welcome to SymPy’s documentation!</a></li>
+</ul>
+<p>第一篇文献写于2012年, 因此其中介绍的API可能有些变化.</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年12月27日 16:19</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2019/01/12/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%A6%E5%8F%B7%E8%AE%A1%E7%AE%97/" title="Python笔记之符号计算">https://lizec.top/2019/01/12/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%A6%E5%8F%B7%E8%AE%A1%E7%AE%97/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2019/01/12/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%A6%E5%8F%B7%E8%AE%A1%E7%AE%97/&title=《Python笔记之符号计算》 — LiZeC的博客&pic=images/python.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2019/01/12/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%A6%E5%8F%B7%E8%AE%A1%E7%AE%97/&title=《Python笔记之符号计算》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2019/01/12/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%A6%E5%8F%B7%E8%AE%A1%E7%AE%97/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Python笔记之符号计算》 — LiZeC的博客&url=https://lizec.top/2019/01/12/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%A6%E5%8F%B7%E8%AE%A1%E7%AE%97/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2019/01/12/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%A6%E5%8F%B7%E8%AE%A1%E7%AE%97/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2019/01/12/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%AC%A6%E5%8F%B7%E8%AE%A1%E7%AE%97/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Python/" class="color2">Python</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="post-toc-text">基本概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BA%E5%8F%98%E9%87%8F"><span class="post-toc-text">创建变量</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9F%BA%E7%A1%80%E8%BF%90%E7%AE%97"><span class="post-toc-text">基础运算</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%BE%AE%E7%A7%AF%E5%88%86"><span class="post-toc-text">微积分</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AF%BC%E6%95%B0%E8%BF%90%E7%AE%97"><span class="post-toc-text">导数运算</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%A7%AF%E5%88%86%E8%BF%90%E7%AE%97"><span class="post-toc-text">积分运算</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%B1%82%E8%A7%A3%E7%AD%89%E5%BC%8F"><span class="post-toc-text">求解等式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B1%82%E8%A7%A3%E9%9B%86"><span class="post-toc-text">求解集</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84"><span class="post-toc-text">线性方程组</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%96%B9%E7%A8%8B%E7%BB%84"><span class="post-toc-text">非线性方程组</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B"><span class="post-toc-text">微分方程</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0"><span class="post-toc-text">线性代数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%9F%A9%E9%98%B5%E5%9F%BA%E7%A1%80"><span class="post-toc-text">矩阵基础</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%9F%A9%E9%98%B5%E6%93%8D%E4%BD%9C"><span class="post-toc-text">矩阵操作</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%AE%80%E5%8C%96%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="post-toc-text">简化表达式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB"><span class="post-toc-text">扩展阅读</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/01/13/Spring%E7%AC%94%E8%AE%B0%E4%B9%8B%E8%AE%BF%E9%97%AE%E6%95%B0%E6%8D%AE%E5%BA%93/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Spring笔记之访问数据库
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2019/01/07/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">机器学习之基础概念</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Sat Jan 12 2019 20:45:22 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

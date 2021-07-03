@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java特性之StreamAPI | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="Stream是Java8中处理集合的关键抽象概念. 使用StreamAPI,编译器可以针对性的使用并行操作来对运算进行加速, 同时使用这些API也能让我们从处理低层次循环中脱离出来,从更高层次思考问题. StreamAPI以下代码演示了使用StreamAPI统计一段文本中所有长度大于7的单词数量 1234String contents &#x3D; new String(Files.readAllBy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java特性之StreamAPI">
+<meta property="og:url" content="https://lizec.top/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8BStreamAPI/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="Stream是Java8中处理集合的关键抽象概念. 使用StreamAPI,编译器可以针对性的使用并行操作来对运算进行加速, 同时使用这些API也能让我们从处理低层次循环中脱离出来,从更高层次思考问题. StreamAPI以下代码演示了使用StreamAPI统计一段文本中所有长度大于7的单词数量 1234String contents &#x3D; new String(Files.readAllBy">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-11-21T08:07:30.000Z">
+<meta property="article:modified_time" content="2020-09-21T07:33:22.946Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="StreamAPI">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Java特性之StreamAPI" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Java特性之StreamAPI
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java特性/">Java特性</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-11-21
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script> -->
+
+
+<p>Stream是Java8中处理集合的关键抽象概念. 使用StreamAPI,编译器可以针对性的使用并行操作来对运算进行加速, 同时使用这些API也能让我们从处理低层次循环中脱离出来,从更高层次思考问题.</p>
+<h2 id="StreamAPI"><a href="#StreamAPI" class="headerlink" title="StreamAPI"></a>StreamAPI</h2><p>以下代码演示了使用StreamAPI统计一段文本中所有长度大于7的单词数量</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String contents = <span class="keyword">new</span> String(Files.readAllBytes(Paths.get(<span class="string">&quot;alice.txt&quot;</span>)),StandardCharsets.UTF_8);</span><br><span class="line">List&lt;String&gt; words = Arrays.asList(contents.split(<span class="string">&quot;[\\P&#123;L&#125;]+&quot;</span>));</span><br><span class="line"><span class="keyword">long</span> count = words.stream().filter(w-&gt;w.length() &gt; <span class="number">7</span>).count();</span><br><span class="line">System.out.println(count);</span><br></pre></td></tr></table></figure>
+
+<p>上述代码中,实际只有第三行是真正执行操作,而使用Stream可以概括成以下三步</p>
+<ol>
+<li>创建一个Stream</li>
+<li>在一个或多个步骤将一个stream转化为另一个stream</li>
+<li>使用一个终止操作来获得结果</li>
+</ol>
+<p>注意:</p>
+<ol>
+<li>Stream的操作很多都是延迟执行的,只有到需要的时候,有关的操作才会进行</li>
+<li>Stream的执行顺序和实际调用的顺序可能并不一致</li>
+<li>Stream不保存元素,有关元素保存在底层的集合中</li>
+</ol>
+<h2 id="创建Stream"><a href="#创建Stream" class="headerlink" title="创建Stream"></a>创建Stream</h2><p>创建一个Stream有如下的几种方法</p>
+<table>
+<thead>
+<tr>
+<th>来源类</th>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Collection<E></td>
+<td>stream()</td>
+<td>任意的集合类均可使用此实例方法</td>
+</tr>
+<tr>
+<td>Stream<T></td>
+<td>of()</td>
+<td>用于将若干个零散的元素组成一个流</td>
+</tr>
+<tr>
+<td>Arrays</td>
+<td>stream()</td>
+<td>用于将一个数组转化为流,这个流可能是特殊化的,例如IntStreamm</td>
+</tr>
+<tr>
+<td>Files</td>
+<td>lines()</td>
+<td>创建文件中每一行字符串组成的字符串流</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Apple&gt; inventory = Arrays.asList(</span><br><span class="line">                <span class="keyword">new</span> Apple(<span class="number">80</span>,<span class="string">&quot;green&quot;</span>),</span><br><span class="line">                <span class="keyword">new</span> Apple(<span class="number">155</span>,<span class="string">&quot;green&quot;</span>),</span><br><span class="line">                <span class="keyword">new</span> Apple(<span class="number">120</span>,<span class="string">&quot;red&quot;</span>));</span><br><span class="line">Stream&lt;Apple&gt; s1 = inventory.stream();</span><br><span class="line"></span><br><span class="line">Stream&lt;String&gt; s2 = Stream.of(<span class="string">&quot;123&quot;</span>,<span class="string">&quot;234&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span>[] A = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>]</span><br><span class="line">Stream&lt;<span class="keyword">int</span>[]&gt; s3 = Stream.of(A);   <span class="comment">// 返回Stream&lt;int[]&gt;</span></span><br><span class="line">IntStream s4 =  Arrays.stream(A); <span class="comment">// 返回IntStream, 即针对int类型的stream</span></span><br></pre></td></tr></table></figure>
+
+<p>对于of()方法,由于使用了可变参数,因此需要注意</p>
+<ol>
+<li>可以接受数组,但是无法转换基础元素组成的数组,可以转化对象组成的数组并返回相应的类型</li>
+<li>由于自动装箱机制,可以接受任意的基础元素,并返回包裹类的流</li>
+<li>始终可以使用Arrays的stream()方法处理数组</li>
+</ol>
+<h2 id="特殊的流"><a href="#特殊的流" class="headerlink" title="特殊的流"></a>特殊的流</h2><p>可以使用empty()函数获得一个空的流,例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; stream = Stream.empty();</span><br></pre></td></tr></table></figure>
+
+<p>可以使用generate()函数获得一个无穷流,每当需要一个元素的时候,就会调用给generate()提供的函数创建一个新的元素,例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; echo = Stream.generate(()-&gt;<span class="string">&quot;Echo&quot;</span>);</span><br><span class="line">Stream&lt;String&gt; randoms = Stream.generate(Math::random);</span><br></pre></td></tr></table></figure>
+
+<p>如果需要创建一个0,1,2,3,…的无穷序列,可以使用iterate()函数, 该函数需要一个种子和一个函数,通过反复将函数运用到上一个结果上得到一个无穷序列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;BigInteger&gt; integers = Stream.iterate(BigInteger.ZERO,n -&gt; n.add(BigInteger.ONE));</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="流转换"><a href="#流转换" class="headerlink" title="流转换"></a>流转换</h2><p>以下三种方法都是用于转换流的方法,即将一个流转换为另外一个流.</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>filter</td>
+<td>接受一个Predicate<T>对象,从而对流进行过滤</td>
+</tr>
+<tr>
+<td>map</td>
+<td>接受一个转换函数,此函数将一个元素转换为另一个元素;从而map方法将一个流转化为另一个类型的类</td>
+</tr>
+<tr>
+<td>flatMap</td>
+<td>接受一个转换函数,此函数将一个元素转化为一个流, 然后将所有返回的流合并成一个流</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">String[] words = &#123;<span class="string">&quot;a&quot;</span>,<span class="string">&quot;bcfs&quot;</span>,<span class="string">&quot;ew&quot;</span>,<span class="string">&quot;eqe&quot;</span>&#125;;</span><br><span class="line">Stream&lt;String&gt; stream = Stream.of(words);</span><br><span class="line"><span class="comment">// 通过过滤获得长度大于3的单词</span></span><br><span class="line">Stream&lt;String&gt; longWords = stream.filter(w-&gt;w.length() &gt; <span class="number">3</span>);</span><br><span class="line"><span class="comment">// 通过map转换为首字母组成的流</span></span><br><span class="line">Stream&lt;Character&gt; firstChars = stream.map(s-&gt;s.charAt(<span class="number">0</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过flatMap将多个流合并成一个流(将单词流拆分为字符流)</span></span><br><span class="line">Stream&lt;Character&gt; letters = stream.flatMap(w -&gt; &#123;</span><br><span class="line">    List&lt;Character&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">char</span> c:w.toCharArray()) &#123;</span><br><span class="line">        result.add(c);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result.stream();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>注意: Objects类新增isNull和nonNull两个静态方法来进行NULL检查,在流中可能用到这些方法来进行匹配或过滤</p>
+<h2 id="提取或组合流"><a href="#提取或组合流" class="headerlink" title="提取或组合流"></a>提取或组合流</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>limit(n)</td>
+<td>获得一个流的前n个元素(不足n则返回所有元素)</td>
+</tr>
+<tr>
+<td>skip(n)</td>
+<td>跳过一个流的前n个元素</td>
+</tr>
+<tr>
+<td>concat(s1,s2)</td>
+<td>将两个流连接成一个流(第一个流不能为无限流,否则第二个流就没有被使用的机会了)</td>
+</tr>
+<tr>
+<td>peek()</td>
+<td>可以添加一个函数,在每次取出一个元素时,调用添加的函数,从而便于调试</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Object[] powers = Stream</span><br><span class="line">        .iterate(<span class="number">1.0</span>,p-&gt;p*<span class="number">2</span>)</span><br><span class="line">        .peek(e-&gt; System.out.println(<span class="string">&quot;Fetching &quot;</span>+ e))</span><br><span class="line">        .skip(<span class="number">3</span>).limit(<span class="number">5</span>).toArray();</span><br><span class="line"></span><br><span class="line">Stream.of(powers).forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<p>注意: 默认情况下,给定的流都是<strong>有序</strong>的. 当不需要有序时,可以调用unorder()方法. 在无序条件下,dintinct()和limit()等方法可以获得更快的执行效率.</p>
+<h2 id="状态转换"><a href="#状态转换" class="headerlink" title="状态转换"></a>状态转换</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>distinct</td>
+<td>获得一个无相同元素的流</td>
+</tr>
+<tr>
+<td>sorted</td>
+<td>对元素进行排序</td>
+</tr>
+</tbody></table>
+<p>如果仅仅是最终的结果需要无相同元素, 也可以考虑不使用distinct方法,而是将结果输出为一个Set.</p>
+<p>sorted的排序依赖Comparable<T>接口, String,Integer等类已经实现了此接口,以此为元素的流可以无参数的调用sorted方法. 对于没有实现此接口的类, 可以为sorted提供一个Comparator来实现比较. Comparator类提供静态方法comparing,传入抽出key的函数即可完成构造指定类型的Comparator</p>
+<p>注意: 这些方法由于涉及状态,基本上需要遍历整个流才能得到结果,因此性能开销较大</p>
+<h2 id="简单聚合方法"><a href="#简单聚合方法" class="headerlink" title="简单聚合方法"></a>简单聚合方法</h2><h3 id="查找和匹配"><a href="#查找和匹配" class="headerlink" title="查找和匹配"></a>查找和匹配</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>效果</th>
+<th>方法</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>min</td>
+<td>获得流中最小值</td>
+<td>max</td>
+<td>获得流中最大值</td>
+</tr>
+<tr>
+<td>findFirst</td>
+<td>返回第一个符合条件的元素</td>
+<td>findAny</td>
+<td>返回任意一个符合条件的元素(对多线程操作更友好)</td>
+</tr>
+<tr>
+<td>allMatch</td>
+<td>返回是否所有元素均匹配给定的条件</td>
+<td>noneMatch</td>
+<td>返回是否所有元素均不匹配给定的条件</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>findFirst和findAny需要在调用之前调用filter函数进行筛选,而allMatch和noneMatch本身接受一个函数,因此可以直接使用</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>findFirst和findAny方法返回元素,而allMatch和noneMatch方法返回Boolean值</p>
+<h3 id="Optional类型"><a href="#Optional类型" class="headerlink" title="Optional类型"></a>Optional类型</h3><p>findAny和findFirst方法并不直接返回元素,而是返回一个包装元素的Optional类型. 该对象中要么包含实际的元素,要么为空.<br>正确的使用方法是调用其ifPresent函数. 该函数接受一个函数,如果元素存在,则执行传入的函数,否则直接跳过.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String[] words = &#123;<span class="string">&quot;Question&quot;</span>,<span class="string">&quot;Stream&quot;</span>,<span class="string">&quot;What&quot;</span>,<span class="string">&quot;How&quot;</span>,<span class="string">&quot;That&quot;</span>,<span class="string">&quot;This&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line">Optional&lt;String&gt; T = Stream.of(words).filter(s-&gt;s.startsWith(<span class="string">&quot;T&quot;</span>)).findAny();</span><br><span class="line"></span><br><span class="line">T.ifPresent(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<p>除此以外,还可以使用orElse函数时Optional对象为空时赋予另外的值,例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String result = T.orElse(<span class="string">&quot;none&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>除了orElse以外,还可以用orElseGet填入一段代码来计算默认值或者orElseThrow来抛出一个异常</p>
+<h3 id="使用举例"><a href="#使用举例" class="headerlink" title="使用举例"></a>使用举例</h3><p>对于一个链式调用的过程,若其中的函数返回的不是基本类型而是Optional类型,可以使用flatMap函数来避免对空值的处理. 以下代码演示如何创建Optional对象以及如何组合链式调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RunStream</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Optional&lt;Double&gt; result = Optional</span><br><span class="line">                .of(-<span class="number">4.0</span>)</span><br><span class="line">                .flatMap(RunStream::inverse)</span><br><span class="line">                .flatMap(RunStream::sqrt);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Optional&lt;Double&gt; <span class="title">inverse</span><span class="params">(Double x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x == <span class="number">0</span> ? Optional.empty() : Optional.of(<span class="number">1</span> / x);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Optional&lt;Double&gt; <span class="title">sqrt</span><span class="params">(Double x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x &lt; <span class="number">0</span> ? Optional.empty() : Optional.of(Math.sqrt(x));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Optional类有一个flatMap函数,此函数接受一个条件,对Optional进行过滤,并且返回一个新的Optional. </p>
+<p>当过程中所有的返回值都不为空时,程序正常的调用. 否则任何空值都会导致最后结果为空值</p>
+<h2 id="聚合操作"><a href="#聚合操作" class="headerlink" title="聚合操作"></a>聚合操作</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>reduce</td>
+<td>接受一个二元函数,并依次将二元函数运用到累计值和下一个元素上</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Integer[] values = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>&#125;;</span><br><span class="line">Optional&lt;Integer&gt; sum = Stream.of(values).reduce((x,y)-&gt; x + y); <span class="comment">// &lt;==&gt; 1+2+3+4+5+6</span></span><br><span class="line">sum.ifPresent(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<p>注意: 上面求和过程中的lambda函数可以使用<code>Integer::sum</code>代替. 如果使用<code>Integer::max</code>则可以用来求最大值.</p>
+<p>如果一个元素e满足<code>e op x = x</code>,即e为单位元时,可以作为reduce的起点,从而保证即使流为空也不用返回Optional对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Integer[] values = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>&#125;;</span><br><span class="line">Integer sum = Stream.of(values).reduce(<span class="number">0</span>,(x,y)-&gt; x + y);</span><br><span class="line">System.out.println(sum);</span><br></pre></td></tr></table></figure>
+
+<h2 id="转化为集合"><a href="#转化为集合" class="headerlink" title="转化为集合"></a>转化为集合</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>iterator</td>
+<td>获得一个传统的迭代器</td>
+</tr>
+<tr>
+<td>toArray</td>
+<td>获得数组</td>
+</tr>
+</tbody></table>
+<p>注意:由于不能创建运行时的泛型数组,因此toArray()返回Object[]类型的数组. 或者向toArray函数传递一个构造器来获得类型.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Integer[] values = &#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>&#125;;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;From Iterator&quot;</span>);</span><br><span class="line">Iterator&lt;Integer&gt; it = Stream.of(values).iterator();</span><br><span class="line"><span class="keyword">while</span> (it.hasNext())&#123;</span><br><span class="line">    System.out.println(it.next());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">&quot;From Array&quot;</span>);</span><br><span class="line">Integer[] re = Stream.of(values).toArray(Integer[]::<span class="keyword">new</span>);</span><br><span class="line"><span class="keyword">for</span> (Integer i: re) &#123;</span><br><span class="line">    System.out.println(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Collect操作"><a href="#Collect操作" class="headerlink" title="Collect操作"></a>Collect操作</h2><p>Stream的collect操作是一个通用的操作,接受一个收集器,返回各种类型的收集结果. 以下介绍收集成各种不同类型时应该使用的收集器</p>
+<h3 id="收集为表"><a href="#收集为表" class="headerlink" title="收集为表"></a>收集为表</h3><p>使用Collectors的以下方法来产生指定的收集器</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>toList</td>
+<td>产生收集为List的收集器</td>
+</tr>
+<tr>
+<td>toSet</td>
+<td>产生收集为Set的收集器</td>
+</tr>
+<tr>
+<td>toColection</td>
+<td>指定一个构造器,产生指定类型的Set</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; rlist = stream.of(words).collect(Collectors.toList());</span><br><span class="line">Set&lt;String&gt; rset = stream.of(words).collect(Collectors.toSet());</span><br><span class="line">HashSet&lt;String&gt; set = Stream.of(words).collect(Collectors.toCollection(HashSet::<span class="keyword">new</span>));</span><br></pre></td></tr></table></figure>
+
+<p>注意: 实际的代码中, 直接静态导入Collectors类的方法能进一步简化代码</p>
+<h3 id="收集为Map"><a href="#收集为Map" class="headerlink" title="收集为Map"></a>收集为Map</h3><p>使用Collectors的以下方法来产生指定的收集器</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>toMap</td>
+<td>接受两个参数,分别提取键和值,产生收集为Map的收集器</td>
+</tr>
+</tbody></table>
+<p>注意: 虽然可以使用Function.identity()函数来获得实际的元素本身, 但使用<code>e -&gt; e</code>可能更简短</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;Integer,String&gt; idToName = people.collect(Collectors.toMap(Person::getID,Person::getName));</span><br><span class="line">Map&lt;Integer,Person&gt; idToPerson = people.collect(Collectors.toMap(Person::getID, e -&gt; e);</span><br></pre></td></tr></table></figure>
+
+<p><strong>如果有多个元素具有同样的key, 此方法会抛出IllegalStateException.</strong> 针对这种冲突, Collectors提供了groupingby方法来处理这种情况.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="转化为字符串"><a href="#转化为字符串" class="headerlink" title="转化为字符串"></a>转化为字符串</h3><p>使用Collectors提供的以下方法产生的收集器可以将一个流转化为一个字符串</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>joining()</td>
+<td>返回一个可以将字符串连接起来的收集器</td>
+</tr>
+<tr>
+<td>joining(String)</td>
+<td>接受一个字符串作为各个元素之间的分隔符</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String result = Stream.of(words).collect(Collectors.joining(<span class="string">&quot;?&quot;</span>));   <span class="comment">//用?隔开各个元素的字符串</span></span><br></pre></td></tr></table></figure>
+
+<p>注意: 使用此方法连接的字符串,内部使用了StringBuilder, 因此比使用reduce方法连接效率更高</p>
+<h3 id="转化为数字统计"><a href="#转化为数字统计" class="headerlink" title="转化为数字统计"></a>转化为数字统计</h3><p>如果对之后的结果需要进行最大值,最小值,平均值等数据的统计操作,可以将流转化为一个TYPESummaryStatistic类型. 其中TYPE为Int,Double或者Long. 可以分别使用Collector的如下方法</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>summarizingTYPE</td>
+<td>产生一个生成TYPESummaryStatistic的收集器,其中TYPE是Int,Double或者Long</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IntSummaryStatistics summary = Stream.of(words).collect(Collectors.summarizingInt(String::length));</span><br><span class="line"><span class="keyword">double</span> averWordLength = summary.getAverage();</span><br><span class="line"><span class="keyword">double</span> maxWordLength = summary.getMax();</span><br></pre></td></tr></table></figure>
+
+<h2 id="原始类型流"><a href="#原始类型流" class="headerlink" title="原始类型流"></a>原始类型流</h2><p>由于Stream中使用原始类型需要进行装箱,效率很低,因此对于基础类型,Stream提供了特殊的一类Stream,包括IntStream,LongStream和DoubleStream.</p>
+<p>可以使用如下的方法获得原始类型流, 以下均以Int为例,其他类型方法名类似.</p>
+<table>
+<thead>
+<tr>
+<th>来源类</th>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IntStream</td>
+<td>of</td>
+<td>可变参数函数,接受零散的值或者同类型数组</td>
+</tr>
+<tr>
+<td>Arrays</td>
+<td>stream</td>
+<td>将对应类型的数组转化为Stream</td>
+</tr>
+<tr>
+<td>IntStream</td>
+<td>range</td>
+<td>产生一个指定返回的Stream,类似Python中的range</td>
+</tr>
+<tr>
+<td>Stream</td>
+<td>maptoInt</td>
+<td>将一个流转化为IntStream</td>
+</tr>
+<tr>
+<td>Random</td>
+<td>ints</td>
+<td>一个包含随机数字的IntStream</td>
+</tr>
+</tbody></table>
+<p>如果想把原始类型流转化为对象流, 可以使用<code>boxed</code>方法</p>
+<p>原始类型流除了不用进行装箱操作以外, 还提供了一组额外的操作, 以便于进行数值上的计算, 例如<code>sum</code>方法可以直接进行求和. </p>
+<h2 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h2><p>Collectors提供函数以下的方法,根据指定的条件将流进行分组</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>groupingBy</td>
+<td>根据指定的条件分组,类似SQL的<code>GROUP BY</code></td>
+</tr>
+<tr>
+<td>partitioningBy</td>
+<td>接受一个Prediction,将流分成两类</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;Locale&gt; locales = Stream.of(Locale.getAvailableLocales());</span><br><span class="line"><span class="comment">// 按照国家名称分类,以国家名称为键,语言代码的集合为值</span></span><br><span class="line">Map&lt;String, List&lt;Locale&gt;&gt; countryToLocales = locales.collect(Collectors.groupingBy(Locale::getCountry));</span><br><span class="line">List&lt;Locale&gt; cn = countryToLocales.get(<span class="string">&quot;CN&quot;</span>);</span><br><span class="line">cn.forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="并行流"><a href="#并行流" class="headerlink" title="并行流"></a>并行流</h2><table>
+<thead>
+<tr>
+<th>来源类</th>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Collection</td>
+<td>parallelStream()</td>
+<td>任意集合类都可以直接创建并行流</td>
+</tr>
+<tr>
+<td>Stream</td>
+<td>parallel()</td>
+<td>任意流都可以转化为并行流</td>
+</tr>
+<tr>
+<td>Stream</td>
+<td>sequential()</td>
+<td>任意流都可以转化为串行流</td>
+</tr>
+</tbody></table>
+<p>调用<code>parallel() </code>方法后, 流的内部进行了一个标记, 表示之后的操作都希望并行执行, 同样, 调用<code>sequential()</code>表示后续所有操作都希望按照串行执行. </p>
+<p>并行流的内部使用了ForkJoinPool, 默认使用的线程数量与和处理数量一致. 并行流对于线程安全问题不做任何保证, 因此其中执行的方法要求保证是线程安全的.</p>
+<h3 id="高效实用并行流"><a href="#高效实用并行流" class="headerlink" title="高效实用并行流"></a>高效实用并行流</h3><ol>
+<li>并非任何时候采用并行流都会获得更高的性能, 当任务不容易切分时, 可能因为线程的开销导致性能反而低于串行流. </li>
+<li>注意自动装箱机制, 尽量使用原始类型流</li>
+<li>依赖顺序的方法,例如limit或findFirst的性能在并行流上更差, 此时可以考虑使用不依赖顺序的方法或者使用unorder方法</li>
+<li>数据量较小或者处理每个元素的时间占比低的情况下不适合使用并行流</li>
+<li>如果数据结构不易分解, 不适合使用并行流</li>
+</ol>
+<p>各种数据源可分解程度如下表所示:</p>
+<table>
+<thead>
+<tr>
+<th>源</th>
+<th>可分解性</th>
+<th>源</th>
+<th>可分解性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ArrayList</td>
+<td>极佳</td>
+<td>IntStream.range</td>
+<td>极佳</td>
+</tr>
+<tr>
+<td>HashSet</td>
+<td>好</td>
+<td>TreeSet</td>
+<td>好</td>
+</tr>
+<tr>
+<td>LinkedList</td>
+<td>差</td>
+<td>Stream.iteratr</td>
+<td>差</td>
+</tr>
+</tbody></table>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年09月21日 15:33</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8BStreamAPI/" title="Java特性之StreamAPI">https://lizec.top/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8BStreamAPI/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8BStreamAPI/&title=《Java特性之StreamAPI》 — LiZeC的博客&pic=images/java.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8BStreamAPI/&title=《Java特性之StreamAPI》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8BStreamAPI/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java特性之StreamAPI》 — LiZeC的博客&url=https://lizec.top/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8BStreamAPI/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8BStreamAPI/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8BStreamAPI/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Java/" class="color5">Java</a>
+      
+    <a href="/tags/StreamAPI/" class="color5">StreamAPI</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#StreamAPI"><span class="post-toc-text">StreamAPI</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%9B%E5%BB%BAStream"><span class="post-toc-text">创建Stream</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%89%B9%E6%AE%8A%E7%9A%84%E6%B5%81"><span class="post-toc-text">特殊的流</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%B5%81%E8%BD%AC%E6%8D%A2"><span class="post-toc-text">流转换</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%8F%90%E5%8F%96%E6%88%96%E7%BB%84%E5%90%88%E6%B5%81"><span class="post-toc-text">提取或组合流</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2"><span class="post-toc-text">状态转换</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%AE%80%E5%8D%95%E8%81%9A%E5%90%88%E6%96%B9%E6%B3%95"><span class="post-toc-text">简单聚合方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%9F%A5%E6%89%BE%E5%92%8C%E5%8C%B9%E9%85%8D"><span class="post-toc-text">查找和匹配</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Optional%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">Optional类型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8%E4%B8%BE%E4%BE%8B"><span class="post-toc-text">使用举例</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%81%9A%E5%90%88%E6%93%8D%E4%BD%9C"><span class="post-toc-text">聚合操作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%BD%AC%E5%8C%96%E4%B8%BA%E9%9B%86%E5%90%88"><span class="post-toc-text">转化为集合</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Collect%E6%93%8D%E4%BD%9C"><span class="post-toc-text">Collect操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%94%B6%E9%9B%86%E4%B8%BA%E8%A1%A8"><span class="post-toc-text">收集为表</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%94%B6%E9%9B%86%E4%B8%BAMap"><span class="post-toc-text">收集为Map</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BD%AC%E5%8C%96%E4%B8%BA%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="post-toc-text">转化为字符串</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BD%AC%E5%8C%96%E4%B8%BA%E6%95%B0%E5%AD%97%E7%BB%9F%E8%AE%A1"><span class="post-toc-text">转化为数字统计</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8E%9F%E5%A7%8B%E7%B1%BB%E5%9E%8B%E6%B5%81"><span class="post-toc-text">原始类型流</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%86%E7%BB%84"><span class="post-toc-text">分组</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%B9%B6%E8%A1%8C%E6%B5%81"><span class="post-toc-text">并行流</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%AB%98%E6%95%88%E5%AE%9E%E7%94%A8%E5%B9%B6%E8%A1%8C%E6%B5%81"><span class="post-toc-text">高效实用并行流</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8B%E6%96%87%E4%BB%B6%E4%B8%8E%E6%97%B6%E9%97%B4API/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Java特性之文件与时间API
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/11/21/Java%E7%89%B9%E6%80%A7%E4%B9%8BLambda%E8%A1%A8%E8%BE%BE%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Java特性之Lambda表达式</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Wed Nov 21 2018 16:07:30 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

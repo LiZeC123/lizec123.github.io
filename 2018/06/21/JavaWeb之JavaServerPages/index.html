@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>JavaWeb之JavaServerPages | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="本文介绍JSP的基本知识和语法以及由JSP衍生的Web开发技术. JSP（Java Server Pages）是由Sun Microsystems公司倡导和许多公司参与共同创建的一种使软件开发者可以响应客户端请求,而动态生成HTML,XML或其他格式文档的Web网页的技术标准.JSP技术是以Java语言作为脚本语言的,JSP网页为整个服务器端的Java库单元提供了一个接口来服务于HTTP的应用程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaWeb之JavaServerPages">
+<meta property="og:url" content="https://lizec.top/2018/06/21/JavaWeb%E4%B9%8BJavaServerPages/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="本文介绍JSP的基本知识和语法以及由JSP衍生的Web开发技术. JSP（Java Server Pages）是由Sun Microsystems公司倡导和许多公司参与共同创建的一种使软件开发者可以响应客户端请求,而动态生成HTML,XML或其他格式文档的Web网页的技术标准.JSP技术是以Java语言作为脚本语言的,JSP网页为整个服务器端的Java库单元提供了一个接口来服务于HTTP的应用程序">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-06-21T12:22:03.000Z">
+<meta property="article:modified_time" content="2019-07-09T01:47:41.675Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-JavaWeb之JavaServerPages" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      JavaWeb之JavaServerPages
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/JavaWeb/">JavaWeb</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-06-21
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>本文介绍JSP的基本知识和语法以及由JSP衍生的Web开发技术. JSP（Java Server Pages）是由Sun Microsystems公司倡导和许多公司参与共同创建的一种使软件开发者可以响应客户端请求,而动态生成HTML,XML或其他格式文档的Web网页的技术标准.JSP技术是以Java语言作为脚本语言的,JSP网页为整个服务器端的Java库单元提供了一个接口来服务于HTTP的应用程序.</p>
+<h2 id="JSP文件结构"><a href="#JSP文件结构" class="headerlink" title="JSP文件结构"></a>JSP文件结构</h2><p>JSP和PHP等语言一样,可以和HTML文件一同混合编写. 与PHP代码包含在<code>&lt;?PHP</code>和<code>?&gt;</code>之间一样,所有的JSP代码都包含在<code>&lt;%</code>和<code>%&gt;</code>之中. JSP文件通常以<code>.jsp</code>作为后缀, 在JSP文件中,JSP代码出现的位置并没有具体的限制.</p>
+<p>以下是一段JSP代码的例子:</p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;%<span class="meta">@page</span> <span class="keyword">import</span>=<span class="string">&quot;java.util.Random&quot;</span>%&gt;</span><br><span class="line">&lt;%@ page language=<span class="string">&quot;java&quot;</span> contentType=<span class="string">&quot;text/html; charset=utf8&quot;</span></span><br><span class="line">    pageEncoding=<span class="string">&quot;utf8&quot;</span>%&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC <span class="string">&quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span> <span class="string">&quot;http://www.w3.org/TR/html4/loose.dtd&quot;</span>&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;Content-Type&quot;</span> content=<span class="string">&quot;text/html; charset=ISO-8859-1&quot;</span>&gt;</span><br><span class="line">&lt;title&gt;Hello From JSP&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;%!</span><br><span class="line">	<span class="function">String <span class="title">sayHello</span><span class="params">(String name)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;Hi,&quot;</span> + name;</span><br><span class="line">	&#125;</span><br><span class="line">%&gt;</span><br><span class="line">&lt;%=sayHello(<span class="string">&quot;Lily&quot;</span>) %&gt;</span><br><span class="line">&lt;%</span><br><span class="line">	Random rand = <span class="keyword">new</span> Random();</span><br><span class="line">	<span class="keyword">int</span> num = rand.nextInt(<span class="number">1000</span>);</span><br><span class="line">	out.println(<span class="string">&quot;\n您是今天的第&quot;</span>+num+<span class="string">&quot;位访客&quot;</span>);</span><br><span class="line">%&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>从以上代码,我们可以注意到以下几个特征</p>
+<ol>
+<li>所有的JSP代码都是包裹在<code>&lt;%...%&gt;</code>之中的</li>
+<li>页面属性有关的代码使用<code>&lt;%@page ...&quot;%&gt;</code>包裹</li>
+<li>JSP代码本质还是Java代码</li>
+<li>如果刷新页面,则每次显示的数字都不同,说明JSP代码每次请求的时候都会被重新执行</li>
+</ol>
+<h2 id="JSP元素类型"><a href="#JSP元素类型" class="headerlink" title="JSP元素类型"></a>JSP元素类型</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>标记</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>静态内容</td>
+<td>N/A</td>
+<td>即HTML代码,与JSP语法无关</td>
+</tr>
+<tr>
+<td>声明(declaration)</td>
+<td><code>&lt;%! ... %&gt;</code></td>
+<td>用于定义方法, 变量等</td>
+</tr>
+<tr>
+<td>表达式(expression)</td>
+<td><code>&lt;%= ... %&gt;</code></td>
+<td>可以计算, 调用函数, 引用变量等</td>
+</tr>
+<tr>
+<td>代码片段(scriptlet)</td>
+<td><code>&lt;% ... %&gt;</code></td>
+<td>任意的Java代码片段, 通常会产生输出到客户端的输出流</td>
+</tr>
+<tr>
+<td>指令</td>
+<td><code>&lt;%@ ... %&gt;</code></td>
+<td>使用page关键字来设置属性</td>
+</tr>
+<tr>
+<td>动作</td>
+<td><code>&lt;jsp:动作&gt;...&lt;/jsp:动作&gt;</code></td>
+<td>包含文件, 请求转发等</td>
+</tr>
+</tbody></table>
+<h2 id="JSP隐式对象"><a href="#JSP隐式对象" class="headerlink" title="JSP隐式对象"></a>JSP隐式对象</h2><p>JSP中共包含4大类,共9个隐含对象,这些对象直接存在于JSP脚本中,不需要任何操作即可使用他们. 具体分类如下所示:</p>
+<ol>
+<li>输入输出对象<ul>
+<li>request<ul>
+<li>request对象表示客户端的请求,包含了所有的请求信息,包括协议名,端口号,IP地址,编码方式等信息.</li>
+</ul>
+</li>
+<li>response<ul>
+<li>response对象表示服务器端的返回,JSP一般很少使用</li>
+</ul>
+</li>
+<li>out<ul>
+<li>表示输出流,此输出流会作为请求的响应返回给客户端</li>
+<li>out是JspWrite的实例</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>作用域通讯对象<ul>
+<li>session<ul>
+<li>表示用户的会话情况</li>
+<li>用于和客户端进行唯一标识,从而保持客户端状态信息</li>
+<li>由于HTTP是无状态连接,因此实现此功能通常都是使用了cookie技术</li>
+</ul>
+</li>
+<li>application<ul>
+<li>全局的共享信息</li>
+</ul>
+</li>
+<li>pageContext<ul>
+<li>显式的访问隐式的对象</li>
+<li>例如pageContext.getOut()获得out对象</li>
+<li>此外也可以保存页面级的信息</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Servlet对象<ul>
+<li>page<ul>
+<li>指向当前页面,相当与其他语言中的this指针</li>
+<li>现在已经很少使用page变量</li>
+</ul>
+</li>
+<li>config<ul>
+<li>存储Servlet的一些初始信息</li>
+<li>现在已经很少使用</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>错误对象<ul>
+<li>exception<ul>
+<li>需要在页面中使用page质量将isErrorPage属性置为true</li>
+<li>表示异常,是java.lang.Throwable对象</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="关于session实现的讨论"><a href="#关于session实现的讨论" class="headerlink" title="关于session实现的讨论"></a>关于session实现的讨论</h3><ul>
+<li><a target="_blank" rel="noopener" href="http://www.runoob.com/jsp/jsp-session.html">JSP Session介绍</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/j903829182/article/details/39855221">深入理解cookie与session</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.blogjava.net/persister/archive/2010/08/24/329838.html">Session原理和Tomcat实现分析</a></li>
+</ul>
+<h3 id="演示代码"><a href="#演示代码" class="headerlink" title="演示代码"></a>演示代码</h3><ul>
+<li>以下代码演示了如何使用request对象和HTML代码实现网页的数据交互<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;%<span class="meta">@page</span> <span class="keyword">import</span>=<span class="string">&quot;java.util.Enumeration&quot;</span>%&gt;</span><br><span class="line">&lt;%@ page language=<span class="string">&quot;java&quot;</span> contentType=<span class="string">&quot;text/html; charset=utf8&quot;</span></span><br><span class="line">    pageEncoding=<span class="string">&quot;utf8&quot;</span>%&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC <span class="string">&quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot;</span> <span class="string">&quot;http://www.w3.org/TR/html4/loose.dtd&quot;</span>&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=<span class="string">&quot;Content-Type&quot;</span> content=<span class="string">&quot;text/html; charset=ISO-8859-1&quot;</span>&gt;</span><br><span class="line">&lt;title&gt;Hello From JSP&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;%</span><br><span class="line">String str = <span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span>(request.getParameter(<span class="string">&quot;username&quot;</span>) != <span class="keyword">null</span> &amp;&amp; request.getParameter(<span class="string">&quot;password&quot;</span>) != <span class="keyword">null</span>)</span><br><span class="line">&#123;</span><br><span class="line">	Enumeration&lt;String&gt; enumt = request.getParameterNames();</span><br><span class="line">	<span class="keyword">while</span>(enumt.hasMoreElements())&#123;</span><br><span class="line">		str = enumt.nextElement().toString();</span><br><span class="line">		out.println(str + <span class="string">&quot;:&quot;</span>+ request.getParameter(str) + <span class="string">&quot;&lt;br&gt;&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line">%&gt;</span><br><span class="line"></span><br><span class="line">&lt;form method=<span class="string">&quot;post&quot;</span> action=<span class="string">&quot;&quot;</span>&gt;</span><br><span class="line">	用户名:&lt;input type=<span class="string">&quot;text&quot;</span>  name=<span class="string">&quot;username&quot;</span> id=<span class="string">&quot;username&quot;</span> value=<span class="string">&quot;&quot;</span> /&gt;</span><br><span class="line">	 密码: &lt;input type=<span class="string">&quot;password&quot;</span>  name=<span class="string">&quot;password&quot;</span> id=<span class="string">&quot;pass&quot;</span> value=<span class="string">&quot;&quot;</span> /&gt;</span><br><span class="line">    &lt;input type=<span class="string">&quot;submit&quot;</span> value=<span class="string">&quot;提交&quot;</span>/&gt; </span><br><span class="line">&lt;/form&gt; </span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="Servlet技术"><a href="#Servlet技术" class="headerlink" title="Servlet技术"></a>Servlet技术</h2><p>Servlet是一种独立于平台和协议的服务器端的Java应用程序,处理请求的信息并将结果返回给客户端. Servlet的客户端可以是浏览器,java应用程序等. Servlet实际上是充当客户端与服务器端数据库之间的中间层.</p>
+<h3 id="Servlet运行原理"><a href="#Servlet运行原理" class="headerlink" title="Servlet运行原理"></a>Servlet运行原理</h3><ol>
+<li>客户端发送请求</li>
+<li>服务器将请求转发给Servlet容器处理</li>
+<li>Servlet容器处理完毕后将结果返回给服务器</li>
+<li>服务器将结果返回给客户端<br>注意: 当一个Servlet第一次收到http请求时,服务器启动一个Servlet实例,并启动一个线程. 后续同一个Servlet再次收到请求时,只开一个新的线程,不再创建实例.</li>
+</ol>
+<h3 id="Servlet方法和使用"><a href="#Servlet方法和使用" class="headerlink" title="Servlet方法和使用"></a>Servlet方法和使用</h3><p>学习Servlet方法的最简单方式就是阅读源代码,但是tomcat并没有提供源代码,如果想看诸如HttpServlet类的实现需要自己下载源代码,例如<a target="_blank" rel="noopener" href="http://blog.csdn.net/u013823429/article/details/66982245">这篇博客</a>提供了源代码的下载和使用方法.</p>
+<p>以下的内容都是基于HttpServlet的源代码.</p>
+<h4 id="doGet方法"><a href="#doGet方法" class="headerlink" title="doGet方法"></a>doGet方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Called by the server (via the &lt;code&gt;service&lt;/code&gt; method) to</span></span><br><span class="line"><span class="comment"> * allow a servlet to handle a GET request. </span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Overriding this method to support a GET request also</span></span><br><span class="line"><span class="comment"> * automatically supports an HTTP HEAD request. A HEAD</span></span><br><span class="line"><span class="comment"> * request is a GET request that returns no body in the</span></span><br><span class="line"><span class="comment"> * response, only the request header fields.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;When overriding this method, read the request data,</span></span><br><span class="line"><span class="comment"> * write the response headers, get the response&#x27;s writer or </span></span><br><span class="line"><span class="comment"> * output stream object, and finally, write the response data.</span></span><br><span class="line"><span class="comment"> * It&#x27;s best to include content type and encoding. When using</span></span><br><span class="line"><span class="comment"> * a &lt;code&gt;PrintWriter&lt;/code&gt; object to return the response,</span></span><br><span class="line"><span class="comment"> * set the content type before accessing the</span></span><br><span class="line"><span class="comment"> * &lt;code&gt;PrintWriter&lt;/code&gt; object.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;The servlet container must write the headers before</span></span><br><span class="line"><span class="comment"> * committing the response, because in HTTP the headers must be sent</span></span><br><span class="line"><span class="comment"> * before the response body.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Where possible, set the Content-Length header (with the</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> javax.servlet.ServletResponse#setContentLength&#125; method),</span></span><br><span class="line"><span class="comment"> * to allow the servlet container to use a persistent connection </span></span><br><span class="line"><span class="comment"> * to return its response to the client, improving performance.</span></span><br><span class="line"><span class="comment"> * The content length is automatically set if the entire response fits</span></span><br><span class="line"><span class="comment"> * inside the response buffer.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;When using HTTP 1.1 chunked encoding (which means that the response</span></span><br><span class="line"><span class="comment"> * has a Transfer-Encoding header), do not set the Content-Length header.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;The GET method should be safe, that is, without</span></span><br><span class="line"><span class="comment"> * any side effects for which users are held responsible.</span></span><br><span class="line"><span class="comment"> * For example, most form queries have no side effects.</span></span><br><span class="line"><span class="comment"> * If a client request is intended to change stored data,</span></span><br><span class="line"><span class="comment"> * the request should use some other HTTP method.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;The GET method should also be idempotent, meaning</span></span><br><span class="line"><span class="comment"> * that it can be safely repeated. Sometimes making a</span></span><br><span class="line"><span class="comment"> * method safe also makes it idempotent. For example, </span></span><br><span class="line"><span class="comment"> * repeating queries is both safe and idempotent, but</span></span><br><span class="line"><span class="comment"> * buying a product online or modifying data is neither</span></span><br><span class="line"><span class="comment"> * safe nor idempotent. </span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;If the request is incorrectly formatted, &lt;code&gt;doGet&lt;/code&gt;</span></span><br><span class="line"><span class="comment"> * returns an HTTP &quot;Bad Request&quot; message.</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> req   an &#123;<span class="doctag">@link</span> HttpServletRequest&#125; object that</span></span><br><span class="line"><span class="comment"> *                  contains the request the client has made</span></span><br><span class="line"><span class="comment"> *                  of the servlet</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> resp  an &#123;<span class="doctag">@link</span> HttpServletResponse&#125; object that</span></span><br><span class="line"><span class="comment"> *                  contains the response the servlet sends</span></span><br><span class="line"><span class="comment"> *                  to the client</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@exception</span> IOException   if an input or output error is </span></span><br><span class="line"><span class="comment"> *                              detected when the servlet handles</span></span><br><span class="line"><span class="comment"> *                              the GET request</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@exception</span> ServletException  if the request for the GET</span></span><br><span class="line"><span class="comment"> *                                  could not be handled</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> javax.servlet.ServletResponse#setContentType</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> ServletException, IOException</span></span><br><span class="line"><span class="function"></span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+<p>以上是源代码中提供的注释. 从注释可以看到以下几点</p>
+<ol>
+<li>这是一个回调方法,会被该类的service方法在合适的时候调用</li>
+<li>通过重写这个方法来实现对get请求的处理,如果不重写,也提供了一个默认的操作</li>
+<li>重写这个方法时,从request中读取数据,处理后写入respond中</li>
+<li>此方法要求安全且幂等,即没有副作用且可以重复调用,并且说明查询通常时安全且幂等的而修改数据既不是安全也不是幂等的</li>
+<li>如果请求格式不正确,返回一个”Bad Request”的HTTP消息</li>
+</ol>
+<p>此外, 源代码注释中使用了大量的篇幅说明了使用过程的可能出现错误的细节问题,这些问题将在后续统一的进行讨论.</p>
+<h4 id="doPost方法"><a href="#doPost方法" class="headerlink" title="doPost方法"></a>doPost方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Called by the server (via the &lt;code&gt;service&lt;/code&gt; method)</span></span><br><span class="line"><span class="comment"> * to allow a servlet to handle a POST request.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * The HTTP POST method allows the client to send</span></span><br><span class="line"><span class="comment"> * data of unlimited length to the Web server a single time</span></span><br><span class="line"><span class="comment"> * and is useful when posting information such as</span></span><br><span class="line"><span class="comment"> * credit card numbers.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;When overriding this method, read the request data,</span></span><br><span class="line"><span class="comment"> * write the response headers, get the response&#x27;s writer or output</span></span><br><span class="line"><span class="comment"> * stream object, and finally, write the response data. It&#x27;s best </span></span><br><span class="line"><span class="comment"> * to include content type and encoding. When using a</span></span><br><span class="line"><span class="comment"> * &lt;code&gt;PrintWriter&lt;/code&gt; object to return the response, set the </span></span><br><span class="line"><span class="comment"> * content type before accessing the &lt;code&gt;PrintWriter&lt;/code&gt; object. </span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;The servlet container must write the headers before committing the</span></span><br><span class="line"><span class="comment"> * response, because in HTTP the headers must be sent before the </span></span><br><span class="line"><span class="comment"> * response body.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;Where possible, set the Content-Length header (with the</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> javax.servlet.ServletResponse#setContentLength&#125; method),</span></span><br><span class="line"><span class="comment"> * to allow the servlet container to use a persistent connection </span></span><br><span class="line"><span class="comment"> * to return its response to the client, improving performance.</span></span><br><span class="line"><span class="comment"> * The content length is automatically set if the entire response fits</span></span><br><span class="line"><span class="comment"> * inside the response buffer.  </span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;When using HTTP 1.1 chunked encoding (which means that the response</span></span><br><span class="line"><span class="comment"> * has a Transfer-Encoding header), do not set the Content-Length header. </span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;This method does not need to be either safe or idempotent.</span></span><br><span class="line"><span class="comment"> * Operations requested through POST can have side effects for</span></span><br><span class="line"><span class="comment"> * which the user can be held accountable, for example, </span></span><br><span class="line"><span class="comment"> * updating stored data or buying items online.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;If the HTTP POST request is incorrectly formatted,</span></span><br><span class="line"><span class="comment"> * &lt;code&gt;doPost&lt;/code&gt; returns an HTTP &quot;Bad Request&quot; message.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> req   an &#123;<span class="doctag">@link</span> HttpServletRequest&#125; object that</span></span><br><span class="line"><span class="comment"> *                  contains the request the client has made</span></span><br><span class="line"><span class="comment"> *                  of the servlet</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> resp  an &#123;<span class="doctag">@link</span> HttpServletResponse&#125; object that</span></span><br><span class="line"><span class="comment"> *                  contains the response the servlet sends</span></span><br><span class="line"><span class="comment"> *                  to the client</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@exception</span> IOException   if an input or output error is </span></span><br><span class="line"><span class="comment"> *                              detected when the servlet handles</span></span><br><span class="line"><span class="comment"> *                              the request</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@exception</span> ServletException  if the request for the POST</span></span><br><span class="line"><span class="comment"> *                                  could not be handled</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> javax.servlet.ServletOutputStream</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> javax.servlet.ServletResponse#setContentType</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> ServletException, IOException</span></span><br><span class="line"><span class="function"></span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+<p>doPost方法的注释和doGet方法的注释介绍的内容基本是相同的,但有如下的几点差别</p>
+<ol>
+<li>使用post方法可以提供无限制长度的数据传输</li>
+<li>此方法不要求安全或幂等,即可以在此方法中处理诸如数据更新的任务</li>
+</ol>
+<h4 id="init方法"><a href="#init方法" class="headerlink" title="init方法"></a>init方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Called by the servlet container to indicate to a servlet that the</span></span><br><span class="line"><span class="comment"> * servlet is being placed into service.  See &#123;<span class="doctag">@link</span> Servlet#init&#125;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;This implementation stores the &#123;<span class="doctag">@link</span> ServletConfig&#125;</span></span><br><span class="line"><span class="comment"> * object it receives from the servlet container for later use.</span></span><br><span class="line"><span class="comment"> * When overriding this form of the method, call </span></span><br><span class="line"><span class="comment"> * &lt;code&gt;super.init(config)&lt;/code&gt;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> config 			the &lt;code&gt;ServletConfig&lt;/code&gt; object</span></span><br><span class="line"><span class="comment"> *					that contains configutation</span></span><br><span class="line"><span class="comment"> *					information for this servlet</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@exception</span> ServletException 	if an exception occurs that</span></span><br><span class="line"><span class="comment"> *					interrupts the servlet&#x27;s normal</span></span><br><span class="line"><span class="comment"> *					operation</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> 				UnavailableException</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(ServletConfig config)</span> <span class="keyword">throws</span> ServletException </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于HttpServlet方式继承自GenericServlet,所以这个方法实际上是定义在GenericServlet中的. 从注释可以看到</p>
+<ol>
+<li>此方法被Servlet容器调用,来使Servlet进入服务状态</li>
+<li>此方法提供了默认的实现,保存最近的ServletConfig,重写此方法时一定要调用super.init()</li>
+</ol>
+<h4 id="service方法"><a href="#service方法" class="headerlink" title="service方法"></a>service方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Receives standard HTTP requests from the public</span></span><br><span class="line"><span class="comment"> * &lt;code&gt;service&lt;/code&gt; method and dispatches</span></span><br><span class="line"><span class="comment"> * them to the &lt;code&gt;do&lt;/code&gt;&lt;i&gt;XXX&lt;/i&gt; methods defined in </span></span><br><span class="line"><span class="comment"> * this class. This method is an HTTP-specific version of the </span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> javax.servlet.Servlet#service&#125; method. There&#x27;s no</span></span><br><span class="line"><span class="comment"> * need to override this method.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> req   the &#123;<span class="doctag">@link</span> HttpServletRequest&#125; object that</span></span><br><span class="line"><span class="comment"> *                  contains the request the client made of</span></span><br><span class="line"><span class="comment"> *                  the servlet</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> resp  the &#123;<span class="doctag">@link</span> HttpServletResponse&#125; object that</span></span><br><span class="line"><span class="comment"> *                  contains the response the servlet returns</span></span><br><span class="line"><span class="comment"> *                  to the client                                </span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@exception</span> IOException   if an input or output error occurs</span></span><br><span class="line"><span class="comment"> *                              while the servlet is handling the</span></span><br><span class="line"><span class="comment"> *                              HTTP request</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@exception</span> ServletException  if the HTTP request</span></span><br><span class="line"><span class="comment"> *                                  cannot be handled</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@see</span> javax.servlet.Servlet#service</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> ServletException, IOException</span></span><br><span class="line"><span class="function"></span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+
+<p>service方法注释提到了以下几个要点</p>
+<ol>
+<li>此方法接受HTTP请求并根据方法类型调用doXXX类型的方法(例如doGet和doPost)</li>
+<li>通常没有必要重写此方法</li>
+</ol>
+<h4 id="destory方法"><a href="#destory方法" class="headerlink" title="destory方法"></a>destory方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Called by the servlet container to indicate to a servlet that the</span></span><br><span class="line"><span class="comment"> * servlet is being taken out of service.  See &#123;<span class="doctag">@link</span> Servlet#destroy&#125;.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123; ... &#125;</span><br></pre></td></tr></table></figure>
+<p>此方法也定义在GenericServlet之中,注释提到如下要点</p>
+<ol>
+<li>此方法被Servlet容器调用,当一个Servlet不再提供服务</li>
+</ol>
+<h3 id="Servlet生命周期"><a href="#Servlet生命周期" class="headerlink" title="Servlet生命周期"></a>Servlet生命周期</h3><ol>
+<li>实例化<ul>
+<li>Servlet容器创建Servlet类的实例</li>
+</ul>
+</li>
+<li>初始化<ul>
+<li>容器调用init方法</li>
+<li>通常在init方法中申请资源,以便于后续使用</li>
+</ul>
+</li>
+<li>服务<ul>
+<li>根据请求,调用doGet,doPost等方法</li>
+</ul>
+</li>
+<li>销毁<ul>
+<li>调用destroy方法</li>
+<li>通常在destroy方法中释放之前申请的资源</li>
+</ul>
+</li>
+<li>不可用<ul>
+<li>释放容器对应的内存</li>
+</ul>
+</li>
+</ol>
+<!-- ### Servlet API
+
+#### ServletInputStream 类 -->
+
+
+
+
+<h2 id="JDBC技术"><a href="#JDBC技术" class="headerlink" title="JDBC技术"></a>JDBC技术</h2><p>本节介绍如何使用JDBC技术连接MySQL数据库. 本质上, JDBC和JSP技术并没有相关性, 使用到的JDBC技术也是可以直接用于其他的Java应用程序之中.</p>
+<h3 id="MySQL和Connector下载"><a href="#MySQL和Connector下载" class="headerlink" title="MySQL和Connector下载"></a>MySQL和Connector下载</h3><p>MySQL提供了多种版本, 一般情况下选择免费的社区版下载即可. 下载完MySQL后可以在官网上下载最新版的Connector. 官网上提供了多种语言的Connector, 选择Java语言的版本即可. 下载过程中可能要求注册一个账户, 点击最下方的直接下载即可.</p>
+<p>补充:</p>
+<ol>
+<li>如果使用完整的安装, 则在安装过程中MySQL就提供了各种语言的驱动, 因此不需要再额外的下载</li>
+<li>如果使用Maven, 也可以直接导入需要的驱动</li>
+</ol>
+<h3 id="导入Connector包"><a href="#导入Connector包" class="headerlink" title="导入Connector包"></a>导入Connector包</h3><p>下载MySQL的按照程序后, 按照向导进行安装即可. 下载的Connector解压后有两个jar包, 选择<code>mysql-connector-java-XXX.jar</code>(XXX为版本号)并将其复制到项目的<code>WEB-INF\lib</code>文件夹下即完成包的导入工作.</p>
+<h3 id="连接数据库"><a href="#连接数据库" class="headerlink" title="连接数据库"></a>连接数据库</h3><p>连接数据库是一个固定操作, 一般有以下的过程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">Connection conn=<span class="keyword">null</span>;             <span class="comment">//声明数据库连接对象</span></span><br><span class="line">PreparedStatement pstmt=<span class="keyword">null</span>;     <span class="comment">//声明数据库操作对象</span></span><br><span class="line">ResultSet rs=<span class="keyword">null</span>;                <span class="comment">//声明查询结果集对象,对于更新操作，可不声明</span></span><br><span class="line"></span><br><span class="line">String driverName = <span class="string">&quot;com.mysql.jdbc.Driver&quot;</span>;</span><br><span class="line">String userName = <span class="string">&quot;root&quot;</span>;</span><br><span class="line">String userPwd = <span class="string">&quot;123456&quot;</span>;</span><br><span class="line">String dbName = <span class="string">&quot;webinfo&quot;</span>;</span><br><span class="line">String url1 = <span class="string">&quot;jdbc:mysql://localhost:3306/&quot;</span>+dbName;</span><br><span class="line">String url2 = <span class="string">&quot;?user=&quot;</span>+userName+<span class="string">&quot;&amp;password=&quot;</span>+userPwd;</span><br><span class="line">String url3 = <span class="string">&quot;&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&quot;</span>;</span><br><span class="line">String url = url1+url2+url3;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Class.forName(driverName);</span><br><span class="line">    conn=DriverManager.getConnection(url);</span><br><span class="line">    String sql= <span class="string">&quot;SELECT * FROM stu_info;&quot;</span>;   <span class="comment">//构造完成所需功能的SQL语句(可带参数)</span></span><br><span class="line">    pstmt= conn.prepareStatement(sql);   </span><br><span class="line">    rs=pstmt.executeQuery();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (rs.next()) &#123;</span><br><span class="line">        response.getWriter().append(rs.getString(<span class="number">1</span>)).append(<span class="string">&quot; &quot;</span>).append(rs.getString(<span class="number">3</span>));</span><br><span class="line">        response.getWriter().append(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(rs!=<span class="keyword">null</span>)&#123; rs.close(); &#125;</span><br><span class="line">        <span class="keyword">if</span>(pstmt!=<span class="keyword">null</span>)&#123; pstmt.close(); &#125;</span><br><span class="line">        <span class="keyword">if</span>(conn!=<span class="keyword">null</span>)&#123; conn.close(); &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>连接数据库时注意指定<code>serverTimezone=UTC</code> 否则可能无法连接数据库. 更多关于时区的问题可以参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7e9247c0b81a">如何规避mysql的url时区的陷阱</a></p>
+<h3 id="连接池技术"><a href="#连接池技术" class="headerlink" title="连接池技术"></a>连接池技术</h3><p>以连接本地数据库中的<code>api</code>库为例, 配置如下所示: </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Context</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Resource</span> <span class="attr">name</span>=<span class="string">&quot;jdbc/mysql&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">type</span>=<span class="string">&quot;javax.sql.DataSource&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">auth</span>=<span class="string">&quot;Container&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">driverClassName</span>=<span class="string">&quot;com.mysql.jdbc.Driver&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">url</span>=<span class="string">&quot;jdbc:mysql://localhost:3306/api?serverTimezone=UTC&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">username</span>=<span class="string">&quot;root&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">password</span>=<span class="string">&quot;123456&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">maxActive</span>=<span class="string">&quot;4&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">maxIdle</span>=<span class="string">&quot;2&quot;</span></span></span><br><span class="line"><span class="tag">             <span class="attr">maxWait</span>=<span class="string">&quot;6000&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">Context</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>连接数据库时, 可能会提示<code>com.mysql.jdbc.Driver</code> 已经过时, 按照提示换成新的驱动类即可. </p>
+<p>更多关于MySQL和JDBC的内容, 可以参考一下的一些博客</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/mr-wid/archive/2013/05/09/3068229.html">21分钟 MySQL 入门教程</a></li>
+</ul>
+<h2 id="JavaBean"><a href="#JavaBean" class="headerlink" title="JavaBean"></a>JavaBean</h2><p>JavaBean是一个Java编写的,符合某种规则的类. JavaBean封装了数据和业务逻辑, 可以被JSP或者Servlet直接调用.</p>
+<h3 id="JavaBean设计规则"><a href="#JavaBean设计规则" class="headerlink" title="JavaBean设计规则"></a>JavaBean设计规则</h3><ol>
+<li>必须是公共类</li>
+<li>具有公共的无参数构造方法</li>
+<li>所有属性定义为私有</li>
+<li>每个属性提供get和set方法(boolean类型方法特殊处理)</li>
+<li>通常位于某个包下(而不是默认包)</li>
+</ol>
+<h3 id="JSP种使用JavaBean"><a href="#JSP种使用JavaBean" class="headerlink" title="JSP种使用JavaBean"></a>JSP种使用JavaBean</h3><h4 id="JSP标签"><a href="#JSP标签" class="headerlink" title="JSP标签"></a>JSP标签</h4><p>一般可以使用以下三种标签来使用JavaBean</p>
+<ol>
+<li><code>&lt;jsp:useBean&gt;</code></li>
+<li><code>&lt;jsp:setProperty&gt;</code></li>
+<li><code>&lt;jsp:getProperty&gt;</code></li>
+</ol>
+<p><code>&lt;jsp:useBean id = &quot;对象名&quot; class = &quot;类名&quot; scope = &quot;有效范围&quot;&gt;</code></p>
+<ul>
+<li>id相当于类对象标识符,后续使用此标识符引用JavaBean对象</li>
+<li>class是JavaBean的类名,且需要使用完整的类型</li>
+<li>scope表示范围,可选page, request, session, application, 默认为page</li>
+</ul>
+<p><code>&lt;jsp:setPropert name = &quot;对象名&quot; property = &quot;属性名&quot; value = &quot;属性值&quot;&gt;</code></p>
+<ul>
+<li>name对应useBean种id的值</li>
+<li>属性值按照声明的属性类型进行自动转换</li>
+</ul>
+<p><code>&lt;jsp:setPropert name = &quot;对象名&quot; property = &quot;参数名&quot;&gt;</code></p>
+<ul>
+<li>将一个同名的参数赋值给属性</li>
+</ul>
+<p><code>&lt;jsp:setProperty name=&quot;beanname&quot; property=&quot;属性名e&quot; param=&quot;请求参数名&quot;/&gt;</code></p>
+<ul>
+<li>将请求参数的值赋值给JavaBean属性值</li>
+<li>从而协调参数名与JavaBean属性名不一致的问题</li>
+</ul>
+<p><code>&lt;jsp:setProperty name=&quot;对象名&quot; property=&quot;*&quot;/&gt;</code></p>
+<ul>
+<li>将所有的输入参数赋予相应的属性值</li>
+</ul>
+<h4 id="脚本代码"><a href="#脚本代码" class="headerlink" title="脚本代码"></a>脚本代码</h4><p>使用脚本代码时,和使用一个Java类没有区别.</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年07月09日 09:47</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2018/06/21/JavaWeb%E4%B9%8BJavaServerPages/" title="JavaWeb之JavaServerPages">https://lizec.top/2018/06/21/JavaWeb%E4%B9%8BJavaServerPages/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2018/06/21/JavaWeb%E4%B9%8BJavaServerPages/&title=《JavaWeb之JavaServerPages》 — LiZeC的博客&pic=images/jsp.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2018/06/21/JavaWeb%E4%B9%8BJavaServerPages/&title=《JavaWeb之JavaServerPages》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2018/06/21/JavaWeb%E4%B9%8BJavaServerPages/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《JavaWeb之JavaServerPages》 — LiZeC的博客&url=https://lizec.top/2018/06/21/JavaWeb%E4%B9%8BJavaServerPages/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2018/06/21/JavaWeb%E4%B9%8BJavaServerPages/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2018/06/21/JavaWeb%E4%B9%8BJavaServerPages/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/数据库/" class="color4">数据库</a>
+      
+    <a href="/tags/Java/" class="color5">Java</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JSP%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="post-toc-text">JSP文件结构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JSP%E5%85%83%E7%B4%A0%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">JSP元素类型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JSP%E9%9A%90%E5%BC%8F%E5%AF%B9%E8%B1%A1"><span class="post-toc-text">JSP隐式对象</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%B3%E4%BA%8Esession%E5%AE%9E%E7%8E%B0%E7%9A%84%E8%AE%A8%E8%AE%BA"><span class="post-toc-text">关于session实现的讨论</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%BC%94%E7%A4%BA%E4%BB%A3%E7%A0%81"><span class="post-toc-text">演示代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Servlet%E6%8A%80%E6%9C%AF"><span class="post-toc-text">Servlet技术</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Servlet%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86"><span class="post-toc-text">Servlet运行原理</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Servlet%E6%96%B9%E6%B3%95%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="post-toc-text">Servlet方法和使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#doGet%E6%96%B9%E6%B3%95"><span class="post-toc-text">doGet方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#doPost%E6%96%B9%E6%B3%95"><span class="post-toc-text">doPost方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#init%E6%96%B9%E6%B3%95"><span class="post-toc-text">init方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#service%E6%96%B9%E6%B3%95"><span class="post-toc-text">service方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#destory%E6%96%B9%E6%B3%95"><span class="post-toc-text">destory方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="post-toc-text">Servlet生命周期</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JDBC%E6%8A%80%E6%9C%AF"><span class="post-toc-text">JDBC技术</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#MySQL%E5%92%8CConnector%E4%B8%8B%E8%BD%BD"><span class="post-toc-text">MySQL和Connector下载</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%AF%BC%E5%85%A5Connector%E5%8C%85"><span class="post-toc-text">导入Connector包</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="post-toc-text">连接数据库</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E8%BF%9E%E6%8E%A5%E6%B1%A0%E6%8A%80%E6%9C%AF"><span class="post-toc-text">连接池技术</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JavaBean"><span class="post-toc-text">JavaBean</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JavaBean%E8%AE%BE%E8%AE%A1%E8%A7%84%E5%88%99"><span class="post-toc-text">JavaBean设计规则</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JSP%E7%A7%8D%E4%BD%BF%E7%94%A8JavaBean"><span class="post-toc-text">JSP种使用JavaBean</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#JSP%E6%A0%87%E7%AD%BE"><span class="post-toc-text">JSP标签</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%84%9A%E6%9C%AC%E4%BB%A3%E7%A0%81"><span class="post-toc-text">脚本代码</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/06/21/JavaWeb%E4%B9%8BJavaScript/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          JavaWeb之JavaScript
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/06/21/JavaWeb%E4%B9%8B%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">JavaWeb之环境配置</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Thu Jun 21 2018 20:22:03 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

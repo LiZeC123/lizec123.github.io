@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>编译原理笔记 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="目录 引论 文法 词法分析 自顶向下分析 自底向上分析 LR分析 语法制导翻译 目标程序运行时组织 代码优化    引论 -------------------  全文结构 编译程序(Compiler) 编译程序是一种翻译程序,它将不能被计算机识别的某种高级语言翻译成计算机能够识别的低级语言 一般编译程序分成五个逻辑模块:词法分析、语法分析、语义分析和中间代码生成、中间代码优化、目标代码生成  解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理笔记">
+<meta property="og:url" content="https://lizec.top/2018/01/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="目录 引论 文法 词法分析 自顶向下分析 自底向上分析 LR分析 语法制导翻译 目标程序运行时组织 代码优化    引论 -------------------  全文结构 编译程序(Compiler) 编译程序是一种翻译程序,它将不能被计算机识别的某种高级语言翻译成计算机能够识别的低级语言 一般编译程序分成五个逻辑模块:词法分析、语法分析、语义分析和中间代码生成、中间代码优化、目标代码生成  解">
+<meta property="og:locale">
+<meta property="og:image" content="https://lizec.top/images/compile/CompilerInfo.png">
+<meta property="article:published_time" content="2018-01-13T03:09:01.000Z">
+<meta property="article:modified_time" content="2018-06-05T07:44:33.441Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="编译原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lizec.top/images/compile/CompilerInfo.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-编译原理笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      编译原理笔记
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/计算机核心课程/">计算机核心课程</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-01-13
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#intro">引论</a></li>
+<li><a href="#grammar">文法</a></li>
+<li><a href="#lexical">词法分析</a></li>
+<li><a href="#top-down">自顶向下分析</a></li>
+<li><a href="#bottom-up">自底向上分析</a></li>
+<li><a href="#LR">LR分析</a></li>
+<li><a href="#SyntaxDirected">语法制导翻译</a></li>
+<li><a href="#RunTime">目标程序运行时组织</a></li>
+<li><a href="#optimization">代码优化</a></li>
+</ul>
+<hr>
+<span id="intro" />
+引论
+-------------------
+
+<h4 id="全文结构"><a href="#全文结构" class="headerlink" title="全文结构"></a>全文结构</h4><p><img src="/images/compile/CompilerInfo.png" alt="全文结构"></p>
+<h4 id="编译程序-Compiler"><a href="#编译程序-Compiler" class="headerlink" title="编译程序(Compiler)"></a>编译程序(Compiler)</h4><ul>
+<li>编译程序是一种翻译程序,它将不能被计算机识别的某种高级语言翻译成计算机能够识别的低级语言</li>
+<li>一般编译程序分成五个逻辑模块:词法分析、语法分析、语义分析和中间代码生成、中间代码优化、目标代码生成</li>
+</ul>
+<h4 id="解释程序（Intepretter）"><a href="#解释程序（Intepretter）" class="headerlink" title="解释程序（Intepretter）"></a>解释程序（Intepretter）</h4><ul>
+<li>解释程序是一种翻译程序,它将不能被计算机识别的某种高级语言翻译成计算机能够识别的低级语言</li>
+<li>它是逐个语句翻译的,边翻译边执行,不生成目标代码</li>
+</ul>
+<hr>
+<span id="grammar" />
+文法
+-------------------
+
+<h4 id="句子-句型和语言"><a href="#句子-句型和语言" class="headerlink" title="句子,句型和语言"></a>句子,句型和语言</h4><ul>
+<li>设G[S]是一文法,若 <code>S =*=&gt; x</code> 则x是文法G[S]的句型</li>
+<li>若上述x仅有终结符构成,则称x为文法G[S]的句子</li>
+<li>文法G[S]的所有句子组成G[S]定义的语言</li>
+</ul>
+<h4 id="文法的类型"><a href="#文法的类型" class="headerlink" title="文法的类型"></a>文法的类型</h4><ul>
+<li>0型文法<ul>
+<li>递归可枚举</li>
+<li>与图灵机等价</li>
+</ul>
+</li>
+<li>1型文法(上下文有关文法)<ul>
+<li>若α-&gt;β,则有|β|&gt;=|α|,仅S-&gt;ε除外</li>
+<li>或αAβ-&gt;αcβ(即A的左右是α和β时才能使用产生式)</li>
+</ul>
+</li>
+<li>2型文法(上下文无关文法)<ul>
+<li>文法中每个产生式α-&gt;β都有α∈VN,β∈(VN∪VT)*</li>
+</ul>
+</li>
+<li>3型文法(正则文法)<ul>
+<li>文法中的每个产生式满足 A-&gt;aB 或A-&gt;a,其中A,B∈VN,a∈VT*</li>
+</ul>
+</li>
+</ul>
+<h4 id="最左推导与最右推导"><a href="#最左推导与最右推导" class="headerlink" title="最左推导与最右推导"></a>最左推导与最右推导</h4><ul>
+<li>每次使用最左侧的非终结符进行替换称为最左推导</li>
+<li>每次使用最右侧的非终结符进行替换称为最右推导,也称规范推导</li>
+</ul>
+<h4 id="短语"><a href="#短语" class="headerlink" title="短语"></a>短语</h4><ul>
+<li>若<code>S =*=&gt;αAδ</code>且<code>A =+= &gt; β</code>(任意步推出),则称β是句型αβδ是对于A的<strong>短语</strong></li>
+<li>特别的,如果有<code>A =&gt; β</code>(一步推出),则称β是句型αβδ相对于规则A-&gt;β的<strong>直接短语</strong>(<strong>简单短语</strong>)</li>
+<li>一个句型的最左直接短语称为该句型的<strong>句柄</strong></li>
+</ul>
+<h4 id="短语的推导树含义"><a href="#短语的推导树含义" class="headerlink" title="短语的推导树含义"></a>短语的推导树含义</h4><ul>
+<li>实际上短语就是推导树中A的叶子节点构成的符号串</li>
+<li>如果A只有一层叶子节点(简单子树),那么这些叶子节点构成的串是A的直接短语</li>
+<li>最左的简单子树构成的符号串称为句柄</li>
+</ul>
+<hr>
+<span id="lexical" />
+词法分析
+-------------------
+
+<h4 id="ε-closure"><a href="#ε-closure" class="headerlink" title="ε-closure"></a>ε-closure</h4><ul>
+<li>ε-closure(I)定义为从I开始,经过任意步ε可以到达的状态</li>
+<li>**注意:**由于任何状态可以经过ε到达自己,所以I∈ε-closure(I)</li>
+<li>I是可能状态的集合,所有I包含一个或多个状态</li>
+</ul>
+<h4 id="move-I-a"><a href="#move-I-a" class="headerlink" title="move(I,a)"></a>move(I,a)</h4><ul>
+<li>move(I,a)定义为状态I经过步骤a后可以到达的所有状态的集合</li>
+<li>在不确定有限自动机中,move(I,a)可以包含多个状态</li>
+</ul>
+<h4 id="NFA转DFA"><a href="#NFA转DFA" class="headerlink" title="NFA转DFA"></a>NFA转DFA</h4><ol>
+<li>求初始状态I的ε-closure(I)</li>
+<li>对ε-closure(I)中的状态,对字母表中每个符号求move(I,ai)</li>
+<li>对2中产生的状态求ε-closure,如果得到的集合没有出现过,加入结果集合中</li>
+<li>对产生的新状态不断重复上述求ε-closure,以及move操作,直到不产生新状态</li>
+</ol>
+<h4 id="DFA最小化"><a href="#DFA最小化" class="headerlink" title="DFA最小化"></a>DFA最小化</h4><ol>
+<li>无法到达的状态直接去掉</li>
+<li>无效状态射出的弧直接去掉</li>
+</ol>
+<h4 id="DFA最小化算法"><a href="#DFA最小化算法" class="headerlink" title="DFA最小化算法"></a>DFA最小化算法</h4><ol>
+<li>去除不可达状态和相关的弧</li>
+<li>将所有节点按照接受状态与非接受状态分成两类</li>
+<li>对每个集合中的状态,分析接受某一元素后的状态改变<ul>
+<li>如果新的状态均指向当前状态下的某一集合,则这些状态暂时等价</li>
+<li>如果新的状态指向当前状态下的不同的集合,则将这些状态分成不同的集合,分裂后的每个集合指向同一目标集合</li>
+</ul>
+</li>
+<li>重复步骤3,直到不能分裂</li>
+</ol>
+<h4 id="正规式与有穷自动机的转换"><a href="#正规式与有穷自动机的转换" class="headerlink" title="正规式与有穷自动机的转换"></a>正规式与有穷自动机的转换</h4><ol>
+<li>有穷自动机转正则式<ul>
+<li>添加一个x节点,使用ε弧连接所有初始状态</li>
+<li>添加一个y节点,使用ε弧连接所有接受状态</li>
+</ul>
+</li>
+<li>正则式转有穷自动机<ul>
+<li>状态x到第一个状态或最后状态到y之间可以添加一些ε弧</li>
+</ul>
+</li>
+</ol>
+<hr>
+<span id="top-down" />
+自顶向下分析
+-------------------
+
+<h4 id="FISRT集"><a href="#FISRT集" class="headerlink" title="FISRT集"></a>FISRT集</h4><ol>
+<li>FIRST集中的元素都是终结符</li>
+<li>FIRST(A)等于A所有可能的推导中右端的第一个终结符</li>
+</ol>
+<h4 id="FISRT集算法"><a href="#FISRT集算法" class="headerlink" title="FISRT集算法"></a>FISRT集算法</h4><ol>
+<li>若X-&gt;ε,则ε∈FIRST(X)</li>
+<li>若X为终结符,则X∈FIRST(X)</li>
+<li>若X可推出多个符号且前面若干个符号可以推出空,则前面若干为空的符号的(FISRT(Ai)- {ε})∈FIRST(X)</li>
+<li>若X可推出多个符号且所有符号都可以推出空,则FISRT(Ai)∈FIRST(X)且ε∈FIRST(X)<br>注意:</li>
+<li>分析一条产生式的FIRST集,如果需要其他符号的FIRST集,则递归的获取</li>
+<li>递归结束后,将元素加入当前FIRST集,并判断当前递归元素是否为空,为空则递归的获取下一个元素的FIRST集 </li>
+<li>因为按照条件3,可以在一个产生式中产生多次递归,所以保存递归状态</li>
+</ol>
+<h4 id="FOLLOW集"><a href="#FOLLOW集" class="headerlink" title="FOLLOW集"></a>FOLLOW集</h4><ol>
+<li>FOLLOW集中所有元素都是终结符</li>
+<li>FOLLOW(A)等于从S开始任意推导过程中,所有出现在A之后的终结符</li>
+<li>也可以表述为从S开始任意推导过程中,所有出现在A之后的符号的FISRT集</li>
+</ol>
+<h4 id="FOLLOW集算法"><a href="#FOLLOW集算法" class="headerlink" title="FOLLOW集算法"></a>FOLLOW集算法</h4><ol>
+<li>对于文法开始符号S,有#∈FOLLOW(S)</li>
+<li>若有(B-&gt;aA)则FOLLOW(B)是FOLLOW(A)的子集</li>
+<li>若有(B-&gt;aAp)<ul>
+<li>则(FISRT(p)- {ε})∈FOLLOW(A)</li>
+<li>若ε∈FIRST(p),则FOLLOW(B)是FOLLOW(A)的子集<br>说明:</li>
+</ul>
+</li>
+<li>一定主要要先将#加入S的FOLLOE集</li>
+<li>对于类似A-&gt;BC的产生式,相当于B-&gt;aA与B-&gt;εAp<ul>
+<li>有FOLLOW(A)∈FOLLOW(C)</li>
+<li>有(FISRT(C)- {ε}) ∈ FOLLOW(B) 且 若ε∈FIRST(C)有FOLLOW(A)∈FOLLOW(B)</li>
+</ul>
+</li>
+<li>产生式右部如果只有一个元素,则无任何信息</li>
+</ol>
+<h4 id="SELECT集"><a href="#SELECT集" class="headerlink" title="SELECT集"></a>SELECT集</h4><ol>
+<li>FOLLOW集中所有元素都是终结符</li>
+<li>当A-&gt;a有a不能推导空,则SELECT(A-&gt;a) = FIRST(a)</li>
+<li>当A-&gt;a可以为空时,SELECT(A-&gt;a) = (FIRST(a) - {ε})∪FOLLOW(A)</li>
+</ol>
+<h4 id="LL-1-文法"><a href="#LL-1-文法" class="headerlink" title="LL(1)文法"></a>LL(1)文法</h4><ul>
+<li>第一个L表示从左向右扫描,第二个L表示最左推导,1表示向前查看一个符号</li>
+<li>当一个文法中的任意符号A的任意产生式的SELECT集不相交,则该文法是LL(1)文法</li>
+</ul>
+<h4 id="文法的等价变换"><a href="#文法的等价变换" class="headerlink" title="文法的等价变换"></a>文法的等价变换</h4><ol>
+<li>提取左公因子</li>
+<li>消除左递归<ul>
+<li>对于产生式 A-&gt;Ab|r 可直接改写为 A-&gt;rA’ A’-&gt;bA’|ε</li>
+<li>对于间接的递归,先使用带入变成直接递归,再消去直接递归</li>
+<li>注意:<ol>
+<li>对于间接递归,不要忘记加入之前的非带入的部分</li>
+<li>消除递归后一定要有一个推出ε的结束条件</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<span id="bottom-up" />
+自底向上分析
+----------------
+
+<h4 id="优先关系分析"><a href="#优先关系分析" class="headerlink" title="优先关系分析"></a>优先关系分析</h4><ul>
+<li>HEAD(A)是A可以推导的所有的字符串的第一个字符组成的集合</li>
+<li>LAST(A)是A可以推导的所有的字符串的最后一个字符组成的集合</li>
+<li><strong>注意:</strong><ol>
+<li>HEAD和LAST集中包含<strong>终结符</strong>和<strong>非终结符</strong>,不需要消去左递归,可以包含本身</li>
+<li>一定要先加入<strong>产生式</strong>中的<strong>非终结符</strong>,每一步推导都要及时加入非终结符</li>
+<li>#小于任何相邻的符号</li>
+</ol>
+</li>
+<li>优先级实际上就是可以规约符号的比两边的符号大</li>
+<li>所以只用分析一个终结符a与一个非终结符X相邻的情况<ul>
+<li>如果有aX,则a小于所有X的HEAD集元素</li>
+<li>如果有Xa,则X的所有LAST集元素大于a</li>
+<li>直接相邻的两个符号相等(#除外),其他没有出现的关系都是未定义的</li>
+</ul>
+</li>
+</ul>
+<h4 id="简单优先文法"><a href="#简单优先文法" class="headerlink" title="简单优先文法"></a>简单优先文法</h4><ul>
+<li>简单优先文法满足以下条件<ol>
+<li>任意两个符号之间只有一种优先关系</li>
+<li>任意两个产生式有不同的右部</li>
+</ol>
+</li>
+<li>规约过程<ol>
+<li>向右加入符号,直到有S[j] &gt; S[j+1]</li>
+<li>再向左寻找,直到有S[i - 1] &lt; S[i]</li>
+<li>将S[i]到S[j]之间的符号取出,查询产生式右部,进行替换</li>
+<li>重复上述操作,直到规约为开始符号</li>
+</ol>
+</li>
+<li>可以看到规约的本质就是可以规约的串大于两端的串,从而进行识别和规约</li>
+</ul>
+<h4 id="算符优先分析"><a href="#算符优先分析" class="headerlink" title="算符优先分析"></a>算符优先分析</h4><ul>
+<li>FIRSTVT集合LASTVT集定义与之前类似,大于小于的情况也类似</li>
+<li>但是限定必须是终结符,而且在任意字符串中,可以<strong>忽略</strong>开始或者结束的<strong>非终结符</strong></li>
+<li>如果两个符号相邻或者中间间隔一个非终结符,则相等</li>
+</ul>
+<p><strong>注意:</strong></p>
+<ul>
+<li>无论是简单优先还是算符优先,都不要忘记先加上S’-&gt;#S#,否则后面都白做了</li>
+<li>对于算符优先,一定要注意可以忽略非终结符的特点,对于等号的判断有较大影响</li>
+</ul>
+<h4 id="素短语与最短素短语"><a href="#素短语与最短素短语" class="headerlink" title="素短语与最短素短语"></a>素短语与最短素短语</h4><ul>
+<li>素短语是这样的一个短语，它至少含有一个终结符，并且除它之外不再含更小的素短语</li>
+<li>最左素短语是指处于句型最左边的素短语</li>
+</ul>
+<h4 id="简单优先与算符有限比较"><a href="#简单优先与算符有限比较" class="headerlink" title="简单优先与算符有限比较"></a>简单优先与算符有限比较</h4><ul>
+<li>两种方法都是自下而上分析法，但简单优先法是找句柄归约成某个非终结符，而算符优先法是找最左素短语归约成统一的一个非终结符</li>
+</ul>
+<hr>
+<span id="LR" />
+LR分析
+-------------
+
+<h4 id="最右推导与最左规约"><a href="#最右推导与最左规约" class="headerlink" title="最右推导与最左规约"></a>最右推导与最左规约</h4><ol>
+<li>最右推导指每次使用最右侧非终结符进行推导</li>
+<li>最左规约指每次都将最左侧的符号规约成非终结符</li>
+<li>两个正好是互逆的过程</li>
+<li>最右推导也称为规范推导</li>
+</ol>
+<h4 id="活前缀"><a href="#活前缀" class="headerlink" title="活前缀"></a>活前缀</h4><p>从S开始,由规范推导产生的任意一个句型中,不超过句柄的部分称为活前缀</p>
+<h4 id="LR分析过程"><a href="#LR分析过程" class="headerlink" title="LR分析过程"></a>LR分析过程</h4><ul>
+<li>一般RL分析程序由<strong>总控程序</strong>,<strong>分析栈(状态栈和符号栈)</strong>,<strong>分析表</strong>构成</li>
+<li>开始分析时,先将初始状态和左界符#入栈</li>
+<li>分析到某一步时,首先根据栈顶状态S[i]与带读入符号a,查询ACTION[S[i],a]<ul>
+<li>如果ACTION[S[i],a] = S[j], 则表示要进行移入操作,将a与S[j]入栈</li>
+<li>如果ACTION[S[i],a] = R[j], 则表示要进行规约操作<ul>
+<li>首先根据第j条产生式的要求,将栈顶的k个元素出栈</li>
+<li>然后将规约后的符号入栈(设该符号为A)</li>
+<li>最后根据GOTO[S[i-k],A]查询相应的状态,并将状态入栈</li>
+</ul>
+</li>
+<li>如果ACTION[S[i],a] = acc, 则表示分析完毕,接受输入的句子</li>
+<li>如果ACTION[S[i],a] = ERROR或空白, 则表示分析的句子有错</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="LR-0-规范族的构造"><a href="#LR-0-规范族的构造" class="headerlink" title="LR(0)规范族的构造"></a>LR(0)规范族的构造</h2><h4 id="1-求闭包"><a href="#1-求闭包" class="headerlink" title="1. 求闭包"></a>1. 求闭包</h4><ol>
+<li>I的项目均在CLOSEURE(I)中</li>
+<li>若A-&gt; a.Bp 属于CLOSEURE(I), 则每一个形如 B-&gt; .r 的项也属于CLOSEURE(I)</li>
+<li>重复2的过程直到CLOSEURE(I)不增加<br>注意:</li>
+<li>此处B是非终结符</li>
+<li>一定要重复添加操作,直到小圆点后只有终结符</li>
+</ol>
+<h4 id="2-状态转移"><a href="#2-状态转移" class="headerlink" title="2. 状态转移"></a>2. 状态转移</h4><ol>
+<li>对于形如A-&gt; a.Bp的项目,产生一条标记为B的弧连接A-&gt; aB.p</li>
+<li>新产生的状态称为核,此节点的值等于核的闭包</li>
+<li>对于形如A-&gt;E.的项目,进入了规约状态,不转移到其他状态</li>
+<li>不断的转移获得核和求核的闭包,直到不产生新的状态</li>
+</ol>
+<h4 id="3-GO-I-X-的定义"><a href="#3-GO-I-X-的定义" class="headerlink" title="3. GO(I,X)的定义"></a>3. GO(I,X)的定义</h4><ul>
+<li>GO(I,X) = CLOSEURE(J),其中J = {任何形如A-&gt;aX.p的项目|A-&gt;a.Xp属于I}</li>
+<li>对应到DFA,即为当前节点上通过X弧到达的节点</li>
+</ul>
+<h4 id="4-构造LR-0-分析表"><a href="#4-构造LR-0-分析表" class="headerlink" title="4. 构造LR(0)分析表"></a>4. 构造LR(0)分析表</h4><ol>
+<li>若项目A-&gt;C.aB属于I[k]且GO(I[k],a) = I[j]<ul>
+<li>若a为终结符,则ACTION[k,a] = S[j]</li>
+<li>若a为非终结符,则仅仅置GOTO[k,A] = j </li>
+<li>补充: ACTION表中只有终结符的列,GOTO表中只有非终结符的列</li>
+</ul>
+</li>
+<li>若项目A-&gt;c.属于I[k]<ul>
+<li>则对任意终结符a[i]和#,有ACTION[k,a[i]] = r[j] 和ACTION[k,#] = r[j]</li>
+<li>其中r[j]表示第j条产生式</li>
+</ul>
+</li>
+<li>若项目S’-&gt;S. 属于I[k], 则ACTION[k,#] = acc</li>
+</ol>
+<hr>
+<h4 id="LR-0-的冲突"><a href="#LR-0-的冲突" class="headerlink" title="LR(0)的冲突"></a>LR(0)的冲突</h4><ol>
+<li>移入-规约冲突<ul>
+<li>即在<strong>一个节点</strong>上<strong>同时</strong>包含形如A-&gt;E.和A-&gt;a.bp这样需要规约或者移入的项目</li>
+<li>由于LR(0)不向后查看符号,因此难以确定上述两种产生式如何选择</li>
+</ul>
+</li>
+<li>规约-规约冲突<ul>
+<li>即在一个节点上包含形如A-&gt;E.和B-&gt;F.这样同时多种不同需要规约的项目</li>
+</ul>
+</li>
+</ol>
+<h4 id="SLR-1-分析表构造"><a href="#SLR-1-分析表构造" class="headerlink" title="SLR(1)分析表构造"></a>SLR(1)分析表构造</h4><ol>
+<li>表的基本构造方法与LR(0)相同</li>
+<li>添加额外的冲突解决方法</li>
+</ol>
+<h4 id="冲突解决方法"><a href="#冲突解决方法" class="headerlink" title="冲突解决方法"></a>冲突解决方法</h4><ul>
+<li>设有一个规范族中有如下一个状态 I = {X-&gt;a.bp, A-&gt;r., B-&gt;d.}</li>
+</ul>
+<ol>
+<li>如果移入符号与各规约符号的FOLLOW集两两不相交,则可以解决冲突</li>
+<li>即 FOLLOW(A)交FOLLOW(B)为空,FOLLOW(A)交{b}为空,FOLLOW(B)交{b}为空<br>在此状态的分析报表中,任意一个符号a</li>
+<li>如果a=b 则ACTION[k,a] = I[j]</li>
+<li>如果a属于FOLLOW(A),则ACTION[k,a] = r[j]</li>
+<li>如果a属于FOLLOW(B),则ACTION[k,a] = r[j]</li>
+<li>其他情况,报错</li>
+</ol>
+<h4 id="改进的SLR-1-分析表"><a href="#改进的SLR-1-分析表" class="headerlink" title="改进的SLR(1)分析表"></a>改进的SLR(1)分析表</h4><ol>
+<li>基本构造与SLR(1)分析表相同</li>
+<li>对于形如 A-&gt;r.的产生式,只有a属于FOLLOW(A)的元素,在表中填入转移状态,其他可以直接报错</li>
+</ol>
+<p>说明:</p>
+<ol>
+<li>比较来看,唯一的改进就是对于所有的符号,都按照冲突解决办法,求解了FOLLOW集</li>
+<li>并且对于不在FOLLOW集中的元素,都直接进行了报错处理,从而提前发现错误</li>
+</ol>
+<hr>
+<h4 id="LR-1-构造方法"><a href="#LR-1-构造方法" class="headerlink" title="LR(1)构造方法"></a>LR(1)构造方法</h4><ol>
+<li>初始<code>S&#39;-&gt;.S,#</code>属于项目I</li>
+<li>I的项目均在CLOSEURE(I)中</li>
+<li>若<code>A-&gt; α.Bβ,a</code> 属于CLOSEURE(I),  B-&gt;r是文法的产生式,若<code>β∈V*</code>, b∈FIRST(βa),则<code>B-&gt;.r,b</code>也属于CLOSEURE(I)</li>
+<li>重复2的过程直到CLOSEURE(I)不增加</li>
+</ol>
+<p>注意:</p>
+<ol>
+<li>通常β是终结符,因此没有求FIRST集的过程</li>
+<li>如果β为空,则实际上就是由a决定</li>
+<li>后续的步骤与LR(0)基本相同,但在规约的是时候,只有相应的前向搜索符时才规约</li>
+</ol>
+<hr>
+<span id="SyntaxDirected" />
+语法制导翻译
+-------------
+
+<h4 id="继承属性与综合属性"><a href="#继承属性与综合属性" class="headerlink" title="继承属性与综合属性"></a>继承属性与综合属性</h4><ul>
+<li>设有产生式A-&gt;α且b = f(c1,c2,..,ck)</li>
+<li>若b是A的属性,则b是综合属性</li>
+<li>若b是产生式右部的某个符号的属性,则b是继承属性</li>
+</ul>
+<p>说明:</p>
+<ul>
+<li>综合属性是从语法树下面的属性计算出来的</li>
+<li>继承属性是从语法树上面继承下来的</li>
+<li>终结符只有综合属性,该属性由此法分析程序提供</li>
+</ul>
+<h4 id="语法制导翻译与翻译模式"><a href="#语法制导翻译与翻译模式" class="headerlink" title="语法制导翻译与翻译模式"></a>语法制导翻译与翻译模式</h4><ul>
+<li>在语法分析过程中，随着分析的步步进展，每当进行推导或归约时，同步的去执行每个产生式所附带的语义规则描述的语义动作或语义子程序，这样进行翻译的办法称作语法制导翻译</li>
+<li>如果在构造属性文法时把语义规则用花括号括起来，插入到产生式右部的合适位置上，用以指明语义规则的计算次序，这样的属性文法称为翻译模式（或称为翻译方案）</li>
+</ul>
+<h4 id="四元式"><a href="#四元式" class="headerlink" title="四元式"></a>四元式</h4><ul>
+<li>(OP,ARG1,ARG2,RESULT)</li>
+<li>四元式直接通过临时变量相互联系</li>
+<li>单目运算使用ARG1域,转移语句目标位置放在RESULT域</li>
+</ul>
+<h4 id="三元式"><a href="#三元式" class="headerlink" title="三元式"></a>三元式</h4><ul>
+<li>编号 (OP,ARG1,ARG2)</li>
+<li>其中ARG1与ARG2是指向符号表或其他三元式的指针</li>
+</ul>
+<h4 id="间接三元式"><a href="#间接三元式" class="headerlink" title="间接三元式"></a>间接三元式</h4><ul>
+<li>结构与三元式相同</li>
+<li>间接码表包含一个指示三元式编号的域,其中的出现顺序指示执行顺序</li>
+</ul>
+<hr>
+<span id="RunTime" />
+目标程序运行时组织
+-------------
+
+
+<h4 id="运行时存储区结构"><a href="#运行时存储区结构" class="headerlink" title="运行时存储区结构"></a>运行时存储区结构</h4><ul>
+<li>目标代码区</li>
+<li>静态数据区</li>
+<li>栈区</li>
+<li>堆区</li>
+</ul>
+<h4 id="几个术语"><a href="#几个术语" class="headerlink" title="几个术语"></a>几个术语</h4><ul>
+<li>name 变量名</li>
+<li>environment 将名字映射到存储位置</li>
+<li>storage 存储位置</li>
+<li>state 将存储位置映射到值</li>
+<li>value 值</li>
+</ul>
+<h4 id="内存分配方式"><a href="#内存分配方式" class="headerlink" title="内存分配方式"></a>内存分配方式</h4><ul>
+<li>静态分配<ul>
+<li>在编译时确定空间,如C中的静态变量,全局变量</li>
+</ul>
+</li>
+<li>动态分配<ul>
+<li>栈式动态分配</li>
+<li>堆式动态分配</li>
+</ul>
+</li>
+</ul>
+<hr>
+<span id="optimization" />
+代码优化
+-------------
+
+
+<h4 id="代码优化技术"><a href="#代码优化技术" class="headerlink" title="代码优化技术"></a>代码优化技术</h4><ol>
+<li>删除多余运算(删除公共子表达式)<ul>
+<li>如果统一表达式在多处出现,可以只计算一次,其他地方直接引用</li>
+</ul>
+</li>
+<li>循环不变代码外提</li>
+<li>强度削弱<ul>
+<li>将乘法转化为加法</li>
+</ul>
+</li>
+<li>变换循环控制条件<ul>
+<li>通过改变循环变量,尝试去除一些变量</li>
+</ul>
+</li>
+<li>合并已知量和复写传播<ul>
+<li>编译时初始值已知的运算可以在编译过程中直接计算出来,从而减少运行时运算(合并已知量)</li>
+<li>变量T被变量S赋值,后续引用变量T时若T未改变,可改为直接引用变量S(复写传播)</li>
+</ul>
+</li>
+<li>删除无用赋值<ul>
+<li>经过变换循环控制条件和复写传播,可能有一些变量被赋值后却没有引用,可以直接删除这些变量</li>
+</ul>
+</li>
+</ol>
+<h4 id="基本块"><a href="#基本块" class="headerlink" title="基本块"></a>基本块</h4><ul>
+<li>指程序中一个单入口、单出口的线性程序块（顺序执行的语句序列）</li>
+<li>所谓基本块，是指程序中一个单入口、单出口的线性程序块（顺序执行的语句序列）</li>
+</ul>
+<h4 id="入口语句"><a href="#入口语句" class="headerlink" title="入口语句"></a>入口语句</h4><ol>
+<li>程序的第一个语句</li>
+<li>条件转移语句或无条件转移语句的转移目标语句</li>
+<li>紧跟在条件转移语句后面的语句</li>
+</ol>
+<h4 id="基本块划分算法"><a href="#基本块划分算法" class="headerlink" title="基本块划分算法"></a>基本块划分算法</h4><ol>
+<li>找到所有的入口语句</li>
+<li>基本块时从入口语句开始到下一个入口语句之前的所有语句</li>
+<li>没有被划分到任何基本块的语句是不可到达的,可以直接删除</li>
+</ol>
+<h4 id="基本块内优化方法"><a href="#基本块内优化方法" class="headerlink" title="基本块内优化方法"></a>基本块内优化方法</h4><ol>
+<li>删除公共子表达式</li>
+<li>删除无用代码</li>
+<li>重新命名临时变量</li>
+<li>交换语句次序</li>
+</ol>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年06月05日 15:44</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2018/01/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/" title="编译原理笔记">https://lizec.top/2018/01/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2018/01/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/&title=《编译原理笔记》 — LiZeC的博客&pic=images/compile/cover.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2018/01/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/&title=《编译原理笔记》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2018/01/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《编译原理笔记》 — LiZeC的博客&url=https://lizec.top/2018/01/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2018/01/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2018/01/13/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E7%AC%94%E8%AE%B0/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/编译原理/" class="color5">编译原理</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="post-toc-text">目录</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%85%A8%E6%96%87%E7%BB%93%E6%9E%84"><span class="post-toc-text">全文结构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%BC%96%E8%AF%91%E7%A8%8B%E5%BA%8F-Compiler"><span class="post-toc-text">编译程序(Compiler)</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%A7%A3%E9%87%8A%E7%A8%8B%E5%BA%8F%EF%BC%88Intepretter%EF%BC%89"><span class="post-toc-text">解释程序（Intepretter）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%8F%A5%E5%AD%90-%E5%8F%A5%E5%9E%8B%E5%92%8C%E8%AF%AD%E8%A8%80"><span class="post-toc-text">句子,句型和语言</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%96%87%E6%B3%95%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="post-toc-text">文法的类型</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%9C%80%E5%B7%A6%E6%8E%A8%E5%AF%BC%E4%B8%8E%E6%9C%80%E5%8F%B3%E6%8E%A8%E5%AF%BC"><span class="post-toc-text">最左推导与最右推导</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%9F%AD%E8%AF%AD"><span class="post-toc-text">短语</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%9F%AD%E8%AF%AD%E7%9A%84%E6%8E%A8%E5%AF%BC%E6%A0%91%E5%90%AB%E4%B9%89"><span class="post-toc-text">短语的推导树含义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%CE%B5-closure"><span class="post-toc-text">ε-closure</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#move-I-a"><span class="post-toc-text">move(I,a)</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#NFA%E8%BD%ACDFA"><span class="post-toc-text">NFA转DFA</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DFA%E6%9C%80%E5%B0%8F%E5%8C%96"><span class="post-toc-text">DFA最小化</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#DFA%E6%9C%80%E5%B0%8F%E5%8C%96%E7%AE%97%E6%B3%95"><span class="post-toc-text">DFA最小化算法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%AD%A3%E8%A7%84%E5%BC%8F%E4%B8%8E%E6%9C%89%E7%A9%B7%E8%87%AA%E5%8A%A8%E6%9C%BA%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="post-toc-text">正规式与有穷自动机的转换</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#FISRT%E9%9B%86"><span class="post-toc-text">FISRT集</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#FISRT%E9%9B%86%E7%AE%97%E6%B3%95"><span class="post-toc-text">FISRT集算法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#FOLLOW%E9%9B%86"><span class="post-toc-text">FOLLOW集</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#FOLLOW%E9%9B%86%E7%AE%97%E6%B3%95"><span class="post-toc-text">FOLLOW集算法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#SELECT%E9%9B%86"><span class="post-toc-text">SELECT集</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#LL-1-%E6%96%87%E6%B3%95"><span class="post-toc-text">LL(1)文法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%96%87%E6%B3%95%E7%9A%84%E7%AD%89%E4%BB%B7%E5%8F%98%E6%8D%A2"><span class="post-toc-text">文法的等价变换</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BC%98%E5%85%88%E5%85%B3%E7%B3%BB%E5%88%86%E6%9E%90"><span class="post-toc-text">优先关系分析</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%AE%80%E5%8D%95%E4%BC%98%E5%85%88%E6%96%87%E6%B3%95"><span class="post-toc-text">简单优先文法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%AE%97%E7%AC%A6%E4%BC%98%E5%85%88%E5%88%86%E6%9E%90"><span class="post-toc-text">算符优先分析</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%B4%A0%E7%9F%AD%E8%AF%AD%E4%B8%8E%E6%9C%80%E7%9F%AD%E7%B4%A0%E7%9F%AD%E8%AF%AD"><span class="post-toc-text">素短语与最短素短语</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%AE%80%E5%8D%95%E4%BC%98%E5%85%88%E4%B8%8E%E7%AE%97%E7%AC%A6%E6%9C%89%E9%99%90%E6%AF%94%E8%BE%83"><span class="post-toc-text">简单优先与算符有限比较</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%9C%80%E5%8F%B3%E6%8E%A8%E5%AF%BC%E4%B8%8E%E6%9C%80%E5%B7%A6%E8%A7%84%E7%BA%A6"><span class="post-toc-text">最右推导与最左规约</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%B4%BB%E5%89%8D%E7%BC%80"><span class="post-toc-text">活前缀</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#LR%E5%88%86%E6%9E%90%E8%BF%87%E7%A8%8B"><span class="post-toc-text">LR分析过程</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#LR-0-%E8%A7%84%E8%8C%83%E6%97%8F%E7%9A%84%E6%9E%84%E9%80%A0"><span class="post-toc-text">LR(0)规范族的构造</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-%E6%B1%82%E9%97%AD%E5%8C%85"><span class="post-toc-text">1. 求闭包</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB"><span class="post-toc-text">2. 状态转移</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-GO-I-X-%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="post-toc-text">3. GO(I,X)的定义</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-%E6%9E%84%E9%80%A0LR-0-%E5%88%86%E6%9E%90%E8%A1%A8"><span class="post-toc-text">4. 构造LR(0)分析表</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#LR-0-%E7%9A%84%E5%86%B2%E7%AA%81"><span class="post-toc-text">LR(0)的冲突</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#SLR-1-%E5%88%86%E6%9E%90%E8%A1%A8%E6%9E%84%E9%80%A0"><span class="post-toc-text">SLR(1)分析表构造</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%86%B2%E7%AA%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="post-toc-text">冲突解决方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E6%94%B9%E8%BF%9B%E7%9A%84SLR-1-%E5%88%86%E6%9E%90%E8%A1%A8"><span class="post-toc-text">改进的SLR(1)分析表</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#LR-1-%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="post-toc-text">LR(1)构造方法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E7%BB%A7%E6%89%BF%E5%B1%9E%E6%80%A7%E4%B8%8E%E7%BB%BC%E5%90%88%E5%B1%9E%E6%80%A7"><span class="post-toc-text">继承属性与综合属性</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%AF%AD%E6%B3%95%E5%88%B6%E5%AF%BC%E7%BF%BB%E8%AF%91%E4%B8%8E%E7%BF%BB%E8%AF%91%E6%A8%A1%E5%BC%8F"><span class="post-toc-text">语法制导翻译与翻译模式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%9B%9B%E5%85%83%E5%BC%8F"><span class="post-toc-text">四元式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%B8%89%E5%85%83%E5%BC%8F"><span class="post-toc-text">三元式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E9%97%B4%E6%8E%A5%E4%B8%89%E5%85%83%E5%BC%8F"><span class="post-toc-text">间接三元式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E5%AD%98%E5%82%A8%E5%8C%BA%E7%BB%93%E6%9E%84"><span class="post-toc-text">运行时存储区结构</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%87%A0%E4%B8%AA%E6%9C%AF%E8%AF%AD"><span class="post-toc-text">几个术语</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E6%96%B9%E5%BC%8F"><span class="post-toc-text">内存分配方式</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96%E6%8A%80%E6%9C%AF"><span class="post-toc-text">代码优化技术</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%9D%97"><span class="post-toc-text">基本块</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%85%A5%E5%8F%A3%E8%AF%AD%E5%8F%A5"><span class="post-toc-text">入口语句</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%9D%97%E5%88%92%E5%88%86%E7%AE%97%E6%B3%95"><span class="post-toc-text">基本块划分算法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%9D%97%E5%86%85%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95"><span class="post-toc-text">基本块内优化方法</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          计算机网络笔记
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/12/31/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%A6%82%E8%AE%BA/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">人工智能概论</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Sat Jan 13 2018 11:09:01 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

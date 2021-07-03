@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>深度自然语言处理笔记 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="本文是斯坦福大学的深度自然语言处理课程的笔记, 可以在B站查看此课程的全部视频. 这里先随便写一点自己的理解. word2vec核心思想: “A word’s meaning is given by the words that frequently appear close-by.” 即对于每个词, 周围的几个词应该和这个词具有相近的含义, 因此他们的词向量应该接近. 实现这个目的, 有如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度自然语言处理笔记">
+<meta property="og:url" content="https://lizec.top/2020/02/05/%E6%B7%B1%E5%BA%A6%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="本文是斯坦福大学的深度自然语言处理课程的笔记, 可以在B站查看此课程的全部视频. 这里先随便写一点自己的理解. word2vec核心思想: “A word’s meaning is given by the words that frequently appear close-by.” 即对于每个词, 周围的几个词应该和这个词具有相近的含义, 因此他们的词向量应该接近. 实现这个目的, 有如">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-02-05T06:13:09.000Z">
+<meta property="article:modified_time" content="2020-06-26T14:47:35.780Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="自然语言处理">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-深度自然语言处理笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      深度自然语言处理笔记
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2020-02-05
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script>
+
+
+<p>本文是斯坦福大学的深度自然语言处理课程的笔记, 可以在B站查看此课程的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av76072224">全部视频</a>. 这里先随便写一点自己的理解.</p>
+<h2 id="word2vec"><a href="#word2vec" class="headerlink" title="word2vec"></a>word2vec</h2><p>核心思想: “A word’s meaning is given by the words that frequently appear close-by.” 即对于每个词, 周围的几个词应该和这个词具有相近的含义, 因此他们的词向量应该接近. 实现这个目的, 有如下的步骤</p>
+<ol>
+<li>通过两个词向量的点乘来表示两者的相识度</li>
+<li>通过softmax函数将相似度转化为概率分布</li>
+<li>将似然函数最大作为优化目标, 使用梯度下降优化词向量</li>
+</ol>
+<p>其中使用softmax转为为概率分布的公式为</p>
+<p>$$P(o|c)= \frac{exp(v_0^T)}{\sum_{w=1}^{u} exp(u_w^Tv_c)}$$</p>
+<p>从而有目标函数为</p>
+<p>$$J(\theta)=-\frac{1}{T}\sum_{1}^{T}\sum_{-m \leq j\leq m} log P(w_{t+j}|w_t)$$</p>
+<blockquote>
+<p>注意第二个求和中有\( j \neq 0 \)</p>
+</blockquote>
+<p>之后如何求梯度就是各个计算框架的问题了.</p>
+<h3 id="减少计算量的优化"><a href="#减少计算量的优化" class="headerlink" title="减少计算量的优化"></a>减少计算量的优化</h3><p>由于每次计算时需要求解整个语料库的点乘, 而实际只更新窗口中的几个词, 因此可以考虑不计算整个语料库, 而是每次计算时, 随机从语料库中抽取若干词汇, 优化目标函数使这些词汇与中心词的点乘尽量小. 即</p>
+<p>$$J(\theta)=log\sigma(u_o^Tv_c)+\sum_{j\sim P(w)}(log\sigma(-u_j^Tv_c))$$</p>
+<p>通过优化此目标函数, 可以保证中心词周围的词汇的词向量与中心词接近, 随机抽取的其他词与中心词的词向量不接近.</p>
+<blockquote>
+<p>通过P实现按频率随机选择词汇, 可以使用3/4次方来抑制抽到停止词的概率</p>
+</blockquote>
+<h3 id="GloVe"><a href="#GloVe" class="headerlink" title="GloVe"></a>GloVe</h3><p>GloVe的主要思想先读取语料库获得计数矩阵. 然后通过构造目标函数来优化计数矩阵. 计数矩阵统计了每个词周围的词出现的次数, 可以直接粗略的将每一列作为相应词的词向量. GloVe的目标函数定义为</p>
+<p>$$J(\theta)= \frac{1}{2} \sum_{i,j=1}^{w}f(P_{ij})(w_i^Tv_j-logP_{ij})^2$$</p>
+<p>GloVe模型是一种常见的预训练词向量模型, 更多细节可以参考下面的文章</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/58389508">GloVe模型总结</a></li>
+</ul>
+<h3 id="Softmax分类器"><a href="#Softmax分类器" class="headerlink" title="Softmax分类器"></a>Softmax分类器</h3><p>定义数据集为 \( \{ x_i,y_i \}^N \) 其中\( x_i \)是输入, 可以是一个词向量. \( y_i \)是输出, 可以是一个标签. Softmax分类器的定义为</p>
+<p>$$p(y|x)=\frac{exp(W_y x)}{\sum_{c=1}^{C}exp(W_c x)}=softmax(f)_y$$</p>
+<p>其中W是一个权重矩阵, 是需要训练的参数. C是标签(分类)的数量. 其中有</p>
+<p>$$W_y x = \sum_{i=1}^d w_{yi}x_{i}=f_y$$</p>
+<blockquote>
+<p>\(f_y\)就是将矩阵乘法看做函数的一种表现</p>
+</blockquote>
+<p>相应的目标函数定义为</p>
+<p>$$-logP(y|x) = -log\left(\frac{exp(f_y)}{\sum_{c=1}^C exp(f_c)}\right)$$</p>
+<blockquote>
+<p>目标函数的定义可以从交叉熵的表达式推导</p>
+</blockquote>
+<p>设p为目标概率分布. 即一个正确分类为1, 其他分类为0的概率分布. 设q为通过softmax计算出的概率分布. 则交叉熵定义为</p>
+<p>$$H(p,q)=-\sum_{c=1}^C p(c)logq(c)$$</p>
+<blockquote>
+<p>p只有正确的分为值为1, 因此就是正确分类的softmax值的负对数</p>
+</blockquote>
+<p>最终\( J(\theta)\)定义为所有样本数据的平均值</p>
+<p>$$J(\theta)=\frac{1}{N} \sum_{i=1}^N -log\left(\frac{exp(f_y)}{\sum_{c=1}^C exp(f_c)}\right)$$</p>
+<p>此时 \( \theta = W \in R^{Cd} \), 如果同时调整词向量的取值, 则\( \theta \in R^{Cd + Vd} \). 由于Vd是一个较大的值, 因此模型的参数数量显著增加, 如果数据集数量较少, 容易导致模型欠拟合.</p>
+<h3 id="Window-Classification"><a href="#Window-Classification" class="headerlink" title="Window Classification"></a>Window Classification</h3><p>Window Classification是一个分类任务, 其核心思想是提取中心词周围的若干词汇, 构成一个拼接的词向量, 然后使用这个词向量训练一个softmax分类模型.</p>
+<p>设\( \hat{y} \) 为通过softmax计算的概率分布, \( t \)为目标分布, 则导数可以拆分为对每个分类的导数.</p>
+<p>$$\frac{\partial }{\partial x} = -log softmax(f_y(x))=\sum_{c=1}^C - \frac{\partial log softmax(f_y(x))}{\partial f_c} \frac{\partial f_c(x)}{\partial x}$$</p>
+<p>此时可以分为c为目标分类(等于y)和c不是目标分类进行讨论. 一波操作后可以得到</p>
+<p>$$\frac{\partial }{\partial x} = \begin{bmatrix}<br>\hat{y_1}<br>\\<br>\vdots<br>\\<br>\hat{y_y}-1<br>\\<br>\vdots<br>\\<br>\hat{y_c}<br>\end{bmatrix}<br>= [\hat{y} - t] = \delta$$</p>
+<h3 id="The-Max-Margin-Loss"><a href="#The-Max-Margin-Loss" class="headerlink" title="The Max-Margin Loss"></a>The Max-Margin Loss</h3><p>定义\(s\)表示正确的分类的得分, \(s_c\)表示错误的分类的得分, 则损失函数定义为</p>
+<p>$$J=max(0, 1-s+s_c)$$</p>
+<p>这里的数字1是一个超参数, 表示当正确的分类和错误的分类的得分差值大于1就可以停止优化. 通过这样的定义,可以使得每次优化时集中优化差距较大的数据, 而足够好的数据就直接忽略.</p>
+<p>\(s_c\)表示负样本, 可以通过随机采样的方式获取.</p>
+<h2 id="循环神经网络模型"><a href="#循环神经网络模型" class="headerlink" title="循环神经网络模型"></a>循环神经网络模型</h2><p>RNN模型的特点是具有一个隐含层, 从而每一次输出除了和当前的输入相关, 还与隐含层的值相关, 具体定义如下</p>
+<p>$$<br>h_t &amp;= \phi(h_{t-1},x_t) = f(w^{(hh)}h_{t-1}+W^{(hx)}x_t) \\</p>
+<p>$$</p>
+<h3 id="GRUs模型"><a href="#GRUs模型" class="headerlink" title="GRUs模型"></a>GRUs模型</h3><p>GRUs模型相比于RNN模型引入了update和reset机制, 首先定义两个控制向量</p>
+<p>$$<br>\begin{align}<br>z_t &amp;= \sigma(W^{(z)}x_t + U^{(z)}h_{t-1}) \\<br>r_t &amp;= \sigma(W^{(r)}x_t + U^{(r)}h_{t-1})<br>\end{align}<br>$$</p>
+<p>其中 \( z_t \) 称为Update Gate, \( r_t \) 称为Reset Gate. 在此基础上定义</p>
+<p>$$<br>\begin{align}<br>\tilde{h}<em>t &amp;= tanh(Wx_t + r_t \circ Uh</em>{t-1}) \\<br>h_t         &amp;= z_t \circ h_{t-1} + (1-z_t) \circ \tilde{h}_t<br>\end{align}<br>$$</p>
+<p>其中r用于控制是否忽略以往的取值(即隐含层), 当r为0时, 则与考虑本次输入的影响. z用于控制隐含层的更新情况. 当z取值为1时, 则隐含层取值等于上一次隐含层的取值, 从而可以保存关键信息不被新的输入影响.</p>
+<h3 id="LSTMs模型"><a href="#LSTMs模型" class="headerlink" title="LSTMs模型"></a>LSTMs模型</h3><p>LSTMs模型首先定义了Input Gate, Forget Gate和输出, LSTMs模型与GRUs模型很类似, Input Gate 用于控制输入, Forget Gate用于控制隐含层, 三个部分的结构是相同的.</p>
+<p>$$<br>\begin{align}<br>i_t &amp;= \sigma(W^{(i)}x_t + U^{(i)}h_{t-1}) \\<br>f_t &amp;= \sigma(W^{(f)}x_t + U^{(f)}h_{t-1}) \\<br>o_t &amp;= \sigma(W^{(o)}x_t + U^{(o)}h_{t-1})<br>\end{align}<br>$$</p>
+<p>然后可以分别定义New Memory Cell, Final Memory Cell和Final Hidden State, 具体如下所示.</p>
+<p>$$<br>\begin{align}<br>\tilde{c}<em>t &amp;= tanh(W^{(c)}x_t + U^{(c)}h</em>{t-1})  \\<br>c_t         &amp;= f_t \circ c_{t-1} + i_t \circ \tilde{c}_t \\<br>h_t         &amp;= o_t \circ tanh(c_t)<br>\end{align}<br>$$</p>
+<h3 id="注意力机制"><a href="#注意力机制" class="headerlink" title="注意力机制"></a>注意力机制</h3><p>由于在执行机器翻译任务是, 会自动时候所有的输入作为参数, 因此注意力机制引入了一个额外的模块, 这个模块对输入的此进行评分, 从而使得网络在翻译的时候可以侧重于某个部分.</p>
+<h3 id="BLUE评分方法"><a href="#BLUE评分方法" class="headerlink" title="BLUE评分方法"></a>BLUE评分方法</h3><p>BLUE评分方法是一种评价机器翻译质量的方法. 其核心思想是对于一篇文章, 给定一个人类翻译的版本作为参考, 比较机器翻译的版本与人翻译的版本有多少个词是按照同样的顺序出现. 此外, 为了避免机器翻译只输出一个词, 如果机器翻译的文本长度比人类翻译的文本的长度小, 则会受到的一定程度的惩罚.</p>
+<p>通过此方法可以一定程度的体现机器翻译对语法结构的掌握.</p>
+<h2 id="递归神经网络模型"><a href="#递归神经网络模型" class="headerlink" title="递归神经网络模型"></a>递归神经网络模型</h2><p>递归神经网络的核心思想是提供一种将局部模块组合为一个整体的方法</p>
+<h3 id="短语的词向量"><a href="#短语的词向量" class="headerlink" title="短语的词向量"></a>短语的词向量</h3><p>在前面的课程中, 以及学习了如何获得单词的向量, 现在希望对一些短语也能获得相应的向量, 从而能够比较不同短语的含义. 但由于短语的数量远大于单词的数量, 因此无法将所有的短语都存储下来.</p>
+<p>一个合理的方法是提供一种合成方法, 从而根据单词的向量合成短语的向量.  通过训练一个神经网络来实现向量的合并同时给出分数来指示这个合并是否正确</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2020年06月26日 22:47</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2020/02/05/%E6%B7%B1%E5%BA%A6%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0/" title="深度自然语言处理笔记">https://lizec.top/2020/02/05/%E6%B7%B1%E5%BA%A6%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2020/02/05/%E6%B7%B1%E5%BA%A6%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0/&title=《深度自然语言处理笔记》 — LiZeC的博客&pic=https://lizec.topimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2020/02/05/%E6%B7%B1%E5%BA%A6%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0/&title=《深度自然语言处理笔记》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2020/02/05/%E6%B7%B1%E5%BA%A6%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《深度自然语言处理笔记》 — LiZeC的博客&url=https://lizec.top/2020/02/05/%E6%B7%B1%E5%BA%A6%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2020/02/05/%E6%B7%B1%E5%BA%A6%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2020/02/05/%E6%B7%B1%E5%BA%A6%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/自然语言处理/" class="color2">自然语言处理</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#word2vec"><span class="post-toc-text">word2vec</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%87%8F%E5%B0%91%E8%AE%A1%E7%AE%97%E9%87%8F%E7%9A%84%E4%BC%98%E5%8C%96"><span class="post-toc-text">减少计算量的优化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#GloVe"><span class="post-toc-text">GloVe</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Softmax%E5%88%86%E7%B1%BB%E5%99%A8"><span class="post-toc-text">Softmax分类器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Window-Classification"><span class="post-toc-text">Window Classification</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#The-Max-Margin-Loss"><span class="post-toc-text">The Max-Margin Loss</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%BE%AA%E7%8E%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B"><span class="post-toc-text">循环神经网络模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#GRUs%E6%A8%A1%E5%9E%8B"><span class="post-toc-text">GRUs模型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LSTMs%E6%A8%A1%E5%9E%8B"><span class="post-toc-text">LSTMs模型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6"><span class="post-toc-text">注意力机制</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#BLUE%E8%AF%84%E5%88%86%E6%96%B9%E6%B3%95"><span class="post-toc-text">BLUE评分方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%80%92%E5%BD%92%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B"><span class="post-toc-text">递归神经网络模型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%9F%AD%E8%AF%AD%E7%9A%84%E8%AF%8D%E5%90%91%E9%87%8F"><span class="post-toc-text">短语的词向量</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2020/02/07/PyTorch%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          PyTorch笔记之基础知识
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2020/01/26/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E9%85%8D%E7%BD%AE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">服务器端配置机器学习环境</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Wed Feb 05 2020 14:13:09 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

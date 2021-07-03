@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java单元测试之基础类库 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="本文介绍Java的单元测试中经常使用的Junit和JMock库的主要API和使用方法. 阅读本文前需要对Maven有基本的了解, 如果对其不了解, 可以阅读 Maven笔记之基本概念 . Junit使用依赖导入根据官网上的指示, 编译和运行JUnit的代码, 需要依赖junit-4.XX.jar以及hamcrest-core-1.3.jar. 由于hamcrest库从2012年以来就没有更新,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java单元测试之基础类库">
+<meta property="og:url" content="https://lizec.top/2018/11/21/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%BA%93/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="本文介绍Java的单元测试中经常使用的Junit和JMock库的主要API和使用方法. 阅读本文前需要对Maven有基本的了解, 如果对其不了解, 可以阅读 Maven笔记之基本概念 . Junit使用依赖导入根据官网上的指示, 编译和运行JUnit的代码, 需要依赖junit-4.XX.jar以及hamcrest-core-1.3.jar. 由于hamcrest库从2012年以来就没有更新,">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-11-21T08:53:41.000Z">
+<meta property="article:modified_time" content="2019-07-09T07:11:52.506Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="单元测试">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Java单元测试之基础类库" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Java单元测试之基础类库
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java单元测试/">Java单元测试</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-11-21
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script> -->
+
+<p>本文介绍Java的单元测试中经常使用的Junit和JMock库的主要API和使用方法. 阅读本文前需要对Maven有基本的了解, 如果对其不了解, 可以阅读 <a href="https://lizec.top/2019/07/09/Maven%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/">Maven笔记之基本概念</a> .</p>
+<h2 id="Junit使用"><a href="#Junit使用" class="headerlink" title="Junit使用"></a>Junit使用</h2><h3 id="依赖导入"><a href="#依赖导入" class="headerlink" title="依赖导入"></a>依赖导入</h3><p>根据官网上的指示, 编译和运行JUnit的代码, 需要依赖<code>junit-4.XX.jar</code>以及<code>hamcrest-core-1.3.jar</code>. 由于hamcrest库从2012年以来就没有更新, 因此1.3版是当前的最新版.</p>
+<p>在Maven中,仅仅需要导入JUnit即可, 此依赖会自动依赖<code>hamcrest-core</code>, 具体的版本号可以在<a target="_blank" rel="noopener" href="https://mvnrepository.com/">MvnRepository</a>搜索.</p>
+<h3 id="待测试方法限制"><a href="#待测试方法限制" class="headerlink" title="待测试方法限制"></a>待测试方法限制</h3><p>Junit中的测试方法需要满足以下的条件</p>
+<ol>
+<li>使用@Test注解声明</li>
+<li>必须声明为 public void 且不接受参数</li>
+<li>可以抛出任意异常</li>
+</ol>
+<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p>Junit中提供如下的一些注解,被各注解标记的方法的含义如下</p>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Description</th>
+<th>Annotation</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@BeforeClass</td>
+<td>在测试类所有方法开始前调用</td>
+<td>@AfterClass</td>
+<td>在测试类所有方法结束后调用</td>
+</tr>
+<tr>
+<td>@Before</td>
+<td>在测试类每个测试方法前调用</td>
+<td>@After</td>
+<td>在测试类每个测试方法后调用</td>
+</tr>
+</tbody></table>
+<p>一个类中可以有任意数量的@BeforeClass, @Before, @After, @AfterClass标记, Junit不保证同类型标记的方法的调用顺序(调用顺序取决于反射的API实现).</p>
+<h3 id="JUnit断言"><a href="#JUnit断言" class="headerlink" title="JUnit断言"></a>JUnit断言</h3><p>在Junit的<code>org.junit.Assert</code>类中提供了大量的静态方法, 这些方法都是assertXXX的形式, 通常以静态导入的方式导入这些方法. 比较常见的方法如下表所示</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义</th>
+<th>方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>assertEquals</td>
+<td>两个参数是否相等</td>
+<td>assertArraysEquals</td>
+<td>两个数组是否包含同样的元素</td>
+</tr>
+<tr>
+<td>assertTrue</td>
+<td>语句是否为真</td>
+<td>assertFalse</td>
+<td>语句是否为假</td>
+</tr>
+<tr>
+<td>assertNull</td>
+<td>对象引用是否为空</td>
+<td>assertNotNull</td>
+<td>对象引用是否非空</td>
+</tr>
+<tr>
+<td>assertSame</td>
+<td>两个对象是否引用同样对象</td>
+<td>assertNotSame</td>
+<td>两个对象是否应用不同的对象</td>
+</tr>
+</tbody></table>
+<h3 id="Hamcrest匹配器"><a href="#Hamcrest匹配器" class="headerlink" title="Hamcrest匹配器"></a>Hamcrest匹配器</h3><p>除了常见的assertXXX API以外, JUnit还提供了一个assertThat方法. 此方法接受两个参数, 一个是Object, 另一个是<code>org.hamcrest.Matcher</code>. 而且Matcher是一个接口, 文档中指出, 如果需要自定义实现Matcher, 不应该直接实现这个接口, 而应该继承抽象类<code>org.hamcrest.BaseMatcher</code>, 从而可以保证在后续的更新过程中, 可以改变Matcher接口而不影响其他Matcher的实现.</p>
+<p>使用过程中, <code>org.hamcrest.CoreMatchers</code>类提供了大量的静态方法, 这些方法都是一些谓词, 通常以静态导入的方式导入这些方法, 这些方法可以分为两类</p>
+<h4 id="产生Matcher"><a href="#产生Matcher" class="headerlink" title="产生Matcher"></a>产生Matcher</h4><p>以下的方法接受参数, 产生一个Matcher</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义</th>
+<th>方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>equalTo</td>
+<td>判断是否相等</td>
+<td>not</td>
+<td>判断是否不相等</td>
+</tr>
+<tr>
+<td>nullValue</td>
+<td>产生一个检查是否为Null的Matcher</td>
+<td>notNullValue</td>
+<td>产生一个检查是否为非Null的Matcher</td>
+</tr>
+<tr>
+<td>sameInstance</td>
+<td>判断是否为同一个引用</td>
+<td>theInstance</td>
+<td>判断是否为同一个引用</td>
+</tr>
+<tr>
+<td>startsWith</td>
+<td>判断字符串是否以指定的子串开头</td>
+<td>endsWith</td>
+<td>判断字符串是否以指定的子串结尾</td>
+</tr>
+<tr>
+<td>containsString</td>
+<td>判断字符串是否包含指定的子字符串</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>一些方法的使用示例如下所示:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">assertThat(<span class="string">&quot;foo&quot;</span>, equalTo(<span class="string">&quot;foo&quot;</span>))</span><br><span class="line">assertThat(<span class="keyword">new</span> String[] &#123;<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>&#125;, equalTo(<span class="keyword">new</span> String[] &#123;<span class="string">&quot;foo&quot;</span>, <span class="string">&quot;bar&quot;</span>&#125;))</span><br><span class="line">assertThat(cheese, is(not(smelly)))</span><br><span class="line">assertThat(cheese, is(nullValue())</span><br><span class="line">assertThat(<span class="string">&quot;myStringOfNote&quot;</span>, containsString(<span class="string">&quot;ring&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+<h4 id="复合Matcher"><a href="#复合Matcher" class="headerlink" title="复合Matcher"></a>复合Matcher</h4><p>以下的方法接受一个Matcher, 产生一个复合的Matcher</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义</th>
+<th>方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>allOf</td>
+<td>判断是否所有Matcher都满足条件</td>
+<td>anyOf</td>
+<td>判断是否有任何Matcher满足条件</td>
+</tr>
+<tr>
+<td>both</td>
+<td>是否添加的Matcher都满足条件</td>
+<td>either</td>
+<td>是否存在Matcher满足条件</td>
+</tr>
+<tr>
+<td>is</td>
+<td>本身无操作,用于增强语义</td>
+<td>isA</td>
+<td>代替instanceof</td>
+</tr>
+<tr>
+<td>anything</td>
+<td>创建一个永远匹配的Matcher</td>
+<td>not</td>
+<td>对Matcher取反</td>
+</tr>
+<tr>
+<td>everyItem</td>
+<td>判断数组是否所有元素都满足条件</td>
+<td>hasItem</td>
+<td>判断数组是否有元素满足指定的一个条件</td>
+</tr>
+<tr>
+<td>describeAs</td>
+<td>包裹已有的Matcher, 重写其描述</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>注意: not方法比较特殊化, 也可以接受普通的参数, 与is一起表示不等于的语义.</p>
+<p>一些方法的使用示例如下所示:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">assertThat(<span class="string">&quot;myValue&quot;</span>, allOf(startsWith(<span class="string">&quot;my&quot;</span>), containsString(<span class="string">&quot;Val&quot;</span>)))</span><br><span class="line">assertThat(<span class="string">&quot;myValue&quot;</span>, anyOf(startsWith(<span class="string">&quot;foo&quot;</span>), containsString(<span class="string">&quot;Val&quot;</span>)))</span><br><span class="line">assertThat(<span class="string">&quot;fab&quot;</span>, both(containsString(<span class="string">&quot;a&quot;</span>)).and(containsString(<span class="string">&quot;b&quot;</span>)))</span><br><span class="line">assertThat(<span class="string">&quot;fan&quot;</span>, either(containsString(<span class="string">&quot;a&quot;</span>)).and(containsString(<span class="string">&quot;b&quot;</span>)))</span><br><span class="line">describedAs(<span class="string">&quot;a big decimal equal to %0&quot;</span>, equalTo(myBigDecimal), myBigDecimal.toPlainString())</span><br><span class="line">assertThat(Arrays.asList(<span class="string">&quot;bar&quot;</span>, <span class="string">&quot;baz&quot;</span>), everyItem(startsWith(<span class="string">&quot;ba&quot;</span>)))</span><br></pre></td></tr></table></figure>
+
+<h4 id="自定义Matcher"><a href="#自定义Matcher" class="headerlink" title="自定义Matcher"></a>自定义Matcher</h4><p>以下演示如何使用自定义Matcher</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testPhone</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    String phone = <span class="string">&quot;3232332&quot;</span>;</span><br><span class="line">    assertThat(phone,is(internationalNumber()));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> Matcher&lt;String&gt; <span class="title">internationalNumber</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> BaseMatcher&lt;String&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="comment">// 重写此方法, 判断是否满足条件</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">matches</span><span class="params">(Object item)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(!(item <span class="keyword">instanceof</span> String)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> ((String) item).matches(<span class="string">&quot;^\\+(?:[0-9] ?)&#123;6,14&#125;[0-9]$&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="comment">// 重写此方法, 在不匹配时输出适当的提示信息</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">describeTo</span><span class="params">(Description description)</span> </span>&#123;</span><br><span class="line">            description.appendText(<span class="string">&quot;a correct type phone number&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="检测异常"><a href="#检测异常" class="headerlink" title="检测异常"></a>检测异常</h3><p>当被测试方法期待抛出异常时, 可以使用@Test的参数来实现此功能, 例如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test(expected = IllegalArgumentException.class)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ensureThatInvalidPhoneNumberYieldsProperException</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    FaxMachine fax = <span class="keyword">new</span> FaxMachine();</span><br><span class="line">    fax.connect(<span class="string">&quot;+dsd-ds-0090&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果此方法没有抛出IllegalArgumentException,则此方法运行失败. 但是使用这种方案只能检测异常, 而不能获得具体的异常以及进一步的分析异常的原因. 在这种复杂逻辑的情况下, 还是应该使用try-catch模式</p>
+<h3 id="Rule注解"><a href="#Rule注解" class="headerlink" title="@Rule注解"></a>@Rule注解</h3><p>通过该注解可以在每个测试方法的开始和结束后执行指定的操作, 通过此注解来替代原有的@Before和@After注解,从而避免同样的初始化代码在多个测试用例类种反复编写</p>
+<h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>使用@Rule标记的类必须实现TestRule接口,此接口定义如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.junit.runner.Description;</span><br><span class="line"><span class="keyword">import</span> org.junit.runners.model.Statement;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TestRule</span> </span>&#123;</span><br><span class="line">    <span class="function">Statement <span class="title">apply</span><span class="params">(Statement base, Description description)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中base表示即将执行的测试方法, description表示此方法的描述信息. 一个Rule的实现如下所示:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodNameExample</span> <span class="keyword">implements</span> <span class="title">TestRule</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Statement <span class="title">apply</span><span class="params">(<span class="keyword">final</span> Statement base, <span class="keyword">final</span> Description description)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Statement() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">evaluate</span><span class="params">()</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">                <span class="comment">//想要在测试方法运行之前做一些事情，就在base.evaluate()之前做</span></span><br><span class="line">                String className = description.getClassName();</span><br><span class="line">                String methodName = description.getMethodName();</span><br><span class="line"></span><br><span class="line">                base.evaluate();  <span class="comment">//这其实就是运行测试方法</span></span><br><span class="line"></span><br><span class="line">                <span class="comment">//想要在测试方法运行之后做一些事情，就在base.evaluate()之后做</span></span><br><span class="line">                System.out.println(<span class="string">&quot;Class name: &quot;</span>+className +<span class="string">&quot;, method name: &quot;</span>+methodName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根据文档要求, 使用@Rule标记的字段必须public and not static.</p>
+<h4 id="内置规则"><a href="#内置规则" class="headerlink" title="内置规则"></a>内置规则</h4><p>JUnit提供了一些内置的实现TestRule的类, 使用这些类可以完成全局超时控制,临时文件等功能. 这些规则全部位于<code>org.junit.rules</code>包下, 下面介绍两个最常见的规则</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PublisherTest</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Rule</span></span><br><span class="line">    <span class="keyword">public</span> TemporaryFolder folder = <span class="keyword">new</span> TemporaryFolder();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Rule</span></span><br><span class="line">    <span class="keyword">public</span> MethodRule globalTimeout = <span class="keyword">new</span> Timeout(<span class="number">20</span>);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">thisTempFileIsSquashedAfterTheTest</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        File tempFile = folder.newFile();  <span class="comment">// 创建一个临时文件</span></span><br><span class="line">        assertTrue(tempFile.exists());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码中, TemporaryFolder在每个Test方法被调用以前都会创建一个新的根目录, Test方法中可以使用folder方法创建文件和目录, Test方法执行完毕后, floder会自动删除有关的文件和文件夹. globalTimeout则会对每个Test方法进行计时, 如果运行时间超过指定的最大时间, 则会将测试方法终止.</p>
+<p>其他的规则可以查看<code>org.junit.rules</code>的文档, 其中的每个规则都在文档中提供了使用示例.</p>
+<h2 id="JMock使用"><a href="#JMock使用" class="headerlink" title="JMock使用"></a>JMock使用</h2><h3 id="依赖导入-1"><a href="#依赖导入-1" class="headerlink" title="依赖导入"></a>依赖导入</h3><p>根据<a target="_blank" rel="noopener" href="http://jmock.org/">官网</a>的指示, 编译和运行JMock需要<code>jmock-2.6.1.jar</code>, <code>hamcrest-core-1.3.jar</code>, <code>hamcrest-library-1.3.jar</code>和<code>jmock-junit4-2.6.1.jar</code></p>
+<p>在Maven中仅需要导入<code>jmock-junit4</code>即可, 此依赖会自动导入其他的三个依赖jar. 因为hamcrest库很久没有更新, 所以JUnit和JMock都是依赖同样版本的hamcrest库, 并不会产生冲突.</p>
+<p>注意: 如果希望使用Rule注解, <code>jmock-junit4</code> 至少为<code>2.6.0</code>版本.</p>
+<h3 id="JMock使用-1"><a href="#JMock使用-1" class="headerlink" title="JMock使用"></a>JMock使用</h3><p>根据官网上的示例, 结合JUnit4的一个测试应该具有如下的结构</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.jmock.Expectations;</span><br><span class="line"><span class="keyword">import</span> org.jmock.integration.junit4.JUnitRuleMockery;</span><br><span class="line"><span class="keyword">import</span> org.junit.Rule;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PublisherTest</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Rule</span></span><br><span class="line">    <span class="keyword">public</span> JUnitRuleMockery context = <span class="keyword">new</span> JUnitRuleMockery();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">oneSubscriberReceivesAMessage</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 使用JMock产生了一个Subscriber类的实例</span></span><br><span class="line">        <span class="comment">// 使用final修饰, 从而可以在Expectations块中引用</span></span><br><span class="line">        <span class="keyword">final</span> Subscriber subscriber = context.mock(Subscriber.class);</span><br><span class="line"></span><br><span class="line">        Publisher publisher = <span class="keyword">new</span> Publisher();</span><br><span class="line">        <span class="comment">// 将mock对象注入待测试类</span></span><br><span class="line">        publisher.add(subscriber);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> String message = <span class="string">&quot;message&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 需要检测的内容,有subscriber收到了指定的消息</span></span><br><span class="line">        context.checking(<span class="keyword">new</span> Expectations() &#123;&#123;</span><br><span class="line">            oneOf (subscriber).receive(message);</span><br><span class="line">        &#125;&#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 实际调用需要测试的方法</span></span><br><span class="line">        publisher.publish(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意: 先调用context的checking方法, 然后再调用实际待测试的方法, 否则会抛出异常</p>
+<h3 id="Expectations"><a href="#Expectations" class="headerlink" title="Expectations"></a>Expectations</h3><p>与hamcrest库类似, JMock也提供了大量的谓词, 用来检测方法是否调用了指定次数, 接受的参数是否为指定的类型, 设置返回值等操作. 具体可以分成如下的几类</p>
+<h4 id="调用次数"><a href="#调用次数" class="headerlink" title="调用次数"></a>调用次数</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义</th>
+<th>方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>oneOf</td>
+<td>希望方法被调用有且只有一次</td>
+<td>exactly(n).of</td>
+<td>希望方法正好被调用n次</td>
+</tr>
+<tr>
+<td>atLeast(n).of</td>
+<td>希望方法被调用至少n次</td>
+<td>atMost(n).of</td>
+<td>希望方法被调用至多n次</td>
+</tr>
+<tr>
+<td>between(min, max).of</td>
+<td>运行调用min到max之间的次数</td>
+<td>never</td>
+<td>希望方法不被调用</td>
+</tr>
+<tr>
+<td>allowing</td>
+<td>允许方法调用任意次数</td>
+<td>ignoring</td>
+<td>允许方法调用任意次数</td>
+</tr>
+</tbody></table>
+<p>注意: allowing和ignoring效果相同, 具体使用哪一个谓词应该由实际的语义确定.</p>
+<h4 id="参数匹配"><a href="#参数匹配" class="headerlink" title="参数匹配"></a>参数匹配</h4><p>以下的谓词用于限定被mock方法接受的参数的类型</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义</th>
+<th>方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>equal(n)</td>
+<td>参数等于n</td>
+<td>same(o)</td>
+<td>参数与o是同一个对象</td>
+</tr>
+<tr>
+<td>a(type)</td>
+<td>参数是type类型的实例</td>
+<td>an(type)</td>
+<td>参数是type类型的实例</td>
+</tr>
+<tr>
+<td>aNull(type)</td>
+<td>参数是type类型且为Null</td>
+<td>aNonNull(type)</td>
+<td>参数是type类型且非Null</td>
+</tr>
+<tr>
+<td>any(type)</td>
+<td>参数是type的任意值</td>
+<td>not(m)</td>
+<td>将给定的Matcher取反</td>
+</tr>
+<tr>
+<td>anyOf(…)</td>
+<td>参数匹配任意的Matcher</td>
+<td>allOf(…)</td>
+<td>参数匹配全部的Matcher</td>
+</tr>
+</tbody></table>
+<p>上述所有的方法,最后都需要通过with方法转化为实际的类型,从而可以作为被测试方法的参数</p>
+<p>例如对于被测试方法<code>add</code>, 通过如下的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">allowing (calculator).add(with(any(<span class="keyword">int</span>.class)), with(any(<span class="keyword">int</span>.class)));</span><br></pre></td></tr></table></figure>
+
+<p>说明此方法可以调用任意次数,add的两个参数都是任意的int类型的值</p>
+<h4 id="动作"><a href="#动作" class="headerlink" title="动作"></a>动作</h4><p>以下谓词用于指定被mock对象的动作(Action)</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>will(returnValue(v))</td>
+<td>返回v给调用者</td>
+</tr>
+<tr>
+<td>will(returnIterator(c))</td>
+<td>每次调用返回集合c中的一个值</td>
+</tr>
+<tr>
+<td>will(returnIterator(v1, v2, …, vn))</td>
+<td>每次调用返回v1到vn的一个值</td>
+</tr>
+<tr>
+<td>will(throwException(e))</td>
+<td>抛出异常e给调用者</td>
+</tr>
+<tr>
+<td>will(doAll(a1, a2, …, an))</td>
+<td>在每次调用时执行a1到an的Action</td>
+</tr>
+</tbody></table>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年07月09日 15:11</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2018/11/21/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%BA%93/" title="Java单元测试之基础类库">https://lizec.top/2018/11/21/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%BA%93/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2018/11/21/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%BA%93/&title=《Java单元测试之基础类库》 — LiZeC的博客&pic=images/unit.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2018/11/21/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%BA%93/&title=《Java单元测试之基础类库》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2018/11/21/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%BA%93/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Java单元测试之基础类库》 — LiZeC的博客&url=https://lizec.top/2018/11/21/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%BA%93/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2018/11/21/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%BA%93/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2018/11/21/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%BA%93/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Java/" class="color5">Java</a>
+      
+    <a href="/tags/单元测试/" class="color5">单元测试</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Junit%E4%BD%BF%E7%94%A8"><span class="post-toc-text">Junit使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BE%9D%E8%B5%96%E5%AF%BC%E5%85%A5"><span class="post-toc-text">依赖导入</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%BE%85%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95%E9%99%90%E5%88%B6"><span class="post-toc-text">待测试方法限制</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="post-toc-text">生命周期</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JUnit%E6%96%AD%E8%A8%80"><span class="post-toc-text">JUnit断言</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Hamcrest%E5%8C%B9%E9%85%8D%E5%99%A8"><span class="post-toc-text">Hamcrest匹配器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E4%BA%A7%E7%94%9FMatcher"><span class="post-toc-text">产生Matcher</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%A4%8D%E5%90%88Matcher"><span class="post-toc-text">复合Matcher</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89Matcher"><span class="post-toc-text">自定义Matcher</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%A3%80%E6%B5%8B%E5%BC%82%E5%B8%B8"><span class="post-toc-text">检测异常</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Rule%E6%B3%A8%E8%A7%A3"><span class="post-toc-text">@Rule注解</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%8E%9F%E7%90%86"><span class="post-toc-text">原理</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%86%85%E7%BD%AE%E8%A7%84%E5%88%99"><span class="post-toc-text">内置规则</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#JMock%E4%BD%BF%E7%94%A8"><span class="post-toc-text">JMock使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BE%9D%E8%B5%96%E5%AF%BC%E5%85%A5-1"><span class="post-toc-text">依赖导入</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#JMock%E4%BD%BF%E7%94%A8-1"><span class="post-toc-text">JMock使用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Expectations"><span class="post-toc-text">Expectations</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E8%B0%83%E7%94%A8%E6%AC%A1%E6%95%B0"><span class="post-toc-text">调用次数</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%8F%82%E6%95%B0%E5%8C%B9%E9%85%8D"><span class="post-toc-text">参数匹配</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#%E5%8A%A8%E4%BD%9C"><span class="post-toc-text">动作</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/11/21/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E4%B9%8B%E6%9C%89%E6%95%88%E6%B5%8B%E8%AF%95/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Java单元测试之有效测试
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/11/21/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8B%E6%A0%B8%E5%BF%83%E7%B1%BB%E5%BA%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Java多线程之核心类库</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Wed Nov 21 2018 16:53:41 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

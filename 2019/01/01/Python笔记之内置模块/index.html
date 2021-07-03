@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Python笔记之内置模块 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="本文介绍Python常用的内置模块, 包括全部的内建函数(builtins), 以及文件操作, 系统功能,进程调度和绘图等模块的基本内容. 内置函数Python提供了一些重要的内置函数, 可以大致划分为如下的几组, 其中的大部分函数根据名称就可以了解含义, 因此在一个表中归纳, 少部分函数属于单独的模块, 因此在单独的表格中归纳.  所有的内置函数的详细信息可以使用Python的帮助系统,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python笔记之内置模块">
+<meta property="og:url" content="https://lizec.top/2019/01/01/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="本文介绍Python常用的内置模块, 包括全部的内建函数(builtins), 以及文件操作, 系统功能,进程调度和绘图等模块的基本内容. 内置函数Python提供了一些重要的内置函数, 可以大致划分为如下的几组, 其中的大部分函数根据名称就可以了解含义, 因此在一个表中归纳, 少部分函数属于单独的模块, 因此在单独的表格中归纳.  所有的内置函数的详细信息可以使用Python的帮助系统,">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-01-01T11:48:36.000Z">
+<meta property="article:modified_time" content="2021-05-31T15:19:36.000Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Python笔记之内置模块" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Python笔记之内置模块
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Python笔记/">Python笔记</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2019-01-01
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script> -->
+
+
+<p>本文介绍Python常用的内置模块, 包括全部的内建函数(builtins), 以及文件操作, 系统功能,进程调度和绘图等模块的基本内容.</p>
+<h2 id="内置函数"><a href="#内置函数" class="headerlink" title="内置函数"></a>内置函数</h2><p>Python提供了一些重要的内置函数, 可以大致划分为如下的几组, 其中的大部分函数根据名称就可以了解含义, 因此在一个表中归纳, 少部分函数属于单独的模块, 因此在单独的表格中归纳.  所有的内置函数的详细信息可以使用Python的帮助系统, 或者查阅官方文档的<a target="_blank" rel="noopener" href="https://docs.python.org/3.6/library/functions.html">Built-in Functions</a>章节.</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>创建数据结构</td>
+<td>bytearray, dict, enumerate, frozenset, list, map, set, str, tuple</td>
+</tr>
+<tr>
+<td>数据类型转换</td>
+<td>complex, float, int, bool, bytes, bin, hex, oct</td>
+</tr>
+<tr>
+<td>数值计算</td>
+<td>min, max, pow, round, sum, divmod</td>
+</tr>
+<tr>
+<td>哈希值</td>
+<td>hash, id</td>
+</tr>
+<tr>
+<td>迭代器</td>
+<td>iter, next</td>
+</tr>
+<tr>
+<td>序列操作</td>
+<td>range, reversed, sorted</td>
+</tr>
+<tr>
+<td>I/O操作</td>
+<td>input, open</td>
+</tr>
+<tr>
+<td>格式化</td>
+<td>display, format</td>
+</tr>
+<tr>
+<td>不常见方法</td>
+<td>memoryview, super, slice</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>元操作函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>compile(source,file,m)</td>
+<td>编译一个指定的文件</td>
+</tr>
+<tr>
+<td>eval() / exec()</td>
+<td>将字符串视为语句或代码片段执行</td>
+</tr>
+<tr>
+<td>dir()</td>
+<td>返回对象包含的全部名字</td>
+</tr>
+<tr>
+<td>type()</td>
+<td>返回一个对象的类型</td>
+</tr>
+<tr>
+<td>repr()</td>
+<td>获得一个对象的可读的字符串</td>
+</tr>
+<tr>
+<td>globals()</td>
+<td>获得当前状态下的所有全局变量</td>
+</tr>
+<tr>
+<td>locals()</td>
+<td>获得当前作用域下的全部局部变量</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>不建议修改globals和locals返回的变量, 这些修改可能是无效的</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>序列操作函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>range(start,end,step)</td>
+<td>产生一个包含start,不包含end的序列, 步长为step</td>
+</tr>
+<tr>
+<td>reversed(seq)</td>
+<td>产生一个反序的迭代器对象</td>
+</tr>
+<tr>
+<td>sorted()</td>
+<td>对给定的列表排序</td>
+</tr>
+<tr>
+<td>filter(func,iter)</td>
+<td>接受一个函数与一个可迭代对象, 产生一个过滤后的可迭代对象</td>
+</tr>
+<tr>
+<td>map(func,iter)</td>
+<td>接受一个函数与一个可迭代对象, 执行map操作</td>
+</tr>
+<tr>
+<td>zip()</td>
+<td>将多个序列的对应元素打包成一个元组, 返回这些元组构成的列表</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>反射操作函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>hasattr</td>
+<td>判断一个对象是否具有指定的属性</td>
+</tr>
+<tr>
+<td>getattr</td>
+<td><code>getattr(x,&#39;y&#39;)</code> 等价于 <code>x.y</code></td>
+</tr>
+<tr>
+<td>setattr</td>
+<td>对指定对象的指定属性进行赋值</td>
+</tr>
+<tr>
+<td>delattr</td>
+<td><code>delattr(x, &#39;y&#39;)</code> 等价于 <code>del x.y</code></td>
+</tr>
+<tr>
+<td>isinstance</td>
+<td>判断<strong>一个对象</strong>是否指某个类型的实例</td>
+</tr>
+<tr>
+<td>issubclass</td>
+<td>判断<strong>一个类</strong>是否是某个类型的子类</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>装饰器函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>classmethod</td>
+<td>将函数装饰为类方法</td>
+</tr>
+<tr>
+<td>property</td>
+<td>将函数装饰为一个只读字段(直接访问函数名获得值)</td>
+</tr>
+<tr>
+<td>staticmethod</td>
+<td>将函数装饰为静态方法</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>注意: Java等语言中的类方法在Python中对应的概念是静态方法, 而不是类方法</p>
+</blockquote>
+<h2 id="Python虚拟环境"><a href="#Python虚拟环境" class="headerlink" title="Python虚拟环境"></a>Python虚拟环境</h2><p>根据实际体验, 在Linux系统使用conda, 在win系统使用PyCharm. 没有必要使用命令行处理</p>
+<hr>
+<p>从Python3.6开始, 可以使用内置的模块创建虚拟环境, 例如</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m venv /path/to/new/virtual/environment</span><br></pre></td></tr></table></figure>
+
+<p>由于已经明确指定了Python的版本, 因此不会产生虚拟环境是那个Python版本的问题. 创建完成后, 进入创建的目录, 执行Script目录下的activate文件即可激活环境.</p>
+<p>注意: 如果使用Power Shell, 应该执行<code>Script/activate.ps1</code>文件, 如果提示不能执行脚本, 可以先执行<code>set-executionpolicy remotesigned</code></p>
+<h2 id="Python文件处理"><a href="#Python文件处理" class="headerlink" title="Python文件处理"></a>Python文件处理</h2><h3 id="编码与解码"><a href="#编码与解码" class="headerlink" title="编码与解码"></a>编码与解码</h3><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ord()</td>
+<td>将字符转化为对于的ASCII码</td>
+</tr>
+<tr>
+<td>chr()</td>
+<td>将数组转化为对于的字符</td>
+</tr>
+<tr>
+<td>str.encode</td>
+<td>将字符串以指定的编码转化为bytes</td>
+</tr>
+<tr>
+<td>bytes.decode</td>
+<td>将字节数组以指定的编码转化为文字</td>
+</tr>
+</tbody></table>
+<p>Python 3中默认使用UTF8进行编码, 但是也可以将字符串转化为其他编码的字节数组. 例如同样的文字, 使用不同的编码方案, 可以转化为不同的字节数组:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;中文&quot;</span>.encode(<span class="string">&quot;gbk&quot;</span>)</span><br><span class="line"><span class="comment"># Out: b&#x27;\xd6\xd0\xce\xc4&#x27;</span></span><br><span class="line"><span class="string">&quot;中文&quot;</span>.encode(<span class="string">&quot;utf8&quot;</span>)</span><br><span class="line"><span class="comment"># Out: b&#x27;\xe4\xb8\xad\xe6\x96\x87&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var = <span class="built_in">open</span>(&lt;filename&gt;,&lt;mode=<span class="string">&#x27;r&#x27;</span>&gt;&lt;buffering=-<span class="number">1</span>&gt;)</span><br></pre></td></tr></table></figure>
+
+<p>使用参数与C基本相同,其中buffering为0表示不缓冲，-1为使用系统指定的缓冲区大小，如果为正值，则为正值指定的缓冲区大小</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>open()</td>
+<td>打开一个文件, 返回一个文件对象</td>
+</tr>
+<tr>
+<td>f.read(size)</td>
+<td>不使用参数则返回包含整个文件内容的字符串，否则返回指定字节的数据</td>
+</tr>
+<tr>
+<td>f.readline()</td>
+<td>返回文件下一行的内容</td>
+</tr>
+<tr>
+<td>f.readlines()</td>
+<td>返回整个文件内容的列表，每项是以换行符结尾的字符串</td>
+</tr>
+<tr>
+<td>f.write()</td>
+<td>把数据写入文件，接受的对象是字符串，可以使用str（）转换</td>
+</tr>
+<tr>
+<td>f.writelines()</td>
+<td>接受一个列表，将其写入文件中</td>
+</tr>
+<tr>
+<td>f.seek()</td>
+<td>文件指针偏移操作</td>
+</tr>
+<tr>
+<td>f.close()</td>
+<td>关闭文件</td>
+</tr>
+</tbody></table>
+<p>从提供的API来看, Python的文件操作与各种编程语言并没有太大的区别. 根据文档, open函数返回的是一个基于缓冲IO的<code>TextIOWrapper</code>, 因此开启文件时除了可以指定文件读取类型, 还可以指定缓冲区大小.</p>
+<p>有关的函数都提供了文档, 可以使用help函数查阅. 文件使用完毕需要调用close()函数.</p>
+<h3 id="遍历文件通用代码框架"><a href="#遍历文件通用代码框架" class="headerlink" title="遍历文件通用代码框架"></a>遍历文件通用代码框架</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;somefile&quot;</span>,<span class="string">&quot;r&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">	<span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">		<span class="comment"># do something for every line.</span></span><br></pre></td></tr></table></figure>
+
+<p>因为<code>TextIOWrapper</code>中实现了迭代器相关的函数, 因此可以直接进行遍历, 相当于<code>f.readlines()</code>. 通过with语句, 实现文件的自动关闭.</p>
+<h3 id="高级API"><a href="#高级API" class="headerlink" title="高级API"></a>高级API</h3><p>Python的shutil提供了关于文件操作的高级API, 可以参考</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/shutil.html">shutil — High-level file operations — Python 3.8.1 documentation</a></li>
+</ul>
+<h2 id="Python-命令行参数"><a href="#Python-命令行参数" class="headerlink" title="Python 命令行参数"></a>Python 命令行参数</h2><p>对于基本的参数处理, 可以使用内置的sys模块, 例如</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> <span class="string">&#x27;参数个数为:&#x27;</span>, <span class="built_in">len</span>(sys.argv), <span class="string">&#x27;个参数。&#x27;</span></span><br><span class="line"><span class="built_in">print</span> <span class="string">&#x27;参数列表:&#x27;</span>, <span class="built_in">str</span>(sys.argv)</span><br></pre></td></tr></table></figure>
+
+<p>其中sys.argv以列表的形式包含了所有给定的命令行参数, 与其他语言中的规则一样, 其中第0个参数是文件本身.</p>
+<h3 id="getopt模块"><a href="#getopt模块" class="headerlink" title="getopt模块"></a>getopt模块</h3><p>getopt模块是专门做参数解析的模块, 主要是针对需要带参数的情形, 支持短选项模式(-)和长选项模式(–), 基本用法如下</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">opts, args = getopt.getopt(argv,<span class="string">&quot;hi:o:&quot;</span>,[<span class="string">&quot;ifile=&quot;</span>,<span class="string">&quot;ofile=&quot;</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> opt, arg <span class="keyword">in</span> opts:</span><br><span class="line">    <span class="keyword">if</span> opt == <span class="string">&#x27;-h&#x27;</span>:</span><br><span class="line">        <span class="built_in">print</span> <span class="string">&#x27;test.py -i &lt;inputfile&gt; -o &lt;outputfile&gt;&#x27;</span></span><br><span class="line">        sys.exit()</span><br><span class="line">    <span class="keyword">elif</span> opt <span class="keyword">in</span> (<span class="string">&quot;-i&quot;</span>, <span class="string">&quot;--ifile&quot;</span>):</span><br><span class="line">        inputfile = arg</span><br><span class="line">    <span class="keyword">elif</span> opt <span class="keyword">in</span> (<span class="string">&quot;-o&quot;</span>, <span class="string">&quot;--ofile&quot;</span>):</span><br><span class="line">        outputfile = arg</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="Python-日志处理"><a href="#Python-日志处理" class="headerlink" title="Python 日志处理"></a>Python 日志处理</h2><p>按照如下的方式导入logging库并创建logger对象</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line">logging.basicConfig(level=logging.INFO, <span class="built_in">format</span>=<span class="string">&#x27;%(asctime)s - %(name)s - %(levelname)s - %(message)s&#x27;</span>)</span><br><span class="line">logger = logging.getLogger(__name__)</span><br></pre></td></tr></table></figure>
+
+<p>由于全局创建的对象可全局访问, 因此如果需要在其他文件中使用, 可以直接导入这个对象.</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5bc2bd3a5188255c94465d31">Python日志库logging总结</a></li>
+</ul>
+<h2 id="Python-OS编程"><a href="#Python-OS编程" class="headerlink" title="Python OS编程"></a>Python OS编程</h2><h3 id="使用os库"><a href="#使用os库" class="headerlink" title="使用os库"></a>使用os库</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>getcwd()</td>
+<td>获得当前工作目录</td>
+</tr>
+<tr>
+<td>listdir(path)</td>
+<td>返回指定目录下所有的文件和目录名</td>
+</tr>
+<tr>
+<td>remove()</td>
+<td>删除一个文件</td>
+</tr>
+<tr>
+<td>removedirs(path)</td>
+<td>删除多个文件</td>
+</tr>
+<tr>
+<td>chdir(path)</td>
+<td>更改当前目录到指定目录</td>
+</tr>
+<tr>
+<td>mkdir(path)</td>
+<td>新建一个目录</td>
+</tr>
+<tr>
+<td>rmdir(name)</td>
+<td>删除目录</td>
+</tr>
+<tr>
+<td>rename(old,new)</td>
+<td>更改文件名</td>
+</tr>
+</tbody></table>
+<h3 id="使用os-path库"><a href="#使用os-path库" class="headerlink" title="使用os.path库"></a>使用os.path库</h3><p>os.path是os的一个字库, 主要负责与路径相关的操作</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>isfile()</td>
+<td>检验路径是否是一个文件</td>
+</tr>
+<tr>
+<td>isdir()</td>
+<td>检验路径是否是一个目录</td>
+</tr>
+<tr>
+<td>exists()</td>
+<td>判断路径是否存在</td>
+</tr>
+<tr>
+<td>splitext()</td>
+<td>分离扩展名（返回一个二元组，分别包含文件名和扩展名）</td>
+</tr>
+<tr>
+<td>split()</td>
+<td>返回一个路径的目录名和文件名</td>
+</tr>
+<tr>
+<td>dirname()</td>
+<td>获得路径名</td>
+</tr>
+<tr>
+<td>basename()</td>
+<td>获得文件名</td>
+</tr>
+<tr>
+<td>getsize()</td>
+<td>获得文件大小，单位是字节</td>
+</tr>
+<tr>
+<td>join(path,name)</td>
+<td>将路径与文件名组合获得绝对路径</td>
+</tr>
+</tbody></table>
+<h3 id="遍历目录"><a href="#遍历目录" class="headerlink" title="遍历目录"></a>遍历目录</h3><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(<span class="string">&#x27;.&#x27;</span>):</span><br><span class="line">    <span class="comment"># ...</span></span><br></pre></td></tr></table></figure>
+
+
+<p>os库中提供了一个walk方法, 该方法可以遍历指定目录, 使用方式如上所示. 每一轮遍历, root都指向一个目录A, dirs中保存A中所有的子目录, files保存A中的全部文件. walk函数按照深度优先的方式依次遍历所有的目录.</p>
+<h2 id="Python事件调度"><a href="#Python事件调度" class="headerlink" title="Python事件调度"></a>Python事件调度</h2><p>Python提供了sched库来实现事件调度有关的操作, sched内部维护一个事件队列, 可以安全的在多线程场景下使用. 以下是一些主要的方法</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>scheduler()</td>
+<td>创建一个调度任务对象</td>
+</tr>
+<tr>
+<td>enter()</td>
+<td>加入一个事件</td>
+</tr>
+<tr>
+<td>run()</td>
+<td>运行调度任务中的全部调度事件</td>
+</tr>
+<tr>
+<td>cancel()</td>
+<td>取消某个调度事件</td>
+</tr>
+</tbody></table>
+<p>以下代码演示sched的基本使用, 如果需要更详细的内容, 可以查阅标准库的文档</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sched, time</span><br><span class="line">s = sched.scheduler(time.time, time.sleep)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_time</span>(<span class="params">a=<span class="string">&#x27;default&#x27;</span></span>):</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;From print_time&quot;</span>, time.time(), a)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_some_times</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(time.time())</span><br><span class="line">    s.enter(<span class="number">10</span>, <span class="number">1</span>, print_time)</span><br><span class="line">    s.enter(<span class="number">5</span>, <span class="number">2</span>, print_time, argument=(<span class="string">&#x27;positional&#x27;</span>,))</span><br><span class="line">    s.enter(<span class="number">5</span>, <span class="number">1</span>, print_time, kwargs=&#123;<span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;keyword&#x27;</span>&#125;)</span><br><span class="line">    s.run()</span><br><span class="line">    <span class="built_in">print</span>(time.time())</span><br><span class="line"></span><br><span class="line">print_some_times()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Output:</span></span><br><span class="line"><span class="comment"># 930343690.257</span></span><br><span class="line"><span class="comment"># From print_time 930343695.274 positional</span></span><br><span class="line"><span class="comment"># From print_time 930343695.275 keyword</span></span><br><span class="line"><span class="comment"># From print_time 930343700.273 default</span></span><br><span class="line"><span class="comment"># 930343700.276</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Turtle"><a href="#Turtle" class="headerlink" title="Turtle"></a>Turtle</h2><p>Turtle是一个Python内置的绘图库, 通过Turtle可以绘制简单的线条. 一些主要的方法如下所示</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Tultle()</td>
+<td>定义一个turtle对象, 该对象可以使用turtle的相关函数</td>
+</tr>
+<tr>
+<td>setup(high,wide,x,y)</td>
+<td>指定窗口的高和长, 并指定窗口左上角的坐标在屏幕上的坐标</td>
+</tr>
+<tr>
+<td>seth(angle)</td>
+<td>指定运动的方向, 其中angle为角度制，数值与方向与数学定义相同</td>
+</tr>
+<tr>
+<td>pensize(x)</td>
+<td>指定运动轨迹的粗细, x为像素单位</td>
+</tr>
+<tr>
+<td>circle(rad,angle)</td>
+<td>圆形运动, rad正值表示圆心在左侧, 负值表示圆心在右侧, angle表示爬行的角度的角度值</td>
+</tr>
+<tr>
+<td>turtle.fd(x)</td>
+<td>向前爬行, x表示爬行距离</td>
+</tr>
+</tbody></table>
+<h2 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h2><p>以下的文章给出了Python标准库中一些其他的模块的简要介绍</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.python.org/3/tutorial/stdlib.html">Brief Tour of the Standard Library – Part I</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.python.org/3/tutorial/stdlib2.html">Brief Tour of the Standard Library – Part II</a></li>
+</ul>
+<p>关于各个模块的详细介绍, 可以查看Python标准库的文档.    </p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2021年05月31日 23:19</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2019/01/01/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/" title="Python笔记之内置模块">https://lizec.top/2019/01/01/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2019/01/01/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/&title=《Python笔记之内置模块》 — LiZeC的博客&pic=images/python.jpg" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2019/01/01/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/&title=《Python笔记之内置模块》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2019/01/01/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Python笔记之内置模块》 — LiZeC的博客&url=https://lizec.top/2019/01/01/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2019/01/01/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2019/01/01/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Python/" class="color2">Python</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0"><span class="post-toc-text">内置函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83"><span class="post-toc-text">Python虚拟环境</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Python%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86"><span class="post-toc-text">Python文件处理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%BC%96%E7%A0%81%E4%B8%8E%E8%A7%A3%E7%A0%81"><span class="post-toc-text">编码与解码</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="post-toc-text">文件操作</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%81%8D%E5%8E%86%E6%96%87%E4%BB%B6%E9%80%9A%E7%94%A8%E4%BB%A3%E7%A0%81%E6%A1%86%E6%9E%B6"><span class="post-toc-text">遍历文件通用代码框架</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%AB%98%E7%BA%A7API"><span class="post-toc-text">高级API</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Python-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0"><span class="post-toc-text">Python 命令行参数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#getopt%E6%A8%A1%E5%9D%97"><span class="post-toc-text">getopt模块</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Python-%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86"><span class="post-toc-text">Python 日志处理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Python-OS%E7%BC%96%E7%A8%8B"><span class="post-toc-text">Python OS编程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8os%E5%BA%93"><span class="post-toc-text">使用os库</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8os-path%E5%BA%93"><span class="post-toc-text">使用os.path库</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%81%8D%E5%8E%86%E7%9B%AE%E5%BD%95"><span class="post-toc-text">遍历目录</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Python%E4%BA%8B%E4%BB%B6%E8%B0%83%E5%BA%A6"><span class="post-toc-text">Python事件调度</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Turtle"><span class="post-toc-text">Turtle</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB"><span class="post-toc-text">扩展阅读</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2019/01/02/Python%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%A7%91%E5%AD%A6%E8%AE%A1%E7%AE%97/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Python笔记之科学计算
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/12/31/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E4%BB%8B%E7%BB%8D/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">机器学习之开发工具介绍</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Tue Jan 01 2019 19:48:36 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>

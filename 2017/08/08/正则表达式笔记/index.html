@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>正则表达式笔记 | LiZeC的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="LiZeC,LiZeC's Blog" />
+  
+  <meta name="description" content="正则表达式也叫做REs，regex，或者regex patterns. 通常正则表达式中出现的任意一个字符代表匹配和他们一样的字符, 但正则表达式也提供了额外的符号来表达更加复杂的含义. 基本符号以下符号相当于各种编程语言的关键字，它们并不匹配他们本身 1. ^ $ * + ? &amp;#123; &amp;#125; [ ] \ | ( )  上述转义字符前加上\可以去除之后的一个字符的转义，例如 \] 匹配">
+<meta property="og:type" content="article">
+<meta property="og:title" content="正则表达式笔记">
+<meta property="og:url" content="https://lizec.top/2017/08/08/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="LiZeC的博客">
+<meta property="og:description" content="正则表达式也叫做REs，regex，或者regex patterns. 通常正则表达式中出现的任意一个字符代表匹配和他们一样的字符, 但正则表达式也提供了额外的符号来表达更加复杂的含义. 基本符号以下符号相当于各种编程语言的关键字，它们并不匹配他们本身 1. ^ $ * + ? &amp;#123; &amp;#125; [ ] \ | ( )  上述转义字符前加上\可以去除之后的一个字符的转义，例如 \] 匹配">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-08-08T08:23:36.000Z">
+<meta property="article:modified_time" content="2019-06-11T11:51:54.721Z">
+<meta property="article:author" content="LiZeC">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="正则表达式">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome.css@4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">LiZeC&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/slides">
+                        <i class="fa fa-tv"></i>
+                        <span>Slides</span>
+                    </a>
+                    
+                    <a  href="/notebook">
+                        <i class="fa fa-sticky-note"></i>
+                        <span>NoteBook</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        LiZeC&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        Abstractness is the price of generality
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="Home" target="_blank" href="//lizec.top">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/LiZeC123">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-正则表达式笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      正则表达式笔记
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-08-08
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>正则表达式也叫做REs，regex，或者regex patterns. 通常正则表达式中出现的任意一个字符代表匹配和他们一样的字符, 但正则表达式也提供了额外的符号来表达更加复杂的含义.</p>
+<h2 id="基本符号"><a href="#基本符号" class="headerlink" title="基本符号"></a>基本符号</h2><p>以下符号相当于各种编程语言的关键字，它们并不匹配他们本身</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">. ^ $ * + ? &#123; &#125; [ ] \ | ( )</span><br></pre></td></tr></table></figure>
+
+<p>上述转义字符前加上\可以去除之后的一个字符的转义，例如 <code>\]</code> 匹配字符 <code>]</code></p>
+<h2 id="字符类"><a href="#字符类" class="headerlink" title="字符类"></a>字符类</h2><ul>
+<li>在 “[“ 和 “]” 中的若干字符构成一个字符类(character class)</li>
+<li>一个字符类表示，此位置可以匹配这个类中的任意一个字符</li>
+<li>可以使用-来表示一个范围，例如[a-c]表示[abc]</li>
+<li>在字符类中的特殊符号不被转义</li>
+</ul>
+<h3 id="反向匹配"><a href="#反向匹配" class="headerlink" title="反向匹配"></a>反向匹配</h3><ul>
+<li>在字符类中，如果以^开头，则表示匹配除此字符类中提及的任何其他字符</li>
+<li>例如[^5]匹配任何不是5的字符</li>
+</ul>
+<h2 id="转义字符"><a href="#转义字符" class="headerlink" title="转义字符"></a>转义字符</h2><table>
+<thead>
+<tr>
+<th align="center">字符</th>
+<th align="left">解释</th>
+<th align="left">等价正则表达式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">\d</td>
+<td align="left">匹配任意数字</td>
+<td align="left"><code>[0-9]</code></td>
+</tr>
+<tr>
+<td align="center">\D</td>
+<td align="left">匹配任意的非数字</td>
+<td align="left"><code>[^0-9]</code></td>
+</tr>
+<tr>
+<td align="center">\s</td>
+<td align="left">匹配任意空白字符</td>
+<td align="left"><code>[ \t\n\r\f\v]</code>(第一个是空格)</td>
+</tr>
+<tr>
+<td align="center">\S</td>
+<td align="left">匹配任意非空白字符</td>
+<td align="left"><code>[^ \t\n\r\f\v]</code></td>
+</tr>
+<tr>
+<td align="center">\w</td>
+<td align="left">匹配任意字符数字(alphanumeric)</td>
+<td align="left"><code>[a-zA-Z0-9_]</code>(最后一个是下划线)</td>
+</tr>
+<tr>
+<td align="center">\W</td>
+<td align="left">匹配任意非字符数字</td>
+<td align="left"><code>[^a-zA-Z0-9_]</code></td>
+</tr>
+</tbody></table>
+<p>说明:这些字符可以和其他字符一样出现在任何合法的地方</p>
+<h3 id="高级的转义字符"><a href="#高级的转义字符" class="headerlink" title="高级的转义字符"></a>高级的转义字符</h3><table>
+<thead>
+<tr>
+<th align="center">符号</th>
+<th align="left">效果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">&#124;</td>
+<td align="left">相当于或，A&#124;B表示此处可以匹配A或者B</td>
+</tr>
+<tr>
+<td align="center">^</td>
+<td align="left">匹配字符串开头</td>
+</tr>
+<tr>
+<td align="center">$</td>
+<td align="left">匹配字符串结尾</td>
+</tr>
+<tr>
+<td align="center">\A</td>
+<td align="left">强制匹配字符串开头，无视MULTILINE标记</td>
+</tr>
+<tr>
+<td align="center">\Z</td>
+<td align="left">强制匹配字符串结尾，无视MULTILINE标记</td>
+</tr>
+<tr>
+<td align="center">\b</td>
+<td align="left">匹配单词边界，即非字母数字的任意其他字符</td>
+</tr>
+<tr>
+<td align="center">\B</td>
+<td align="left">匹配非单词边界字符，\b的反义</td>
+</tr>
+</tbody></table>
+<h2 id="使用重复功能"><a href="#使用重复功能" class="headerlink" title="使用重复功能"></a>使用重复功能</h2><table>
+<thead>
+<tr>
+<th align="center">符号</th>
+<th align="left">效果</th>
+</tr>
+</thead>
+</table>
+<ul>
+<li><pre><code>   |使此符号之前的字符重复0到多次
+</code></pre>
+</li>
+</ul>
+<ul>
+<li><pre><code>   |使此符号之前的字符重复1到多次
+</code></pre>
+?        |使此符号之前的字符重复0到1次<br>{m,n}    |使此符号之前的字符重复至少m次，至多n次（含n）</li>
+</ul>
+<p>说明:这些字符都是采用贪婪匹配，即尽可能多的重复，从而匹配到最长的符合要求的字符串,如果想要最短匹配们可以在相应的符号后加上一个?,例如*?,+?等</p>
+<h2 id="Python和正则表达式"><a href="#Python和正则表达式" class="headerlink" title="Python和正则表达式"></a>Python和正则表达式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">p = re.<span class="built_in">compile</span>(<span class="string">&quot;ab+&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在Python中使用正则表达式需要两步, 即</p>
+<ol>
+<li>导入re库</li>
+<li>编译正则表达式</li>
+</ol>
+<h2 id="使用原生字符串"><a href="#使用原生字符串" class="headerlink" title="使用原生字符串"></a>使用原生字符串</h2><p>在正则表达式中，使用<code>\</code>表示转义，而在Python中碰巧也使用同样的符号表示转义,因此在正则表达式中，如果需要使用<code>\</code>，在Python的字符串中，就要输入两个<code>\</code>，即<code>\\</code></p>
+<p>为了避免输入太多\导致正则表达式难以理解，可以使用Python的原生字符串，即在字符串开头加上<code>r</code>,例如<code>r&quot;\sda&quot;</code>,在这个字符串中，所有字符都是原来的字符，Python不进行任何转义</p>
+<h2 id="Re库主要函数功能"><a href="#Re库主要函数功能" class="headerlink" title="Re库主要函数功能"></a>Re库主要函数功能</h2><table>
+<thead>
+<tr>
+<th align="center">函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">re.compile()</td>
+<td align="left">将一个字符串编译成正则表达式</td>
+</tr>
+<tr>
+<td align="center">re.search()</td>
+<td align="left">在一个字符串中搜索匹配的正则表达式的第一个位置，返回match对象</td>
+</tr>
+<tr>
+<td align="center">re.match()</td>
+<td align="left">在一个字符串中强制从开始位置起匹配正则表达式，返回match对象</td>
+</tr>
+<tr>
+<td align="center">re.findall()</td>
+<td align="left">搜索字符串，以列表类型返回全部能匹配的子串</td>
+</tr>
+<tr>
+<td align="center">re.split()</td>
+<td align="left">将一个字符串按照正则表达式匹配结果进行分割，返回列表类型</td>
+</tr>
+<tr>
+<td align="center">re.finditer()</td>
+<td align="left">搜索字符串，返回一个匹配结果的迭代类型，每个迭代元素是match对象</td>
+</tr>
+<tr>
+<td align="center">re.sub()</td>
+<td align="left">在一个字符串中替换所有匹配正则表达式的子串，返回替换后的字符串</td>
+</tr>
+</tbody></table>
+<ul>
+<li>regex = re.compile(pattern,flags=0)<ul>
+<li>pattern:正则表达式的字符串或者原生字符串</li>
+<li>flags:正则表达式的控制标记</li>
+</ul>
+</li>
+<li>re.search(pattern,string,flags=0)<ul>
+<li>string:待匹配字符串</li>
+<li>flags:控制标记</li>
+</ul>
+</li>
+<li>re.match(pattern,string,flags=0)<ul>
+<li>参数定义相同</li>
+</ul>
+</li>
+<li>re.spilt(pattern,string,maxsplit=0,flags=0)<ul>
+<li>增加一个新的参数，表示最大分割数，其余部分作为最后一个元素输出</li>
+</ul>
+</li>
+<li>re.finditer(pattern,string,flags=0)<ul>
+<li>参数定义相同，返回迭代结果，从而可以用 for in的形式遍历</li>
+</ul>
+</li>
+<li>re.sub(pattern,repl,string,conut=0,flag=0)<ul>
+<li>repl:需要匹配替换的字符串</li>
+<li>count:替换的最大次数</li>
+</ul>
+</li>
+</ul>
+<p>上述返回Match对象的函数如果没有匹配，则返回None，从而可以直接使用if语句进行判断是否匹配。上述标记，如果在编译字符串的时候就指定，则函数调用的时候，就无需再次指定</p>
+<h2 id="Match类简介"><a href="#Match类简介" class="headerlink" title="Match类简介"></a>Match类简介</h2><table>
+<thead>
+<tr>
+<th align="center">方法/属性</th>
+<th align="left">目的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">group()</td>
+<td align="left">返回被正则表达式匹配到的字符串</td>
+</tr>
+<tr>
+<td align="center">start()</td>
+<td align="left">返回匹配的子字符串在字符串中的开始位置</td>
+</tr>
+<tr>
+<td align="center">end()</td>
+<td align="left">返回匹配的子字符串在字符串中的结束位置</td>
+</tr>
+<tr>
+<td align="center">span()</td>
+<td align="left">等价于(start(),end())</td>
+</tr>
+<tr>
+<td align="center">.string</td>
+<td align="left">待匹配字符串</td>
+</tr>
+<tr>
+<td align="center">.re</td>
+<td align="left">匹配时使用的正则表达式</td>
+</tr>
+<tr>
+<td align="center">.pos</td>
+<td align="left">正则表达式搜索文本的开始位置</td>
+</tr>
+<tr>
+<td align="center">.endpos</td>
+<td align="left">正则表达式搜索文本的结束位置</td>
+</tr>
+</tbody></table>
+<h2 id="flags常用标记"><a href="#flags常用标记" class="headerlink" title="flags常用标记"></a>flags常用标记</h2><table>
+<thead>
+<tr>
+<th align="center">常用标记(简写/全称)</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">re.ASCII/re.A</td>
+<td align="left">使\w,\b,\s和\d只匹配ASCII字符</td>
+</tr>
+<tr>
+<td align="center">re.I/re.IGNORECASE</td>
+<td align="left">忽略正则表达式大小写</td>
+</tr>
+<tr>
+<td align="center">re.M/re.MULTILINE</td>
+<td align="left">使得正则表达式中的^从给定字符串的每一行开始匹配</td>
+</tr>
+<tr>
+<td align="center">re.S/re.DOTALL</td>
+<td align="left">使得.也可以匹配\n字符</td>
+</tr>
+<tr>
+<td align="center">re.VERBOSE/re.X</td>
+<td align="left">使正则表达式可以附加解释信息</td>
+</tr>
+</tbody></table>
+<h2 id="正则表达式的两种调用方法"><a href="#正则表达式的两种调用方法" class="headerlink" title="正则表达式的两种调用方法"></a>正则表达式的两种调用方法</h2><ol>
+<li>函数式用法<ul>
+<li><code>re.search(...)</code></li>
+</ul>
+</li>
+<li>面向对象用法<ul>
+<li>编译后进行多次操作<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pat = re.<span class="built_in">compile</span>(表达式)</span><br><span class="line">rst = pat.search(...)</span><br></pre></td></tr></table></figure></li>
+<li>因为已经编译了，所以各个函数，相比于原来的函数，就需要去掉表示正则表达式的参数</li>
+</ul>
+</li>
+</ol>
+<p>说明:得益于解释器缓存，同一个正则表达式，使用函数式调用时，不会被多次编译，因此两种方式的消耗基本相同</p>
+<h2 id="VERBOSE模式实例"><a href="#VERBOSE模式实例" class="headerlink" title="VERBOSE模式实例"></a>VERBOSE模式实例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">charref = re.<span class="built_in">compile</span>(<span class="string">r&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">&amp;[#]				# start of a numeric entity reference</span></span><br><span class="line"><span class="string">(</span></span><br><span class="line"><span class="string">	0[0-7]+			#Octal form</span></span><br><span class="line"><span class="string">  | [0-9]+			#Decimal form		</span></span><br><span class="line"><span class="string">  | x[0-9a-fA-F]+	#Hexadecimal form</span></span><br><span class="line"><span class="string">)</span></span><br><span class="line"><span class="string">;					#Trailing semicolon</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span>,re.VERBOSE)</span><br></pre></td></tr></table></figure>
+
+<h2 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h2><ul>
+<li>使用 “(“ 和 “)”可以对一个正则表达式分组，从而提取出正则表达式匹配的字符串中的部分内容<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>m = re.match(<span class="string">&quot;(a(b)c)d&quot;</span>,<span class="string">&quot;abcd&quot;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.group(<span class="number">0</span>)</span><br><span class="line"><span class="string">&#x27;abcd&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.group(<span class="number">1</span>)</span><br><span class="line"><span class="string">&#x27;abc&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.group(<span class="number">2</span>)</span><br><span class="line"><span class="string">&#x27;b&#x27;</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.group(<span class="number">2</span>,<span class="number">0</span>,<span class="number">2</span>)</span><br><span class="line">(<span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;abcd&#x27;</span>, <span class="string">&#x27;b&#x27;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>m.groups()</span><br><span class="line">(<span class="string">&#x27;abc&#x27;</span>, <span class="string">&#x27;b&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
+<li>在字符串中，从左向右每遇到一个括号，序号+1。使用gruop(i)表示提取第i个括号中匹配的内容</li>
+<li>0表示匹配字符串本身，所以无论正则表达式中是否含有分组，gruop(0)都是存在的</li>
+<li>接受多个参数时，返回多个参数对于的内容的元组</li>
+<li>使用groups()返回所有分组匹配的字符串组成的元组（因此不包含直接匹配的正则表达式)</li>
+</ul>
+<h2 id="逆向引用-Backreferences"><a href="#逆向引用-Backreferences" class="headerlink" title="逆向引用(Backreferences)"></a>逆向引用(Backreferences)</h2><ul>
+<li>在一个正则表达式中，可以使用<code>\1</code>,<code>\2</code>等由<code>\</code>加上一个数字来引用前面出现的分组,表示此处需要匹配前面分组匹配的字符串<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>p = re.<span class="built_in">compile</span>(<span class="string">r&quot;(\b\w+)\s+\1&quot;</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>p.search(<span class="string">&quot;Paris in the the spring&quot;</span>).group()</span><br><span class="line"><span class="string">&#x27;the the&#x27;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>括号中需要匹配一个单词，此后\1表示此处匹配一个和括号相同的单词</p>
+<h2 id="Python的扩展正则表达式"><a href="#Python的扩展正则表达式" class="headerlink" title="Python的扩展正则表达式"></a>Python的扩展正则表达式</h2><p><strong>注意</strong>:本节内容是正则表达式的扩展用法，并非标准正则表达式语法</p>
+<h3 id="扩展正则表达式符号"><a href="#扩展正则表达式符号" class="headerlink" title="扩展正则表达式符号"></a>扩展正则表达式符号</h3><table>
+<thead>
+<tr>
+<th align="center">符号</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>(?...)</code></td>
+<td>匹配…中的字符串，但是不再捕捉其中的内容(语义标记)</td>
+</tr>
+<tr>
+<td align="center"><code>(?P&lt;name&gt;...)</code></td>
+<td>匹配…中的字符串，同时此分组被命名为name</td>
+</tr>
+</tbody></table>
+<h3 id="先行断言"><a href="#先行断言" class="headerlink" title="先行断言"></a>先行断言</h3><p>先行断言(Lookahead Assertion)是一种特殊的判断方法, 有正向和负向两种方式, 具体如下表</p>
+<table>
+<thead>
+<tr>
+<th align="center">断言表示</th>
+<th align="center">类型</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">(?=…)</td>
+<td align="center">正向</td>
+<td align="left">匹配…中的正则表达式，但是不消耗实际字符串的位置，为真时，才继续匹配</td>
+</tr>
+<tr>
+<td align="center">(?!…)</td>
+<td align="center">负向</td>
+<td align="left">匹配…中的正则表达式，当与实际的字符串不匹配时为真，否则整个正则表达式直接不匹配</td>
+</tr>
+</tbody></table>
+<h3 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h3><p><a href= "http://cnn237111.blog.51cto.com/2359144/749047" target = "_black"> 正则表达式扩展阅读 </a><br><a href= "http://staynoob.cn/post/2017/01/regular-expression-lookahead-lookbehind/" target = "_black"> 正则表达式扩展阅读 </a></p>
+<h2 id="修改字符串"><a href="#修改字符串" class="headerlink" title="修改字符串"></a>修改字符串</h2><h3 id="Python字符串相关函数"><a href="#Python字符串相关函数" class="headerlink" title="Python字符串相关函数"></a>Python字符串相关函数</h3><table>
+<thead>
+<tr>
+<th align="center">方法</th>
+<th align="left">目的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">spilt()</td>
+<td align="left">分割字符串，在匹配正则表达式的字符串处进行分割</td>
+</tr>
+<tr>
+<td align="center">sub()</td>
+<td align="left">查找匹配正则表达式的子字符串，并替换为指定的字符串</td>
+</tr>
+<tr>
+<td align="center">subn()</td>
+<td align="left">和sub()函数效果相同，增加额外的返回数据参数显示最大匹配次数</td>
+</tr>
+</tbody></table>
+<ul>
+<li>spilt(string[,maxsplit=0])<ul>
+<li>string:待匹配字符串</li>
+<li>maxspilt:最大分割数</li>
+<li>如果正则表达式中含有捕捉分组，则每次捕捉的结果会一同返回，并且正好在两个分割字符串的结果之间</li>
+</ul>
+</li>
+<li>sub(replacement,string[,count=0])<ul>
+<li>replacement:替换成的字符串</li>
+<li>string:待替换字符串</li>
+<li>count:最大替换次数</li>
+<li>返回替换后的字符串，如果没有匹配，返回原来的字符串</li>
+</ul>
+</li>
+<li>subn()<ul>
+<li>参数和sub()相同</li>
+<li>返回一个有两个元素的元组，第一个元素是替换后的字符串，第二个元素是替换次数</li>
+</ul>
+</li>
+<li>其他说明<ul>
+<li>sub函数高级用法<ul>
+<li>在sub函数的relpacement中，也可以使用\1,\2等引用正则表达式中的捕捉</li>
+<li>如果使用了命名分组，也可以使用<code>\g&lt;name&gt;</code>来应用，注意<code>&lt;&gt;</code>是必须的</li>
+<li>使用<code>\g&lt;2&gt;</code>与<code>\2</code>相同，但可以减少歧义</li>
+<li>relpacement也可以是一个接受match对象的函数，从而实现更加复杂的功能</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="高级用法实例代码"><a href="#高级用法实例代码" class="headerlink" title="高级用法实例代码"></a>高级用法实例代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hexrepl</span>(<span class="params">match</span>):</span></span><br><span class="line">	<span class="string">&#x27;&#x27;&#x27;Return the hex string for a decimal number&#x27;&#x27;&#x27;</span></span><br><span class="line">	value = <span class="built_in">int</span>(match.group())</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">hex</span>(value)</span><br><span class="line"> </span><br><span class="line">p = re.<span class="built_in">compile</span>(<span class="string">r&#x27;\d+&#x27;</span>)</span><br><span class="line">p.sub(hexrepl,<span class="string">&#x27;Call 65490 for printing, 49152 for user code.&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="正则表达式最佳实践"><a href="#正则表达式最佳实践" class="headerlink" title="正则表达式最佳实践"></a>正则表达式最佳实践</h3><ul>
+<li>使用正则表达式还是字符串方法<ul>
+<li>如果是无差别的文本替换，应该使用字符串的replace()方法</li>
+<li>如果是无差别的单一字符替换，应该使用字符串的translate()方法</li>
+<li>只有当替换操作是特异性的时候，才应该考虑代价更高的正则表达式方法</li>
+</ul>
+</li>
+<li>match()还是search()<ul>
+<li>match()只从开始匹配，search()匹配任意位置</li>
+<li>只有在确实需要从开头开始匹配，才应该使用match()，不要执着于非要只使用match()</li>
+<li>正则表达式引擎会使用正则表达式的第一个确定字符进行匹配优化</li>
+</ul>
+</li>
+<li>贪婪匹配还是最小匹配<ul>
+<li>通常的重复匹配字符串都是贪婪匹配的，即匹配尽可能长的字符串</li>
+<li>在各种重复匹配符后加上一个?表示最小匹配，例如+?,*?,??或者{m,n}?</li>
+<li>最小匹配匹配尽可能短的字符串</li>
+</ul>
+</li>
+<li>使用re.VERBOSE<ul>
+<li>复杂的正则表达式的可读性较低，使用测此标记可以增加表达式的可读性</li>
+<li>处理字符类中的空白字符，正则表达式中的所有空白都会被忽略</li>
+<li>使用#添加注释</li>
+</ul>
+</li>
+</ul>
+<h3 id="经典正则表达式实例"><a href="#经典正则表达式实例" class="headerlink" title="经典正则表达式实例"></a>经典正则表达式实例</h3><table>
+<thead>
+<tr>
+<th align="left">正则表达式</th>
+<th align="left">解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>^[A-Za-z]+$</code></td>
+<td align="left">由26个字母组成的字符串</td>
+</tr>
+<tr>
+<td align="left"><code>^[A-Za-z0-9]+$</code></td>
+<td align="left">由26个字母和数字组成的字符串</td>
+</tr>
+<tr>
+<td align="left"><code>^-?\d+$</code></td>
+<td align="left">整数形式的字符串</td>
+</tr>
+<tr>
+<td align="left"><code>^[0-9]*[1-9][0-9]*$</code></td>
+<td align="left">正整数形式的字符串</td>
+</tr>
+<tr>
+<td align="left"><code>[\u4e00-\u9fa5]</code></td>
+<td align="left">判断是不是中文字符</td>
+</tr>
+</tbody></table>
+<h3 id="高级正则表达式实例"><a href="#高级正则表达式实例" class="headerlink" title="高级正则表达式实例"></a>高级正则表达式实例</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">\s*                 <span class="comment">#Skip leading whitespace</span></span><br><span class="line">(?P&lt;header&gt;[^:]+)   <span class="comment">#Header name</span></span><br><span class="line">\s* :               <span class="comment">#Whitespace, and a colon</span></span><br><span class="line">(?P&lt;value&gt;.*)       <span class="comment">#The header&#x27;s value -- *? used to </span></span><br><span class="line">                    <span class="comment">#lost the following trailing whitespace</span></span><br><span class="line">\s*$                <span class="comment">#Trailing whitespace to end-of-line</span></span><br></pre></td></tr></table></figure>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2019年06月11日 19:51</p>
+        <p>版权声明：本文为原创文章，转载请注明出处</p>
+        <p>原始链接： <a class="post-url" href="/2017/08/08/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%94%E8%AE%B0/" title="正则表达式笔记">https://lizec.top/2017/08/08/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%94%E8%AE%B0/</a></p>
+        <footer>
+            <a href="https://lizec.top">
+                <img src="/images/logo.png" alt="LiZeC">
+                LiZeC
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://lizec.top/2017/08/08/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%94%E8%AE%B0/&title=《正则表达式笔记》 — LiZeC的博客&pic=https://lizec.topimages/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://lizec.top/2017/08/08/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%94%E8%AE%B0/&title=《正则表达式笔记》 — LiZeC的博客&source=分享技术,传播知识" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://lizec.top/2017/08/08/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%94%E8%AE%B0/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《正则表达式笔记》 — LiZeC的博客&url=https://lizec.top/2017/08/08/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%94%E8%AE%B0/&via=https://lizec.top" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://lizec.top/2017/08/08/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%94%E8%AE%B0/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://lizec.top/2017/08/08/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%94%E8%AE%B0/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Python/" class="color2">Python</a>
+      
+    <a href="/tags/正则表达式/" class="color1">正则表达式</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E7%AC%A6%E5%8F%B7"><span class="post-toc-text">基本符号</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%AD%97%E7%AC%A6%E7%B1%BB"><span class="post-toc-text">字符类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8F%8D%E5%90%91%E5%8C%B9%E9%85%8D"><span class="post-toc-text">反向匹配</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6"><span class="post-toc-text">转义字符</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%AB%98%E7%BA%A7%E7%9A%84%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6"><span class="post-toc-text">高级的转义字符</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8%E9%87%8D%E5%A4%8D%E5%8A%9F%E8%83%BD"><span class="post-toc-text">使用重复功能</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Python%E5%92%8C%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="post-toc-text">Python和正则表达式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BD%BF%E7%94%A8%E5%8E%9F%E7%94%9F%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="post-toc-text">使用原生字符串</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Re%E5%BA%93%E4%B8%BB%E8%A6%81%E5%87%BD%E6%95%B0%E5%8A%9F%E8%83%BD"><span class="post-toc-text">Re库主要函数功能</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Match%E7%B1%BB%E7%AE%80%E4%BB%8B"><span class="post-toc-text">Match类简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#flags%E5%B8%B8%E7%94%A8%E6%A0%87%E8%AE%B0"><span class="post-toc-text">flags常用标记</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%B0%83%E7%94%A8%E6%96%B9%E6%B3%95"><span class="post-toc-text">正则表达式的两种调用方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#VERBOSE%E6%A8%A1%E5%BC%8F%E5%AE%9E%E4%BE%8B"><span class="post-toc-text">VERBOSE模式实例</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%86%E7%BB%84"><span class="post-toc-text">分组</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E9%80%86%E5%90%91%E5%BC%95%E7%94%A8-Backreferences"><span class="post-toc-text">逆向引用(Backreferences)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Python%E7%9A%84%E6%89%A9%E5%B1%95%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="post-toc-text">Python的扩展正则表达式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%89%A9%E5%B1%95%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%A6%E5%8F%B7"><span class="post-toc-text">扩展正则表达式符号</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%85%88%E8%A1%8C%E6%96%AD%E8%A8%80"><span class="post-toc-text">先行断言</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%89%A9%E5%B1%95%E9%98%85%E8%AF%BB"><span class="post-toc-text">扩展阅读</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BF%AE%E6%94%B9%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="post-toc-text">修改字符串</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Python%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="post-toc-text">Python字符串相关函数</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95%E5%AE%9E%E4%BE%8B%E4%BB%A3%E7%A0%81"><span class="post-toc-text">高级用法实例代码</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="post-toc-text">正则表达式最佳实践</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E7%BB%8F%E5%85%B8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AE%9E%E4%BE%8B"><span class="post-toc-text">经典正则表达式实例</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E9%AB%98%E7%BA%A7%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AE%9E%E4%BE%8B"><span class="post-toc-text">高级正则表达式实例</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/08/10/Ubuntu%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Ubuntu使用记录
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/08/07/Git%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Git笔记之基础操作</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+    <div id='comments'></div> 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+    clientID: '79bc475e7eb827892463',
+    clientSecret: '415741c7226cb07d693318cbf8c8b176969ddffc',
+    repo: 'lizec123.github.io',     
+    owner: 'LiZeC123',
+    admin: ['LiZeC123'],
+    id: 'Tue Aug 08 2017 16:23:36 GMT+0800',      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+    })
+
+    gitalk.render('comments')
+</script>
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2021 LiZeC<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "https://lizec.top",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 2
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Android/">Android</a><a class="category-link" href="/categories/CSAPP%E7%AC%94%E8%AE%B0/">CSAPP笔记</a><a class="category-link" href="/categories/Git%E7%AC%94%E8%AE%B0/">Git笔记</a><a class="category-link" href="/categories/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/">Go语言笔记</a><a class="category-link" href="/categories/JDK%E7%AC%94%E8%AE%B0/">JDK笔记</a><a class="category-link" href="/categories/JavaWeb/">JavaWeb</a><a class="category-link" href="/categories/Java%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">Java单元测试</a><a class="category-link" href="/categories/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">Java多线程</a><a class="category-link" href="/categories/Java%E7%89%B9%E6%80%A7/">Java特性</a><a class="category-link" href="/categories/LaTeX/">LaTeX</a><a class="category-link" href="/categories/Maven%E7%AC%94%E8%AE%B0/">Maven笔记</a><a class="category-link" href="/categories/MySQL%E7%AC%94%E8%AE%B0/">MySQL笔记</a><a class="category-link" href="/categories/PyTorch%E7%AC%94%E8%AE%B0/">PyTorch笔记</a><a class="category-link" href="/categories/Python%E7%AC%94%E8%AE%B0/">Python笔记</a><a class="category-link" href="/categories/Scala%E7%AC%94%E8%AE%B0/">Scala笔记</a><a class="category-link" href="/categories/Spring/">Spring</a><a class="category-link" href="/categories/Spring%E7%AC%94%E8%AE%B0/">Spring笔记</a><a class="category-link" href="/categories/%E5%85%AC%E5%91%8A/">公告</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE/">大数据</a><a class="category-link" href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%A1%88%E4%BE%8B/">大数据分析案例</a><a class="category-link" href="/categories/%E5%AD%A6%E6%9C%AF%E5%86%99%E4%BD%9C/">学术写作</a><a class="category-link" href="/categories/%E6%95%B0%E5%AD%A6/">数学</a><a class="category-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><a class="category-link" href="/categories/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM/">深入理解JVM</a><a class="category-link" href="/categories/%E7%BB%8F%E6%B5%8E%E5%AD%A6/">经济学</a><a class="category-link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%A0%B8%E5%BF%83%E8%AF%BE%E7%A8%8B/">计算机核心课程</a><a class="category-link" href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/">论文阅读</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/slides">
+                    <i class="fa fa-tv"></i><span>Slides</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/notebook">
+                    <i class="fa fa-sticky-note"></i><span>NoteBook</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/Android/" style="font-size: 13.33px;">Android</a> <a href="/tags/C/" style="font-size: 11.67px;">C</a> <a href="/tags/CMake/" style="font-size: 10px;">CMake</a> <a href="/tags/CSharp/" style="font-size: 10px;">CSharp</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Git/" style="font-size: 15px;">Git</a> <a href="/tags/Go/" style="font-size: 10px;">Go</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Javascript/" style="font-size: 10px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 15px;">LaTeX</a> <a href="/tags/Makefile/" style="font-size: 10px;">Makefile</a> <a href="/tags/Matlab/" style="font-size: 10px;">Matlab</a> <a href="/tags/Maven/" style="font-size: 13.33px;">Maven</a> <a href="/tags/MySQL/" style="font-size: 15px;">MySQL</a> <a href="/tags/PyTorch/" style="font-size: 11.67px;">PyTorch</a> <a href="/tags/Python/" style="font-size: 18.33px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/SQL/" style="font-size: 11.67px;">SQL</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringCloud/" style="font-size: 10px;">SpringCloud</a> <a href="/tags/StreamAPI/" style="font-size: 10px;">StreamAPI</a> <a href="/tags/Ubuntu/" style="font-size: 11.67px;">Ubuntu</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 10px;">人工智能</a> <a href="/tags/%E5%85%AC%E5%91%8A/" style="font-size: 10px;">公告</a> <a href="/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" style="font-size: 11.67px;">函数式编程</a> <a href="/tags/%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5/" style="font-size: 10px;">动态链接</a> <a href="/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" style="font-size: 11.67px;">单元测试</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 13.33px;">多线程</a> <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/" style="font-size: 13.33px;">大数据</a> <a href="/tags/%E6%89%B9%E5%A4%84%E7%90%86/" style="font-size: 10px;">批处理</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">操作系统</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 18.33px;">数据库</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 10px;">数据结构</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 16.67px;">机器学习</a> <a href="/tags/%E6%A6%82%E7%8E%87%E8%AE%BA/" style="font-size: 11.67px;">概率论</a> <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 10px;">正则表达式</a> <a href="/tags/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80/" style="font-size: 10px;">汇编语言</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 13.33px;">环境配置</a> <a href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" style="font-size: 10px;">程序设计</a> <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/" style="font-size: 11.67px;">线性代数</a> <a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6/" style="font-size: 10px;">经济学</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 10px;">编译原理</a> <a href="/tags/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" style="font-size: 10px;">自然语言处理</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB/" style="font-size: 13.33px;">论文阅读</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">设计模式</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+
+<script src="/js/search.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.0/animate.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/scrollreveal@3.0.5/dist/scrollreveal.min.js"></script>
+  
+<script src="/js/animate.js"></script>
+
+
+
+  
+<script src="/js/pop-img.js"></script>
+
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+
+
+  <script src='https://cdn.jsdelivr.net/npm/viz.js@1.7.1/viz.js'></script>
+  <script>
+    String.prototype.replaceAll = function(search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
+
+    let vizObjects = document.querySelectorAll('.graphviz')
+
+    for (let item of vizObjects) {
+      let svg = undefined
+      try {
+        svg = Viz(item.textContent.replaceAll('–', '--'), 'svg')
+      } catch(e) {
+        svg = `<pre class="error">${e}</pre>`
+      }
+      item.outerHTML = svg
+    }
+  </script>
+
+  </div>
+</body>
+</html>
