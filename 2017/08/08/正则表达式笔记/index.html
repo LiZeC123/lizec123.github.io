@@ -16,7 +16,7 @@
 <meta property="og:description" content="正则表达式也叫做REs，regex，或者regex patterns. 通常正则表达式中出现的任意一个字符代表匹配和他们一样的字符, 但正则表达式也提供了额外的符号来表达更加复杂的含义. 基本符号以下符号相当于各种编程语言的关键字，它们并不匹配他们本身 1. ^ $ * + ? &amp;#123; &amp;#125; [ ] \ | ( )  上述转义字符前加上\可以去除之后的一个字符的转义，例如 \] 匹配">
 <meta property="og:locale">
 <meta property="article:published_time" content="2017-08-08T08:23:36.000Z">
-<meta property="article:modified_time" content="2019-06-11T11:51:54.721Z">
+<meta property="article:modified_time" content="2021-07-06T14:16:08.694Z">
 <meta property="article:author" content="LiZeC">
 <meta property="article:tag" content="Python">
 <meta property="article:tag" content="正则表达式">
@@ -241,18 +241,24 @@
 <th align="left">效果</th>
 </tr>
 </thead>
-</table>
-<ul>
-<li><pre><code>   |使此符号之前的字符重复0到多次
-</code></pre>
-</li>
-</ul>
-<ul>
-<li><pre><code>   |使此符号之前的字符重复1到多次
-</code></pre>
-?        |使此符号之前的字符重复0到1次<br>{m,n}    |使此符号之前的字符重复至少m次，至多n次（含n）</li>
-</ul>
-<p>说明:这些字符都是采用贪婪匹配，即尽可能多的重复，从而匹配到最长的符合要求的字符串,如果想要最短匹配们可以在相应的符号后加上一个?,例如*?,+?等</p>
+<tbody><tr>
+<td align="center"><code>*</code></td>
+<td align="left">使此符号之前的字符重复0到多次</td>
+</tr>
+<tr>
+<td align="center"><code>+</code></td>
+<td align="left">使此符号之前的字符重复1到多次</td>
+</tr>
+<tr>
+<td align="center">?</td>
+<td align="left">使此符号之前的字符重复0到1次</td>
+</tr>
+<tr>
+<td align="center">{m,n}</td>
+<td align="left">使此符号之前的字符重复至少m次，至多n次（含n）</td>
+</tr>
+</tbody></table>
+<p>说明:这些字符都是采用贪婪匹配，即尽可能多的重复，从而匹配到最长的符合要求的字符串,如果想要最短匹配们可以在相应的符号后加上一个<code>?</code>,例如<code>*?</code>, <code>+?</code>等</p>
 <h2 id="Python和正则表达式"><a href="#Python和正则表达式" class="headerlink" title="Python和正则表达式"></a>Python和正则表达式</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">p = re.<span class="built_in">compile</span>(<span class="string">&quot;ab+&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 <p>在Python中使用正则表达式需要两步, 即</p>
@@ -570,7 +576,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年06月11日 19:51</p>
+        <p>最后更新： 2021年07月06日 22:16</p>
         <p>版权声明：本文为原创文章，转载请注明出处</p>
         <p>原始链接： <a class="post-url" href="/2017/08/08/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%94%E8%AE%B0/" title="正则表达式笔记">https://lizec.top/2017/08/08/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%AC%94%E8%AE%B0/</a></p>
         <footer>

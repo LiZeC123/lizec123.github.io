@@ -17,7 +17,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="https://lizec.top/images/vimCheatSheet.jpg">
 <meta property="article:published_time" content="2020-11-01T13:26:02.000Z">
-<meta property="article:modified_time" content="2021-01-12T10:38:33.660Z">
+<meta property="article:modified_time" content="2021-07-06T14:15:19.602Z">
 <meta property="article:author" content="LiZeC">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://lizec.top/images/vimCheatSheet.jpg">
@@ -153,7 +153,35 @@
 <p>VIM使用<code>:substitute</code>指令进行搜索和替换, 这一指令通常简写为<code>:s</code>, <code>:s</code>将当前行的指定字符串替换为另外一个字符串, 格式如下</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:s/&lt;find-this&gt;/&lt;replace-with-this&gt;/&lt;flags&gt;</span><br></pre></td></tr></table></figure>
 
-
+<p>以将字符串tthe替换为the为例， 不同模式具有如下的格式</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>:s/tthe/the</td>
+<td>在当前行第一个匹配的位置进行替换</td>
+</tr>
+<tr>
+<td>:s/tthe/the/g</td>
+<td>在当前行进行全部替换</td>
+</tr>
+<tr>
+<td>:15,42s/tthe/the/g</td>
+<td>在15行到42行之间的内容中进行替换</td>
+</tr>
+<tr>
+<td>:%s/tthe/the/g</td>
+<td>全局替换</td>
+</tr>
+<tr>
+<td>:%s/tthe/the/gc</td>
+<td>全局替换并并在每一处询问是否替换</td>
+</tr>
+</tbody></table>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://harttle.land/2016/08/08/vim-search-in-file.html">在 Vim 中优雅地查找和替换</a></li>
 </ul>
@@ -187,7 +215,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2021年01月12日 18:38</p>
+        <p>最后更新： 2021年07月06日 22:15</p>
         <p>版权声明：本文为原创文章，转载请注明出处</p>
         <p>原始链接： <a class="post-url" href="/2020/11/01/VIM%E7%AC%94%E8%AE%B0/" title="VIM笔记">https://lizec.top/2020/11/01/VIM%E7%AC%94%E8%AE%B0/</a></p>
         <footer>
