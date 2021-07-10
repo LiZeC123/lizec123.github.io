@@ -8,15 +8,15 @@
   
     <meta name="keywords" content="LiZeC,LiZeC's Blog" />
   
-  <meta name="description" content="Ubuntu安装和配置Redis ubuntu 18.04 安装 Redis  Redis持久化Redis有两种持久化方法, 分别称为快照(snapshotting)和只追加文件(append-only file, AOF). 快照保存了某一时刻的全部内存数据, 而AOF只记录新执行的写命令. 持久化方案通过配置文件进行设置.  持久化（persistence） Redis持久化">
+  <meta name="description" content="Ubuntu安装和配置Redis ubuntu 18.04 安装 Redis  Redis持久化Redis有两种持久化方法， 分别是RDB（Redis Database）和AOF（Append Only File）。其中RDB可以视为Redis服务器在某个时刻的快照，其中完整的存储类这个时刻的全部信息。而AOF采用记录所有的写指令的方式保存数据，依次执行这些写指令即可恢复数据。 RD">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis学习笔记">
 <meta property="og:url" content="https://lizec.top/2021/07/06/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="LiZeC的博客">
-<meta property="og:description" content="Ubuntu安装和配置Redis ubuntu 18.04 安装 Redis  Redis持久化Redis有两种持久化方法, 分别称为快照(snapshotting)和只追加文件(append-only file, AOF). 快照保存了某一时刻的全部内存数据, 而AOF只记录新执行的写命令. 持久化方案通过配置文件进行设置.  持久化（persistence） Redis持久化">
+<meta property="og:description" content="Ubuntu安装和配置Redis ubuntu 18.04 安装 Redis  Redis持久化Redis有两种持久化方法， 分别是RDB（Redis Database）和AOF（Append Only File）。其中RDB可以视为Redis服务器在某个时刻的快照，其中完整的存储类这个时刻的全部信息。而AOF采用记录所有的写指令的方式保存数据，依次执行这些写指令即可恢复数据。 RD">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-07-06T00:48:22.000Z">
-<meta property="article:modified_time" content="2021-07-06T00:49:00.704Z">
+<meta property="article:modified_time" content="2021-07-10T01:54:38.675Z">
 <meta property="article:author" content="LiZeC">
 <meta property="article:tag" content="Redis">
 <meta name="twitter:card" content="summary">
@@ -152,15 +152,48 @@
 <h2 id="Ubuntu安装和配置Redis"><a href="#Ubuntu安装和配置Redis" class="headerlink" title="Ubuntu安装和配置Redis"></a>Ubuntu安装和配置Redis</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://wangxin1248.github.io/linux/2018/07/ubuntu18.04-install-redis.html">ubuntu 18.04 安装 Redis</a></li>
 </ul>
-<h2 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h2><p>Redis有两种持久化方法, 分别称为快照(snapshotting)和只追加文件(append-only file, AOF). 快照保存了某一时刻的全部内存数据, 而AOF只记录新执行的写命令.</p>
-<p>持久化方案通过配置文件进行设置.</p>
+<h2 id="Redis持久化"><a href="#Redis持久化" class="headerlink" title="Redis持久化"></a>Redis持久化</h2><p>Redis有两种持久化方法， 分别是RDB（Redis Database）和AOF（Append Only File）。其中RDB可以视为Redis服务器在某个时刻的快照，其中完整的存储类这个时刻的全部信息。而AOF采用记录所有的写指令的方式保存数据，依次执行这些写指令即可恢复数据。</p>
+<p>RDB文件的写入利用类fork函数的特性。当Redis需要创建RDB文件时，直接fork一个当前进程， 由fork出来的子经常进行相关的写入操作， 而父进程可以继续原本的操作。由于父子进程拥有独立的内存空间，因此后续的父经常的修改操作也不会体现在子进程中，从而保证两个操作互不干扰。</p>
+<blockquote>
+<p>操作系统在创建子进程的时候并没有复制父进程的内存，而是通过类似写时复制的方式，在父进程修改数据时复制一个新的内存页 </p>
+</blockquote>
+<p>AOF文件就是简单的顺序写入指令，由于每次写入的数据量小，因此可以以一个非常高的频率写入（例如每秒写入一次），因此如果出现服务器故障，AOF文件丢失的数据也相对较少。</p>
+<p>为了防止AOF文件过大，Redis还提供量AOF文件重写功能，可以定期的将AOF文件进行处理，去除已经无效的指令。AOF的重写过程是安全的，Reids会先创建另外一个文件来保存重写结果，等重写完毕后再替换原本的AOF文件。</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="http://redisdoc.com/topic/persistence.html">持久化（persistence）</a></li>
 <li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000002906345">Redis持久化</a></li>
 </ul>
-<h2 id="Redis事务的效果"><a href="#Redis事务的效果" class="headerlink" title="Redis事务的效果"></a>Redis事务的效果</h2><p>MULTI指令和EXEC指令, 让客户端在不被打断地执行多条指令.  当一个事务执行完毕后Redis才会执行其他指令. 由于Redis的这一机制, 无法在事务中根据读取的数据进行条件选择. (输入全部指令后才能执行, 因此写代码时得不到数据)</p>
-<h3 id="WATHC"><a href="#WATHC" class="headerlink" title="WATHC"></a>WATHC</h3><p>执行WATCH指令后, 直到执行EXEC指令之前, 任何对监视变量的修改, 都会导致执行EXEC指令失败, 用户从而可以决定是重试还是取消执行</p>
-<p>注意: 由于需要根据读取的数据判断状态, 所以并非所有的指令都位于事务之中, 而事务外面的指令就存在被其他客户端指令插入的可能.</p>
+<h2 id="Redis事务"><a href="#Redis事务" class="headerlink" title="Redis事务"></a>Redis事务</h2><p>Redis的事务涉及四个指令， 分别是MULTI 、 EXEC 、 DISCARD 和 WATCH。 其中MULTI表示开启事务， EXEC表示执行事务， DISCARD表示取消事务。</p>
+<p>Redis的事务实现并没有采取类似数据库的方案，而是采取了队列的方案。当Redis收到MULTI指令后，后续的所有指令都会先放入一个队列之中，直到收到EXEC指令后才一次性执行所有指令。因为Redis的执行过程是单线程的，保证了这一系列操作的原子性。</p>
+<blockquote>
+<p>如果指令中存在错误， Redis并不会回滚， 其他指令还是会正常执行</p>
+</blockquote>
+<p>由于指令是一次性全部执行，因此不能在事务中根据条件执行不同的操作。如果有这种需求，则需要使用Redis脚本。</p>
+<hr>
+<p>使用WATCH指令可以在事务中监控某些变量是否发生变化。如果没有发生变化则执行整个事务，否则不执行事务。这一设计有点类似与乐观锁的思想。通过这一设置可以分步的执行Reids指令，使得在事务中能够进行一些判断。</p>
+<h2 id="Redis单线程模型"><a href="#Redis单线程模型" class="headerlink" title="Redis单线程模型"></a>Redis单线程模型</h2><p>Redis采用Reactor模式来设计事件处理模型。整个处理流程是单线程的，从而使得代码实现上保持简单的同时也避免来上下文切换带来的成本。因为Redis是内存操作，所以性能瓶颈主要来自内存和网络，多线程对性能的提升不大。</p>
+<p>Redis采用IO多路复用技术实现单线程同时处理大量网络连接。 IO复用可以使Redis同时监听多个Socket，并在某个Socket准备好时发送收到通知。</p>
+<blockquote>
+<p>高版本的Redis对大键值对的删除操作，网络请求的读写操作采取了多线程优化，但核心部分还是单线程模型。</p>
+</blockquote>
+<h2 id="过期数据删除策略"><a href="#过期数据删除策略" class="headerlink" title="过期数据删除策略"></a>过期数据删除策略</h2><p>惰性删除 ：只会在取出 key 的时候才对数据进行过期检查<br>定期删除 ：每隔一段时间抽取一批 key 执行删除过期 key 操作</p>
+<p>惰性删除策略对CPU消耗较少，但可能会导致大量过期数据没有被删除。 定期删除策略能够保证过期数据最终一定会被删除，但需要消耗更多CPU。</p>
+<blockquote>
+<p>Redis采用两种方式结合的策略</p>
+</blockquote>
+<h2 id="内存淘汰机制"><a href="#内存淘汰机制" class="headerlink" title="内存淘汰机制"></a>内存淘汰机制</h2><p>Redis 提供多种种数据淘汰策略， 假设A表示全体数据， E表示设定了过期时间的数据，有如下的几类数据</p>
+<p>算法     ｜ 对象      ｜ 含义<br>——–｜———-｜————————–<br>LRU     ｜ A or E   ｜ 淘汰最近最少最少使用的数据<br>LFU     ｜ A or E   ｜ 淘汰最不经常使用的数据<br>random  ｜ A or E   ｜ 随机选择数据移除<br>TTL     ｜ E        ｜ 淘汰将要过期的数据<br>NO      ｜ N/A      ｜ 不淘汰数据， 直接报错</p>
+<blockquote>
+<p>LRU统计数据中最久未被使用的数据， LFU统计一个时段内使用频率最低的数据</p>
+</blockquote>
+<h2 id="缓存穿透和缓存雪崩"><a href="#缓存穿透和缓存雪崩" class="headerlink" title="缓存穿透和缓存雪崩"></a>缓存穿透和缓存雪崩</h2><p>缓存穿透：查询了一个不存在的key，导致需要进行数据库查询<br>缓存雪崩：大量key同时过期，导致大量请求直接访问数据库<br>缓存击穿：某个key过期后，大量请求同时访问数据库尝试加载数据</p>
+<p>针对缓存穿透，可以使用布隆过滤器进行过滤，或者无论数据是否存在，查询一次后都进行短时间的缓存。 针对缓存雪崩，可以在设置过期时间时引入1～5分钟的随机值，使得过期时间均匀分布。</p>
+<p>针对缓存击穿，可以采取互斥锁。即尝试从数据库读取数据更新缓存前先尝试获得锁，获得锁的线程执行更新操作，其余线程直接重试从缓存获取数据操作。这可以保证只有一个线程查询数据库。</p>
+<h2 id="缓存读写策略"><a href="#缓存读写策略" class="headerlink" title="缓存读写策略"></a>缓存读写策略</h2><h3 id="Cache-Aside-Pattern（旁路缓存模式）"><a href="#Cache-Aside-Pattern（旁路缓存模式）" class="headerlink" title="Cache Aside Pattern（旁路缓存模式）"></a>Cache Aside Pattern（旁路缓存模式）</h3><p>写入操作： 先写DB， 再删除缓存<br>读取操作： 先读缓存，缓存未命中再读DB并设置缓存</p>
+<p>注意：必须先写DB再删缓存，否则其他线程可能读取了DB的旧值并设置缓存。 由于设置缓存分为两步，所以还是有概率出现不一致的情况。例如A服务发现缓存不存在读取了DB，再写入缓存之间B服务器写入数据库，之后A再执行写入缓存操作。此时A写入的缓存数据与数据库中实际数据不一致。但由于写入缓存速度明显快于数据库写入速度，因此这一情况出现的概率非常小。</p>
+<h3 id="Read-Write-Through-Pattern（读写穿透）"><a href="#Read-Write-Through-Pattern（读写穿透）" class="headerlink" title="Read/Write Through Pattern（读写穿透）"></a>Read/Write Through Pattern（读写穿透）</h3><p>此模式将cache视为主要数据存储，从中读写数据。cache服务负责将数据同步到DB。这一模式一般比较少见，因为Redis不支持这一功能。</p>
+<p>写入操作：先查询缓存，缓存中不存在则写入DB，否则直接写入缓存，由缓存同步到DB<br>读取操作：先查询缓存，缓存命中则直接返回，否则读取DB并设置缓存</p>
+<h3 id="Write-Behind-Pattern（异步缓存写入）"><a href="#Write-Behind-Pattern（异步缓存写入）" class="headerlink" title="Write Behind Pattern（异步缓存写入）"></a>Write Behind Pattern（异步缓存写入）</h3><p>与Read/Write Through Pattern很相似，只是写入操作改为异步操作。 这一设计可能对数据的一致性带来更大的挑战，但如果对一致性不太关心，则此模式具有最佳的性能。</p>
 <h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><p>Redi使用WATCH监视变量, 如果发生变化, 通知当前事务. 这相当于乐观锁.</p>
 <ol>
 <li>持有锁的进程由于操作时间过长,导致锁被自动释放, 但进程对此没有感知, 继续访问数据或者释放了其他进程的锁</li>
@@ -171,7 +204,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2021年07月06日 08:49</p>
+        <p>最后更新： 2021年07月10日 09:54</p>
         <p>版权声明：本文为原创文章，转载请注明出处</p>
         <p>原始链接： <a class="post-url" href="/2021/07/06/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="Redis学习笔记">https://lizec.top/2021/07/06/Redis%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a></p>
         <footer>
@@ -259,7 +292,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Ubuntu%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AERedis"><span class="post-toc-text">Ubuntu安装和配置Redis</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Redis%E6%8C%81%E4%B9%85%E5%8C%96"><span class="post-toc-text">Redis持久化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Redis%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%95%88%E6%9E%9C"><span class="post-toc-text">Redis事务的效果</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#WATHC"><span class="post-toc-text">WATHC</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="post-toc-text">分布式锁</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Ubuntu%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AERedis"><span class="post-toc-text">Ubuntu安装和配置Redis</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Redis%E6%8C%81%E4%B9%85%E5%8C%96"><span class="post-toc-text">Redis持久化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Redis%E4%BA%8B%E5%8A%A1"><span class="post-toc-text">Redis事务</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Redis%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="post-toc-text">Redis单线程模型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E8%BF%87%E6%9C%9F%E6%95%B0%E6%8D%AE%E5%88%A0%E9%99%A4%E7%AD%96%E7%95%A5"><span class="post-toc-text">过期数据删除策略</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E6%9C%BA%E5%88%B6"><span class="post-toc-text">内存淘汰机制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E5%92%8C%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="post-toc-text">缓存穿透和缓存雪崩</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%BC%93%E5%AD%98%E8%AF%BB%E5%86%99%E7%AD%96%E7%95%A5"><span class="post-toc-text">缓存读写策略</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Cache-Aside-Pattern%EF%BC%88%E6%97%81%E8%B7%AF%E7%BC%93%E5%AD%98%E6%A8%A1%E5%BC%8F%EF%BC%89"><span class="post-toc-text">Cache Aside Pattern（旁路缓存模式）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Read-Write-Through-Pattern%EF%BC%88%E8%AF%BB%E5%86%99%E7%A9%BF%E9%80%8F%EF%BC%89"><span class="post-toc-text">Read&#x2F;Write Through Pattern（读写穿透）</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Write-Behind-Pattern%EF%BC%88%E5%BC%82%E6%AD%A5%E7%BC%93%E5%AD%98%E5%86%99%E5%85%A5%EF%BC%89"><span class="post-toc-text">Write Behind Pattern（异步缓存写入）</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="post-toc-text">分布式锁</span></a></li></ol>
         </nav>
     </aside>
     
