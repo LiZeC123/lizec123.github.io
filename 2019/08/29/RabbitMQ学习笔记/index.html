@@ -8,15 +8,15 @@
   
     <meta name="keywords" content="LiZeC,LiZeC's Blog" />
   
-  <meta name="description" content="RabbitMQ是一个消息队列, 消息队列最主要的特点是实现解耦合, 即消息发送方和消息接收方都只面向消息队列编程, 而不必相互了解, 从而双方都可以独立的进行修改. 基本概念   名称 解释    Broker 消息队列服务器   Connection 应用程序与消息队列的连接   Channel 在Connection上虚拟的连接   Queue 收发消息的实体   Exchange 转">
+  <meta name="description" content="RabbitMQ是一个消息队列, 消息队列总结起来有三个主要的功能, 分别是解耦合, 异步和削峰填谷. 使用消息队列后, 消息发送方和消息接收方都只面向消息队列编程, 而不必相互了解, 从而能够相互独立的修改. 消息队列能够使操作异步进行, 系统A在完成自己的相关工作后可以将消息放入队列, 让系统B进行后续的处理.  虽然消息队列有上述的好处, 但同时也导致系统的可用性降低, 现在既要保">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RabbitMQ学习笔记">
 <meta property="og:url" content="https://lizec.top/2019/08/29/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="LiZeC的博客">
-<meta property="og:description" content="RabbitMQ是一个消息队列, 消息队列最主要的特点是实现解耦合, 即消息发送方和消息接收方都只面向消息队列编程, 而不必相互了解, 从而双方都可以独立的进行修改. 基本概念   名称 解释    Broker 消息队列服务器   Connection 应用程序与消息队列的连接   Channel 在Connection上虚拟的连接   Queue 收发消息的实体   Exchange 转">
+<meta property="og:description" content="RabbitMQ是一个消息队列, 消息队列总结起来有三个主要的功能, 分别是解耦合, 异步和削峰填谷. 使用消息队列后, 消息发送方和消息接收方都只面向消息队列编程, 而不必相互了解, 从而能够相互独立的修改. 消息队列能够使操作异步进行, 系统A在完成自己的相关工作后可以将消息放入队列, 让系统B进行后续的处理.  虽然消息队列有上述的好处, 但同时也导致系统的可用性降低, 现在既要保">
 <meta property="og:locale">
 <meta property="article:published_time" content="2019-08-29T09:52:14.000Z">
-<meta property="article:modified_time" content="2020-06-19T13:30:42.000Z">
+<meta property="article:modified_time" content="2021-07-14T12:29:48.597Z">
 <meta property="article:author" content="LiZeC">
 <meta property="article:tag" content="RabbitMQ">
 <meta property="article:tag" content="Spring">
@@ -146,7 +146,10 @@
             <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script> -->
 
 
-<p>RabbitMQ是一个消息队列, 消息队列最主要的特点是实现解耦合, 即消息发送方和消息接收方都只面向消息队列编程, 而不必相互了解, 从而双方都可以独立的进行修改.</p>
+
+
+<p>RabbitMQ是一个消息队列, 消息队列总结起来有三个主要的功能, 分别是解耦合, 异步和削峰填谷. 使用消息队列后, 消息发送方和消息接收方都只面向消息队列编程, 而不必相互了解, 从而能够相互独立的修改. 消息队列能够使操作异步进行, 系统A在完成自己的相关工作后可以将消息放入队列, 让系统B进行后续的处理. </p>
+<p>虽然消息队列有上述的好处, 但同时也导致系统的可用性降低, 现在既要保证执行业务的系统高可用, 还要保证消息队列本身高可用. 此外, 引入消息队列后, 也会同时导致系统复杂性增加, 现在还需要考虑系统之间的一致性问题, 消息的重复消费问题等等. </p>
 <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><table>
 <thead>
 <tr>
@@ -208,18 +211,34 @@
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/starof/p/4173413.html">RabbitMQ基本概念和使用</a></li>
 </ul>
+<h2 id="确认机制"><a href="#确认机制" class="headerlink" title="确认机制"></a>确认机制</h2><h3 id="发送方确认机制"><a href="#发送方确认机制" class="headerlink" title="发送方确认机制"></a>发送方确认机制</h3><p>当发送方将消息发送给MQ后, 只要消息被投递到目标服务器或者被持久化到硬盘, 就会向发送方发送确认消息, 表示此消息已经收到, 且不会丢失. 确认机制是异步的（回调发送方定义的处理函数）, 在等待确认的时候发送方依然可以发送消息. </p>
+<p>如果消息丢失, 消息队列也会发送相应的消息给发送方, </p>
+<h3 id="接收方确认机制"><a href="#接收方确认机制" class="headerlink" title="接收方确认机制"></a>接收方确认机制</h3><p>接收方对于MQ发送给它每一条消息都需要确认以后, MQ才能将消息从队列中移除, 否则视为消息没有送达, MQ会尝试将消息派发给其他接收方或者进行重试. </p>
+<h2 id="消息幂等性"><a href="#消息幂等性" class="headerlink" title="消息幂等性"></a>消息幂等性</h2><p>由于网络原因和重试机制, 接收方有可能两次收到同样的消息.  接收方需要保证自身的幂等性, 即多次收到同样的消息不产生副作用.  实现幂等性的主流解决方法是记录使消息包含一个唯一ID, 在处理消息前比对ID是否处理过, 如果处理过则直接返回确认而不进行处理. 唯一ID可以存储在数据库中, 也可以存储在Redis中. </p>
+<h2 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h2><p>RabbitMQ通过将消息写入到硬盘实现持久化. 但写入硬盘的速度显著低于内存读写速度, 因此对所有消息都开启持久化会严重降低性能. 而且RabbitMQ的硬盘写入操作并不是完全实时的, 因此可能存在数据还未写入MQ就故障的情况, 此时这些还未写入的消息是无法恢复的. </p>
+<p>可以引入镜像队列的方式来提高RabbitMQ的可用性. 即设置一个完全相同的从消息队列, 如果主队列故障自动切换到从队列. 这实际上就是一个主从结构. </p>
+<h2 id="死信队列"><a href="#死信队列" class="headerlink" title="死信队列"></a>死信队列</h2><p>当一条消息变成死信后就会进入死信队列, 死信队列实际上是一个普通的Exchange, 可以被订阅. 程序可以监听死信队列来对这些信息进行处理. 消息变成死信的原因包括</p>
+<ol>
+<li>消息被拒绝</li>
+<li>消息TTL过期</li>
+<li>消息队列达到最大长度</li>
+</ol>
 <h2 id="Spring-RabbitMQ-Support"><a href="#Spring-RabbitMQ-Support" class="headerlink" title="Spring RabbitMQ Support"></a>Spring RabbitMQ Support</h2><p><code>Spring RabbitMQ Support</code>是一个关于RabbitMQ的Spring库, 提供了<code>@RabbitListener</code>, <code>@RabbitHandler</code>等注解, 从而可以方便的使用Java接受RabbitMQ发送的消息.</p>
-<p><code>@RabbitListener</code>可以标注在类上面，配合<code>@RabbitHandler</code>注解一起使用. 一个类中可以有多个<code>@RabbitHandler</code>注解的方法, 收到消息后根据消息的类型调用相应的方法.</p>
+<p><code>@RabbitListener</code>可以标注在类上面, 配合<code>@RabbitHandler</code>注解一起使用. 一个类中可以有多个<code>@RabbitHandler</code>注解的方法, 收到消息后根据消息的类型调用相应的方法.</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/911d987b5f11">RabbitMQ：@RabbitListener 与 @RabbitHandler 及 消息序列化</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c2abde83a241">Spring-rabbit之@RabbitListener解析</a></li>
 </ul>
 <h2 id="AMQP"><a href="#AMQP" class="headerlink" title="AMQP"></a>AMQP</h2><p>AMQP 0-9-1 (Advanced Message Queuing Protocol) 是一个中间件消息协议. RabbitMQ使用这一协议. 关于这一协议的内容, 可以参考官网文档<a target="_blank" rel="noopener" href="https://www.rabbitmq.com/tutorials/amqp-concepts.html">AMQP 0-9-1 Model Explained</a>. </p>
 <p>这篇文档除了介绍AMQP协议以外, 也解释了RabbitMQ中的很多基本概念. 包括交换机类型, 队列特点, 消息应答机制等, 因此在学习更多RabbitMQ高级特性之前, 都可以考虑先阅读此文档.</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904025008128013">2019年12道RabbitMQ高频面试题你都会了吗？（含答案解析）</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/ThinkWon/article/details/104588612">消息中间件MQ与RabbitMQ面试题（2020最新版）</a></li>
+</ul>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2020年06月19日 21:30</p>
+        <p>最后更新： 2021年07月14日 20:29</p>
         <p>版权声明：本文为原创文章，转载请注明出处</p>
         <p>原始链接： <a class="post-url" href="/2019/08/29/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="RabbitMQ学习笔记">https://lizec.top/2019/08/29/RabbitMQ%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</a></p>
         <footer>
@@ -309,7 +328,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="post-toc-text">基本概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA%E8%A7%84%E5%88%99"><span class="post-toc-text">交换机规则</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Spring-RabbitMQ-Support"><span class="post-toc-text">Spring RabbitMQ Support</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#AMQP"><span class="post-toc-text">AMQP</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="post-toc-text">基本概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA%E8%A7%84%E5%88%99"><span class="post-toc-text">交换机规则</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%A1%AE%E8%AE%A4%E6%9C%BA%E5%88%B6"><span class="post-toc-text">确认机制</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E5%8F%91%E9%80%81%E6%96%B9%E7%A1%AE%E8%AE%A4%E6%9C%BA%E5%88%B6"><span class="post-toc-text">发送方确认机制</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#%E6%8E%A5%E6%94%B6%E6%96%B9%E7%A1%AE%E8%AE%A4%E6%9C%BA%E5%88%B6"><span class="post-toc-text">接收方确认机制</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%B6%88%E6%81%AF%E5%B9%82%E7%AD%89%E6%80%A7"><span class="post-toc-text">消息幂等性</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96"><span class="post-toc-text">持久化</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E6%AD%BB%E4%BF%A1%E9%98%9F%E5%88%97"><span class="post-toc-text">死信队列</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Spring-RabbitMQ-Support"><span class="post-toc-text">Spring RabbitMQ Support</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#AMQP"><span class="post-toc-text">AMQP</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="post-toc-text">参考资料</span></a></li></ol>
         </nav>
     </aside>
     

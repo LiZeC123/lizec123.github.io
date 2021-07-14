@@ -8,15 +8,15 @@
   
     <meta name="keywords" content="LiZeC,LiZeC's Blog" />
   
-  <meta name="description" content="Scala语言运行在JVM上, 因此Scala可以认为在一定程度上与Java是兼容的, Scala可以自由的使用Java所有的类. 变量Scala的变量分为可变变量与不可变变量. 变量在创建时可以指定变量类型, 也可以省略, 让编译器更具赋予的初始值自动推断类型. 所有变量都必须在定义时初始化，但如果初始值不确定, 可以使用占位符进行初始化. 12345var numberA &#x3D; 123val">
+  <meta name="description" content="Scala语言运行在JVM上, 因此Scala可以认为在一定程度上与Java是兼容的, Scala可以自由的使用Java所有的类. 变量Scala的变量分为可变变量与不可变变量. 变量在创建时可以指定变量类型, 也可以省略, 让编译器更具赋予的初始值自动推断类型. 所有变量都必须在定义时初始化, 但如果初始值不确定, 可以使用占位符进行初始化. 12345var numberA &#x3D; 123va">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Scala笔记之基础知识">
 <meta property="og:url" content="https://lizec.top/2019/12/17/Scala%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/index.html">
 <meta property="og:site_name" content="LiZeC的博客">
-<meta property="og:description" content="Scala语言运行在JVM上, 因此Scala可以认为在一定程度上与Java是兼容的, Scala可以自由的使用Java所有的类. 变量Scala的变量分为可变变量与不可变变量. 变量在创建时可以指定变量类型, 也可以省略, 让编译器更具赋予的初始值自动推断类型. 所有变量都必须在定义时初始化，但如果初始值不确定, 可以使用占位符进行初始化. 12345var numberA &#x3D; 123val">
+<meta property="og:description" content="Scala语言运行在JVM上, 因此Scala可以认为在一定程度上与Java是兼容的, Scala可以自由的使用Java所有的类. 变量Scala的变量分为可变变量与不可变变量. 变量在创建时可以指定变量类型, 也可以省略, 让编译器更具赋予的初始值自动推断类型. 所有变量都必须在定义时初始化, 但如果初始值不确定, 可以使用占位符进行初始化. 12345var numberA &#x3D; 123va">
 <meta property="og:locale">
 <meta property="article:published_time" content="2019-12-17T07:12:25.000Z">
-<meta property="article:modified_time" content="2020-09-06T02:41:07.212Z">
+<meta property="article:modified_time" content="2021-07-14T12:29:35.163Z">
 <meta property="article:author" content="LiZeC">
 <meta property="article:tag" content="Scala">
 <meta name="twitter:card" content="summary">
@@ -152,11 +152,11 @@
             <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script> -->
 
 <p>Scala语言运行在JVM上, 因此Scala可以认为在一定程度上与Java是兼容的, Scala可以自由的使用Java所有的类.</p>
-<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>Scala的变量分为可变变量与不可变变量. 变量在创建时可以指定变量类型, 也可以省略, 让编译器更具赋予的初始值自动推断类型. 所有变量都必须在定义时初始化，但如果初始值不确定, 可以使用占位符进行初始化.</p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>Scala的变量分为可变变量与不可变变量. 变量在创建时可以指定变量类型, 也可以省略, 让编译器更具赋予的初始值自动推断类型. 所有变量都必须在定义时初始化, 但如果初始值不确定, 可以使用占位符进行初始化.</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> numberA = <span class="number">123</span></span><br><span class="line"><span class="keyword">val</span> numberB: <span class="type">Int</span> = <span class="number">456</span></span><br><span class="line"><span class="keyword">var</span> strA:<span class="type">String</span> = <span class="string">&quot;Hello&quot;</span></span><br><span class="line"><span class="keyword">val</span> strB = <span class="string">&quot;World&quot;</span></span><br><span class="line"><span class="keyword">var</span> t:<span class="type">Int</span> = _</span><br></pre></td></tr></table></figure>
 
 <p>在Scala中统一了基本类型和封装类型, 因此无论是Java中的int类型还是Integer类型, 在Scala中都是为Int类型.</p>
-<h3 id="惰性初始化"><a href="#惰性初始化" class="headerlink" title="惰性初始化"></a>惰性初始化</h3><p>初始化变量时， 可以采用lazy关键字， 使得变量在使用时才会赋值. lazy关键字只能修饰val变量</p>
+<h3 id="惰性初始化"><a href="#惰性初始化" class="headerlink" title="惰性初始化"></a>惰性初始化</h3><p>初始化变量时, 可以采用lazy关键字, 使得变量在使用时才会赋值. lazy关键字只能修饰val变量</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">lazy</span> <span class="keyword">val</span> v1 = <span class="string">&quot;test&quot;</span></span><br><span class="line">v1: <span class="type">String</span> = [<span class="keyword">lazy</span>]</span><br><span class="line"></span><br><span class="line">&gt; v1</span><br><span class="line">res9: <span class="type">String</span> = <span class="string">&quot;test</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="基础特性"><a href="#基础特性" class="headerlink" title="基础特性"></a>基础特性</h3><p>Scala有一些基础特性, 在其他语言中可能有类似的语言, 具体如下</p>
@@ -376,7 +376,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2020年09月06日 10:41</p>
+        <p>最后更新： 2021年07月14日 20:29</p>
         <p>版权声明：本文为原创文章，转载请注明出处</p>
         <p>原始链接： <a class="post-url" href="/2019/12/17/Scala%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" title="Scala笔记之基础知识">https://lizec.top/2019/12/17/Scala%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</a></p>
         <footer>

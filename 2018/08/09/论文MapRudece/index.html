@@ -8,15 +8,15 @@
   
     <meta name="keywords" content="LiZeC,LiZeC's Blog" />
   
-  <meta name="description" content="本文是对论文《MapReduce：Simplified Data Proessing on Large Clusters》的记录。这篇论文是Google的关于大数据的三篇论文之一，主要介绍了一种新的编程模型，即MapReduce模型。MapReduce模型也是之后开源的大数据处理系统Hadoop的主要实现基础。 前言这是我真正意义上第一次阅读英文的论文，本以为在语言方面可能会遇到一些问题，">
+  <meta name="description" content="本文是对论文《MapReduce：Simplified Data Proessing on Large Clusters》的记录. 这篇论文是Google的关于大数据的三篇论文之一, 主要介绍了一种新的编程模型, 即MapReduce模型. MapReduce模型也是之后开源的大数据处理系统Hadoop的主要实现基础.  前言这是我真正意义上第一次阅读英文的论文, 本以为在语言方面可能会遇">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MapReduce：Simplified Data Proessing on Large Clusters 阅读记录">
 <meta property="og:url" content="https://lizec.top/2018/08/09/%E8%AE%BA%E6%96%87MapRudece/index.html">
 <meta property="og:site_name" content="LiZeC的博客">
-<meta property="og:description" content="本文是对论文《MapReduce：Simplified Data Proessing on Large Clusters》的记录。这篇论文是Google的关于大数据的三篇论文之一，主要介绍了一种新的编程模型，即MapReduce模型。MapReduce模型也是之后开源的大数据处理系统Hadoop的主要实现基础。 前言这是我真正意义上第一次阅读英文的论文，本以为在语言方面可能会遇到一些问题，">
+<meta property="og:description" content="本文是对论文《MapReduce：Simplified Data Proessing on Large Clusters》的记录. 这篇论文是Google的关于大数据的三篇论文之一, 主要介绍了一种新的编程模型, 即MapReduce模型. MapReduce模型也是之后开源的大数据处理系统Hadoop的主要实现基础.  前言这是我真正意义上第一次阅读英文的论文, 本以为在语言方面可能会遇">
 <meta property="og:locale">
 <meta property="article:published_time" content="2018-08-09T06:41:45.000Z">
-<meta property="article:modified_time" content="2019-02-07T09:42:45.395Z">
+<meta property="article:modified_time" content="2021-07-14T12:29:48.599Z">
 <meta property="article:author" content="LiZeC">
 <meta property="article:tag" content="论文阅读">
 <meta name="twitter:card" content="summary">
@@ -153,55 +153,55 @@
 
 
 
-<p>本文是对论文《MapReduce：Simplified Data Proessing on Large Clusters》的记录。这篇论文是Google的关于大数据的三篇论文之一，主要介绍了一种新的编程模型，即MapReduce模型。MapReduce模型也是之后开源的大数据处理系统Hadoop的主要实现基础。</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这是我真正意义上第一次阅读英文的论文，本以为在语言方面可能会遇到一些问题，然而实际阅读表明，这篇论文的单词和语句难度大概只有英语四级水平，因此这篇论文在阅读方面并不会有太多问题。</p>
-<p>网络上关于这篇论文的介绍和中文翻译已经很多了，本文主要介绍我在阅读过程中的一些见解和结论。</p>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>MapReduce是一种编程模型，用户（使用此编程模型的程序员）指定一个map函数将一系列的原始的<code>键值对</code>转化为中间状态的<code>键值对</code>，之后用户再指定一个reduce函数，将中间结果合并，产生最终的结果。</p>
-<p>很多操作都可以转化为MapReduce操作，而且使用MapReduce模型之后，系统就可以自动的将操作进行并行化，从而充分利用分布式系统的资源。 根据论文，MapReduce的抽象灵感源于一种古老的函数式语言Lisp。</p>
-<p>在Lisp语言中，map函数指定的操作运用到一个或多个列表之上，从而获得一个新的列表， reduce函数将指定的操作依次作用到列表的各个元素上，从而获得运算结果。 对比MapReduce模型中的map函数和reduce函数，可见两者确实有一定的相似性。</p>
-<p>在编程语言的发展历史之中，由于函数式的语言特性的实现对机器性能的开销大，因此很长一段时间内都没有投入实际的使用，仅仅是“实验室”的产物。然而随着并行计算的需要，函数式语言天然的并行性使得其再一次被人们重视。</p>
-<h2 id="词频统计举例"><a href="#词频统计举例" class="headerlink" title="词频统计举例"></a>词频统计举例</h2><p>WordCount在MapReduce中的地位就如同Hello World在编程中的地位，是很多人写的第一个MapReduce程序。 因此下面从分析WordCount来讲解MapReduce的过程。</p>
-<p>WordCount的任务是给定一个文本，统计其中每个词出现的次数。而且对于输入的文本系统会按照行自动进行切分。例如给定如下的文本</p>
+<p>本文是对论文《MapReduce：Simplified Data Proessing on Large Clusters》的记录. 这篇论文是Google的关于大数据的三篇论文之一, 主要介绍了一种新的编程模型, 即MapReduce模型. MapReduce模型也是之后开源的大数据处理系统Hadoop的主要实现基础. </p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这是我真正意义上第一次阅读英文的论文, 本以为在语言方面可能会遇到一些问题, 然而实际阅读表明, 这篇论文的单词和语句难度大概只有英语四级水平, 因此这篇论文在阅读方面并不会有太多问题. </p>
+<p>网络上关于这篇论文的介绍和中文翻译已经很多了, 本文主要介绍我在阅读过程中的一些见解和结论. </p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>MapReduce是一种编程模型, 用户（使用此编程模型的程序员）指定一个map函数将一系列的原始的<code>键值对</code>转化为中间状态的<code>键值对</code>, 之后用户再指定一个reduce函数, 将中间结果合并, 产生最终的结果. </p>
+<p>很多操作都可以转化为MapReduce操作, 而且使用MapReduce模型之后, 系统就可以自动的将操作进行并行化, 从而充分利用分布式系统的资源.  根据论文, MapReduce的抽象灵感源于一种古老的函数式语言Lisp. </p>
+<p>在Lisp语言中, map函数指定的操作运用到一个或多个列表之上, 从而获得一个新的列表, reduce函数将指定的操作依次作用到列表的各个元素上, 从而获得运算结果.  对比MapReduce模型中的map函数和reduce函数, 可见两者确实有一定的相似性. </p>
+<p>在编程语言的发展历史之中, 由于函数式的语言特性的实现对机器性能的开销大, 因此很长一段时间内都没有投入实际的使用, 仅仅是“实验室”的产物. 然而随着并行计算的需要, 函数式语言天然的并行性使得其再一次被人们重视. </p>
+<h2 id="词频统计举例"><a href="#词频统计举例" class="headerlink" title="词频统计举例"></a>词频统计举例</h2><p>WordCount在MapReduce中的地位就如同Hello World在编程中的地位, 是很多人写的第一个MapReduce程序.  因此下面从分析WordCount来讲解MapReduce的过程. </p>
+<p>WordCount的任务是给定一个文本, 统计其中每个词出现的次数. 而且对于输入的文本系统会按照行自动进行切分. 例如给定如下的文本</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Hello World Hello LiZeC</span><br><span class="line">Bye Hadoop Bye LiZeC</span><br></pre></td></tr></table></figure>
 
-<p>那么经过系统的处理以后，会得到如下的两个原始键值对</p>
+<p>那么经过系统的处理以后, 会得到如下的两个原始键值对</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;1,Hello World Hello LiZeC&gt;</span><br><span class="line">&lt;2, Bye Hadoop Bye LiZeC&gt;</span><br></pre></td></tr></table></figure>
 
-<p>其中key为行号，value为每一行具体的内容。 那么对于map函数，则可以有如下的操作(伪代码)</p>
+<p>其中key为行号, value为每一行具体的内容.  那么对于map函数, 则可以有如下的操作(伪代码)</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">map(Object key,String value)&#123;</span><br><span class="line">    <span class="comment">// key代表行号</span></span><br><span class="line">    <span class="comment">// value代表每一行的值</span></span><br><span class="line">    <span class="keyword">for</span> each word w in value:</span><br><span class="line">        EmitIntermediate(w,<span class="string">&quot;1&quot;</span>); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>即对于每个词，产生一个1的标记，从而可以得到下面的一系列中间结果键值对</p>
+<p>即对于每个词, 产生一个1的标记, 从而可以得到下面的一系列中间结果键值对</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Hello,1&gt;,&lt;World,1&gt;,&lt;Hello,1&gt;,&lt;LiZeC,1&gt; ...</span><br></pre></td></tr></table></figure>
 
-<p>在reduce阶段之前，系统会将所有相同的key合并到一起，形成类似<code>&lt;key,&lt;value1,value2,value3,...&gt;&gt;</code> 的形式，那么对于reduce函数有</p>
+<p>在reduce阶段之前, 系统会将所有相同的key合并到一起, 形成类似<code>&lt;key,&lt;value1,value2,value3,...&gt;&gt;</code> 的形式, 那么对于reduce函数有</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">reduce(String key,Iterator values)&#123;</span><br><span class="line">    <span class="comment">// key表示一个词</span></span><br><span class="line">    <span class="comment">// values表示所有统计值的列表</span></span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> each v in values:</span><br><span class="line">        sum += v;</span><br><span class="line">    Emit(key,sum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>即将所有键值对中的值累加起来，从而获得最后的结果键值对</p>
+<p>即将所有键值对中的值累加起来, 从而获得最后的结果键值对</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Hello,2&gt;, &lt;World,1&gt;, &lt;LiZec,2&gt;, ...</span><br></pre></td></tr></table></figure>
 
 
-<h2 id="其他应用举例"><a href="#其他应用举例" class="headerlink" title="其他应用举例"></a>其他应用举例</h2><p>在论文中给出了一些Google的实际应用，以下介绍两个比较特殊的实现方案。</p>
-<h3 id="Distributed-Grep"><a href="#Distributed-Grep" class="headerlink" title="Distributed Grep"></a>Distributed Grep</h3><p>此操作的任务是给定一个正则表达式，返回所满足条件的行。</p>
-<p>在map阶段，对于每一行，如果匹配表达式，则写入此行。在reduce阶段不需要额外操作，直接将中间结果写入即可。</p>
-<h3 id="Reverse-Web-Link-Graph"><a href="#Reverse-Web-Link-Graph" class="headerlink" title="Reverse Web-Link Graph"></a>Reverse Web-Link Graph</h3><p>对于一个网页，可以很容易的获得从此网页指向其他网页的关系图，而Reverse Web-Link Graph任务反转这个关系图，获得指向此网页的其他网页的关系图。</p>
-<p>在map阶段，对于每个网页source，记录所有指向的其他页面target，从而写入若干<code>&lt;target,source&gt;</code>的键值对。reduce阶段合并结果，得到<code>&lt;target, list(source)&gt;</code></p>
-<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><p>由于MapReduce是架构在大量设备之上的，因此需要容忍部分机器出现故障。故障可以分成工作节点故障，主节点故障</p>
-<h3 id="工作节点故障"><a href="#工作节点故障" class="headerlink" title="工作节点故障"></a>工作节点故障</h3><p>主节点会周期性的检测各个工作节点的状态，如果工作节点在指定的时间内没有回应，则主节点将此工作节点标记为故障状态，并且自动将运行在上面的任务分配给其他机器执行。</p>
-<p>论文中提到，有一次对网络维修的时候，导致80个节点同时从正在运行MapReduce的集群脱离，但通过这种重新分配机制使得任务并没有受到影响。</p>
-<h3 id="主节点故障"><a href="#主节点故障" class="headerlink" title="主节点故障"></a>主节点故障</h3><p>主节点可以通过checkpoint技术，周期的保存主节点的状态，从而使得主节点故障时，备份节点能从checkpoint恢复主节点的状态。</p>
-<h2 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h2><h3 id="Locality"><a href="#Locality" class="headerlink" title="Locality"></a>Locality</h3><p>MapReduce集群的底层文件系统是Google File System(GFS)。GFS通常会将其中的数据冗余存储3份。因此在分配map任务的时候，会尽量将map任务分配到含有需要读取的数据的节点上，从而执行任务时可以尽量从本地读取数据，减少网络的消耗。</p>
-<p>使用这一策略必然会导致某些存储了较多重要数据的节点计算任务变多，因此后续可能还涉及到资源平衡的问题，将经常使用的资源分布到不同的机器上，从而均衡各个节点的任务强度。</p>
-<h3 id="Backup-Tasks"><a href="#Backup-Tasks" class="headerlink" title="Backup Tasks"></a>Backup Tasks</h3><p>根据论文，Google实现的MapReduce系统在处理即将结束时，对于一些尚未完成分配的任务的机器，会将相关机器上的任务重新分配到其他机器上同时执行，根据相关的实验结果，不使用这一操作的集群执行同样的任务多消耗44%的时间。</p>
-<p>根据Google的分析，导致这一现象的原因是部分机器的的性能降低，降低的原因可能是磁盘故障，机器被分配其他任务导致CPU可用时间减少，或者代码错误等。通过把相关的任务分配其他机器上重新执行，可以减少上述问题导致的部分任务迟迟无法结束，进而导致的总时间的延长。</p>
-<p>实际上这一问题并不能直观的从理论上发现，只能通过实际的运行才会发现。而这种通过增加资源消耗来节省时间的策略也非常的具有工程师的特色了。</p>
+<h2 id="其他应用举例"><a href="#其他应用举例" class="headerlink" title="其他应用举例"></a>其他应用举例</h2><p>在论文中给出了一些Google的实际应用, 以下介绍两个比较特殊的实现方案. </p>
+<h3 id="Distributed-Grep"><a href="#Distributed-Grep" class="headerlink" title="Distributed Grep"></a>Distributed Grep</h3><p>此操作的任务是给定一个正则表达式, 返回所满足条件的行. </p>
+<p>在map阶段, 对于每一行, 如果匹配表达式, 则写入此行. 在reduce阶段不需要额外操作, 直接将中间结果写入即可. </p>
+<h3 id="Reverse-Web-Link-Graph"><a href="#Reverse-Web-Link-Graph" class="headerlink" title="Reverse Web-Link Graph"></a>Reverse Web-Link Graph</h3><p>对于一个网页, 可以很容易的获得从此网页指向其他网页的关系图, 而Reverse Web-Link Graph任务反转这个关系图, 获得指向此网页的其他网页的关系图. </p>
+<p>在map阶段, 对于每个网页source, 记录所有指向的其他页面target, 从而写入若干<code>&lt;target,source&gt;</code>的键值对. reduce阶段合并结果, 得到<code>&lt;target, list(source)&gt;</code></p>
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><p>由于MapReduce是架构在大量设备之上的, 因此需要容忍部分机器出现故障. 故障可以分成工作节点故障, 主节点故障</p>
+<h3 id="工作节点故障"><a href="#工作节点故障" class="headerlink" title="工作节点故障"></a>工作节点故障</h3><p>主节点会周期性的检测各个工作节点的状态, 如果工作节点在指定的时间内没有回应, 则主节点将此工作节点标记为故障状态, 并且自动将运行在上面的任务分配给其他机器执行. </p>
+<p>论文中提到, 有一次对网络维修的时候, 导致80个节点同时从正在运行MapReduce的集群脱离, 但通过这种重新分配机制使得任务并没有受到影响. </p>
+<h3 id="主节点故障"><a href="#主节点故障" class="headerlink" title="主节点故障"></a>主节点故障</h3><p>主节点可以通过checkpoint技术, 周期的保存主节点的状态, 从而使得主节点故障时, 备份节点能从checkpoint恢复主节点的状态. </p>
+<h2 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h2><h3 id="Locality"><a href="#Locality" class="headerlink" title="Locality"></a>Locality</h3><p>MapReduce集群的底层文件系统是Google File System(GFS). GFS通常会将其中的数据冗余存储3份. 因此在分配map任务的时候, 会尽量将map任务分配到含有需要读取的数据的节点上, 从而执行任务时可以尽量从本地读取数据, 减少网络的消耗. </p>
+<p>使用这一策略必然会导致某些存储了较多重要数据的节点计算任务变多, 因此后续可能还涉及到资源平衡的问题, 将经常使用的资源分布到不同的机器上, 从而均衡各个节点的任务强度. </p>
+<h3 id="Backup-Tasks"><a href="#Backup-Tasks" class="headerlink" title="Backup Tasks"></a>Backup Tasks</h3><p>根据论文, Google实现的MapReduce系统在处理即将结束时, 对于一些尚未完成分配的任务的机器, 会将相关机器上的任务重新分配到其他机器上同时执行, 根据相关的实验结果, 不使用这一操作的集群执行同样的任务多消耗44%的时间. </p>
+<p>根据Google的分析, 导致这一现象的原因是部分机器的的性能降低, 降低的原因可能是磁盘故障, 机器被分配其他任务导致CPU可用时间减少, 或者代码错误等. 通过把相关的任务分配其他机器上重新执行, 可以减少上述问题导致的部分任务迟迟无法结束, 进而导致的总时间的延长. </p>
+<p>实际上这一问题并不能直观的从理论上发现, 只能通过实际的运行才会发现. 而这种通过增加资源消耗来节省时间的策略也非常的具有工程师的特色了. </p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
 <li>严格的编程模型使得并行化和错误更加容易被处理</li>
-<li>网络带宽资源是稀缺资源，应该尽量减少网络传输</li>
+<li>网络带宽资源是稀缺资源, 应该尽量减少网络传输</li>
 <li>冗余的执行可以减少因为部分执行速度慢的设备导致的时间延长</li>
 </ol>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2019年02月07日 17:42</p>
+        <p>最后更新： 2021年07月14日 20:29</p>
         <p>版权声明：本文为原创文章，转载请注明出处</p>
         <p>原始链接： <a class="post-url" href="/2018/08/09/%E8%AE%BA%E6%96%87MapRudece/" title="MapReduce：Simplified Data Proessing on Large Clusters 阅读记录">https://lizec.top/2018/08/09/%E8%AE%BA%E6%96%87MapRudece/</a></p>
         <footer>

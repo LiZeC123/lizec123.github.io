@@ -16,7 +16,7 @@
 <meta property="og:description" content="强化学习(Reinforcement Learning, RL), 也叫增强学习, 是指一类从(与环境)交互中不断学习的问题以及解决这类问题的方法. 强化学习的关键是贡献度分配问题, 每一个动作不能直接得到监督信息, 需要通过最终结果获得监督信息, 并且存在延时. 基础概念强化学习涉及如下的一些基础概念  智能体(agent)可以感知外界环境的状态(state)和反馈的奖励(reward),">
 <meta property="og:locale">
 <meta property="article:published_time" content="2020-06-26T04:45:16.000Z">
-<meta property="article:modified_time" content="2020-06-27T03:35:01.526Z">
+<meta property="article:modified_time" content="2021-07-14T12:29:35.165Z">
 <meta property="article:author" content="LiZeC">
 <meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary">
@@ -191,7 +191,7 @@
 <tr>
 <td>即时奖励</td>
 <td>r(s, a, s′)</td>
-<td>智能体做出动作之后，环境反馈给智能体的奖励(标量)</td>
+<td>智能体做出动作之后, 环境反馈给智能体的奖励(标量)</td>
 </tr>
 </tbody></table>
 <p>策略可以分为确定性策略和随机性策略, 其中随机性策略表示在某个状态下, 智能体选择的动作服从某一个概率分布而不是确定动作. 强化学习一般采用随机性策略.</p>
@@ -214,7 +214,7 @@
 <li>\(V^{\pi}(s)\): 在状态s下, 以策略π可以获得的总期望回报</li>
 <li>\(Q^{\pi}(s, a)\): 在状态s下, 选择动作a后, 以策略π可以获得的总期望回报</li>
 </ul>
-<p>值函数可以看作是对策略π的评估. 如果在状态s，有一个动作a使得\( Q^{\pi}(s, a) &gt; V^{\pi}(s)\), 则说明执行动作a 比当前的策略要好，我们就可以调整参数使得动作a的概率增加.</p>
+<p>值函数可以看作是对策略π的评估. 如果在状态s, 有一个动作a使得\( Q^{\pi}(s, a) &gt; V^{\pi}(s)\), 则说明执行动作a 比当前的策略要好, 我们就可以调整参数使得动作a的概率增加.</p>
 <h2 id="深度强化学习"><a href="#深度强化学习" class="headerlink" title="深度强化学习"></a>深度强化学习</h2><p>深度强化学习是指将强化学习与深度学习结合的方法. 用强化学习来定义问题和优化目标, 用深度学习来解决策略和值函数.</p>
 <h3 id="蒙特卡洛方法"><a href="#蒙特卡洛方法" class="headerlink" title="蒙特卡洛方法"></a>蒙特卡洛方法</h3><p>模型无关的强化学习使用采样的方法计算值函数, 在这种情况下, 往往无法得知状态转移概率和及时奖励, 因此首先以状态s和动作a开始, 随机执行若干次采样过程, 获取一组轨迹, 则Q函数近似为这组轨迹的总回报的平均值</p>
 <p>$$Q^{\pi}(s, a) \approx \hat{Q}^{\pi}(s, a)=\frac{1}{N} \sum_{n=1}^{N} G\left(\tau_{s_{0}=s, a_{0}=a}^{(n)}\right)$$</p>
@@ -233,7 +233,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2020年06月27日 11:35</p>
+        <p>最后更新： 2021年07月14日 20:29</p>
         <p>版权声明：本文为原创文章，转载请注明出处</p>
         <p>原始链接： <a class="post-url" href="/2020/06/26/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="机器学习之强化学习">https://lizec.top/2020/06/26/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</a></p>
         <footer>

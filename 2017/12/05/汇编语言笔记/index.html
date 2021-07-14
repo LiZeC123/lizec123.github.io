@@ -8,15 +8,15 @@
   
     <meta name="keywords" content="LiZeC,LiZeC's Blog" />
   
-  <meta name="description" content="本文是对基于IBM-PC汇编语言程序设计的一些笔记。内容主要是汇编程序设计的基础知识和示例代码  目录 基本知识介绍 数据和内存 汇编程序结构 数据声明方式 数据寻址方式 循环程序设计 分支程序设计 子程序设计 标志位寄存器 中断程序设计 端口和外中断 标号与直接定址表 宏指令 显存操作    基本知识介绍 -----------------------  首先介绍汇编语言的基本工具. 本文使用在">
+  <meta name="description" content="本文是对基于IBM-PC汇编语言程序设计的一些笔记. 内容主要是汇编程序设计的基础知识和示例代码  目录 基本知识介绍 数据和内存 汇编程序结构 数据声明方式 数据寻址方式 循环程序设计 分支程序设计 子程序设计 标志位寄存器 中断程序设计 端口和外中断 标号与直接定址表 宏指令 显存操作    基本知识介绍 -----------------------  首先介绍汇编语言的基本工具. 本文使用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="汇编语言笔记">
 <meta property="og:url" content="https://lizec.top/2017/12/05/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="LiZeC的博客">
-<meta property="og:description" content="本文是对基于IBM-PC汇编语言程序设计的一些笔记。内容主要是汇编程序设计的基础知识和示例代码  目录 基本知识介绍 数据和内存 汇编程序结构 数据声明方式 数据寻址方式 循环程序设计 分支程序设计 子程序设计 标志位寄存器 中断程序设计 端口和外中断 标号与直接定址表 宏指令 显存操作    基本知识介绍 -----------------------  首先介绍汇编语言的基本工具. 本文使用在">
+<meta property="og:description" content="本文是对基于IBM-PC汇编语言程序设计的一些笔记. 内容主要是汇编程序设计的基础知识和示例代码  目录 基本知识介绍 数据和内存 汇编程序结构 数据声明方式 数据寻址方式 循环程序设计 分支程序设计 子程序设计 标志位寄存器 中断程序设计 端口和外中断 标号与直接定址表 宏指令 显存操作    基本知识介绍 -----------------------  首先介绍汇编语言的基本工具. 本文使用">
 <meta property="og:locale">
 <meta property="article:published_time" content="2017-12-05T14:31:19.000Z">
-<meta property="article:modified_time" content="2018-06-05T07:44:26.060Z">
+<meta property="article:modified_time" content="2021-07-14T12:29:48.598Z">
 <meta property="article:author" content="LiZeC">
 <meta property="article:tag" content="汇编语言">
 <meta name="twitter:card" content="summary">
@@ -149,7 +149,7 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <p>本文是对基于IBM-PC汇编语言程序设计的一些笔记。内容主要是汇编程序设计的基础知识和示例代码</p>
+            <p>本文是对基于IBM-PC汇编语言程序设计的一些笔记. 内容主要是汇编程序设计的基础知识和示例代码</p>
 <hr>
 <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
 <li><a href="#base_info">基本知识介绍</a></li>
@@ -315,9 +315,9 @@
 <h4 id="数据在内存中的存放"><a href="#数据在内存中的存放" class="headerlink" title="数据在内存中的存放"></a>数据在内存中的存放</h4><p>在内存中, 先存放低位数据, 再存放高位数据,例如数据<code>0x1234</code> 在内存中的实际存放顺序是<code>34 12</code></p>
 <h4 id="内存寻址和ds寄存器"><a href="#内存寻址和ds寄存器" class="headerlink" title="内存寻址和ds寄存器"></a>内存寻址和ds寄存器</h4><p>在汇编代码中, 可以使用如下的格式引用内存中的数据</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mov ax [0]</span><br></pre></td></tr></table></figure>
-<p>上述代码实际是默认段寄存器为ds寄存器。汇编代码中访问内存时, 总是默认从ds指定的位置开始读取数据</p>
+<p>上述代码实际是默认段寄存器为ds寄存器. 汇编代码中访问内存时, 总是默认从ds指定的位置开始读取数据</p>
 <p><strong>注意:</strong> 不可以使用mov指令在两个内存单元中直接移动数据</p>
-<h4 id="内存中的栈"><a href="#内存中的栈" class="headerlink" title="内存中的栈"></a>内存中的栈</h4><p>在内存中, 有ss段寄存器和sp堆栈指针寄存器两者共同维护程序堆栈。由于堆栈从高位开始, 向低位扩展, 所以当选择一块区域作为栈时, ss指向这一区域的开始位置, 而sp指向这一区域的结束位置。<br>在使用栈的过程中, sp始终指向当前的栈顶位置。执行Push操作时, sp先减2, 然后写入数据。执行Pop操作时, 先读取sp指向的位置的数据, 之后sp加2</p>
+<h4 id="内存中的栈"><a href="#内存中的栈" class="headerlink" title="内存中的栈"></a>内存中的栈</h4><p>在内存中, 有ss段寄存器和sp堆栈指针寄存器两者共同维护程序堆栈. 由于堆栈从高位开始, 向低位扩展, 所以当选择一块区域作为栈时, ss指向这一区域的开始位置, 而sp指向这一区域的结束位置.<br>在使用栈的过程中, sp始终指向当前的栈顶位置. 执行Push操作时, sp先减2, 然后写入数据. 执行Pop操作时, 先读取sp指向的位置的数据, 之后sp加2</p>
 <hr>
 <h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
 <li>设置堆栈段寄存器和寄存器的时候, 两条指令必须连续执行</li>
@@ -565,7 +565,7 @@
 </tr>
 </tbody></table>
 <p>例如, 无符号的大于指令是<code>ja</code> 有符号的大于指令是<code>jg</code> 有符号的小于等于指令是<code>jle</code> 或者<code>jng</code></p>
-<h4 id="jcxz指令"><a href="#jcxz指令" class="headerlink" title="jcxz指令"></a>jcxz指令</h4><p>从名字可以知道, 此指令是比较cx寄存器是否为0, 所以当cx为0跳转到标号, 否则指向下一条指令。此指令跳转条件与loop正好相反</p>
+<h4 id="jcxz指令"><a href="#jcxz指令" class="headerlink" title="jcxz指令"></a>jcxz指令</h4><p>从名字可以知道, 此指令是比较cx寄存器是否为0, 所以当cx为0跳转到标号, 否则指向下一条指令. 此指令跳转条件与loop正好相反</p>
 <hr>
 <span id="sub_program" />
 子程序设计
@@ -649,7 +649,7 @@
 </ul>
 </li>
 </ol>
-<h4 id="寄存器冲突"><a href="#寄存器冲突" class="headerlink" title="寄存器冲突"></a>寄存器冲突</h4><p>在调用子程序的时候, 由于寄存器数量有限, 因此当前程序和子程序可能使用了相同的寄存器。可以在子程序中可以很使用如下的框架来解决寄存器冲突</p>
+<h4 id="寄存器冲突"><a href="#寄存器冲突" class="headerlink" title="寄存器冲突"></a>寄存器冲突</h4><p>在调用子程序的时候, 由于寄存器数量有限, 因此当前程序和子程序可能使用了相同的寄存器. 可以在子程序中可以很使用如下的框架来解决寄存器冲突</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">子程序入口：子程序中用到的寄存器入栈</span><br><span class="line">            ...</span><br><span class="line">            子程序内容</span><br><span class="line">            ...</span><br><span class="line">            子程序中用到的寄存器出栈</span><br><span class="line">            子程序返回</span><br></pre></td></tr></table></figure>
 
 
@@ -867,7 +867,7 @@
 <li>从中断向量表获得数据, 设置CS和IP寄存器</li>
 <li>跳转至中断程序</li>
 </ol>
-<h4 id="中断程序设计"><a href="#中断程序设计" class="headerlink" title="中断程序设计"></a>中断程序设计</h4><p>由于中断随时都有可能发生, 因此中断处理程序必须存放内存中的特定位置。中断程序步骤与子程序类似, 有如下几步</p>
+<h4 id="中断程序设计"><a href="#中断程序设计" class="headerlink" title="中断程序设计"></a>中断程序设计</h4><p>由于中断随时都有可能发生, 因此中断处理程序必须存放内存中的特定位置. 中断程序步骤与子程序类似, 有如下几步</p>
 <ol>
 <li>保存用到的寄存器</li>
 <li>处理中断</li>
@@ -1163,7 +1163,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年06月05日 15:44</p>
+        <p>最后更新： 2021年07月14日 20:29</p>
         <p>版权声明：本文为原创文章，转载请注明出处</p>
         <p>原始链接： <a class="post-url" href="/2017/12/05/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/" title="汇编语言笔记">https://lizec.top/2017/12/05/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0/</a></p>
         <footer>

@@ -17,7 +17,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="https://lizec.top/images/jvm/ObjectHeader.jpg">
 <meta property="article:published_time" content="2020-10-29T07:12:25.000Z">
-<meta property="article:modified_time" content="2021-03-02T08:12:49.000Z">
+<meta property="article:modified_time" content="2021-07-14T12:29:35.164Z">
 <meta property="article:author" content="LiZeC">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="多线程">
@@ -234,7 +234,7 @@
 
 <p>由于指令重排序, 当initialized为普通变量时, <code>initialized = true;</code>语句可能会提前执行, 这样就会导致B线程出现错误.</p>
 <h2 id="Java线程的实现"><a href="#Java线程的实现" class="headerlink" title="Java线程的实现"></a>Java线程的实现</h2><p>线程一般有三种实现方法, 分别是使用内核线程实现, 使用用户线程实现,  使用用户线程加轻量级进程混合实现.</p>
-<p><strong>内核线程实现</strong>是将Java的线程映射到操作系统内核直接支持的进程上(Kernel-Level Thread, KLT), 这种线程由内核完成线程的调度功能. 但程序一般不直接使用KLT, 而使用KLT的一种高级接口轻量级进程(Light Weight Process，LWP) </p>
+<p><strong>内核线程实现</strong>是将Java的线程映射到操作系统内核直接支持的进程上(Kernel-Level Thread, KLT), 这种线程由内核完成线程的调度功能. 但程序一般不直接使用KLT, 而使用KLT的一种高级接口轻量级进程(Light Weight Process, LWP) </p>
 <p>由于使用了内核支持的线程, 因此一次线程阻塞不会影响其他线程. 但线程调度由操作系统完成, 需要进行用户态和内核态的切换. 切换代价比较高. 内核线程需要消耗系统的资源, 因此操作系统能支持的内核线程数量也有限.</p>
 <p><strong>用户线程实现</strong>是在用户态实现线程的调度功能, 从而操作系统对用户线程不可感知. 由于不借助于操作系统内核, 因此不需要切换用户态, 线程调度的消耗更低. 但诸如处理器分配和线程映射到特定处理器之类的功能也因为不借助于操作系统内核而难以实现或根本无法实现.</p>
 <p><strong>混合实现</strong>混合了上面两种线程的实现方法.</p>
@@ -292,12 +292,12 @@
 <hr>
 <p>参考资料</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/DBC_121/article/details/105453101">看完这篇恍然大悟，理解Java中的偏向锁，轻量级锁，重量级锁</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/DBC_121/article/details/105453101">看完这篇恍然大悟, 理解Java中的偏向锁, 轻量级锁, 重量级锁</a></li>
 </ul>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2021年03月02日 16:12</p>
+        <p>最后更新： 2021年07月14日 20:29</p>
         <p>版权声明：本文为原创文章，转载请注明出处</p>
         <p>原始链接： <a class="post-url" href="/2020/10/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E4%B9%8B%E5%86%85%E5%AD%98%E4%B8%8E%E7%BA%BF%E7%A8%8B/" title="深入理解JVM之内存与线程">https://lizec.top/2020/10/29/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3JVM%E4%B9%8B%E5%86%85%E5%AD%98%E4%B8%8E%E7%BA%BF%E7%A8%8B/</a></p>
         <footer>

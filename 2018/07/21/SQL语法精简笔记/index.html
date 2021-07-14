@@ -8,15 +8,15 @@
   
     <meta name="keywords" content="LiZeC,LiZeC's Blog" />
   
-  <meta name="description" content="由于日常开发过程中不经常使用SQL，对于其中的一些高级语法比较容易遗忘。因此本文简要介绍了SQL的各种语法，用于快速回顾有关的知识。关于详细的数据库理论，可以阅读数据库系统原理的有关章节。 模式   操作 指令    定义 CREATE SCHEMA &quot;S-T&quot; AUTHORIZATION WANG   删除 &#96;DROP SCHEMA &lt;模式名&gt; &lt;CA">
+  <meta name="description" content="由于日常开发过程中不经常使用SQL, 对于其中的一些高级语法比较容易遗忘. 因此本文简要介绍了SQL的各种语法, 用于快速回顾有关的知识. 关于详细的数据库理论, 可以阅读数据库系统原理的有关章节.  模式   操作 指令    定义 CREATE SCHEMA &quot;S-T&quot; AUTHORIZATION WANG   删除 &#96;DROP SCHEMA &lt;模式名&gt;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SQL语法精简笔记">
 <meta property="og:url" content="https://lizec.top/2018/07/21/SQL%E8%AF%AD%E6%B3%95%E7%B2%BE%E7%AE%80%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="LiZeC的博客">
-<meta property="og:description" content="由于日常开发过程中不经常使用SQL，对于其中的一些高级语法比较容易遗忘。因此本文简要介绍了SQL的各种语法，用于快速回顾有关的知识。关于详细的数据库理论，可以阅读数据库系统原理的有关章节。 模式   操作 指令    定义 CREATE SCHEMA &quot;S-T&quot; AUTHORIZATION WANG   删除 &#96;DROP SCHEMA &lt;模式名&gt; &lt;CA">
+<meta property="og:description" content="由于日常开发过程中不经常使用SQL, 对于其中的一些高级语法比较容易遗忘. 因此本文简要介绍了SQL的各种语法, 用于快速回顾有关的知识. 关于详细的数据库理论, 可以阅读数据库系统原理的有关章节.  模式   操作 指令    定义 CREATE SCHEMA &quot;S-T&quot; AUTHORIZATION WANG   删除 &#96;DROP SCHEMA &lt;模式名&gt;">
 <meta property="og:locale">
 <meta property="article:published_time" content="2018-07-21T02:59:04.000Z">
-<meta property="article:modified_time" content="2021-02-17T04:55:17.514Z">
+<meta property="article:modified_time" content="2021-07-14T12:29:48.597Z">
 <meta property="article:author" content="LiZeC">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="SQL">
@@ -146,7 +146,7 @@
             <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script> -->
 
 
-<p>由于日常开发过程中不经常使用SQL，对于其中的一些高级语法比较容易遗忘。因此本文简要介绍了SQL的各种语法，用于快速回顾有关的知识。关于详细的数据库理论，可以阅读<a href="http://lizec.top/2017/12/20/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86/">数据库系统原理</a>的有关章节。</p>
+<p>由于日常开发过程中不经常使用SQL, 对于其中的一些高级语法比较容易遗忘. 因此本文简要介绍了SQL的各种语法, 用于快速回顾有关的知识. 关于详细的数据库理论, 可以阅读<a href="http://lizec.top/2017/12/20/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86/">数据库系统原理</a>的有关章节. </p>
 <h2 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h2><table>
 <thead>
 <tr>
@@ -164,14 +164,14 @@
 </tr>
 </tbody></table>
 <h3 id="几点说明"><a href="#几点说明" class="headerlink" title="几点说明"></a>几点说明</h3><ul>
-<li>模式是一系列表的集合，数据库是一系列模式的集合</li>
+<li>模式是一系列表的集合, 数据库是一系列模式的集合</li>
 <li>在MySQL中并不区分模式和数据库（Schema和Database）</li>
-<li>在SQL Server中每个数据库默认创建dbo模式，并且将其作为默认模式</li>
+<li>在SQL Server中每个数据库默认创建dbo模式, 并且将其作为默认模式</li>
 <li>实际上可以把一个模式视为一个数据库的一部分表的集合</li>
 </ul>
 <h2 id="表操作"><a href="#表操作" class="headerlink" title="表操作"></a>表操作</h2><h3 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="operator">&lt;</span>表名<span class="operator">&gt;</span> </span><br><span class="line">(</span><br><span class="line">	<span class="operator">&lt;</span>列名<span class="operator">&gt;</span> <span class="operator">&lt;</span>数据类型<span class="operator">&gt;</span> [列完整性约束条件]</span><br><span class="line">	[, <span class="operator">&lt;</span>列名<span class="operator">&gt;</span> <span class="operator">&lt;</span>数据类型<span class="operator">&gt;</span> [列完整性约束条件]]</span><br><span class="line">	...</span><br><span class="line">	[, <span class="operator">&lt;</span>表完整性约束<span class="operator">&gt;</span>]</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">列完整性约束条件 <span class="operator">=</span><span class="operator">&gt;</span> <span class="keyword">PRIMARY</span> KEY <span class="operator">|</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="operator">|</span> <span class="keyword">UNIQUE</span></span><br><span class="line">表完整性约束条件 <span class="operator">=</span><span class="operator">&gt;</span> <span class="keyword">PRIMARY</span> KEY(<span class="operator">&lt;</span>列名<span class="number">1</span><span class="operator">&gt;</span> [,<span class="operator">&lt;</span>列名<span class="number">2</span><span class="operator">&gt;</span>]...[,<span class="operator">&lt;</span>列名n<span class="operator">&gt;</span>])</span><br><span class="line">表完整性约束条件 <span class="operator">=</span><span class="operator">&gt;</span> <span class="keyword">FOREIGN</span> KEY(<span class="operator">&lt;</span>列名<span class="operator">&gt;</span>) <span class="keyword">REFERENCES</span> <span class="operator">&lt;</span>表名<span class="operator">&gt;</span>(<span class="operator">&lt;</span>列名<span class="operator">&gt;</span>)</span><br></pre></td></tr></table></figure>
 
-<p>关于全部的约束条件，可以查看本文的<a href="#%E5%AE%8C%E6%95%B4%E6%80%A7%E7%BA%A6%E6%9D%9F">完整性约束</a>章节</p>
+<p>关于全部的约束条件, 可以查看本文的<a href="#%E5%AE%8C%E6%95%B4%E6%80%A7%E7%BA%A6%E6%9D%9F">完整性约束</a>章节</p>
 <p>常见的数据类型有如下的几种：</p>
 <table>
 <thead>
@@ -194,11 +194,11 @@
 </tr>
 <tr>
 <td>DATE</td>
-<td>日期，包含年月日</td>
+<td>日期, 包含年月日</td>
 </tr>
 <tr>
 <td>TIME</td>
-<td>时间，包含时，分，秒</td>
+<td>时间, 包含时, 分, 秒</td>
 </tr>
 </tbody></table>
 <p>完整的数据类型表请查看本文末尾的<a href="#%E9%99%84%E5%BD%95A-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B">附录A 数据类型</a>, 数据类型选择应该遵守如下的一些约束</p>
@@ -215,24 +215,24 @@
 <h3 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLE &lt;TableName&gt; [RESTRICT|CASCADE]</span><br></pre></td></tr></table></figure>
 
 
-<h2 id="完整性约束"><a href="#完整性约束" class="headerlink" title="完整性约束"></a>完整性约束</h2><h3 id="用户自定义约束"><a href="#用户自定义约束" class="headerlink" title="用户自定义约束"></a>用户自定义约束</h3><p>可以使用Check关键字来检测一个属性是否位于某个集合之中，例如</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> St</span><br><span class="line">(</span><br><span class="line">    Sname <span class="type">CHAR</span>(<span class="number">8</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    Ssex <span class="type">CHAR</span>(<span class="number">2</span>) <span class="keyword">CHECK</span>(Ssex <span class="keyword">IN</span> (<span class="string">&#x27;男&#x27;</span>,<span class="string">&#x27;女&#x27;</span>))，</span><br><span class="line">    Grade <span class="type">SMALLINT</span> <span class="keyword">CHECK</span>(Grade <span class="operator">&gt;=</span><span class="number">0</span> <span class="keyword">AND</span> Grade <span class="operator">&lt;=</span> <span class="number">100</span>),</span><br><span class="line">    <span class="keyword">CHECK</span>(Ssex<span class="operator">=</span><span class="string">&#x27;女&#x27;</span> <span class="keyword">OR</span> Sname <span class="keyword">NOT</span> <span class="keyword">LIKE</span> <span class="string">&#x27;Ms.%&#x27;</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h2 id="完整性约束"><a href="#完整性约束" class="headerlink" title="完整性约束"></a>完整性约束</h2><h3 id="用户自定义约束"><a href="#用户自定义约束" class="headerlink" title="用户自定义约束"></a>用户自定义约束</h3><p>可以使用Check关键字来检测一个属性是否位于某个集合之中, 例如</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> St</span><br><span class="line">(</span><br><span class="line">    Sname <span class="type">CHAR</span>(<span class="number">8</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    Ssex <span class="type">CHAR</span>(<span class="number">2</span>) <span class="keyword">CHECK</span>(Ssex <span class="keyword">IN</span> (<span class="string">&#x27;男&#x27;</span>,<span class="string">&#x27;女&#x27;</span>)), </span><br><span class="line">    Grade <span class="type">SMALLINT</span> <span class="keyword">CHECK</span>(Grade <span class="operator">&gt;=</span><span class="number">0</span> <span class="keyword">AND</span> Grade <span class="operator">&lt;=</span> <span class="number">100</span>),</span><br><span class="line">    <span class="keyword">CHECK</span>(Ssex<span class="operator">=</span><span class="string">&#x27;女&#x27;</span> <span class="keyword">OR</span> Sname <span class="keyword">NOT</span> <span class="keyword">LIKE</span> <span class="string">&#x27;Ms.%&#x27;</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
 
 
-<h4 id="创建命名约束"><a href="#创建命名约束" class="headerlink" title="创建命名约束"></a>创建命名约束</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Student</span><br><span class="line">(</span><br><span class="line">    Sno NUMBERIC(<span class="number">6</span>)</span><br><span class="line">        <span class="keyword">CONSTRAINT</span> C1 <span class="keyword">CHECK</span>(Sno <span class="keyword">BETWEEN</span> <span class="number">90000</span> <span class="keyword">AND</span> <span class="number">99999</span>)，</span><br><span class="line">    Sname <span class="type">CHAR</span>(<span class="number">20</span>)</span><br><span class="line">        <span class="keyword">CONSTRAINT</span> C2 <span class="keyword">NOT</span> <span class="keyword">NULL</span>，</span><br><span class="line">    Sage <span class="type">NUMERIC</span>(<span class="number">3</span>)</span><br><span class="line">        <span class="keyword">CONSTRAINT</span> C3 <span class="keyword">CHECK</span>(Sage <span class="operator">&lt;</span> <span class="number">30</span>)，</span><br><span class="line">    Ssex <span class="type">CHAR</span>(<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">CONSTRAINT</span> C4 <span class="keyword">CHECK</span>(Ssex <span class="keyword">IN</span> (<span class="string">&#x27;男&#x27;</span>，<span class="string">&#x27;女&#x27;</span>))，</span><br><span class="line">        <span class="keyword">CONSTRAINT</span> StudentKey <span class="keyword">PRIMARY</span> KEY(Sno)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h4 id="创建命名约束"><a href="#创建命名约束" class="headerlink" title="创建命名约束"></a>创建命名约束</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Student</span><br><span class="line">(</span><br><span class="line">    Sno NUMBERIC(<span class="number">6</span>)</span><br><span class="line">        <span class="keyword">CONSTRAINT</span> C1 <span class="keyword">CHECK</span>(Sno <span class="keyword">BETWEEN</span> <span class="number">90000</span> <span class="keyword">AND</span> <span class="number">99999</span>), </span><br><span class="line">    Sname <span class="type">CHAR</span>(<span class="number">20</span>)</span><br><span class="line">        <span class="keyword">CONSTRAINT</span> C2 <span class="keyword">NOT</span> <span class="keyword">NULL</span>, </span><br><span class="line">    Sage <span class="type">NUMERIC</span>(<span class="number">3</span>)</span><br><span class="line">        <span class="keyword">CONSTRAINT</span> C3 <span class="keyword">CHECK</span>(Sage <span class="operator">&lt;</span> <span class="number">30</span>), </span><br><span class="line">    Ssex <span class="type">CHAR</span>(<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">CONSTRAINT</span> C4 <span class="keyword">CHECK</span>(Ssex <span class="keyword">IN</span> (<span class="string">&#x27;男&#x27;</span>, <span class="string">&#x27;女&#x27;</span>)), </span><br><span class="line">        <span class="keyword">CONSTRAINT</span> StudentKey <span class="keyword">PRIMARY</span> KEY(Sno)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
 <h3 id="修改约束条件"><a href="#修改约束条件" class="headerlink" title="修改约束条件"></a>修改约束条件</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Student</span><br><span class="line">    <span class="keyword">DROP</span> <span class="keyword">CONSTRAINT</span> C1;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Student</span><br><span class="line">    <span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> C1 <span class="keyword">CHECK</span>(Sno <span class="keyword">BETWEEN</span> <span class="number">900000</span> <span class="keyword">AND</span> <span class="number">999999</span>)</span><br></pre></td></tr></table></figure>
 
 
 
-<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><h3 id="单表查询"><a href="#单表查询" class="headerlink" title="单表查询"></a>单表查询</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT [ALL|DISTINCT] &lt;目标列表达式&gt; [，&lt;目标列表达式&gt;] ...</span><br><span class="line">FROM &lt;表名 | 视图名&gt; [, &lt;表名 | 视图名&gt;]</span><br><span class="line">[WHERE &lt;条件表达式&gt;]</span><br><span class="line">[GROUP BY &lt;列名&gt; [HAVING &lt;条件表达式&gt;]]</span><br><span class="line">[ORDER BY &lt;列名&gt; [ASC|DESC]]</span><br></pre></td></tr></table></figure>
+<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><h3 id="单表查询"><a href="#单表查询" class="headerlink" title="单表查询"></a>单表查询</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT [ALL|DISTINCT] &lt;目标列表达式&gt; [, &lt;目标列表达式&gt;] ...</span><br><span class="line">FROM &lt;表名 | 视图名&gt; [, &lt;表名 | 视图名&gt;]</span><br><span class="line">[WHERE &lt;条件表达式&gt;]</span><br><span class="line">[GROUP BY &lt;列名&gt; [HAVING &lt;条件表达式&gt;]]</span><br><span class="line">[ORDER BY &lt;列名&gt; [ASC|DESC]]</span><br></pre></td></tr></table></figure>
 
 
-<p>目标表达式除了使用属性列以外，还可以使用表达式，例如</p>
+<p>目标表达式除了使用属性列以外, 还可以使用表达式, 例如</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Sname,<span class="number">2018</span><span class="operator">-</span>Sage BIRTHDAY <span class="keyword">FROM</span> Student;</span><br></pre></td></tr></table></figure>
-<p>上面的语句通过2018-Sage计算了实际的年龄，并且将该列命名为BIRTHDAY。</p>
-<p>HAVING语句用于给GROUP BY的分组设置条件，例如</p>
+<p>上面的语句通过2018-Sage计算了实际的年龄, 并且将该列命名为BIRTHDAY. </p>
+<p>HAVING语句用于给GROUP BY的分组设置条件, 例如</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Sno,<span class="built_in">AVG</span>(Grade) <span class="keyword">FROM</span> SC <span class="keyword">GROUP</span> <span class="keyword">BY</span> Sno <span class="keyword">HAVING</span> <span class="built_in">AVG</span>(Grade)<span class="operator">&gt;=</span><span class="number">90</span>;</span><br></pre></td></tr></table></figure>
 
 <h3 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FORM &lt;TabName1&gt; &lt;JoinKeyWord&gt; &lt;TabName2&gt;</span><br><span class="line">ON &lt;ConditionExpr&gt;</span><br><span class="line"></span><br><span class="line">JoinKeyWord ==&gt; JOIN | LEFT OUTER JOIN | RIGHT OUTER JOIN | FULL OUTER JOIN</span><br></pre></td></tr></table></figure>
@@ -242,32 +242,32 @@
 
 <p>说明:</p>
 <ol>
-<li>JOIN等价于 ENTER JOIN 表示普通连接，会去除所有的空行</li>
-<li>LEFT OUTER JOIN 表示左外连接，左边的表中的项一定会出现</li>
-<li>RIGHT OUTER JOIN 表示右外连接，右边的表中的项一定为出现</li>
-<li>FULL OUTER JOIN 表示全连接，左右的表中项都会出现</li>
+<li>JOIN等价于 ENTER JOIN 表示普通连接, 会去除所有的空行</li>
+<li>LEFT OUTER JOIN 表示左外连接, 左边的表中的项一定会出现</li>
+<li>RIGHT OUTER JOIN 表示右外连接, 右边的表中的项一定为出现</li>
+<li>FULL OUTER JOIN 表示全连接, 左右的表中项都会出现</li>
 </ol>
 <h3 id="嵌套查询"><a href="#嵌套查询" class="headerlink" title="嵌套查询"></a>嵌套查询</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Sname <span class="keyword">FROM</span> Student</span><br><span class="line"><span class="keyword">WHERE</span> Sno <span class="keyword">IN</span></span><br><span class="line">(</span><br><span class="line">    <span class="keyword">SELECT</span> Sno <span class="keyword">FROM</span> SC</span><br><span class="line">    <span class="keyword">WHERE</span> Cno<span class="operator">=</span><span class="string">&#x27;2&#x27;</span>;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
 
-<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><h3 id="插入元组"><a href="#插入元组" class="headerlink" title="插入元组"></a>插入元组</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO &lt;TableName&gt; [(&lt;ColName_1&gt; [，&lt;ColName_2&gt;]...)]</span><br><span class="line">VALUE (&lt;Data1&gt;，[&lt;Data2&gt;] ...);</span><br></pre></td></tr></table></figure>
+<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><h3 id="插入元组"><a href="#插入元组" class="headerlink" title="插入元组"></a>插入元组</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO &lt;TableName&gt; [(&lt;ColName_1&gt; [, &lt;ColName_2&gt;]...)]</span><br><span class="line">VALUE (&lt;Data1&gt;, [&lt;Data2&gt;] ...);</span><br></pre></td></tr></table></figure>
 
 <p>注意:</p>
 <ol>
 <li>字符串需要使用单引号括起来</li>
 <li>非字符类型的数据也可以使用单引号包括</li>
 </ol>
-<h3 id="修改元组"><a href="#修改元组" class="headerlink" title="修改元组"></a>修改元组</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UPDATE &lt;TableName&gt;</span><br><span class="line">SET &lt;ColName&gt; = &lt;Expr&gt; [，&lt;ColName&gt; = &lt;Expr&gt;]</span><br><span class="line">[WHERE &lt;ConditionExpr&gt;]</span><br></pre></td></tr></table></figure>
+<h3 id="修改元组"><a href="#修改元组" class="headerlink" title="修改元组"></a>修改元组</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UPDATE &lt;TableName&gt;</span><br><span class="line">SET &lt;ColName&gt; = &lt;Expr&gt; [, &lt;ColName&gt; = &lt;Expr&gt;]</span><br><span class="line">[WHERE &lt;ConditionExpr&gt;]</span><br></pre></td></tr></table></figure>
 
 <p>可以同时更新多个表, 例如</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UPDATE message m, lib ml</span><br><span class="line"><span class="keyword">SET</span> m.M_ID <span class="operator">=</span> ml.M_ID, m.TYPE <span class="operator">=</span> ml.TYPE</span><br><span class="line"><span class="keyword">WHERE</span> m.LIB_ID <span class="operator">=</span> ml.LIB_ID;</span><br></pre></td></tr></table></figure>
 
 <h3 id="删除元组"><a href="#删除元组" class="headerlink" title="删除元组"></a>删除元组</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DELETE FROM &lt;TableName&gt;</span><br><span class="line">[WHERE &lt;conditionExpr&gt;]</span><br></pre></td></tr></table></figure>
 
-<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="建立索引"><a href="#建立索引" class="headerlink" title="建立索引"></a>建立索引</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE [UNIQUE] [CLUSTER] INDEX &lt;IndexName&gt;</span><br><span class="line">ON &lt;TableName&gt;(&lt;ColName&gt; [Order] [，&lt;ColName&gt; [Order]])</span><br><span class="line"></span><br><span class="line">Order =&gt; ASC | DESC</span><br></pre></td></tr></table></figure>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="建立索引"><a href="#建立索引" class="headerlink" title="建立索引"></a>建立索引</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE [UNIQUE] [CLUSTER] INDEX &lt;IndexName&gt;</span><br><span class="line">ON &lt;TableName&gt;(&lt;ColName&gt; [Order] [, &lt;ColName&gt; [Order]])</span><br><span class="line"></span><br><span class="line">Order =&gt; ASC | DESC</span><br></pre></td></tr></table></figure>
 <p>注意:</p>
 <ol>
-<li>上述索引中，可以选择每个索引是对应唯一值还是聚簇索引</li>
+<li>上述索引中, 可以选择每个索引是对应唯一值还是聚簇索引</li>
 <li>每个列名后可跟随一个排序表示</li>
 </ol>
 <h3 id="修改索引"><a href="#修改索引" class="headerlink" title="修改索引"></a>修改索引</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER INDEX &lt;OldIndexName&gt; RENAME TO &lt;NewIndexName&gt;</span><br></pre></td></tr></table></figure>
@@ -275,17 +275,17 @@
 <h3 id="删除索引"><a href="#删除索引" class="headerlink" title="删除索引"></a>删除索引</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP INDEX &lt;IndexName&gt;</span><br></pre></td></tr></table></figure>
 
 
-<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><h3 id="建立视图"><a href="#建立视图" class="headerlink" title="建立视图"></a>建立视图</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE VIEW &lt;ViewName&gt; [(&lt;ColName&gt; [，&lt;ColName&gt;] ... )]</span><br><span class="line">AS &lt;SubSelect&gt;</span><br><span class="line">[WITH CHECK OPTION]</span><br></pre></td></tr></table></figure>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><h3 id="建立视图"><a href="#建立视图" class="headerlink" title="建立视图"></a>建立视图</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE VIEW &lt;ViewName&gt; [(&lt;ColName&gt; [, &lt;ColName&gt;] ... )]</span><br><span class="line">AS &lt;SubSelect&gt;</span><br><span class="line">[WITH CHECK OPTION]</span><br></pre></td></tr></table></figure>
 <p>注意:</p>
 <ol>
-<li>可以全部省略列名，表示由子查询语句指定</li>
+<li>可以全部省略列名, 表示由子查询语句指定</li>
 <li>WITH CHECK OPTION表示对视图的更新操作需要保证满足子查询的条件表达式</li>
 </ol>
 <h3 id="删除视图"><a href="#删除视图" class="headerlink" title="删除视图"></a>删除视图</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP VIEW &lt;ViewName&gt; [CASCADE]</span><br></pre></td></tr></table></figure>
 
 <h3 id="更新视图"><a href="#更新视图" class="headerlink" title="更新视图"></a>更新视图</h3><ul>
 <li>更新视图与更新表没有语法差异</li>
-<li>但是有些视图操作是不可逆的，此时不能进行更新操作(例如使用了聚集函数)</li>
+<li>但是有些视图操作是不可逆的, 此时不能进行更新操作(例如使用了聚集函数)</li>
 </ul>
 <h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>对于MySQL数据库, 不同的设置下有不同的效果</p>
 <ul>
@@ -323,34 +323,34 @@
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Renyi-Fan/p/8547306.html">mysql事务的开启</a></li>
 </ul>
-<h2 id="权限控制"><a href="#权限控制" class="headerlink" title="权限控制"></a>权限控制</h2><h3 id="授予权限"><a href="#授予权限" class="headerlink" title="授予权限"></a>授予权限</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GRANT &lt;权限&gt; [，&lt;权限&gt;] ...</span><br><span class="line">ON &lt;对象类型&gt; &lt;对象名&gt; [，&lt;对象类型&gt; &lt;对象名&gt;]</span><br><span class="line">TO &lt;用户&gt; [，&lt;用户&gt;]</span><br><span class="line">[WITH GRANT OPTION]</span><br></pre></td></tr></table></figure>
+<h2 id="权限控制"><a href="#权限控制" class="headerlink" title="权限控制"></a>权限控制</h2><h3 id="授予权限"><a href="#授予权限" class="headerlink" title="授予权限"></a>授予权限</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GRANT &lt;权限&gt; [, &lt;权限&gt;] ...</span><br><span class="line">ON &lt;对象类型&gt; &lt;对象名&gt; [, &lt;对象类型&gt; &lt;对象名&gt;]</span><br><span class="line">TO &lt;用户&gt; [, &lt;用户&gt;]</span><br><span class="line">[WITH GRANT OPTION]</span><br></pre></td></tr></table></figure>
 
 <p>例如：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GRANT UPDATE(Sno)，SELECT</span><br><span class="line">ON TABLE Student</span><br><span class="line">TO PUBLIC</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GRANT UPDATE(Sno), SELECT</span><br><span class="line">ON TABLE Student</span><br><span class="line">TO PUBLIC</span><br></pre></td></tr></table></figure>
 <p>说明：</p>
 <ol>
 <li>WITH GRANT OPTION 表示被授权用户可以再次将权限授予其他用户</li>
 <li>不允许循环授权</li>
 </ol>
-<h3 id="收回权限"><a href="#收回权限" class="headerlink" title="收回权限"></a>收回权限</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">REVOKE &lt;权限&gt; [，&lt;权限&gt;] ...</span><br><span class="line">ON &lt;对象类型&gt; &lt;对象名&gt; [，&lt;对象类型&gt; &lt;对象名&gt;]</span><br><span class="line">FROM &lt;用户&gt; [，&lt;用户&gt;]</span><br><span class="line">[CASCADE|RESTRICT]</span><br></pre></td></tr></table></figure>
+<h3 id="收回权限"><a href="#收回权限" class="headerlink" title="收回权限"></a>收回权限</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">REVOKE &lt;权限&gt; [, &lt;权限&gt;] ...</span><br><span class="line">ON &lt;对象类型&gt; &lt;对象名&gt; [, &lt;对象类型&gt; &lt;对象名&gt;]</span><br><span class="line">FROM &lt;用户&gt; [, &lt;用户&gt;]</span><br><span class="line">[CASCADE|RESTRICT]</span><br></pre></td></tr></table></figure>
 
 <h2 id="角色控制"><a href="#角色控制" class="headerlink" title="角色控制"></a>角色控制</h2><h3 id="创建角色"><a href="#创建角色" class="headerlink" title="创建角色"></a>创建角色</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE ROLE &lt;RoleName&gt;</span><br></pre></td></tr></table></figure>
 
-<h3 id="角色授权"><a href="#角色授权" class="headerlink" title="角色授权"></a>角色授权</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GRANT &lt;权限&gt; [，&lt;权限&gt;] ...</span><br><span class="line">ON &lt;对象类型&gt; &lt;对象名&gt; [，&lt;对象类型&gt; &lt;对象名&gt;]</span><br><span class="line">TO &lt;角色&gt; [，&lt;角色名&gt;]</span><br></pre></td></tr></table></figure>
+<h3 id="角色授权"><a href="#角色授权" class="headerlink" title="角色授权"></a>角色授权</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GRANT &lt;权限&gt; [, &lt;权限&gt;] ...</span><br><span class="line">ON &lt;对象类型&gt; &lt;对象名&gt; [, &lt;对象类型&gt; &lt;对象名&gt;]</span><br><span class="line">TO &lt;角色&gt; [, &lt;角色名&gt;]</span><br></pre></td></tr></table></figure>
 
-<h3 id="用户角色授权"><a href="#用户角色授权" class="headerlink" title="用户角色授权"></a>用户角色授权</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GRANT &lt;角色1&gt; [，&lt;角色2&gt;] ...</span><br><span class="line">TO &lt;角色3&gt; [，&lt;用户1&gt;] ...</span><br><span class="line">[WITH ADMIN OPTION]</span><br></pre></td></tr></table></figure>
+<h3 id="用户角色授权"><a href="#用户角色授权" class="headerlink" title="用户角色授权"></a>用户角色授权</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GRANT &lt;角色1&gt; [, &lt;角色2&gt;] ...</span><br><span class="line">TO &lt;角色3&gt; [, &lt;用户1&gt;] ...</span><br><span class="line">[WITH ADMIN OPTION]</span><br></pre></td></tr></table></figure>
 <p>说明：</p>
 <ol>
 <li>角色可以授予给某个用户或者其他角色</li>
 <li>WITH ADMIN OPTION表示被授权者可以再次授予自己的权限</li>
 </ol>
-<h3 id="角色权限的收回"><a href="#角色权限的收回" class="headerlink" title="角色权限的收回"></a>角色权限的收回</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">REVOKE &lt;权限&gt; [，&lt;权限&gt;] ...</span><br><span class="line">ON &lt;对象类型&gt; &lt;对象名&gt; [，&lt;对象类型&gt; &lt;对象名&gt;]</span><br><span class="line">FROM &lt;角色&gt; [，&lt;角色名&gt;]</span><br></pre></td></tr></table></figure>
+<h3 id="角色权限的收回"><a href="#角色权限的收回" class="headerlink" title="角色权限的收回"></a>角色权限的收回</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">REVOKE &lt;权限&gt; [, &lt;权限&gt;] ...</span><br><span class="line">ON &lt;对象类型&gt; &lt;对象名&gt; [, &lt;对象类型&gt; &lt;对象名&gt;]</span><br><span class="line">FROM &lt;角色&gt; [, &lt;角色名&gt;]</span><br></pre></td></tr></table></figure>
 
 <h2 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h2><h3 id="创建断言"><a href="#创建断言" class="headerlink" title="创建断言"></a>创建断言</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> ASSERTION <span class="operator">&lt;</span>断言名<span class="operator">&gt;</span> <span class="operator">&lt;</span><span class="keyword">CHECK</span>子句<span class="operator">&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>例如</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> ASSERTION ASSE_SC_DB_NUM</span><br><span class="line"><span class="keyword">CHECK</span> (<span class="number">60</span> <span class="operator">&gt;=</span> </span><br><span class="line">        (</span><br><span class="line">            <span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> Course,SC</span><br><span class="line">            <span class="keyword">WHERE</span> SC.CNO <span class="operator">=</span> Course.CNO <span class="keyword">AND</span> Course.CNAME<span class="operator">=</span><span class="string">&#x27;数据库&#x27;</span></span><br><span class="line">        )</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
-<p>执行上述语句后，每次插入选课记录后，都会执行一次CHECK子句中的条件，如果选课人数超过60人，就会拒绝执行</p>
+<p>执行上述语句后, 每次插入选课记录后, 都会执行一次CHECK子句中的条件, 如果选课人数超过60人, 就会拒绝执行</p>
 <h3 id="删除断言"><a href="#删除断言" class="headerlink" title="删除断言"></a>删除断言</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> ASSERTION <span class="operator">&lt;</span>断言名<span class="operator">&gt;</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="附录A-数据类型"><a href="#附录A-数据类型" class="headerlink" title="附录A 数据类型"></a>附录A 数据类型</h2><table>
@@ -384,12 +384,12 @@
 <td>DECIMAL(p,d)</td>
 <td>货币类型</td>
 <td>NUMERIC(p,d)</td>
-<td>定点数，</td>
+<td>定点数,</td>
 </tr>
 </tbody></table>
 <ul>
 <li>两个浮点数类型支持指定数字范围, 但仅影响存储时的舍入操作, 不影响存储精度</li>
-<li>DECIMAL可以用参数指定数据范围是p位整数数字，d位小数数字, 并且提供此范围的精确存储</li>
+<li>DECIMAL可以用参数指定数据范围是p位整数数字, d位小数数字, 并且提供此范围的精确存储</li>
 <li>其他数据类型也可以指定一个数字, 但此参数值影响命令行中的显示效果, 不影响实际的存储大小</li>
 <li>整数数据类型支持有符号数与无符号数(使用UNSIGNED关键字), 相应的存储范围也会变化</li>
 </ul>
@@ -493,7 +493,7 @@
 </tbody></table>
 <p>说明：</p>
 <ol>
-<li>各种聚合函数都可以在列名前指定DISTINCT或ALL（默认值），来指定是否计算重复值</li>
+<li>各种聚合函数都可以在列名前指定DISTINCT或ALL（默认值）, 来指定是否计算重复值</li>
 </ol>
 <h2 id="附录C-查询条件"><a href="#附录C-查询条件" class="headerlink" title="附录C 查询条件"></a>附录C 查询条件</h2><table>
 <thead>
@@ -555,7 +555,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2021年02月17日 12:55</p>
+        <p>最后更新： 2021年07月14日 20:29</p>
         <p>版权声明：本文为原创文章，转载请注明出处</p>
         <p>原始链接： <a class="post-url" href="/2018/07/21/SQL%E8%AF%AD%E6%B3%95%E7%B2%BE%E7%AE%80%E7%AC%94%E8%AE%B0/" title="SQL语法精简笔记">https://lizec.top/2018/07/21/SQL%E8%AF%AD%E6%B3%95%E7%B2%BE%E7%AE%80%E7%AC%94%E8%AE%B0/</a></p>
         <footer>

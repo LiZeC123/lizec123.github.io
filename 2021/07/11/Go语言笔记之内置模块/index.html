@@ -16,7 +16,7 @@
 <meta property="og:description" content="本文介绍Go语言中常见的数据结构的基本使用, 包括定长数组, 变长数组, 哈希表等结构 切片(变长数组)在Go语言中, 切片既可以视为Python中的同等概念, 即一个数组的片段. 又可以视为一个可变数组, 从而实现动态的容量变化. 可以使用如下的方式定义切片 12345var s1 []int  &#x2F;&#x2F; 不声明长度的数字即为切片s2 :&#x3D; make([]int, 12) &#x2F;&#x2F; 使用make函">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-07-11T01:31:50.000Z">
-<meta property="article:modified_time" content="2021-07-13T13:53:03.581Z">
+<meta property="article:modified_time" content="2021-07-14T12:29:35.162Z">
 <meta property="article:author" content="LiZeC">
 <meta property="article:tag" content="Go">
 <meta name="twitter:card" content="summary">
@@ -167,11 +167,11 @@
 <blockquote>
 <p>使用<code>append()</code>和<code>copy()</code>对切片进行添加和复制操作</p>
 </blockquote>
-<h2 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h2><p>Go语言中使用map定义哈希表，例如</p>
+<h2 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h2><p>Go语言中使用map定义哈希表, 例如</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">dict := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>) </span><br><span class="line">    <span class="comment">// 添加数据</span></span><br><span class="line">    dict[<span class="string">&quot;go&quot;</span>] = <span class="string">&quot;Golang&quot;</span></span><br><span class="line">    dict[<span class="string">&quot;cs&quot;</span>] = <span class="string">&quot;CSharp&quot;</span></span><br><span class="line">    dict[<span class="string">&quot;rb&quot;</span>] = <span class="string">&quot;Ruby&quot;</span></span><br><span class="line">    dict[<span class="string">&quot;py&quot;</span>] = <span class="string">&quot;Python&quot;</span></span><br><span class="line">    dict[<span class="string">&quot;js&quot;</span>] = <span class="string">&quot;JavaScript&quot;</span></span><br><span class="line">    <span class="comment">// 遍历</span></span><br><span class="line">    <span class="keyword">for</span> k, v := <span class="keyword">range</span> dict &#123;</span><br><span class="line">        fmt.Printf(<span class="string">&quot;Key: %s Value: %s\n&quot;</span>, k, v)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//删除</span></span><br><span class="line">    <span class="built_in">delete</span>(dict, <span class="string">&quot;go&quot;</span>) </span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取数据</span></span><br><span class="line">    goString, ok := dict[<span class="string">&quot;go&quot;</span>]</span><br><span class="line">    <span class="keyword">if</span> !ok &#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> goString, ok := dict[<span class="string">&quot;go&quot;</span>]; !ok&#123;</span><br><span class="line">        <span class="comment">/* ... */</span> </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2021年07月13日 21:53</p>
+        <p>最后更新： 2021年07月14日 20:29</p>
         <p>版权声明：本文为原创文章，转载请注明出处</p>
         <p>原始链接： <a class="post-url" href="/2021/07/11/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/" title="Go语言笔记之内置模块">https://lizec.top/2021/07/11/Go%E8%AF%AD%E8%A8%80%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%86%85%E7%BD%AE%E6%A8%A1%E5%9D%97/</a></p>
         <footer>

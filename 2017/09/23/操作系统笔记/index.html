@@ -16,7 +16,7 @@
 <meta property="og:description" content="目录 第一章 绪论       第二章 用户界面   第三章 进程管理   第四章 处理机调度 第五章 存储管理   第六章 文件管理   第七章 设备管理     第一章 绪论&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 计算机系统 硬件 中央处理器（运算器和控制器） 存储器 输入设备 输出设备   软件 系统软件 应用软件    计算机系统的几个阶段 手工操作阶段 由一道程序独占机器 需要人工操作">
 <meta property="og:locale">
 <meta property="article:published_time" content="2017-09-23T12:42:19.000Z">
-<meta property="article:modified_time" content="2018-06-05T07:44:06.242Z">
+<meta property="article:modified_time" content="2021-07-14T12:29:48.598Z">
 <meta property="article:author" content="LiZeC">
 <meta property="article:tag" content="操作系统">
 <meta name="twitter:card" content="summary">
@@ -189,8 +189,8 @@
 </li>
 <li>脱机批处理<ul>
 <li>使用不和主机直接相连的专用输入输出设备(卫星机)</li>
-<li>卫星机将数据转入速度较快的磁带机中，主机与磁带机交换数据</li>
-<li>输入和计算可以并行，提高了CPU的利用率</li>
+<li>卫星机将数据转入速度较快的磁带机中, 主机与磁带机交换数据</li>
+<li>输入和计算可以并行, 提高了CPU的利用率</li>
 </ul>
 </li>
 </ol>
@@ -199,14 +199,14 @@
 <li>计算机的内存中可以同时存在多道程序</li>
 <li>宏观上这些程序并行</li>
 <li>微观上这些程序交替执行</li>
-<li>由各个程序自行决定是否放弃CPU，从而让其他程序执行</li>
+<li>由各个程序自行决定是否放弃CPU, 从而让其他程序执行</li>
 </ul>
 </li>
 <li>分时操作系统<ul>
 <li>处理机的时间分成时间片</li>
 <li>按照时间片轮流将处理机分配给各个作业</li>
-<li>作业在一个时间片内无法完成任务，则该任务中断，将处理机让给下一个任务</li>
-<li>由于时间片很短，因此每个用户都感觉自己独占计算机</li>
+<li>作业在一个时间片内无法完成任务, 则该任务中断, 将处理机让给下一个任务</li>
+<li>由于时间片很短, 因此每个用户都感觉自己独占计算机</li>
 </ul>
 </li>
 <li>实时操作系统<ul>
@@ -214,7 +214,7 @@
 </ul>
 </li>
 <li>通用操作系统<ul>
-<li>兼有多道批处理，分时，实时处理的功能的操作系统</li>
+<li>兼有多道批处理, 分时, 实时处理的功能的操作系统</li>
 </ul>
 </li>
 </ol>
@@ -226,9 +226,9 @@
 </ul>
 </li>
 <li>分时系统<ul>
-<li>交互性， 用户可以在执行过程中进行控制</li>
-<li>多用户同时性， 多个用户可以在一台计算机上共享CPU和其他资源</li>
-<li>独立性，每个用户都感觉自己独占计算机</li>
+<li>交互性, 用户可以在执行过程中进行控制</li>
+<li>多用户同时性, 多个用户可以在一台计算机上共享CPU和其他资源</li>
+<li>独立性, 每个用户都感觉自己独占计算机</li>
 </ul>
 </li>
 </ol>
@@ -242,20 +242,20 @@
 <hr>
 <p><span id="user_interface"></span><br>第二章 用户界面<br>===============</p>
 <h2 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h2><ul>
-<li>在一次应用业务的处理过程中，从输入开始到输出结束，用户要求计算机所做的有关该次业务处理的全部工作称为一次作业</li>
-<li>作业的概念一般用于早期批处理系统和现在的大型机，巨型机</li>
+<li>在一次应用业务的处理过程中, 从输入开始到输出结束, 用户要求计算机所做的有关该次业务处理的全部工作称为一次作业</li>
+<li>作业的概念一般用于早期批处理系统和现在的大型机, 巨型机</li>
 </ul>
 <h2 id="作业说明书"><a href="#作业说明书" class="headerlink" title="作业说明书"></a>作业说明书</h2><p>作业说明书一般包括以下内容</p>
 <ul>
-<li>作业的基本描述，通常包括用户名，作业名，使用的编程语言，最大处理时间等</li>
-<li>作业的控制描述，包括控制的描述，例如是联机还是脱机</li>
-<li>资源的要求描述，包括要求的内存大小，外设种类或实用程序等</li>
+<li>作业的基本描述, 通常包括用户名, 作业名, 使用的编程语言, 最大处理时间等</li>
+<li>作业的控制描述, 包括控制的描述, 例如是联机还是脱机</li>
+<li>资源的要求描述, 包括要求的内存大小, 外设种类或实用程序等</li>
 </ul>
 <h2 id="一般用户的输入输出方式"><a href="#一般用户的输入输出方式" class="headerlink" title="一般用户的输入输出方式"></a>一般用户的输入输出方式</h2><ol>
-<li>联机输入输出方式，外围设备直接和主机相联</li>
-<li>脱机输入输出方式，使用单独的输入输出设备，通过缓冲设备与主机交换数据</li>
-<li>直接耦合方式，把主机和外围机通过一个共用大容量设备直接连接</li>
-<li>spooling系统，多台外围设备通过通道或者DMA方式与主机的外出连接</li>
+<li>联机输入输出方式, 外围设备直接和主机相联</li>
+<li>脱机输入输出方式, 使用单独的输入输出设备, 通过缓冲设备与主机交换数据</li>
+<li>直接耦合方式, 把主机和外围机通过一个共用大容量设备直接连接</li>
+<li>spooling系统, 多台外围设备通过通道或者DMA方式与主机的外出连接</li>
 <li>网络联机方式</li>
 </ol>
 <h2 id="操作系统提供的两个接口"><a href="#操作系统提供的两个接口" class="headerlink" title="操作系统提供的两个接口"></a>操作系统提供的两个接口</h2><ol>
@@ -263,12 +263,12 @@
 <li>为编程人员提供的系统调用</li>
 </ol>
 <h2 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h2><ol>
-<li>设备管理，用于请求和释放相关的设备，以及启动设备操作等</li>
-<li>文件管理，包括对文件的读，写，创建和删除等</li>
-<li>进程管理，包括进程的创建，执行，撤销，等待，执行优先级控制等</li>
-<li>进程通信，用于在进程之间传递消息或信号</li>
-<li>存储管理，包括检查作业占据的内存大小，获得作业内存地址等</li>
-<li>线程管理，包括线程的创建，调度，执行和撤销等</li>
+<li>设备管理, 用于请求和释放相关的设备, 以及启动设备操作等</li>
+<li>文件管理, 包括对文件的读, 写, 创建和删除等</li>
+<li>进程管理, 包括进程的创建, 执行, 撤销, 等待, 执行优先级控制等</li>
+<li>进程通信, 用于在进程之间传递消息或信号</li>
+<li>存储管理, 包括检查作业占据的内存大小, 获得作业内存地址等</li>
+<li>线程管理, 包括线程的创建, 调度, 执行和撤销等</li>
 </ol>
 <h2 id="陷阱机构与陷阱指令"><a href="#陷阱机构与陷阱指令" class="headerlink" title="陷阱机构与陷阱指令"></a>陷阱机构与陷阱指令</h2><ul>
 <li>在系统中为控制系统调用服务的处理机构称为<strong>陷阱处理机构</strong></li>
@@ -287,30 +287,30 @@
 
 <h2 id="程序顺序执行的特点"><a href="#程序顺序执行的特点" class="headerlink" title="程序顺序执行的特点"></a>程序顺序执行的特点</h2><ol>
 <li>顺序性</li>
-<li>封闭性，程序执行的结果由给定的初始结果充分决定，不受外界因素决定</li>
-<li>可再现性，执行结果与运行速度无关，重复执行结果相同</li>
+<li>封闭性, 程序执行的结果由给定的初始结果充分决定, 不受外界因素决定</li>
+<li>可再现性, 执行结果与运行速度无关, 重复执行结果相同</li>
 </ol>
 <h2 id="多道程序执行特点"><a href="#多道程序执行特点" class="headerlink" title="多道程序执行特点"></a>多道程序执行特点</h2><ol>
-<li>独立性，每道程序都是逻辑上独立的</li>
-<li>随机性，各个程序的执行顺序是随机的</li>
-<li>资源共享性，各个程序之间的硬件，软件资源是共享的</li>
+<li>独立性, 每道程序都是逻辑上独立的</li>
+<li>随机性, 各个程序的执行顺序是随机的</li>
+<li>资源共享性, 各个程序之间的硬件, 软件资源是共享的</li>
 </ol>
-<h2 id="程序的并发执行"><a href="#程序的并发执行" class="headerlink" title="程序的并发执行"></a>程序的并发执行</h2><p>一组在逻辑上互相独立的程序或程序段在执行过程中，其执行时间在客观上相互重叠的执行方式</p>
-<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>进程是并发执行的程序在执行过程中分配和管理资源的基本单位，具有以下特点</p>
+<h2 id="程序的并发执行"><a href="#程序的并发执行" class="headerlink" title="程序的并发执行"></a>程序的并发执行</h2><p>一组在逻辑上互相独立的程序或程序段在执行过程中, 其执行时间在客观上相互重叠的执行方式</p>
+<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><p>进程是并发执行的程序在执行过程中分配和管理资源的基本单位, 具有以下特点</p>
 <ol>
-<li>进程是一个动态概念，而程序是一个静态概念</li>
-<li>进程具有并发特性，而程序没有</li>
-<li>进程是竞争计算机系统资源的基本单位，其并发现受到系统约束</li>
-<li>不同的进程可以包含同一程序，只要该程序对应的数据集不同</li>
+<li>进程是一个动态概念, 而程序是一个静态概念</li>
+<li>进程具有并发特性, 而程序没有</li>
+<li>进程是竞争计算机系统资源的基本单位, 其并发现受到系统约束</li>
+<li>不同的进程可以包含同一程序, 只要该程序对应的数据集不同</li>
 </ol>
-<h2 id="进程控制块"><a href="#进程控制块" class="headerlink" title="进程控制块"></a>进程控制块</h2><p>进程的静态描述由三部分组成，进程控制块(PCB)，有关程序段，该程序段操作的数据集，进程控制块具有如下结构</p>
+<h2 id="进程控制块"><a href="#进程控制块" class="headerlink" title="进程控制块"></a>进程控制块</h2><p>进程的静态描述由三部分组成, 进程控制块(PCB), 有关程序段, 该程序段操作的数据集, 进程控制块具有如下结构</p>
 <ol>
 <li>描述信息<ul>
-<li>包括进程名，用户名和进程家族关系等</li>
+<li>包括进程名, 用户名和进程家族关系等</li>
 </ul>
 </li>
 <li>控制信息<ul>
-<li>包括进程的当前状态，进程优先级，程序开始地址，各种计数信息，通讯信息</li>
+<li>包括进程的当前状态, 进程优先级, 程序开始地址, 各种计数信息, 通讯信息</li>
 </ul>
 </li>
 <li>资源管理信息<ol>
@@ -322,11 +322,11 @@
 </ol>
 </li>
 <li>CPU现场保护结构<ul>
-<li>一个专门的用于保存CPU数据的结构，可以用于进程中断后的恢复</li>
+<li>一个专门的用于保存CPU数据的结构, 可以用于进程中断后的恢复</li>
 </ul>
 </li>
 </ol>
-<p>总之，PCB是系统感知进程的唯一实体，通过对PCB的操作，系统为有关进程分配资源从而使的有关进程得以被调度和执行，执行结束后，也通过释放PCB来释放进程所占有的各种资源。</p>
+<p>总之, PCB是系统感知进程的唯一实体, 通过对PCB的操作, 系统为有关进程分配资源从而使的有关进程得以被调度和执行, 执行结束后, 也通过释放PCB来释放进程所占有的各种资源. </p>
 <h2 id="进程上下文"><a href="#进程上下文" class="headerlink" title="进程上下文"></a>进程上下文</h2><ul>
 <li>进程上下文是进程执行过程中顺序关联的静态描述</li>
 <li>已执行过的进程指令和数据在相关寄存器中的内容称为上文</li>
@@ -336,20 +336,20 @@
 <h2 id="进程上下文切换"><a href="#进程上下文切换" class="headerlink" title="进程上下文切换"></a>进程上下文切换</h2><p>进程上下文的切换一般分为三个部分</p>
 <ol>
 <li>保护被切换进程的正文部分至有关存储区</li>
-<li>操作系统进程中，有关调度和资源分配的程序执行，并选择新的进程</li>
-<li>将被选中的进程的正文部分从有关存储区恢复到有关寄存器和堆栈，激活被选中进程执行</li>
+<li>操作系统进程中, 有关调度和资源分配的程序执行, 并选择新的进程</li>
+<li>将被选中的进程的正文部分从有关存储区恢复到有关寄存器和堆栈, 激活被选中进程执行</li>
 </ol>
 <h2 id="进程状态和转换"><a href="#进程状态和转换" class="headerlink" title="进程状态和转换"></a>进程状态和转换</h2><ul>
-<li>进程至少可以分成五个状态： 初始状态，执行状态，等待状态，就绪状态，终止状态</li>
-<li>一个进程被创建后，处于初始状态</li>
-<li>处于就绪状态的进程得到了除CPU以外的所有资源，只要被调度就可以立即执行，进入执行状态</li>
+<li>进程至少可以分成五个状态： 初始状态, 执行状态, 等待状态, 就绪状态, 终止状态</li>
+<li>一个进程被创建后, 处于初始状态</li>
+<li>处于就绪状态的进程得到了除CPU以外的所有资源, 只要被调度就可以立即执行, 进入执行状态</li>
 <li>处于执行状态的进程有三种转移状态<ol>
-<li>时间片到达，回到就绪状态</li>
-<li>由于某些事件，进入等待状态</li>
-<li>完成程序，进入终止状态</li>
+<li>时间片到达, 回到就绪状态</li>
+<li>由于某些事件, 进入等待状态</li>
+<li>完成程序, 进入终止状态</li>
 </ol>
 </li>
-<li>处于等待状态的程序在某些事件的唤醒下，进入就绪状态</li>
+<li>处于等待状态的程序在某些事件的唤醒下, 进入就绪状态</li>
 </ul>
 <h2 id="原语"><a href="#原语" class="headerlink" title="原语"></a>原语</h2><ul>
 <li>在系统态下执行的完成系统特定功能的程序段</li>
@@ -382,70 +382,70 @@
 </ol>
 <h2 id="进程互斥"><a href="#进程互斥" class="headerlink" title="进程互斥"></a>进程互斥</h2><ul>
 <li>不允许多个并发程序交叉执行的一段程序称为<strong>临界区</strong></li>
-<li>由共享公共资源而造成的对并发进程执行速度的间接制约，简称<strong>间接制约</strong></li>
-<li>一组并发进程中的一个或多个程序段，因共享某一共有资源而导致它们必须以一个不允许交叉执行的顺序执行，称为<strong>互斥</strong></li>
+<li>由共享公共资源而造成的对并发进程执行速度的间接制约, 简称<strong>间接制约</strong></li>
+<li>一组并发进程中的一个或多个程序段, 因共享某一共有资源而导致它们必须以一个不允许交叉执行的顺序执行, 称为<strong>互斥</strong></li>
 </ul>
 <h2 id="信号量和PV原语"><a href="#信号量和PV原语" class="headerlink" title="信号量和PV原语"></a>信号量和PV原语</h2><ul>
-<li>信号量sem是一个整数，当sem大于零时，表示并发进程可以使用的实体数量，当sem小于零时，表示正在等待使用临界资源的进程数</li>
+<li>信号量sem是一个整数, 当sem大于零时, 表示并发进程可以使用的实体数量, 当sem小于零时, 表示正在等待使用临界资源的进程数</li>
 <li>P原语操作主要动作如下<ol>
 <li><code>--sem</code></li>
-<li>若sem仍大于等于零，则P原语返回，该进程继续执行</li>
-<li>若sem小于零，则该进程被阻塞后，进入该信号量的等待队列，然后转进程调度</li>
+<li>若sem仍大于等于零, 则P原语返回, 该进程继续执行</li>
+<li>若sem小于零, 则该进程被阻塞后, 进入该信号量的等待队列, 然后转进程调度</li>
 </ol>
 </li>
 <li>V原语操作的主要动作如下<ol>
 <li><code>++sem</code></li>
-<li>若sem仍大于零，则V原语返回，该进程继续执行</li>
-<li>多sem小于等于零，则从该信号的等待队列中唤醒一个进程，然后返回原进程执行或转入进程调度</li>
+<li>若sem仍大于零, 则V原语返回, 该进程继续执行</li>
+<li>多sem小于等于零, 则从该信号的等待队列中唤醒一个进程, 然后返回原进程执行或转入进程调度</li>
 </ol>
 </li>
-<li>遇到临界区的时候，在临界区的两端分别加上P原语和V原语即可完成互斥操作</li>
+<li>遇到临界区的时候, 在临界区的两端分别加上P原语和V原语即可完成互斥操作</li>
 </ul>
-<h2 id="进程同步"><a href="#进程同步" class="headerlink" title="进程同步"></a>进程同步</h2><p>建立两个互补的私有信号量，通过交叉判断进行同步操作</p>
+<h2 id="进程同步"><a href="#进程同步" class="headerlink" title="进程同步"></a>进程同步</h2><p>建立两个互补的私有信号量, 通过交叉判断进行同步操作</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">S1()</span><br><span class="line">&#123;</span><br><span class="line">	...</span><br><span class="line">	P(empty)</span><br><span class="line">	写入数据</span><br><span class="line">	V(full)</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">S2()</span><br><span class="line">&#123;</span><br><span class="line">	...</span><br><span class="line">	P(full)</span><br><span class="line">	取出数据</span><br><span class="line">	V(empty)</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>其中Sa和Sb一个置为0,一个置为1</li>
-<li>S1进程执行之前，会先判断缓冲区是否为空，确定为空后写入数据，最后使用V原语唤醒可能等待的S2进程</li>
-<li>S2进程执行之前，会先判断缓冲区是否已满，确定已满后取出数据，最后使用V原语唤醒可能等待的S1进程</li>
+<li>S1进程执行之前, 会先判断缓冲区是否为空, 确定为空后写入数据, 最后使用V原语唤醒可能等待的S2进程</li>
+<li>S2进程执行之前, 会先判断缓冲区是否已满, 确定已满后取出数据, 最后使用V原语唤醒可能等待的S1进程</li>
 </ul>
 <hr>
-<h2 id="进程的一般模型"><a href="#进程的一般模型" class="headerlink" title="进程的一般模型"></a>进程的一般模型</h2><h3 id="1-生产者-消费者模型"><a href="#1-生产者-消费者模型" class="headerlink" title="1.生产者-消费者模型"></a>1.生产者-消费者模型</h3><p>进程之间的资源申请和释放问题可以看作一个生产者-消费者问题，使用资源的进程可以看为消费者，而释放资源的进程可以看为生产者，一般而言这些进程的代码具有如下的结构</p>
+<h2 id="进程的一般模型"><a href="#进程的一般模型" class="headerlink" title="进程的一般模型"></a>进程的一般模型</h2><h3 id="1-生产者-消费者模型"><a href="#1-生产者-消费者模型" class="headerlink" title="1.生产者-消费者模型"></a>1.生产者-消费者模型</h3><p>进程之间的资源申请和释放问题可以看作一个生产者-消费者问题, 使用资源的进程可以看为消费者, 而释放资源的进程可以看为生产者, 一般而言这些进程的代码具有如下的结构</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">deposit(data)</span><br><span class="line">&#123;</span><br><span class="line">	P(avail)</span><br><span class="line">	P(mutex)</span><br><span class="line">	写入数据</span><br><span class="line">	V(full)</span><br><span class="line">	V(mutex)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">remove(data)</span><br><span class="line">&#123;</span><br><span class="line">	P(full)</span><br><span class="line">	P(mutex)</span><br><span class="line">	取出数据</span><br><span class="line">	V(avail)</span><br><span class="line">	V(mutex)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
-<li>其中avail和full信号量是私有信号量，用于两个不同进程的同步</li>
-<li>mutex信号量是共有信号量，用于各个进程之间的互斥</li>
-<li>V原语因为是释放操作，因此通常没有顺序要求</li>
-<li><strong>注意</strong>:要先执行同步P操作，再进程互斥P操作，从而确保互斥锁定之前，获得执行机会的进程一定可以执行完毕，避免进程死锁</li>
+<li>其中avail和full信号量是私有信号量, 用于两个不同进程的同步</li>
+<li>mutex信号量是共有信号量, 用于各个进程之间的互斥</li>
+<li>V原语因为是释放操作, 因此通常没有顺序要求</li>
+<li><strong>注意</strong>:要先执行同步P操作, 再进程互斥P操作, 从而确保互斥锁定之前, 获得执行机会的进程一定可以执行完毕, 避免进程死锁</li>
 </ul>
-<h3 id="2-读者-写者模型"><a href="#2-读者-写者模型" class="headerlink" title="2.读者-写者模型"></a>2.读者-写者模型</h3><p>有两组并发的进程：读者和写者，其中要求任何时刻，写者之间互斥，读者与写者互斥，读者之间可以同时读取</p>
+<h3 id="2-读者-写者模型"><a href="#2-读者-写者模型" class="headerlink" title="2.读者-写者模型"></a>2.读者-写者模型</h3><p>有两组并发的进程：读者和写者, 其中要求任何时刻, 写者之间互斥, 读者与写者互斥, 读者之间可以同时读取</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">writer(data)</span><br><span class="line">&#123;</span><br><span class="line">	P(w);</span><br><span class="line">	写入数据</span><br><span class="line">	V(w);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">reader(data)</span><br><span class="line">&#123;</span><br><span class="line">	P(R);</span><br><span class="line">	++Rcount;</span><br><span class="line">	<span class="keyword">if</span> (Rcount == <span class="number">1</span>)&#123;</span><br><span class="line">		P(w);</span><br><span class="line">	&#125;</span><br><span class="line">	V(R);</span><br><span class="line">	...</span><br><span class="line">	读取数据</span><br><span class="line">	...</span><br><span class="line">	P(R);</span><br><span class="line">	--Rcount;</span><br><span class="line">	<span class="keyword">if</span>(Rcount == <span class="number">0</span>)&#123;</span><br><span class="line">		V(w);</span><br><span class="line">	&#125;</span><br><span class="line">	V(R);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>对于写者，只要开始访问数据，就可以直接锁定</li>
-<li>对于读者，只有第一个需要互斥写者，只有最后一个需要释放锁定，因此需要使用一个计数器</li>
-<li>因为多个进程访问计数器，因此计数器的读写需要锁定</li>
+<li>对于写者, 只要开始访问数据, 就可以直接锁定</li>
+<li>对于读者, 只有第一个需要互斥写者, 只有最后一个需要释放锁定, 因此需要使用一个计数器</li>
+<li>因为多个进程访问计数器, 因此计数器的读写需要锁定</li>
 </ul>
 <h3 id="3-哲学家吃饭模型"><a href="#3-哲学家吃饭模型" class="headerlink" title="3.哲学家吃饭模型"></a>3.哲学家吃饭模型</h3><ul>
-<li>一共有5个哲学家，每个哲学家之间有一个筷子</li>
+<li>一共有5个哲学家, 每个哲学家之间有一个筷子</li>
 <li>哲学家拿到两个筷子时才能开始进餐</li>
-<li>当一个哲学家拿到一个筷子以后，除非拿到另外一个筷子并完成进餐，否在绝对不会放下手中的筷子</li>
-<li>实际上，进一步分析可知，如果限制最大吃饭人数，即限制最多4人同时吃饭，则可以保证4人中，至少有一人可以获得两个筷子，从而完成吃饭</li>
+<li>当一个哲学家拿到一个筷子以后, 除非拿到另外一个筷子并完成进餐, 否在绝对不会放下手中的筷子</li>
+<li>实际上, 进一步分析可知, 如果限制最大吃饭人数, 即限制最多4人同时吃饭, 则可以保证4人中, 至少有一人可以获得两个筷子, 从而完成吃饭</li>
 </ul>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">int</span> chopstick[<span class="number">5</span>] = &#123;<span class="number">1</span>&#125;;</span><br><span class="line">	<span class="keyword">int</span> count = <span class="number">4</span>;</span><br><span class="line">	cobegin</span><br><span class="line">		eat[<span class="number">0</span>]();</span><br><span class="line">		eat[<span class="number">1</span>]();</span><br><span class="line">		...</span><br><span class="line">		eat[<span class="number">4</span>]();</span><br><span class="line">	coend</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">eat[i]()</span><br><span class="line">&#123;</span><br><span class="line">	think;</span><br><span class="line">	P(count);</span><br><span class="line">	P(chopstick[i]);</span><br><span class="line">	P(chopstick[(i+<span class="number">1</span>) mod <span class="number">5</span>]);</span><br><span class="line">	eat;</span><br><span class="line">	V(chopstick[i]);</span><br><span class="line">	V(chopstick[(i+<span class="number">1</span>) mod <span class="number">5</span>]);</span><br><span class="line">	V(count);</span><br><span class="line">	think;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="4-理发问题"><a href="#4-理发问题" class="headerlink" title="4.理发问题"></a>4.理发问题</h3><ul>
-<li>有一个理发师，一把理发椅和n把供等待客户坐的椅子</li>
-<li>如果没有顾客，理发师在理发椅上休息</li>
-<li>当有一个顾客到来时，唤醒理发师进行理发</li>
-<li>当理发师在理发的时候，如果有新顾客到来，则判断等待区是否有空闲，如果有则等待，否在离开</li>
+<li>有一个理发师, 一把理发椅和n把供等待客户坐的椅子</li>
+<li>如果没有顾客, 理发师在理发椅上休息</li>
+<li>当有一个顾客到来时, 唤醒理发师进行理发</li>
+<li>当理发师在理发的时候, 如果有新顾客到来, 则判断等待区是否有空闲, 如果有则等待, 否在离开</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">main()</span><br><span class="line">&#123;</span><br><span class="line">	int customers = 0;</span><br><span class="line">	int barbers = 1;</span><br><span class="line">	int wait = 0;</span><br><span class="line"></span><br><span class="line">	cobegin</span><br><span class="line">		Barber();</span><br><span class="line">		Customer();</span><br><span class="line">	coend</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Barber()</span><br><span class="line">&#123;</span><br><span class="line">	while()</span><br><span class="line">	&#123;</span><br><span class="line">		P(customers);</span><br><span class="line">		wait = wait - 1;</span><br><span class="line">		理发;</span><br><span class="line">		V(barbers);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Customer()</span><br><span class="line">&#123;</span><br><span class="line">	if(wait&lt;n)</span><br><span class="line">	&#123;</span><br><span class="line">		wait = wait + 1;</span><br><span class="line">		V(customers);</span><br><span class="line">		P(barbers);</span><br><span class="line">		理发;</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		离开理发店;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 <h2 id="进程通信"><a href="#进程通信" class="headerlink" title="进程通信"></a>进程通信</h2><ol>
 <li>直接通信<ul>
-<li>在发送和接受时，都需要制定双方的标识</li>
+<li>在发送和接受时, 都需要制定双方的标识</li>
 </ul>
 </li>
 <li>间接通信<ul>
@@ -461,13 +461,13 @@
 </ul>
 </li>
 <li>会话式<ul>
-<li>使用进程在使用服务进程提供的服务以前，必须获得服务进程的同意</li>
-<li>服务进程根据使用进程的要求提供服务，但所提供的服务的控制由服务进程完成</li>
+<li>使用进程在使用服务进程提供的服务以前, 必须获得服务进程的同意</li>
+<li>服务进程根据使用进程的要求提供服务, 但所提供的服务的控制由服务进程完成</li>
 <li>实际上是一种调用关系</li>
 </ul>
 </li>
 <li>消息或邮箱机制<ul>
-<li>只要存在空缓冲区或邮箱，发送进程就可以发送消息</li>
+<li>只要存在空缓冲区或邮箱, 发送进程就可以发送消息</li>
 <li>发送进程和接受进程之间没有直接的联系</li>
 <li>实际上是一种平等的关系</li>
 </ul>
@@ -490,47 +490,47 @@
 <li>数据的相关操作</li>
 </ol>
 <h2 id="消息缓冲机制"><a href="#消息缓冲机制" class="headerlink" title="消息缓冲机制"></a>消息缓冲机制</h2><ol>
-<li>在发送进程把消息写入缓冲区和把换从区挂入消息队列时，应禁止其他进程对该缓冲区消息队列的访问</li>
-<li>缓冲区中无消息存在时，接受进程不能收到任何消息</li>
+<li>在发送进程把消息写入缓冲区和把换从区挂入消息队列时, 应禁止其他进程对该缓冲区消息队列的访问</li>
+<li>缓冲区中无消息存在时, 接受进程不能收到任何消息</li>
 </ol>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Send(B,m)</span><br><span class="line">&#123;</span><br><span class="line">	向系统申请一个缓冲区;</span><br><span class="line">	P(mutex);</span><br><span class="line">	将发送区消息m送入新申请的消息缓冲区;</span><br><span class="line">	把消息缓冲区挂入接收进程的消息队列;</span><br><span class="line">	V(mutex);</span><br><span class="line">	V(SM);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Receive(A,n)</span><br><span class="line">&#123;</span><br><span class="line">	P(SM);</span><br><span class="line">	P(mutex);</span><br><span class="line">	摘下消息队列中的消息n;</span><br><span class="line">	将消息n冲缓冲区复制到接收区;</span><br><span class="line">	释放缓冲区;</span><br><span class="line">	V(mutex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="邮箱通信"><a href="#邮箱通信" class="headerlink" title="邮箱通信"></a>邮箱通信</h2><ul>
-<li>邮箱由邮箱头和邮箱体组成，邮箱头总包含相关的身份信息，邮箱体中是需要传输的数据</li>
-<li>两个进程之间是简单的同步问题，按照同步问题加锁即可</li>
+<li>邮箱由邮箱头和邮箱体组成, 邮箱头总包含相关的身份信息, 邮箱体中是需要传输的数据</li>
+<li>两个进程之间是简单的同步问题, 按照同步问题加锁即可</li>
 </ul>
-<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>进程是资源的拥有者，也是调度单位，但是线程不拥有资源，只是一个调度单位，从而能更加方便的进行调度</p>
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>进程是资源的拥有者, 也是调度单位, 但是线程不拥有资源, 只是一个调度单位, 从而能更加方便的进行调度</p>
 <h2 id="死锁的必要条件"><a href="#死锁的必要条件" class="headerlink" title="死锁的必要条件"></a>死锁的必要条件</h2><ol>
-<li>互斥条件：进程要求对所分配的资源进行排他性控制，即在一段时间之内某资源仅为一一个进程占有</li>
-<li>部分分配，进程每次申请它所需要的一部分资源，在等待新资源的时候，不释放已经占有的资源</li>
-<li>不剥夺条件：进程已经获得的资源，在没有使用完毕之前，不能被剥夺</li>
-<li>环路条件，存在进程链循环，循环中每个进程已经获得的资源被下一个进程请求</li>
+<li>互斥条件：进程要求对所分配的资源进行排他性控制, 即在一段时间之内某资源仅为一一个进程占有</li>
+<li>部分分配, 进程每次申请它所需要的一部分资源, 在等待新资源的时候, 不释放已经占有的资源</li>
+<li>不剥夺条件：进程已经获得的资源, 在没有使用完毕之前, 不能被剥夺</li>
+<li>环路条件, 存在进程链循环, 循环中每个进程已经获得的资源被下一个进程请求</li>
 </ol>
 <h2 id="死锁的排除方法"><a href="#死锁的排除方法" class="headerlink" title="死锁的排除方法"></a>死锁的排除方法</h2><ol>
-<li><p>预防死锁：采取某种措施，限制并发进程对资源的请求，从而破坏产生死锁的必要条件中的一个或几个来防止死锁</p>
+<li><p>预防死锁：采取某种措施, 限制并发进程对资源的请求, 从而破坏产生死锁的必要条件中的一个或几个来防止死锁</p>
 <ul>
-<li>互斥条件是设备的固有特性，不仅不能改变，而且还应该加以保护</li>
+<li>互斥条件是设备的固有特性, 不仅不能改变, 而且还应该加以保护</li>
 <li>摒弃”请求和保持”条件：资源预分配策略：运行前一次性分配给进程所有需要的资源<ul>
 <li>优点：简单易行且安全</li>
-<li>缺点：资源浪费，进程延时运行</li>
+<li>缺点：资源浪费, 进程延时运行</li>
 </ul>
 </li>
 <li>摒弃”不可剥夺”条件<ul>
-<li>缺点：实现复杂，系统代价很高</li>
+<li>缺点：实现复杂, 系统代价很高</li>
 </ul>
 </li>
-<li>摒弃”环路等待”条件：把系统资源按照类型排序，进程要按照资源的序号递增的次序提出资源申请<ul>
+<li>摒弃”环路等待”条件：把系统资源按照类型排序, 进程要按照资源的序号递增的次序提出资源申请<ul>
 <li>优点：比上述两种方法的综合性能要好</li>
-<li>缺点：限制了进程对资源的请求，同时给系统中所有资源编号增加来系统开销</li>
+<li>缺点：限制了进程对资源的请求, 同时给系统中所有资源编号增加来系统开销</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>避免死锁：系统在分配资源时，根据资源的使用情况预测是否会产生死锁</p>
+<li><p>避免死锁：系统在分配资源时, 根据资源的使用情况预测是否会产生死锁</p>
 <ul>
 <li>银行家算法<ol>
-<li>判断分配条件，并尝试分配</li>
-<li>分配后进行安全性检测，如果安全则接受分配，否则撤销分配</li>
+<li>判断分配条件, 并尝试分配</li>
+<li>分配后进行安全性检测, 如果安全则接受分配, 否则撤销分配</li>
 <li>安全性检测即在当前分配完成后,是否存在方案可以使后续进程都能分配需要的资源并完成</li>
 </ol>
 </li>
@@ -552,7 +552,7 @@
 <li><p>死锁的检测和恢复</p>
 <ul>
 <li>通过死锁检测算法检测系统中是否有死锁</li>
-<li>通过中止进程，强制剥夺资源等方法解除死锁</li>
+<li>通过中止进程, 强制剥夺资源等方法解除死锁</li>
 </ul>
 </li>
 </ol>
@@ -563,22 +563,22 @@
 
 
 <h2 id="调度层次"><a href="#调度层次" class="headerlink" title="调度层次"></a>调度层次</h2><ol>
-<li>作业调度：宏观调度，高级调度<ul>
-<li>按一定原则选择外存后备队列中的作业，为其分配内存等资源，并建立进程</li>
-<li>在作业执行完毕后，回收系统资源</li>
+<li>作业调度：宏观调度, 高级调度<ul>
+<li>按一定原则选择外存后备队列中的作业, 为其分配内存等资源, 并建立进程</li>
+<li>在作业执行完毕后, 回收系统资源</li>
 </ul>
 </li>
-<li>交换调度：内外存交换，中级调度<ul>
-<li>按给定的策略，将外存中处于就绪状态或等待状态的进程调入内存，或将内存中暂时不使用的进程调至外存</li>
+<li>交换调度：内外存交换, 中级调度<ul>
+<li>按给定的策略, 将外存中处于就绪状态或等待状态的进程调入内存, 或将内存中暂时不使用的进程调至外存</li>
 <li>提高内存利用率和系统吞吐量</li>
 </ul>
 </li>
-<li>进程调度：微观调度，低级调度<ul>
+<li>进程调度：微观调度, 低级调度<ul>
 <li>决定就绪队列中那个进程获得处理机</li>
 </ul>
 </li>
 <li>线程调度<ul>
-<li>可有OS内核完成，也可由用户程序进行</li>
+<li>可有OS内核完成, 也可由用户程序进行</li>
 </ul>
 </li>
 </ol>
@@ -588,15 +588,15 @@
 </ul>
 </li>
 <li>后备状态<ul>
-<li>作业的全部内容都通过输入设备输入到外存输入井中，等待进入内存</li>
+<li>作业的全部内容都通过输入设备输入到外存输入井中, 等待进入内存</li>
 </ul>
 </li>
 <li>执行状态<ul>
-<li>作业一旦被作业调度程序选中，则为其分配所需的资源，并创建进程，送入内存中投入运行</li>
+<li>作业一旦被作业调度程序选中, 则为其分配所需的资源, 并创建进程, 送入内存中投入运行</li>
 </ul>
 </li>
 <li>完成状态<ul>
-<li>作业运行完毕，准备退出系统时的状态（所占用的资源尚未全部被系统回收）</li>
+<li>作业运行完毕, 准备退出系统时的状态（所占用的资源尚未全部被系统回收）</li>
 </ul>
 </li>
 </ol>
@@ -625,7 +625,7 @@
 </ul>
 <h2 id="进程调度功能"><a href="#进程调度功能" class="headerlink" title="进程调度功能"></a>进程调度功能</h2><ol>
 <li>记录所有进程的执行情况（静态和动态）</li>
-<li>按一定策略，选择一个就绪进程</li>
+<li>按一定策略, 选择一个就绪进程</li>
 <li>完成进程上下文切换</li>
 </ol>
 <h2 id="进程上下文切换步骤"><a href="#进程上下文切换步骤" class="headerlink" title="进程上下文切换步骤"></a>进程上下文切换步骤</h2><ol>
@@ -635,10 +635,10 @@
 <li>恢复被选中进程现场</li>
 </ol>
 <h2 id="引起进程调度的原因"><a href="#引起进程调度的原因" class="headerlink" title="引起进程调度的原因"></a>引起进程调度的原因</h2><ol>
-<li>正在执行的进程执行完毕，或由于某种错误而中止</li>
-<li>执行中的进程自己调用阻塞原语，将自己阻塞进入等待</li>
+<li>正在执行的进程执行完毕, 或由于某种错误而中止</li>
+<li>执行中的进程自己调用阻塞原语, 将自己阻塞进入等待</li>
 <li>执行P原语</li>
-<li>执行V原语，激活</li>
+<li>执行V原语, 激活</li>
 <li>提出I/O请求后被阻塞</li>
 <li>执行完系统调用后</li>
 <li>分时系统中时间片到</li>
@@ -646,12 +646,12 @@
 </ol>
 <h2 id="进程调度方式"><a href="#进程调度方式" class="headerlink" title="进程调度方式"></a>进程调度方式</h2><ol>
 <li>非抢占式<ul>
-<li>某一进程被调度后，将一直执行到完成或者被阻塞</li>
+<li>某一进程被调度后, 将一直执行到完成或者被阻塞</li>
 <li>即是由于自身的原因而让出CPU</li>
 </ul>
 </li>
 <li>抢占式<ul>
-<li>由于优先权，短作业优先或时间片到等原因，系统强制剥夺正在执行的进程的CPU</li>
+<li>由于优先权, 短作业优先或时间片到等原因, 系统强制剥夺正在执行的进程的CPU</li>
 </ul>
 </li>
 </ol>
@@ -1382,7 +1382,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年06月05日 15:44</p>
+        <p>最后更新： 2021年07月14日 20:29</p>
         <p>版权声明：本文为原创文章，转载请注明出处</p>
         <p>原始链接： <a class="post-url" href="/2017/09/23/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/" title="操作系统笔记">https://lizec.top/2017/09/23/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%94%E8%AE%B0/</a></p>
         <footer>
